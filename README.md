@@ -5,4 +5,4 @@ Mitchell Hare 33164029 mhar0085@student.monash.edu
 Romal Patel 32496273 rpat0035@student.monash.edu
 Jia (Kelly) Tan 32463804 jtan0276@student.monash.edu
 Laetitia teo 32516940  lteo0014@student.monash.edu 
-Samarth Gupta 32472765 sgup0024@student.monash.edu
+Amolika Yadav 33745234 ayad0013@student.monash.edu
