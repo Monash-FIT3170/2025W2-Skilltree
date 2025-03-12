@@ -8,3 +8,4 @@ Laetitia teo 32516940  lteo0014@student.monash.edu
 Samarth Gupta 32472765 sgup0024@student.monash.edu
 Steven Kaing 33155666 skai0008@student.monash.edu
 Yiyou (Fred) Xu 33113963 yxuu0194@student.monash.edu
+Aaron See 32505108 asee0014@student.monash.edu
