@@ -15,3 +15,4 @@ Ankush 35102845 aank0004@student.monash.edu
 Chi Thuan (Ben) Tia 32442777 ctia0007@student.monash.edu
 Jason Sakolkraisorn 33109397 jsak0004@student.monash.edu
 Keziah Lang 33878552 klan0018@student.monash.edu
+Shaurya Seth 33892180 sset0012@student.monash.edu
