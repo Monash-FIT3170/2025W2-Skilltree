@@ -1,5 +1,5 @@
 {
-  "name": "SkillTree",
+  "name": "skilltree",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -15,7 +15,8 @@
     "postcss-load-config": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "^4.1.4",
+    "wouter": "^3.7.0"
   },
   "meteor": {
     "mainModule": {
