@@ -1,12 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useSubscribe, useFind } from "meteor/react-meteor-data/suspense";
+import { useSubscribeSuspense } from "meteor/communitypackages:react-router-ssr";
+import { useFind } from "meteor/react-meteor-data/suspense";
 
 // Mongo Collections
 import { SampleCollection } from '/imports/api/collections/Sample';
 
 export const Sample = () => { 
-  useSubscribe("sample")  // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering 
+  useSubscribeSuspense("sample")  // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering 
   const samples = useFind(SampleCollection, []); // Fetch documents from SampleCollection using Meteor's useFind method for real-time updates from the database
   
   return (
