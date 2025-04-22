@@ -21,7 +21,7 @@ Steven Kaing 33155666 skai0008@student.monash.edu
 ## Setup
 
 ```
-npm install
+meteor npm install
 ```
 
 ```

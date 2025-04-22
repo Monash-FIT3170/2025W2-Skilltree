@@ -10,11 +10,14 @@
   "dependencies": {
     "@babel/runtime": "^7.20.7",
     "@tailwindcss/postcss": "^4.1.4",
+    "abort-controller": "^3.0.0",
     "meteor-node-stubs": "^1.2.5",
     "postcss": "^8.5.3",
     "postcss-load-config": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.30.0",
     "tailwindcss": "^4.1.4"
   },
   "meteor": {
