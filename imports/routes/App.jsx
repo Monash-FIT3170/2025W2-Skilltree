@@ -1,12 +1,12 @@
 import React from "react";
 
-// Element JSX Component/Layout 
-import { App } from '/imports/ui/layouts/App';
+// Element JSX UI
+import { App } from '/imports/ui/App';
 
 // Nested/Children Routes
-import { SampleRoutes } from '/imports/routes/Sample';
-import { HelloRoutes } from '/imports/routes/Hello';
-import { Page404Routes } from '/imports/routes/Page404';
+import { HomeRoutes } from '/imports/routes/pages/Home';
+import { SampleRoutes } from '/imports/routes/pages/Sample';
+import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -14,9 +14,9 @@ export const AppRoutes = [
     path: "/", 
     element: <App />,
     children: [ // Extends children array with nested routes via spread operator (...)
+      ...HomeRoutes,
       ...SampleRoutes,
-      ...HelloRoutes,
-      ...Page404Routes, // * Last for Page not found
+      ...NotFoundRoutes, // * Last for Page not found
     ],
   },
 ];
