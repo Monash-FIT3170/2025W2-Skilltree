@@ -25,5 +25,5 @@ meteor npm install
 ```
 
 ```
-meteor run
+meteor npm run start
 ```
