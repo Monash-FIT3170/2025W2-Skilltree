@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+    steps:
+      # checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #language environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      #Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Run lint
+      - name: Run ESLint
+        run: npm run lint
+
+      # Upload annotations
+      - name: Upload ESLint results
+        if: always()  #get report even if fail
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          level: error
+          reporter: github-pr-review
