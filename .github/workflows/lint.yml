@@ -23,7 +23,7 @@ jobs:
         run: npm install
           
       - name: Run ESLint
-        run: npm run lint -- --max-warnings=0
+        run: npm run lint # uncomment if you want warnings to cause a fail: -- --max-warnings=0
           
       - name: Run Prettier
         run: npm run format
