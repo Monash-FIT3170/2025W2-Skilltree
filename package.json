@@ -26,5 +26,8 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.25.1"
   }
 }
