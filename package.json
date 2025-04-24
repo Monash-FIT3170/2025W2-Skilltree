@@ -5,7 +5,10 @@
     "start": "meteor run --exclude-archs web.browser.legacy,web.cordova",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint --no-warn-ignored client/ imports/ server/",
+    "lint:fix": "eslint --fix --no-warn-ignored client/ imports/ server/",
+    "format": "prettier --write client/ imports/ server/"
   },
   "dependencies": {
     "@babel/runtime": "^7.27.0",
@@ -25,5 +28,15 @@
       "server": "server/main.js"
     },
     "testModule": "tests/main.js"
-  }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-jsx": "^0.1.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3"
+  },
+  "type": "module"
 }

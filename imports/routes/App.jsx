@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
@@ -10,13 +10,14 @@ import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
-  { 
-    path: "/", 
+  {
+    path: '/',
     element: <App />,
-    children: [ // Extends children array with nested routes via spread operator (...)
+    children: [
+      // Extends children array with nested routes via spread operator (...)
       ...HomeRoutes,
       ...SampleRoutes,
-      ...NotFoundRoutes, // * Last for Page not found
-    ],
-  },
+      ...NotFoundRoutes // * Last for Page not found
+    ]
+  }
 ];

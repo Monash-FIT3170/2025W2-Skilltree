@@ -1,6 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import '/imports/Router' // Router (Client-Side)
+import '/imports/Router'; // Router (Client-Side)
 
-Meteor.startup(() => {
-
-});
+Meteor.startup(() => {});
