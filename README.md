@@ -1,5 +1,4 @@
 # 2025W2-Skilltree
-
 Jaques Fatmajaya 33203938  
 Kelly Li 33088047 klii0057@student.monash.edu
 Romal Patel 32496273 rpat0035@student.monash.edu  
@@ -16,14 +15,4 @@ Keziah Lang 33878552 klan0018@student.monash.edu
 Shaurya Seth 33892180 sset0012@student.monash.edu  
 Jason Sakolkraisorn 33109397 jsak0004@student.monash.edu  
 Mitchell Hare 33164029 mhar0085@student.monash.edu  
-Steven Kaing 33155666 skai0008@student.monash.edu
-
-## Setup
-
-```
-meteor npm install
-```
-
-```
-meteor npm run start
-```
+Steven Kaing 33155666 skai0008@student.monash.edu  
