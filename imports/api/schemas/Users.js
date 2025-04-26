@@ -1,14 +1,34 @@
 import SimpleSchema from "meteor/aldeed:simple-schema";
-import { Schemas } from '/imports/api/Schemas'
-import { UsersCollection } from '/imports/api/collections/Users'; // UsersCollection
+import { Schemas } from '/imports/api/Schemas';
+import { UsersCollection } from '/imports/api/collections/Users';
 
-// Schema References (Nested/Dependencies)
-
-
-// Define the schema for the UsersCollection using SimpleSchema to Schemas (for reusability)
+// Define the schema for UsersCollection
 Schemas.Users = new SimpleSchema({
+  username: {
+    type: String,
+    label: 'Username',
+    max: 50,
+  },
+  email: {
+    type: String,
+    label: 'Email Address',
+    regEx: SimpleSchema.RegEx.Email,
+  },
+  passwordHash: {
+    type: String,
+    label: 'Password Hash',
+  },
+  createdAt: {
+    type: Date,
+    label: 'Account Creation Date',
+    defaultValue: new Date(),
+  },
+  lastLogin: {
+    type: Date,
+    label: 'Last Login Time',
+    optional: true,
+  },
+});
 
-  }); 
-
-// Attach the defined schema (from Schemas) to the UsersCollection
+// Attach the schema to UsersCollection
 UsersCollection.attachSchema(Schemas.Users);
