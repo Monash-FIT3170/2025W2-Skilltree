@@ -21,11 +21,10 @@ export const Sample = () => (
           Hello
         </Link>
       </nav>
+      {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense>
-        {' '}
-        {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
-        <Outlet />{' '}
         {/* Renders the matched child (Sample||HelloContainer) route here */}
+        <Outlet />
       </Suspense>
     </div>
   </>

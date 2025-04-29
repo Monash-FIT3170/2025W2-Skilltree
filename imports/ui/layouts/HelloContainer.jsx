@@ -28,9 +28,8 @@ export const HelloContainer = () => (
           </Link>
         </nav>
         <div className="flex-1 p-4">
+          {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
           <Suspense>
-            {' '}
-            {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
             <Outlet /> {/* Renders the matched child (HelloView) route here */}
           </Suspense>
         </div>

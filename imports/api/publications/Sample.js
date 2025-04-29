@@ -14,6 +14,6 @@ Meteor.startup(async () => {
   await SampleCollection.insertAsync({
     title: 'Ulysses',
     author: 'James Joyce',
-    copies: 2
-  }); // Try changing to -1 to see validation error!
+    copies: 2 // Try changing to -1 to see validation error!
+  });
 });

@@ -27,3 +27,12 @@ meteor npm install
 ```
 meteor npm run start
 ```
+## Lint
+
+```
+meteor npm run lint
+```
+
+```
+meteor npm run lint:fix
+```
