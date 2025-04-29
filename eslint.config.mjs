@@ -3,6 +3,7 @@ import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 import jsx from 'eslint-plugin-jsx';
+import reactPlugin from 'eslint-plugin-react';
 
 export default [
   js.configs.recommended,
@@ -15,7 +16,8 @@ export default [
       }
     },
     plugins: {
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
+      react: reactPlugin
     },
     rules: {
       ...prettierConfig.rules,
@@ -23,7 +25,9 @@ export default [
       'no-multi-spaces': 'error',
       'no-trailing-spaces': 'error',
       'eol-last': ['error', 'always'],
-      'indent': ['error', 2]
+      'indent': ['error', 2],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off'
     }
   },
   {
@@ -36,10 +40,12 @@ export default [
   {
     files: ["**/*.jsx"],
     rules: {
-      'no-unused-vars': 'warn'
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^React$' }],
+      'react/jsx-uses-vars': 'warn'
     },
     plugins: {
-      jsx: jsx
+      jsx: jsx,
+      react: reactPlugin
     },
     languageOptions: {
       parserOptions: {

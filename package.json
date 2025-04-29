@@ -35,6 +35,7 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-jsx": "^0.1.0",
     "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-react": "^7.37.5",
     "globals": "^16.0.0",
     "prettier": "^3.5.3"
   }
