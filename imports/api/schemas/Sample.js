@@ -6,8 +6,8 @@ import { SampleCollection } from '/imports/api/collections/Sample'; // SampleCol
 import '/imports/api/schemas/AuthorSample'; // AuthorSample
 
 // Define the schema for the SampleCollection using SimpleSchema to Schemas (for reusability)
+// See https://github.com/Meteor-Community-Packages/meteor-simple-schema/?tab=readme-ov-file#schema-rules
 Schemas.Sample = new SimpleSchema({
-  // See https://github.com/Meteor-Community-Packages/meteor-simple-schema/?tab=readme-ov-file#schema-rules
   title: {
     type: String,
     label: 'Title',

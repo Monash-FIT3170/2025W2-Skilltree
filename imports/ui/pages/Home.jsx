@@ -13,9 +13,8 @@ export const Home = () => (
     <div className="p-2">
       <h1 className="text-3xl font-bold mt-2">Welcome to SkillTree!</h1>
       <SampleView />
+      {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense>
-        {' '}
-        {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
       </Suspense>
     </div>
