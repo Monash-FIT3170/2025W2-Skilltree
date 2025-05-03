@@ -7,18 +7,39 @@ Schemas.Users = new SimpleSchema({
   username: {
     type: String,
     label: 'Username',
-    unique: true,
     max: 50,
   },
   email: {
     type: String,
     label: 'Email Address',
-    regEx: SimpleSchema.RegEx.Email,
-    unique: true,
+    regEx: SimpleSchema.RegEx.Email
   },
   passwordHash: {
     type: String,
-    label: 'Password Hash',
+    label: 'Password Hash', //Case 1: passwordHash is used to store the hash string, not the password itself. We can implement the mongoDB hashing later
+  },
+  //Case 2: We can just store the direct password for NOW, just for easier testability until we have things sorted.
+  //Need to remove this before going into production stage!
+  password: { 
+    type: 'String',
+    label: 'Password',
+    min:8,
+    max:64,
+    regEx: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]{8,64}$/ //regex can be simplified
+  },
+  dateOfBirth: {
+    type: Date,
+    label: 'Date Of Birth'
+  },
+  subscribedCommunities: {
+    type: Array,
+    label: 'Subscribed Communities',
+    optional: true
+  },
+  'subscribedCommunities.$':{
+    //Each element in the subscribed community array must be a String and match the pattern of the mongo_id
+    type: String,
+    regEx: SimpleSchema.RegEx.Id // Note: each regex validates only strings. We are referencing the mongodb _id fiels they generate for us.
   },
   profile: {   // Profile information nested object
     type: Object,
