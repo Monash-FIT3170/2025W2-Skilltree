@@ -1,3 +1,4 @@
-import { Mongo } from "meteor/mongo";
+import { Mongo } from 'meteor/mongo';
 
-export const UsersCollection = new Mongo.Collection("user");
+// Create & export a new MongoDB collection named 'user'
+export const UsersCollection = new Mongo.Collection('user');
