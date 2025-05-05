@@ -7,6 +7,7 @@ import { App } from '/imports/ui/App';
 import { HomeRoutes } from '/imports/routes/pages/Home';
 import { SampleRoutes } from '/imports/routes/pages/Sample';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
+import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -17,7 +18,9 @@ export const AppRoutes = [
       // Extends children array with nested routes via spread operator (...)
       ...HomeRoutes,
       ...SampleRoutes,
-      ...NotFoundRoutes // * Last for Page not found
+      // INSERT MORE HERE
+      ...ProofUploadRoutes,
+      ...NotFoundRoutes // * Last is for Page not found
     ]
   }
 ];

@@ -57,6 +57,8 @@ mongo-id@1.0.9
 montiapm:meteorx@2.3.1
 npm-mongo@6.10.2
 ordered-dict@1.2.0
+ostrio:cookies@2.9.0
+ostrio:files@3.0.0-rc.3
 promise@1.0.0
 raix:eventemitter@2.0.0
 random@1.2.2
