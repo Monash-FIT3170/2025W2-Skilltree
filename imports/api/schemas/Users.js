@@ -102,7 +102,7 @@ Schemas.Users = new SimpleSchema({
     optional: true,
     label: "Your Proof of Practice Uploads",
   },
-  "proof_of_practice_uploads.$": Int8Array,
+  "proof_of_practice_uploads.$": String,
   expertise_areas: {
     type: Array,
     optional: true,
