@@ -1,4 +1,5 @@
 import React from 'react';
+import { CommentSection } from '/imports/ui/components/CommentSection'; // Importing the CommentSection component
 
 export const ProofsPostList = () => {
   // Dummy data for rendering empty boxes (since no data is available yet)
@@ -33,11 +34,7 @@ export const ProofsPostList = () => {
                     aria-label="Add a comment"
                   />
                 </div>
-
-                {/* Placeholder for Comments */}
-                <div className="space-y-2">
-                  <div className="text-sm text-gray-700 bg-gray-300 h-6"></div>
-                </div>
+                <CommentSection />
               </div>
             </div>
           ))}
