@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
+import { SkillTree } from '../components/SkillTree';
 
 export const Home = () => (
   <>
@@ -12,6 +13,7 @@ export const Home = () => (
     </Helmet>
     <div className="p-2">
       <h1 className="text-3xl font-bold mt-2">Welcome to SkillTree!</h1>
+      <SkillTree />
       <SampleView />
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense>
