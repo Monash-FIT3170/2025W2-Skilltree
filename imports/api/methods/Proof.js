@@ -3,11 +3,14 @@ import { ProofCollection } from '/imports/api/collections/Proof'; //ProofCollect
 
 // Define Meteor Methods for SampleCollection (client-side calls)
 Meteor.methods({
-  async proofUpload(title, filename) {
+  async proofUpload(data) {
     console.log('proofUpload meteor method ');
     await ProofCollection.insertAsync({
-      title: title,
-      filename: filename
+      title: data.title,
+      author: data.author,
+      caption: data.caption,
+      filepath: data.filepath,
+      uploadedAt: data.uploadedAt
     });
   }
 });

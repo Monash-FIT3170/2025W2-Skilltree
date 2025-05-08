@@ -5,4 +5,31 @@ import { ProofCollection } from '/imports/api/collections/Proof'; // ProofCollec
 // Schema References (Nested/Dependencies)
 
 // Define the schema for the authorSample using SimpleSchema to Schemas (for reusability)
-// Schemas.ProofSample = new SimpleSchema({ author: String });
+Schemas.Proof = new SimpleSchema({
+  title: {
+    type: String,
+    label: 'Title',
+    max: 50
+  },
+  author: {
+    type: String,
+    label: 'Author'
+  },
+  caption: {
+    type: String,
+    label: 'Caption',
+    max: 200
+  },
+  filepath: {
+    type: String,
+    label: 'Caption',
+    max: 200
+  },
+  uploadedAt: {
+    type: Date,
+    label: 'Date uploaded'
+  }
+});
+
+// Attach the schema
+ProofCollection.attachSchema(Schemas.Proof);
