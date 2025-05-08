@@ -4,7 +4,6 @@ import { ProofCollection } from '/imports/api/collections/Proof'; //ProofCollect
 // Define Meteor Methods for SampleCollection (client-side calls)
 Meteor.methods({
   async proofUpload(data) {
-    console.log('proofUpload meteor method ');
     await ProofCollection.insertAsync({
       title: data.title,
       author: data.author,
