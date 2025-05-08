@@ -14,6 +14,7 @@
     "@babel/runtime": "^7.27.0",
     "@tailwindcss/postcss": "^4.1.4",
     "meteor-node-stubs": "^1.2.17",
+    "mongodb": "^6.16.0",
     "postcss": "^8.5.3",
     "postcss-load-config": "^6.0.1",
     "react": "^18.3.1",
