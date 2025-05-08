@@ -18,7 +18,7 @@ export const AppRoutes = [
       // Extends children array with nested routes via spread operator (...)
       ...HomeRoutes,
       ...SampleRoutes,
-        ...ProofUploadRoutes,
+      ...ProofUploadRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }
