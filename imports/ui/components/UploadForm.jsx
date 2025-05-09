@@ -1,7 +1,85 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Buffer } from 'buffer'; //
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
+import _ from 'lodash';
 
 export const UploadForm = () => {
+  // s3 upload logic from https://www.youtube.com/watch?v=SQWJ_goOxGs
+  const [fileUploadProgress, setfileUploadProgress] = useState(undefined);
+  const [result, setResult] = useState();
+
+  const handleUploadFile = async file => {
+    setfileUploadProgress(null);
+    const key = `${Random.id()}.${_.last(file.name.split('.'))}`;
+
+    const multipartUpload = await Meteor.callAsync(
+      'createMultiPartUpload',
+      key
+    );
+    const uploadId = multipartUpload.UploadId;
+    const uploadPromises = [];
+    const partSize = 10 * 1024 * 1024;
+    const totalParts = Math.ceil(file.size / partSize);
+    try {
+      let partCount = 0;
+      const executeAndPrint = async (buffer, iteration, runCount = 0) => {
+        try {
+          const res = await Meteor.callAsync(
+            'uploadPartS3',
+            key,
+            uploadId,
+            buffer,
+            iteration
+          );
+          setfileUploadProgress(
+            (((iteration + 1) / totalParts) * 100).toFixed(2)
+          );
+
+          return res;
+        } catch (error) {
+          if (runCount > 5) {
+            console.error('Item', iteration, 'completely failed to upload');
+            return; // should throw new Meteor.Error() here really
+          }
+
+          console.warn(error);
+          // If we haven't hit 5 tries, try again
+          const res = await executeAndPrint(buffer, iteration, runCount + 1);
+          return res;
+        }
+      };
+
+      do {
+        const start = partCount * partSize;
+        const end = start + partSize;
+        const filePart = file.slice(start, end);
+        if (filePart.size < 1) {
+          break;
+        }
+        const arrayBuffer = await filePart.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const res = await executeAndPrint(buffer, partCount);
+        uploadPromises.push(res);
+        partCount++;
+      } while (true);
+
+      const res = await Meteor.callAsync(
+        'completeMultiPartUpload',
+        key,
+        uploadId,
+        uploadPromises
+      );
+      setResult(res);
+      return res;
+    } catch (error) {
+      console.error(error);
+      if (uploadId) {
+        await Meteor.callAsync('abortMultiPartUpload', key, uploadId);
+      }
+    }
+  };
+
   const insertProof = async data => {
     await Meteor.callAsync('proofUpload', data);
   };
@@ -20,24 +98,50 @@ export const UploadForm = () => {
 
   return (
     <>
-      <div className="border-2 border-solid">
-        <form className="upload-form" onSubmit={handleSubmit}>
-          <label htmlFor="title">Title:</label>
-          <input className="border-2 border-solid" name="title" type="text" />
-          <label htmlFor="caption">Caption:</label>
-          <input className="border-2 border-solid" name="caption" type="text" />
-          <input
-            className="cursor-pointer border-2 border-solid"
-            name="file"
-            type="file"
-          />
-          <button
-            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit"
-          >
-            Add Task
-          </button>
-        </form>
+      {/*<div className="border-2 border-solid">*/}
+      {/*  <form className="upload-form" onSubmit={handleSubmit}>*/}
+      {/*    <label htmlFor="title">Title:</label>*/}
+      {/*    <input className="border-2 border-solid" name="title" type="text" />*/}
+      {/*    <label htmlFor="caption">Caption:</label>*/}
+      {/*    <input className="border-2 border-solid" name="caption" type="text" />*/}
+      {/*    <input*/}
+      {/*      className="cursor-pointer border-2 border-solid"*/}
+      {/*      name="file"*/}
+      {/*      type="file"*/}
+      {/*    />*/}
+      {/*    <button*/}
+      {/*      className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"*/}
+      {/*      type="submit"*/}
+      {/*    >*/}
+      {/*      Add Task*/}
+      {/*    </button>*/}
+      {/*  </form>*/}
+      {/*</div>*/}
+
+      <div>
+        <h1>Welcome to Meteor!</h1>
+
+        {fileUploadProgress !== undefined && (
+          <p>
+            File Upload Progress:{' '}
+            {fileUploadProgress === null
+              ? 'Starting upload'
+              : `${fileUploadProgress}%`}
+          </p>
+        )}
+
+        <input
+          type="file"
+          onChange={e => {
+            handleUploadFile(_.first(e.target.files));
+          }}
+        />
+
+        {result && (
+          <p>
+            file link: <a href={result.Location}>click me</a>{' '}
+          </p>
+        )}
       </div>
     </>
   );
