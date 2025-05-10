@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { UploadForm } from '../components/UploadForm';
+import { ProofUploadForm } from '../components/ProofUploadForm';
 
 export const ProofUpload = () => (
   <>
@@ -13,7 +13,7 @@ export const ProofUpload = () => (
       </div>
 
       <div className="grid grid-flow-col grid-rows-3 gap-4 border-2 border-indigo-500">
-        <UploadForm />
+        <ProofUploadForm />
       </div>
     </div>
   </>

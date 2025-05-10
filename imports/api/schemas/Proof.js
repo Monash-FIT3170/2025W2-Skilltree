@@ -4,7 +4,7 @@ import { ProofCollection } from '/imports/api/collections/Proof'; // ProofCollec
 
 // Schema References (Nested/Dependencies)
 
-// Define the schema for the authorSample using SimpleSchema to Schemas (for reusability)
+// Define the schema for the Proof using SimpleSchema to Schemas (for reusability)
 Schemas.Proof = new SimpleSchema({
   title: {
     type: String,

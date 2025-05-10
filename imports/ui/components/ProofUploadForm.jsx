@@ -8,7 +8,7 @@ import _ from 'lodash';
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket,
  * and inserts a proof document into the MongoDB 'proof' collection.
  * */
-export const UploadForm = () => {
+export const ProofUploadForm = () => {
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
