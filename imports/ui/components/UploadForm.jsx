@@ -119,23 +119,27 @@ export const UploadForm = () => {
 
   return (
     <>
-      <div className="border-2 border-red-500">
+      <div className=" border-2 border-red-500">
         <form className="upload-form" onSubmit={handleSubmit}>
           {/* Title */}
           <label htmlFor="title">Title:</label>
-          <input className="border-2 border-solid" name="title" type="text" />
+          <input className=" border-1 border-solid" name="title" type="text" />
           {/* Caption */}
           <label htmlFor="caption">Caption:</label>
-          <input className="border-2 border-solid" name="caption" type="text" />
+          <input
+            className=" border-1 border-solid"
+            name="caption"
+            type="text"
+          />
           {/* File */}
           <input
-            className="cursor-pointer border-2 border-solid"
+            className="file:bg-slate-500 file:px-1 file:text-white file:cursor-pointer border-1  border-solid"
             name="file"
             type="file"
             onChange={updatePreview}
           />
           {/* File Preview */}
-          <div id="preview" className="border-2 border-green-500 w-96">
+          <div id="preview" className=" border-2 border-green-500 w-96">
             {previewUrl && previewType === 'image' && (
               <img alt="Image preview" src={previewUrl} />
             )}
@@ -144,7 +148,7 @@ export const UploadForm = () => {
             )}
           </div>
           {/* File Upload Progress */}
-          <div id="progress" className="border-2 border-aqua-500 w-64">
+          <div id="progress" className=" border-2 border-aqua-500 w-64">
             {fileUploadProgress !== undefined && (
               <p>
                 File Upload Progress:{' '}
