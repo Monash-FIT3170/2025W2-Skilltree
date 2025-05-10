@@ -7,6 +7,7 @@ Meteor.methods({
     await ProofCollection.insertAsync({
       title: data.title,
       author: data.author,
+      communityId: data.communityId,
       caption: data.caption,
       link: data.link,
       uploadedAt: data.uploadedAt

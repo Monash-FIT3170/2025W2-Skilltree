@@ -145,7 +145,8 @@ export const UploadForm = () => {
     );
     const data = {
       title: e.target.title.value,
-      author: 'my user',
+      author: 'my user', // TODO dummy data
+      communityId: 'samplecommunityid', // TODO dummy data
       caption: e.target.caption.value,
       link: uploadResults.Location,
       uploadedAt: new Date()

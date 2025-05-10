@@ -15,6 +15,10 @@ Schemas.Proof = new SimpleSchema({
     type: String,
     label: 'Author'
   },
+  communityId: {
+    type: String,
+    label: 'Community'
+  },
   caption: {
     type: String,
     label: 'Caption',
