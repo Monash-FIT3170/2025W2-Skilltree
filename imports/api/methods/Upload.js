@@ -118,6 +118,9 @@ import {
 } from '@aws-sdk/client-s3';
 import { Meteor } from 'meteor/meteor';
 
+/** CREDITS */
+// AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
+
 export const AWS_REGION = 'ap-southeast-2';
 export const AWS_BUCKET = '2025w2-skilltree';
 
