@@ -6,12 +6,13 @@ import _ from 'lodash';
 
 export const UploadForm = () => {
   // s3 upload logic from https://www.youtube.com/watch?v=SQWJ_goOxGs
-  const [fileUploadProgress, setfileUploadProgress] = useState(undefined);
+  const [fileUploadProgress, setFileUploadProgress] = useState(undefined);
   const [result, setResult] = useState();
-  const [previewUrl, setpreviewUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewType, setPreviewType] = useState(''); // 'image' | 'video'
 
   const handleUploadFile = async file => {
-    setfileUploadProgress(null);
+    setFileUploadProgress(null);
     const key = `${Random.id()}.${_.last(file.name.split('.'))}`;
 
     const multipartUpload = await Meteor.callAsync(
@@ -33,7 +34,7 @@ export const UploadForm = () => {
             buffer,
             iteration
           );
-          setfileUploadProgress(
+          setFileUploadProgress(
             (((iteration + 1) / totalParts) * 100).toFixed(2)
           );
 
@@ -105,40 +106,59 @@ export const UploadForm = () => {
     const file = e.target.files[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
-    setpreviewUrl(url);
+    if (file.type.startsWith('image/')) {
+      setPreviewType('image');
+    } else if (file.type.startsWith('video/')) {
+      setPreviewType('video');
+    } else {
+      setPreviewType(null);
+    }
+
+    setPreviewUrl(url);
   };
 
   return (
     <>
-      <div className="border-2 border-solid">
+      <div className="border-2 border-red-500">
         <form className="upload-form" onSubmit={handleSubmit}>
+          {/* Title */}
           <label htmlFor="title">Title:</label>
           <input className="border-2 border-solid" name="title" type="text" />
+          {/* Caption */}
           <label htmlFor="caption">Caption:</label>
           <input className="border-2 border-solid" name="caption" type="text" />
+          {/* File */}
           <input
             className="cursor-pointer border-2 border-solid"
             name="file"
             type="file"
             onChange={updatePreview}
           />
-          <img alt="preview" src={previewUrl} />
-
-          <video autoPlay={false} controls={true} src={previewUrl} />
-
-          {fileUploadProgress !== undefined && (
-            <p>
-              File Upload Progress:{' '}
-              {fileUploadProgress === null
-                ? 'Starting upload'
-                : `${fileUploadProgress}%`}
-            </p>
-          )}
-          {result && (
-            <p>
-              file link: <a href={result.Location}>click me</a>{' '}
-            </p>
-          )}
+          {/* File Preview */}
+          <div id="preview" className="border-2 border-green-500 w-96">
+            {previewUrl && previewType === 'image' && (
+              <img alt="Image preview" src={previewUrl} />
+            )}
+            {previewUrl && previewType === 'video' && (
+              <video autoPlay={false} controls={true} src={previewUrl} />
+            )}
+          </div>
+          {/* File Upload Progress */}
+          <div id="progress" className="border-2 border-aqua-500 w-64">
+            {fileUploadProgress !== undefined && (
+              <p>
+                File Upload Progress:{' '}
+                {fileUploadProgress === null
+                  ? 'Starting upload'
+                  : `${fileUploadProgress}%`}
+              </p>
+            )}
+            {result && (
+              <p>
+                file link: <a href={result.Location}>click me</a>{' '}
+              </p>
+            )}
+          </div>
           <button
             className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
