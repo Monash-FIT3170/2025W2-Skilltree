@@ -7,7 +7,7 @@ import _ from 'lodash';
 export const UploadForm = () => {
   // s3 upload logic from https://www.youtube.com/watch?v=SQWJ_goOxGs
   const [fileUploadProgress, setFileUploadProgress] = useState(undefined);
-  const [result, setResult] = useState();
+  const [result, setResult] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
   const [previewType, setPreviewType] = useState(''); // 'image' | 'video'
 
