@@ -6,11 +6,22 @@ import _ from 'lodash';
 
 export const UploadForm = () => {
   // s3 upload logic from https://www.youtube.com/watch?v=SQWJ_goOxGs
+  /** useStates */
+  // Stores the file upload progress
   const [fileUploadProgress, setFileUploadProgress] = useState(undefined);
+  // Stores the file upload result
   const [result, setResult] = useState(null);
+  // Stores the file URL of the chosen file for the pre-upload preview (Note: NOT the S3 url)
   const [previewUrl, setPreviewUrl] = useState('');
+  // Stores the type of the chosen file for the pre-upload preview
   const [previewType, setPreviewType] = useState(''); // 'image' | 'video'
 
+  /**  Helper Functions */
+  /**
+   * Handles uploading a file to the AWS S3 bucket.
+   * @param file the file to upload
+   * @returns {Promise<any>}
+   */
   const handleUploadFile = async file => {
     setFileUploadProgress(null);
     const key = `${Random.id()}.${_.last(file.name.split('.'))}`;
@@ -83,10 +94,22 @@ export const UploadForm = () => {
     }
   };
 
+  /**
+   * Handles inserting the proof into the database.
+   * @param data the proof data to be inserted as a document (must follow the Proof schema)
+   * @returns {Promise<void>}
+   */
   const insertProof = async data => {
     await Meteor.callAsync('proofUpload', data);
   };
 
+  /**  Main Functions */
+  /**
+   * Handles submission of the upload form, uploading the file and inserting the
+   * proof data in the database.
+   * @param e
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async e => {
     e.preventDefault();
     const uploadResults = await handleUploadFile(
@@ -102,6 +125,11 @@ export const UploadForm = () => {
     await insertProof(data);
   };
 
+  /**
+   * Updates the file preview to use the currently chosen file
+   * @param e event object from the file input onChange event
+   * @returns {Promise<void>}
+   */
   const updatePreview = async e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -117,6 +145,7 @@ export const UploadForm = () => {
     setPreviewUrl(url);
   };
 
+  /** JSX */
   return (
     <>
       <div className=" border-2 border-red-500">
@@ -133,13 +162,13 @@ export const UploadForm = () => {
           />
           {/* File */}
           <input
-            className="file:bg-slate-500 file:px-1 file:text-white file:cursor-pointer border-1  border-solid"
+            className="file:bg-slate-500 file:pr-2 file:pl-1 file:text-white file:cursor-pointer border-1  border-solid"
             name="file"
             type="file"
             onChange={updatePreview}
           />
           {/* File Preview */}
-          <div id="preview" className=" border-2 border-green-500 w-96">
+          <div id="preview" className="w-96 border-2 border-green-500">
             {previewUrl && previewType === 'image' && (
               <img alt="Image preview" src={previewUrl} />
             )}
@@ -163,6 +192,7 @@ export const UploadForm = () => {
               </p>
             )}
           </div>
+          {/* Submit button */}
           <button
             className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
