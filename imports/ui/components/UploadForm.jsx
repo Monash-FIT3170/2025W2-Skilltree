@@ -8,6 +8,7 @@ export const UploadForm = () => {
   // s3 upload logic from https://www.youtube.com/watch?v=SQWJ_goOxGs
   const [fileUploadProgress, setfileUploadProgress] = useState(undefined);
   const [result, setResult] = useState();
+  const [previewUrl, setpreviewUrl] = useState('');
 
   const handleUploadFile = async file => {
     setfileUploadProgress(null);
@@ -100,6 +101,13 @@ export const UploadForm = () => {
     await insertProof(data);
   };
 
+  const updatePreview = async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setpreviewUrl(url);
+  };
+
   return (
     <>
       <div className="border-2 border-solid">
@@ -112,7 +120,12 @@ export const UploadForm = () => {
             className="cursor-pointer border-2 border-solid"
             name="file"
             type="file"
+            onChange={updatePreview}
           />
+          <img alt="preview" src={previewUrl} />
+
+          <video autoPlay={false} controls={true} src={previewUrl} />
+
           {fileUploadProgress !== undefined && (
             <p>
               File Upload Progress:{' '}
