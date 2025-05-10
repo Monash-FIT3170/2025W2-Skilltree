@@ -71,6 +71,7 @@ export const UploadForm = () => {
         uploadPromises
       );
       setResult(res);
+      const uploadResult = res;
       return res;
     } catch (error) {
       console.error(error);
@@ -86,11 +87,14 @@ export const UploadForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    const uploadResults = await handleUploadFile(
+      _.first(e.target.elements.file.files)
+    );
     const data = {
       title: e.target.title.value,
       author: 'my user',
-      caption: 'How could validate pass but insert fail?',
-      filepath: '/public/' + e.target.elements.file.files[0], // change to filename
+      caption: e.target.caption.value,
+      link: uploadResults.Location,
       uploadedAt: new Date()
     };
     await insertProof(data);
@@ -98,50 +102,37 @@ export const UploadForm = () => {
 
   return (
     <>
-      {/*<div className="border-2 border-solid">*/}
-      {/*  <form className="upload-form" onSubmit={handleSubmit}>*/}
-      {/*    <label htmlFor="title">Title:</label>*/}
-      {/*    <input className="border-2 border-solid" name="title" type="text" />*/}
-      {/*    <label htmlFor="caption">Caption:</label>*/}
-      {/*    <input className="border-2 border-solid" name="caption" type="text" />*/}
-      {/*    <input*/}
-      {/*      className="cursor-pointer border-2 border-solid"*/}
-      {/*      name="file"*/}
-      {/*      type="file"*/}
-      {/*    />*/}
-      {/*    <button*/}
-      {/*      className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"*/}
-      {/*      type="submit"*/}
-      {/*    >*/}
-      {/*      Add Task*/}
-      {/*    </button>*/}
-      {/*  </form>*/}
-      {/*</div>*/}
-
-      <div>
-        <h1>Welcome to Meteor!</h1>
-
-        {fileUploadProgress !== undefined && (
-          <p>
-            File Upload Progress:{' '}
-            {fileUploadProgress === null
-              ? 'Starting upload'
-              : `${fileUploadProgress}%`}
-          </p>
-        )}
-
-        <input
-          type="file"
-          onChange={e => {
-            handleUploadFile(_.first(e.target.files));
-          }}
-        />
-
-        {result && (
-          <p>
-            file link: <a href={result.Location}>click me</a>{' '}
-          </p>
-        )}
+      <div className="border-2 border-solid">
+        <form className="upload-form" onSubmit={handleSubmit}>
+          <label htmlFor="title">Title:</label>
+          <input className="border-2 border-solid" name="title" type="text" />
+          <label htmlFor="caption">Caption:</label>
+          <input className="border-2 border-solid" name="caption" type="text" />
+          <input
+            className="cursor-pointer border-2 border-solid"
+            name="file"
+            type="file"
+          />
+          {fileUploadProgress !== undefined && (
+            <p>
+              File Upload Progress:{' '}
+              {fileUploadProgress === null
+                ? 'Starting upload'
+                : `${fileUploadProgress}%`}
+            </p>
+          )}
+          {result && (
+            <p>
+              file link: <a href={result.Location}>click me</a>{' '}
+            </p>
+          )}
+          <button
+            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="submit"
+          >
+            Add Task
+          </button>
+        </form>
       </div>
     </>
   );

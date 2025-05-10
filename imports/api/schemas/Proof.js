@@ -20,9 +20,9 @@ Schemas.Proof = new SimpleSchema({
     label: 'Caption',
     max: 200
   },
-  filepath: {
+  link: {
     type: String,
-    label: 'Caption',
+    label: 'Link',
     max: 200
   },
   uploadedAt: {

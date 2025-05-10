@@ -8,7 +8,7 @@ Meteor.methods({
       title: data.title,
       author: data.author,
       caption: data.caption,
-      filepath: data.filepath,
+      link: data.link,
       uploadedAt: data.uploadedAt
     });
   }
