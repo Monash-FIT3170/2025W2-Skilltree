@@ -24,3 +24,6 @@ aldeed:collection2
 communitypackages:react-router-ssr
 accounts-password
 accounts-base
+meteortesting:browser-tests
+meteortesting:mocha
+meteortesting:mocha-core
