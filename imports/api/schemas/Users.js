@@ -9,14 +9,20 @@ Schemas.Users = new SimpleSchema({
     label: 'Username',
     max: 50,
   },
-  email: {
-    type: String,
-    label: 'Email Address',
-    regEx: SimpleSchema.RegEx.Email
+  emails: {
+    type: Array,
+    label: 'Emails',
+    optional: true,
   },
-  passwordHash: {
+  'emails.$': {
+    type: Object,
+  },
+  'emails.$.address': {
     type: String,
-    label: 'Password Hash', //Case 1: passwordHash is used to store the hash string, not the password itself. We can implement the mongoDB hashing later
+    regEx: SimpleSchema.RegEx.Email,
+  },
+  'emails.$.verified': {
+    type: Boolean,
   },
   //Case 2: We can just store the direct password for NOW, just for easier testability until we have things sorted.
   //Need to remove this before going into production stage!
@@ -116,4 +122,4 @@ Schemas.Users = new SimpleSchema({
 });
 
 // Attached the schema to UsersCollection
-UsersCollection.attachSchema(Schemas.Users);
+Meteor.users.attachSchema(Schemas.Users);
