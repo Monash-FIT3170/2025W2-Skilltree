@@ -112,6 +112,30 @@ Schemas.Users = new SimpleSchema({
   membership_tier: {
     type: String,
     label: "Membership Tier",
+  },
+  createdCommunities: {
+    type: Array,
+    label: 'Created Communities',
+    optional: true
+  },
+  'createdCommunities.$':{
+    type: String,
+  },
+  friends: {
+    type: Array,
+    label: 'Friends',
+    optional: true
+  },
+  'friends.$':{
+    type: String,
+  },
+  skillForests: {
+    type: Array,
+    label: 'Skill Forests',
+    optional: true
+  },
+  'skillForests.$':{
+    type: String,
   }
 });
 
