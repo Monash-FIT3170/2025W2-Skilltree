@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof'; //ProofCollection
 
-// Define Meteor Methods for SampleCollection (client-side calls)
+// Define Meteor Methods for ProofCollection (client-side calls)
 Meteor.methods({
   async proofUpload(data) {
     await ProofCollection.insertAsync({
