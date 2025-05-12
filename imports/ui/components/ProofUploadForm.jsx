@@ -7,6 +7,16 @@ import _ from 'lodash';
 /** A form for a user to upload proof of progression in the SkillTree.
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket,
  * and inserts a proof document into the MongoDB 'proof' collection.
+ *
+ * NOTE: To input your AWS credentials, create a settings.json file in the
+ * project root and ADD IT TO .GITIGNORE, never commit this.
+ * Inside, type your Access Key ID and Secret Access Key for the bucket like so:
+ * {
+ *     "private": {
+ *     "AWSAccessKeyId": "accesskeyhere",
+ *     "AWSSecretAccessKey": "secretkeygoesherealsoitsverylong"
+ *   }
+ * }
  * */
 export const ProofUploadForm = () => {
   /** CREDITS */
