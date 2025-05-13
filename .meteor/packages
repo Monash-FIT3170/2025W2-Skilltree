@@ -22,3 +22,5 @@ react-meteor-data       # React higher-order component for reactively tracking M
 aldeed:simple-schema
 aldeed:collection2
 communitypackages:react-router-ssr
+accounts-base
+accounts-password

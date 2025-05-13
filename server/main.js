@@ -6,6 +6,5 @@ import '/imports/Router' // Router (Server-Side Rendering)
 
 // Meteor Startup
 Meteor.startup(async () => {
-    console.log("feijfiefjei")
 
 });
