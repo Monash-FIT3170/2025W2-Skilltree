@@ -1,21 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { PostCollection } from '/imports/api/collections/PostCollection'; // Post collection
-import { PostSchema } from '/imports/api/schemas/PostSchema'; // Post schema
 
 Meteor.methods({
     // method to insert a post
     // returns ID of post or null
     async insertPost(post){
-        try{
-            // validate post
-            PostSchema.validate(post);
-        } catch(error) {
-            console.log("Invalid post")
-            return null
-        }
-   
         // insert post into collection
-        return await PostCollection.insertAsync(post);
+        const res = await PostCollection.insertAsync(post);
+
+        return res;
     },
 
     // find a post by ID
@@ -35,8 +28,20 @@ Meteor.methods({
 
         if (post){
             return await PostCollection.updateAsync(post_id, {
-                $set: {verification: post.verification + points}}
-            )
+                $set: {verification: post.verification + points}
+            })
         }
     },
+
+    // remove specific post
+    async removePost(post_id){
+        const res = await PostCollection.removeAsync({_id: post_id});
+
+        return res;
+    },
+
+    // remove all posts
+    async removeAllPosts(){
+        return await PostCollection.removeAsync({})
+    }
 })
