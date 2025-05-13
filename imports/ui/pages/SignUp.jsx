@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Accounts } from 'meteor/accounts-base'; //we are using Meteor's account-base package. It gives us the ability to create new users
+import { Schemas } from '/imports/api/Schemas';
+import '/imports/api/schemas/Users';
+
 
 
 
@@ -12,8 +14,6 @@ export const SignUp = () => {
   const [password, setPassword] = useState('');
   const[repeatPass, setRepeatPass] = useState('');
   const [dateOfBirth, setDOB] = useState('');
-  
-  
   const [valid, setValid] = useState(''); //Stoes any validation message
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
   
@@ -22,39 +22,70 @@ export const SignUp = () => {
   const handleSignUp = (e) =>{
 
     e.preventDefault(); //no refreshing when submitting
-    
-  
-    //Create the userOptions object
-    //note the password hash is generated automatically on mongoDB and MeteorJS
 
-    /*
-    Required Fields in userOptions:
-    -username
-    -email
-    -password
-    -dateOfBirth
-    */
+
+    //Note: Meteor by default restricts what user fields are published to the client.
+    //We can actually override this with a Meteor.publish
+    //However, this is not good practice apparently
+    //Instead, we can just include every custom field inside profile
     const userOptions = {
-      username:username,
-      emails:email,
-      dateOfBirth: dateOfBirth,
-      membership_tier: "normal",
-      profile:{
-        firstName: "Steven"
-      }
+        username: username,
+        email,
+        password: password,
+        profile:{
+          profileID:'Nothing Yet'
+        }
     };
 
-    //Debugging
-    console.log(Accounts)
-    console.log(userOptions)
+    //Validate the userOptions against our Users Schema
+    const userSchema = Schemas.Users; 
+    const validationContext = userSchema.newContext();
+    validationContext.validate(userOptions);
 
-        
-    //Create the new Skill Tree User
-    Accounts.createUser(userOptions, (err) =>{
-      console.log(err)
-      if (err) setError(err.reason);
-      else setError('');
-    });
+    console.log(validationContext.validationErrors())
+
+
+
+  
+    Meteor.call('createNewUser', {
+      userOptions
+    }, (error, res) => {
+
+      if(error) setError(error.reason);
+
+      else{
+
+        setError('');
+        console.log("User has been created with ID: ", res);
+
+        const userProfileOptions = {
+          userId: res,
+          firstName: "Steven",
+          lastName: "Kaing",
+          avatarURL:'https://example.com/avatar.jpg',
+          bio: 'This is my bio guys!',
+          dateOfBirth: new Date(dateOfBirth),
+          roles: ['user'],
+          membership_tier: 'Community',
+          subscribedCommunities: [],
+          friends: [],
+          skillForests: [],
+          proof_of_practice_uploads: [],
+          expertise_areas: [],
+          isActive:true,
+          createdAt: new Date(),
+        }
+
+        Meteor.call('createUserProfile',res,userProfileOptions, (profileError, profileRes) =>{
+
+          if (profileError){
+            console.error("Error Creating User Profile: ", profileError)
+          } else{
+            console.log("New Profile was created with userProfileID: ", profileRes)
+          }
+        });
+      }
+    })
   }
 
   //
