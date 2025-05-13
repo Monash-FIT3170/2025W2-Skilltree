@@ -16,7 +16,7 @@ Schemas.Post = new SimpleSchema({
         optional: true,
     },
     verification: {
-        type: Number,
+        type: SimpleSchema.Integer,
         label: "Verification points",
     },
     user: {
@@ -34,5 +34,3 @@ Schemas.Post = new SimpleSchema({
 });
 
 PostCollection.attachSchema(Schemas.Post);
-
-export default PostCollection;
