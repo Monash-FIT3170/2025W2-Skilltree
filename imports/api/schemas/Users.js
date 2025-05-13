@@ -1,96 +1,100 @@
 import SimpleSchema from "meteor/aldeed:simple-schema";
-import { Schemas } from '/imports/api/Schemas';
-import { UsersCollection } from '/imports/api/collections/Users';
+import { Schemas } from "/imports/api/Schemas";
+import { UsersCollection } from "/imports/api/collections/Users";
 
 // Define the schema for UsersCollection
 Schemas.Users = new SimpleSchema({
   username: {
     type: String,
-    label: 'Username',
+    label: "Username",
     max: 50,
   },
   email: {
     type: String,
-    label: 'Email Address',
-    regEx: SimpleSchema.RegEx.Email
+    label: "Email Address",
+    regEx: SimpleSchema.RegEx.Email,
   },
   passwordHash: {
     type: String,
-    label: 'Password Hash', //Case 1: passwordHash is used to store the hash string, not the password itself. We can implement the mongoDB hashing later
+    label: "Password Hash", //Case 1: passwordHash is used to store the hash string, not the password itself. We can implement the mongoDB hashing later
   },
   //Case 2: We can just store the direct password for NOW, just for easier testability until we have things sorted.
   //Need to remove this before going into production stage!
-  password: { 
-    type: 'String',
-    label: 'Password',
-    min:8,
-    max:64,
-    regEx: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]{8,64}$/ //regex can be simplified
+  password: {
+    type: "String",
+    label: "Password",
+    min: 8,
+    max: 64,
+    regEx: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]{8,64}$/, //regex can be simplified
   },
   dateOfBirth: {
     type: Date,
-    label: 'Date Of Birth'
+    label: "Date Of Birth",
   },
   subscribedCommunities: {
     type: Array,
-    label: 'Subscribed Communities',
-    optional: true
+    label: "Subscribed Communities",
+    optional: true,
   },
-  'subscribedCommunities.$':{
+  "subscribedCommunities.$": {
     //Each element in the subscribed community array must be a String and match the pattern of the mongo_id
     type: String,
-    regEx: SimpleSchema.RegEx.Id // Note: each regex validates only strings. We are referencing the mongodb _id fiels they generate for us.
+    regEx: SimpleSchema.RegEx.Id, // Note: each regex validates only strings. We are referencing the mongodb _id fiels they generate for us.
   },
-  profile: {   // Profile information nested object
+  profile: {
+    // Profile information nested object
     type: Object,
-    label: 'User Profile',
+    label: "User Profile",
     optional: true,
   },
-  'profile.fullName': {
+  "profile.fullName": {
     type: String,
-    label: 'Full Name',
+    label: "Full Name",
     optional: true,
   },
-  'profile.avatarUrl': {
+  "profile.avatarUrl": {
     type: String,
-    label: 'Avatar URL',
+    label: "Avatar URL",
     regEx: SimpleSchema.RegEx.Url,
     optional: true,
   },
-  'profile.bio': {
+  "profile.bio": {
     type: String,
-    label: 'User Bio',
+    label: "User Bio",
     optional: true,
     max: 500,
   },
-  roles: {   // User roles for authorization
+  roles: {
+    // User roles for authorization
     type: Array,
-    label: 'Roles',
+    label: "Roles",
     optional: true,
   },
-  'roles.$': {
+  "roles.$": {
     type: String,
-    allowedValues: ['user', 'admin', 'moderator'],  // Add more roles as needed
+    allowedValues: ["user", "admin", "moderator"], // Add more roles as needed
   },
-  isActive: {   // Account status
+  isActive: {
+    // Account status
     type: Boolean,
-    label: 'Is Active',
+    label: "Is Active",
     defaultValue: true,
   },
   lastLogin: {
     type: Date,
-    label: 'Last Login Time',
+    label: "Last Login Time",
     optional: true,
   },
   createdAt: {
     type: Date,
-    label: 'Account Creation Date',
+    label: "Account Creation Date",
     defaultValue: new Date(),
   },
   updatedAt: {
     type: Date,
-    label: 'Account Last Updated',
-    autoValue: function () {  // Automatically set on update
+    label: "Account Last Updated",
+    autoValue: function () {
+      // Automatically set on update
       if (this.isUpdate) {
         return new Date();
       }
@@ -102,41 +106,45 @@ Schemas.Users = new SimpleSchema({
     optional: true,
     label: "Your Proof of Practice Uploads",
   },
-  "proof_of_practice_uploads.$": String,
+  "proof_of_practice_uploads.$": {
+    type: String,
+  },
   expertise_areas: {
     type: Array,
     optional: true,
     label: "Users Expertise Areas",
   },
-  "expertise_areas.$": String,
+  "expertise_areas.$": {
+    type: String,
+  },
   membership_tier: {
     type: String,
     label: "Membership Tier",
   },
   createdCommunities: {
     type: Array,
-    label: 'Created Communities',
-    optional: true
+    label: "Created Communities",
+    optional: true,
   },
-  'createdCommunities.$':{
+  "createdCommunities.$": {
     type: String,
   },
   friends: {
     type: Array,
-    label: 'Friends',
-    optional: true
+    label: "Friends",
+    optional: true,
   },
-  'friends.$':{
+  "friends.$": {
     type: String,
   },
   skillForests: {
     type: Array,
-    label: 'Skill Forests',
-    optional: true
+    label: "Skill Forests",
+    optional: true,
   },
-  'skillForests.$':{
+  "skillForests.$": {
     type: String,
-  }
+  },
 });
 
 // Attached the schema to UsersCollection
