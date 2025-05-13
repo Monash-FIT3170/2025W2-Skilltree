@@ -11,7 +11,7 @@
     "format": "prettier --write client/ imports/ server/"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.806.0",
+    "@aws-sdk/client-s3": "^3.808.0",
     "@babel/runtime": "^7.27.0",
     "@tailwindcss/postcss": "^4.1.4",
     "buffer": "^6.0.3",
