@@ -10,7 +10,7 @@ Meteor.publish('users', () => {
     return Meteor.users.find(
       { _id: this.userId },
       {
-        fields: { username: 1, emails: 1, profile: 1, roles: 1 }
+        fields: { username: 1, emails: 1, profile: 1 }
       }
     );
   } else {
