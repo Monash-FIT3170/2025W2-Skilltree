@@ -13,7 +13,7 @@ export const SignUp = () => {
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
 
   //Event listener: Clicking Sign Up
-  const handleSignUp = e => {
+  const handleSignUp = async e => {
     e.preventDefault(); //no refreshing when submitting
 
     //Note: Meteor by default restricts what user fields are published to the client.
@@ -45,20 +45,19 @@ export const SignUp = () => {
       }
     };
 
-    Meteor.call('validateNewUser', userOptions, (error, res) => {
-      if (error) setError(error.reason);
-      else {
-        setError('');
-        console.log(res);
-        Meteor.call('createNewUser', userOptions, (error, res) => {
-          if (error) setError(error.reason);
-          else {
-            setError('');
-            console.log('User has been created with ID: ', res);
-          }
-        });
-      }
-    });
+    try {
+      const validation = await Meteor.callAsync('validateNewUser', userOptions);
+      console.log(validation);
+      setError('');
+
+      const creation = await Meteor.callAsync('createNewUser', userOptions);
+      console.log('User has been successfully created with userID: ', creation);
+      setError('');
+    } catch (error) {
+      setError(
+        error.reason || 'An unexpected error occurred with creating new user!'
+      );
+    }
   };
 
   //
