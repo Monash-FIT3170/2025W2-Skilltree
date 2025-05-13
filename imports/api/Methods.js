@@ -3,4 +3,3 @@ import '/imports/api/methods/Sample'; // Load Sample Collection Methods (demonst
 import '/imports/api/methods/Users';
 import '/imports/api/methods/UpdateUser';
 import '/imports/api/methods/ValidateUser';
-

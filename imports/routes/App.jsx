@@ -7,7 +7,7 @@ import { App } from '/imports/ui/App';
 import { HomeRoutes } from '/imports/routes/pages/Home';
 import { SampleRoutes } from '/imports/routes/pages/Sample';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
-import {SignUpRoutes} from '/imports/routes/pages/SignUpPage';
+import { SignUpRoutes } from '/imports/routes/pages/SignUpPage';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -19,8 +19,7 @@ export const AppRoutes = [
       ...HomeRoutes,
       ...SampleRoutes,
       ...NotFoundRoutes, // * Last for Page not Found
-      ...SignUpRoutes,
-
-    ],
-  },
+      ...SignUpRoutes
+    ]
+  }
 ];

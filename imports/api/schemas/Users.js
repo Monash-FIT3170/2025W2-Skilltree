@@ -6,6 +6,7 @@ import { Schemas, Regex } from '/imports/api/Schemas';
 Schemas.UsersEmail = new SimpleSchema({
   address: {
     type: String,
+    label: 'Email Address',
     regEx: SimpleSchema.RegEx.Email
   },
   verified: {
@@ -176,10 +177,6 @@ Schemas.User = new SimpleSchema({
   'emails.$': {
     type: Schemas.UsersEmail,
     label: 'User Email Object'
-  },
-  createdAt: {
-    type: Date,
-    label: 'User Creation Date'
   },
   profile: {
     // Profile information nested object
