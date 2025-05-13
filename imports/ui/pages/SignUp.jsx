@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 
 //This is the SignUp React Component to handle user registration
 export const SignUp = () => {
@@ -115,6 +116,16 @@ export const SignUp = () => {
       >
         Sign Up
       </button>
+
+      <p>
+        Already have an account?{"   "}
+        <Link to="/login" className="text-blue-600 underline">Login</Link>
+      </p>
+
+      
+     
+
+
     </form>
   );
 };
