@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Schemas } from '/imports/api/Schemas';
-import '/imports/api/schemas/Users';
+
 
 
 
@@ -28,78 +28,54 @@ export const SignUp = () => {
     //We can actually override this with a Meteor.publish
     //However, this is not good practice apparently
     //Instead, we can just include every custom field inside profile
-    const userOptions = {
+    var userOptions = {
         username: username,
-        email,
+        email: email,
         password: password,
-        profile:{
-          profileID:'Nothing Yet'
+        profile: {
+          fullName: 'Steven Kaing',
+          avatarUrl: 'https://example.com/avatar.jpg',
+          bio: 'idk what to put here lol',
+          dateOfBirth: new Date(dateOfBirth),
+          subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'iCZmdXWy5GyqoqBox'],
+          roles: ['user', 'moderator'],
+          isActive: true,
+          lastLogin: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          proof_of_practice_uploads: [
+            '65a8b11f3d93c27b3c1b9de1',
+            '65a8b11f3d93c27b3c1b9de2'
+          ],
+          expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
+          membership_tier: 'pro'
         }
     };
 
-    //Validate the userOptions against our Users Schema
-    const userSchema = Schemas.Users; 
-    const validationContext = userSchema.newContext();
-    validationContext.validate(userOptions);
+    Meteor.call('validateNewUser', userOptions, (error, res) =>{
 
-    console.log(validationContext.validationErrors())
-
-
-
-  
-    Meteor.call('createNewUser', {
-      userOptions
-    }, (error, res) => {
-
-      if(error) setError(error.reason);
-
+      if (error) setError(error.reason);
       else{
-
         setError('');
-        console.log("User has been created with ID: ", res);
-
-        const userProfileOptions = {
-          userId: res,
-          firstName: "Steven",
-          lastName: "Kaing",
-          avatarURL:'https://example.com/avatar.jpg',
-          bio: 'This is my bio guys!',
-          dateOfBirth: new Date(dateOfBirth),
-          roles: ['user'],
-          membership_tier: 'Community',
-          subscribedCommunities: [],
-          friends: [],
-          skillForests: [],
-          proof_of_practice_uploads: [],
-          expertise_areas: [],
-          isActive:true,
-          createdAt: new Date(),
-        }
-
-        Meteor.call('createUserProfile',res,userProfileOptions, (profileError, profileRes) =>{
-
-          if (profileError){
-            setError(profileError);
-          } else{
+        Meteor.call('createNewUser',userOptions, (error, res) => {
+          if(error) setError(error.reason);
+          else{
             setError('');
-            console.log("New Profile was created with userProfileID: ", profileRes)
-
-            //In this case, profileRes = userProfileID
-            Meteor.call('updateUserFields',
-              res,
-              {'profile.profileID': profileRes}, (updateError, UpdateRes) =>{
-
-                if (updateError){
-                  setError(updateError);
-                } else{
-                  setError('');
-                  console.log("UserID: "+res +" has been successfully updated")
-                }
-              })
+            console.log("User has been created with ID: ", res);
           }
         });
       }
-    })
+    });
+
+
+
+
+
+
+
+
+
+
   }
 
   //
