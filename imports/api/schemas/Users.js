@@ -9,141 +9,26 @@ Schemas.Users = new SimpleSchema({
     label: 'Username',
     max: 50,
   },
-  emails: {
-    type: Array,
-    label: 'Emails',
-    optional: true,
-  },
-  'emails.$': {
-    type: Object,
-  },
-  'emails.$.address': {
+  email: { 
     type: String,
-    regEx: SimpleSchema.RegEx.Email,
+    regEx: SimpleSchema.RegEx.Email
   },
-  'emails.$.verified': {
-    type: Boolean,
-  },
-  //Case 2: We can just store the direct password for NOW, just for easier testability until we have things sorted.
-  //Need to remove this before going into production stage!
   password: { 
     type: 'String',
     label: 'Password',
     min:8,
     max:64,
-    regEx: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]{8,64}$/ //regex can be simplified
+    regEx: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]{8,64}$/ 
   },
-  dateOfBirth: {
-    type: Date,
-    label: 'Date Of Birth'
-  },
-  subscribedCommunities: {
-    type: Array,
-    label: 'Subscribed Communities',
-    optional: true
-  },
-  'subscribedCommunities.$':{
-    //Each element in the subscribed community array must be a String and match the pattern of the mongo_id
-    type: String,
-    regEx: SimpleSchema.RegEx.Id // Note: each regex validates only strings. We are referencing the mongodb _id fiels they generate for us.
-  },
-  profile: {   // Profile information nested object
+  profile: {
     type: Object,
-    label: 'User Profile',
     optional: true,
   },
-  'profile.fullName': {
-    type: String,
-    label: 'Full Name',
+  'profile.profileID': {
+    type: String, 
     optional: true,
-  },
-  'profile.avatarUrl': {
-    type: String,
-    label: 'Avatar URL',
-    regEx: SimpleSchema.RegEx.Url,
-    optional: true,
-  },
-  'profile.bio': {
-    type: String,
-    label: 'User Bio',
-    optional: true,
-    max: 500,
-  },
-  roles: {   // User roles for authorization
-    type: Array,
-    label: 'Roles',
-    optional: true,
-  },
-  'roles.$': {
-    type: String,
-    allowedValues: ['user', 'admin', 'moderator'],  // Add more roles as needed
-  },
-  isActive: {   // Account status
-    type: Boolean,
-    label: 'Is Active',
-    defaultValue: true,
-  },
-  lastLogin: {
-    type: Date,
-    label: 'Last Login Time',
-    optional: true,
-  },
-  createdAt: {
-    type: Date,
-    label: 'Account Creation Date',
-    defaultValue: new Date(),
-  },
-  updatedAt: {
-    type: Date,
-    label: 'Account Last Updated',
-    autoValue: function () {  // Automatically set on update
-      if (this.isUpdate) {
-        return new Date();
-      }
-    },
-    optional: true,
-  },
-  proof_of_practice_uploads: {
-    type: Array,
-    optional: true,
-    label: "Your Proof of Practice Uploads",
-  },
-  "proof_of_practice_uploads.$": String,
-  expertise_areas: {
-    type: Array,
-    optional: true,
-    label: "Users Expertise Areas",
-  },
-  "expertise_areas.$": String,
-  membership_tier: {
-    type: String,
-    label: "Membership Tier",
-  },
-  createdCommunities: {
-    type: Array,
-    label: 'Created Communities',
-    optional: true
-  },
-  'createdCommunities.$':{
-    type: String,
-  },
-  friends: {
-    type: Array,
-    label: 'Friends',
-    optional: true
-  },
-  'friends.$':{
-    type: String,
-  },
-  skillForests: {
-    type: Array,
-    label: 'Skill Forests',
-    optional: true
-  },
-  'skillForests.$':{
-    type: String,
   }
 });
 
 // Attached the schema to UsersCollection
-Meteor.users.attachSchema(Schemas.Users);
+//Meteor.users.attachSchema(Schemas.Users);
