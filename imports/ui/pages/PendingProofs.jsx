@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 
 
 import { ProofsPostList } from '/imports/ui/components/ProofsPostList';
+import SearchBar from '../components/SearchBar';
 
 export const PendingProofs = () => (
   <>
@@ -11,6 +12,7 @@ export const PendingProofs = () => (
     </Helmet>
     <div className="p-2">
       <h1 className="text-3xl font-bold mt-2">Pending Proofs Page</h1>
+      <SearchBar />
 
       {/* Render PostList below the header */}
       <ProofsPostList />
