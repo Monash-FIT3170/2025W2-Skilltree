@@ -1,6 +1,6 @@
 import SimpleSchema from "meteor/aldeed:simple-schema";
 import { Schemas } from '/imports/api/Schemas';
-import { UsersCollection } from '/imports/api/collections/Users';
+
 
 // Define the schema for UsersCollection
 Schemas.Users = new SimpleSchema({
