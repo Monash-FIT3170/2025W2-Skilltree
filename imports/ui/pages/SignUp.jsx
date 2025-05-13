@@ -17,6 +17,12 @@ export const SignUp = () => {
   const handleSignUp = async e => {
     e.preventDefault(); //no refreshing when submitting
 
+    if (password != repeatPass){
+      setError('The Passwords do not match');
+      return;
+    }
+
+
     //Note: Meteor by default restricts what user fields are published to the client.
     //We can actually override this with a Meteor.publish
     //However, this is not good practice apparently
@@ -118,14 +124,11 @@ export const SignUp = () => {
       </button>
 
       <p>
-        Already have an account?{"   "}
-        <Link to="/login" className="text-blue-600 underline">Login</Link>
+        Already have an account?{'   '}
+        <Link to="/login" className="text-blue-600 underline">
+          Login
+        </Link>
       </p>
-
-      
-     
-
-
     </form>
   );
 };
