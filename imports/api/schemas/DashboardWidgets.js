@@ -1,4 +1,4 @@
-import SimpleSchema from "meteor/aldeed:simple-schema";
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
 import { DashboardWidgetsCollection } from '/imports/api/collections/DashboardWidgets';
 
@@ -6,43 +6,44 @@ import { DashboardWidgetsCollection } from '/imports/api/collections/DashboardWi
 Schemas.DashboardWidgets = new SimpleSchema({
   userId: {
     type: String,
-    label: 'User ID',
+    label: 'User ID'
   },
   widgetType: {
     type: String,
     label: 'Type of Widget',
-    allowedValues: ['stats', 'notifications', 'chart', 'tasks', 'calendar'],  // Extendable list
+    allowedValues: ['stats', 'notifications', 'chart', 'tasks', 'calendar'] // Extendable list
   },
   position: {
     type: SimpleSchema.Integer,
-    label: 'Widget Position (ordering)',
+    label: 'Widget Position (ordering)'
   },
   config: {
     type: Object,
     label: 'Widget Configuration (flexible)',
-    blackbox: true,  // Allows storing flexible JSON objects
+    blackbox: true // Allows storing flexible JSON objects
   },
   isActive: {
     type: Boolean,
     label: 'Is Active',
-    defaultValue: true,
+    defaultValue: true
   },
   createdAt: {
     type: Date,
     label: 'Created At',
-    defaultValue: new Date(),
+    defaultValue: new Date()
   },
   updatedAt: {
     type: Date,
     label: 'Last Updated',
-    autoValue: function () {  // Automatically updates timestamp on modification
+    autoValue: function () {
+      // Automatically updates timestamp on modification
       if (this.isInsert) {
         return new Date();
       } else if (this.isUpdate) {
         return new Date();
       }
-    },
-  },
+    }
+  }
 });
 
 // Attach the schema to DashboardWidgetsCollection
