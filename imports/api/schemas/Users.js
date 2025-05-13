@@ -178,10 +178,6 @@ Schemas.User = new SimpleSchema({
     type: Schemas.UsersEmail,
     label: 'User Email Object'
   },
-  createdAt: {
-    type: Date,
-    label: 'User Creation Date'
-  },
   profile: {
     // Profile information nested object
     type: Schemas.UsersProfile,
