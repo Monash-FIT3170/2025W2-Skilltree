@@ -6,8 +6,11 @@ import { App } from '/imports/ui/App';
 // Nested/Children Routes
 import { HomeRoutes } from '/imports/routes/pages/Home';
 import { SampleRoutes } from '/imports/routes/pages/Sample';
+import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
+
+
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -19,7 +22,9 @@ export const AppRoutes = [
       ...HomeRoutes,
       ...SampleRoutes,
       ...ProofUploadRoutes,
+      ...PendingProofsRoutes,
       ...NotFoundRoutes // * Last for Page not found
+
     ]
   }
 ];
