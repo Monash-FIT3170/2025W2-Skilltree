@@ -79,9 +79,23 @@ export const SignUp = () => {
         Meteor.call('createUserProfile',res,userProfileOptions, (profileError, profileRes) =>{
 
           if (profileError){
-            console.error("Error Creating User Profile: ", profileError)
+            setError(profileError);
           } else{
+            setError('');
             console.log("New Profile was created with userProfileID: ", profileRes)
+
+            //In this case, profileRes = userProfileID
+            Meteor.call('updateUserFields',
+              res,
+              {'profile.profileID': profileRes}, (updateError, UpdateRes) =>{
+
+                if (updateError){
+                  setError(updateError);
+                } else{
+                  setError('');
+                  console.log("UserID: "+res +" has been successfully updated")
+                }
+              })
           }
         });
       }
