@@ -5,8 +5,6 @@ import { Mongo } from 'meteor/mongo';
 // Create the Comments collection
 export const CommentsCollection = new Mongo.Collection('comments');
 
-
-
 // // Allow client-side operations if needed
 // // Note: Usually you would control this through methods for security
 // if (Meteor.isServer) {

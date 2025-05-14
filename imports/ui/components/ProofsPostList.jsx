@@ -12,19 +12,26 @@ export const ProofsPostList = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Render empty boxes */}
           {posts.map((_, index) => (
-            <div key={index} className="p-4 border border-gray-300 mb-4 bg-gray-200">
+            <div
+              key={index}
+              className="p-4 border border-gray-300 mb-4 bg-gray-200"
+            >
               {/* Placeholder for Post */}
               <div className="text-sm text-white bg-[#a0bc86] h-6 mb-2 flex items-center">
                 <span className="mr-1">👑</span>
                 <span>Username Placeholder</span>
               </div>
-              <div className="text-sm text-white bg-gray-400 h-6 mb-2">Community Placeholder</div>
+              <div className="text-sm text-white bg-gray-400 h-6 mb-2">
+                Community Placeholder
+              </div>
 
               {/* Placeholder for Image */}
               <div className="w-full h-48 mb-4 bg-gray-300"></div>
 
               {/* Placeholder for Caption */}
-              <div className="text-sm text-white bg-[#a0bc86] h-6 mb-4">Caption Placeholder</div>
+              <div className="text-sm text-white bg-[#a0bc86] h-6 mb-4">
+                Caption Placeholder
+              </div>
 
               {/* Placeholder for Comment Section */}
               <div className="p-3 border-t border-gray-300 mt-12">
