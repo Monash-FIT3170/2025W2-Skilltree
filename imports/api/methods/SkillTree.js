@@ -22,5 +22,13 @@ Meteor.methods({
 
   'skilltrees.remove'(skilltreeId) {
     return SkillTreeCollection.remove(skilltreeId);
+  },
+
+  'skilltrees.get'(skilltreeId) {
+    const skilltree = SkillTreeCollection.findOne(skilltreeId);
+    if (!skilltree) {
+      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+    }
+    return skilltree;
   }
 });

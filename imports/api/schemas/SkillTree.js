@@ -2,18 +2,7 @@ import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
 import { SkillTreeCollection } from '../collections/SkillTree';
 
-Schemas.SkillPositionSchema = new SimpleSchema({
-  x: {
-    type: Number,
-    label: 'X Position'
-  },
-  y: {
-    type: Number,
-    label: 'Y Position'
-  }
-});
-
-Schemas.SkillDataSchema = new SimpleSchema({
+const skillDataSchema = new SimpleSchema({
   label: {
     type: String,
     label: 'Skill label',
@@ -22,7 +11,7 @@ Schemas.SkillDataSchema = new SimpleSchema({
   }
 });
 
-Schemas.SkillNode = new SimpleSchema({
+const skillNodeSchema = new SimpleSchema({
   id: {
     type: String,
     label: 'Skill ID',
@@ -36,16 +25,18 @@ Schemas.SkillNode = new SimpleSchema({
     allowedValues: ['input', 'output', 'default'] // we can add our custom node type here
   },
   data: {
-    type: Schemas.SkillDataSchema, // Probs have to change this to have skill name and description
+    type: skillDataSchema, // Probs have to change this to have skill name and description
     label: 'Skill data'
   },
   position: {
-    type: Schemas.SkillPositionSchema,
+    type: Object,
     label: 'Node position'
-  }
+  },
+  'position.x': Number,
+  'position.y': Number
 });
 
-Schemas.SkillEdge = new SimpleSchema({
+const skillEdgeSchema = new SimpleSchema({
   id: {
     type: String,
     label: 'Edge ID',
@@ -106,12 +97,22 @@ Schemas.SkillTree = new SimpleSchema({
     type: Array,
     label: 'List of skill nodes'
   },
-  'skillNodes.$': Schemas.SkillNode,
+  'skillNodes.$': skillNodeSchema,
   skillEdges: {
     type: Array,
     label: 'List of skill edges'
   },
-  'skillEdges.$': Schemas.SkillEdge
+  'skillEdges.$': skillEdgeSchema,
+  admins: {
+    type: Array,
+    label: 'User IDs of admins'
+  },
+  'admins.$': String,
+  subscribers: {
+    type: Array,
+    label: 'User IDs of subscribers'
+  },
+  'subscribers.$': String
 });
 
 // Attach the defined schema (from Schemas) to the SkillTreeCollection
