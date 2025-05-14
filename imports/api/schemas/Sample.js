@@ -41,4 +41,4 @@ Schemas.Sample = new SimpleSchema({
 }); // Example from https://github.com/Meteor-Community-Packages/meteor-collection2
 
 // Attach the defined schema (from Schemas) to the SampleCollection
-// SampleCollection.attachSchema(Schemas.Sample);
+SampleCollection.attachSchema(Schemas.Sample);

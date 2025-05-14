@@ -81,6 +81,9 @@ export const ProofUploadForm = () => {
         }
       };
 
+      const start = partCount * partSize;
+      const end = start + partSize;
+      const filePart = file.slice(start, end);
       do {
         const start = partCount * partSize;
         const end = start + partSize;
@@ -93,7 +96,7 @@ export const ProofUploadForm = () => {
         const res = await executeAndPrint(buffer, partCount);
         uploadPromises.push(res);
         partCount++;
-      } while (true);
+      } while (filePart.size >= 1);
 
       const res = await Meteor.callAsync(
         'completeMultiPartUpload',

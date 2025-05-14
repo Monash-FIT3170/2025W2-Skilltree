@@ -4,4 +4,6 @@ import React from 'react';
 import { ProofUpload } from '/imports/ui/pages/ProofUpload';
 
 // Define Routes for NotFound JSX component
-export const ProofUploadRoutes = [{ path: 'upload/', element: <ProofUpload /> }];
+export const ProofUploadRoutes = [
+  { path: 'upload/', element: <ProofUpload /> }
+];
