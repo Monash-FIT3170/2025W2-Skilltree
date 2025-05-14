@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
+import { CommentSection } from '/imports/ui/components/CommentSection';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
@@ -16,6 +17,9 @@ export const Home = () => (
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
+      </Suspense>
+      <Suspense fallback={() => <>Is Loading...</>}>
+        <CommentSection />
       </Suspense>
     </div>
   </>
