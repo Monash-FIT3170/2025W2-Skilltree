@@ -1,6 +1,7 @@
 // imports/api/collections/Comments.js
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
 
 // Create the Comments collection
 export const CommentsCollection = new Mongo.Collection('comments');
@@ -10,14 +11,14 @@ Meteor.methods({
   'comments.insert'(username, comment) {
     check(username, String);
     check(comment, String);
-    
+
     return CommentsCollection.insert({
       username,
       comment,
       createdAt: new Date()
     });
   },
-  
+
   'comments.remove'(commentId) {
     check(commentId, String);
     return CommentsCollection.remove(commentId);

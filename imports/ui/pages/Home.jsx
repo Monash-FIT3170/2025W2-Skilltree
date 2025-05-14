@@ -18,7 +18,9 @@ export const Home = () => (
       <Suspense>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
       </Suspense>
-      <CommentSection /> 
+      <Suspense fallback={() => <>Is Loading...</>}>
+        <CommentSection />
+      </Suspense>
     </div>
   </>
 );
