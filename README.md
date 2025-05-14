@@ -23,6 +23,14 @@ Steven Kaing 33155666 skai0008@student.monash.edu
 ```
 meteor npm install
 ```
+Create new file called settings.json and copy paste the below code into it.
+This is a dummy AWS key, to allow the program to run without errors
+{
+    "private": {
+      "AWSAccessKeyId": "",
+      "AWSSecretKey": ""
+    }
+  }
 
 ```
 meteor npm run start
