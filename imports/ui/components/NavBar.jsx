@@ -26,15 +26,13 @@ export const NavBar = () => (
         to="/pendingproofs"
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
       >
-
+        Pending Proofs
+      </Link>
       <Link
         to="/upload"
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
       >
         Upload Proof
-      </Link>
-      <Link to="/pendingproofs" className="text-white hover:bg-gray-600 px-3 py-2 rounded">
-        Pending Proofs
       </Link>
     </nav>
   </>
