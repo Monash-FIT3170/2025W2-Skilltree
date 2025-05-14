@@ -1,4 +1,4 @@
 node_modules/
 .vscode
 .idea/
-/settings.json
+settings.json
