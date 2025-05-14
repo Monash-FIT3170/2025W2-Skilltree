@@ -9,8 +9,6 @@ Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 // Add mock data via Meteor Startup
 Meteor.startup(async () => {
-  console.log('SkillTreeCollection: ', SkillTreeCollection);
-
   const mockData = [
     {
       id: '123',

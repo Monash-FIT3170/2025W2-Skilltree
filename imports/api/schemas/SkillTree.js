@@ -5,15 +5,11 @@ import { SkillTreeCollection } from '../collections/SkillTree';
 Schemas.SkillPositionSchema = new SimpleSchema({
   x: {
     type: Number,
-    label: 'X Position',
-    min: 0,
-    max: 1000
+    label: 'X Position'
   },
   y: {
     type: Number,
-    label: 'Y Position',
-    min: 0,
-    max: 1000
+    label: 'Y Position'
   }
 });
 
@@ -77,12 +73,6 @@ Schemas.SkillEdge = new SimpleSchema({
 
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
 Schemas.SkillTree = new SimpleSchema({
-  id: {
-    type: String,
-    label: 'SkillTree ID',
-    max: 60,
-    min: 1
-  },
   title: {
     type: String,
     label: 'Title',
@@ -101,23 +91,27 @@ Schemas.SkillTree = new SimpleSchema({
     min: 1
   },
   termsAndConditions: {
-    type: SimpleSchema.Integer,
-    label: 'Number of copies',
-    min: 0
-  },
-  'tags.$': {
     type: String,
+    label: 'SkillTree terms and conditions',
+    max: 1000,
+    min: 1
+  },
+  tags: {
+    type: Array,
     label: 'Tags for this SkillTree',
     optional: true
   },
-  'skillNodes.$': {
-    type: Schemas.SkillNode,
+  'tags.$': String,
+  skillNodes: {
+    type: Array,
     label: 'List of skill nodes'
   },
-  'skillEdges.$': {
-    type: Schemas.SkillEdge,
+  'skillNodes.$': Schemas.SkillNode,
+  skillEdges: {
+    type: Array,
     label: 'List of skill edges'
-  }
+  },
+  'skillEdges.$': Schemas.SkillEdge
 });
 
 // Attach the defined schema (from Schemas) to the SkillTreeCollection
