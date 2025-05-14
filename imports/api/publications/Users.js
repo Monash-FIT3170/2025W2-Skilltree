@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 // Schema
-import '/imports/api/schemas/Users'; // Enable Users Schema Validation (demonstration)
+import '/imports/api/schemas/Users'; // Enable Users Schema Validation
 
 // Publish the publication named as "users" from the backend, lets clients (front-end JSX) subscribe to the data for real time changes
 Meteor.publish('users', () => {
