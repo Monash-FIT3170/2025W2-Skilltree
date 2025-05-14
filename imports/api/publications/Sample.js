@@ -1,4 +1,3 @@
-// server/publications.js
 import { Meteor } from 'meteor/meteor';
 import { SampleCollection } from '/imports/api/collections/Sample';
 
