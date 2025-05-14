@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
-import { CommentSection } from '/imports/ui/components/CommentSection';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
@@ -18,7 +17,6 @@ export const Home = () => (
       <Suspense>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
       </Suspense>
-      <CommentSection /> 
     </div>
   </>
 );
