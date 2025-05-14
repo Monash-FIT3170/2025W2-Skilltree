@@ -11,7 +11,7 @@
     "format": "prettier --write client/ imports/ server/"
   },
   "dependencies": {
-    "@babel/runtime": "^7.27.0",
+    "@babel/runtime": "^7.27.1",
     "@tailwindcss/postcss": "^4.1.4",
     "meteor-node-stubs": "^1.2.17",
     "postcss": "^8.5.3",
