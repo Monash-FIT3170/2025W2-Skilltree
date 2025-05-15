@@ -9,6 +9,8 @@ import {
   useNodesState,
   useEdgesState
 } from '@xyflow/react';
+import { NewEmptyNode } from './nodes/NewEmptyNode';
+import { AppNode } from './nodes/types';
 
 export const SkillTree = () => {
   const initialNodes = [
@@ -27,6 +29,12 @@ export const SkillTree = () => {
       id: '3',
       data: { label: 'Skill 3' },
       position: { x: 200, y: 0 }
+    },
+    {
+      id: '4',
+      type: 'new-empty',
+      data: { label: 'NewNode' },
+      position: { x: 200, y: 100 }
     }
   ];
 
@@ -36,8 +44,29 @@ export const SkillTree = () => {
     { id: '1->2', source: '1', target: '2', animated: true }
   ];
 
-  const [nodes, , onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const handleNodeEdit = nodeId => event => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const label = formData.get('title') || 'Untitled';
+
+    setNodes(nodes =>
+      nodes.map(node =>
+        node.id === nodeId
+          ? {
+            ...node,
+            data: {
+              ...node.data,
+              label
+            }
+          }
+          : node
+      )
+    );
+  };
+
   const onConnect = useCallback(
     connection => setEdges(edges => addEdge(connection, edges)),
     [setEdges]
@@ -47,14 +76,29 @@ export const SkillTree = () => {
     console.log(edges);
     console.log(nodes);
   };
+
+  const nodeTypes = {
+    'new-empty': NewEmptyNode
+  };
+
   return (
     <>
       <h1>Create SkillTree Metrics</h1>
       <button onClick={onSave}> Save</button>
       <div style={{ width: '100vw', height: '60vh' }}>
         <ReactFlow
-          nodes={nodes}
-          // nodeTypes={nodeTypes}
+          nodes={nodes.map(node =>
+            node.type === 'new-empty'
+              ? {
+                ...node,
+                data: {
+                  ...node.data,
+                  onEdit: handleNodeEdit(node.id)
+                }
+              }
+              : node
+          )}
+          nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           edges={edges}
           // edgeTypes={edgeTypes}
