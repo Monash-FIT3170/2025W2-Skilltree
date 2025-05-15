@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
+// JSX UI
 import { ProofsPostList } from '/imports/ui/components/ProofsPostList';
 import SearchBar from '../components/SearchBar';
 

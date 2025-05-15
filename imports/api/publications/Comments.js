@@ -1,4 +1,3 @@
-// server/publications.js
 import { Meteor } from 'meteor/meteor';
 import { CommentsCollection } from '/imports/api/collections/Comments';
 
@@ -10,7 +9,7 @@ Meteor.publish('comments', () => CommentsCollection.find());
 
 // [Mock Data] via Meteor Startup
 Meteor.startup(async () => {
-  console.log('comments.js loaded');
+  // console.log('comments.js loaded');
 
   // Add dummy comments data
   await CommentsCollection.removeAsync({}); // Clean existing comments
@@ -65,5 +64,5 @@ Meteor.startup(async () => {
     await CommentsCollection.insertAsync(comment);
   }
 
-  console.log(`Inserted ${dummyComments.length} dummy comments`);
+  // console.log(`Inserted ${dummyComments.length} dummy comments`);
 });

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+
+// JSX UI
 import { ProofUploadForm } from '../components/ProofUploadForm';
 
 export const ProofUpload = () => (

@@ -3,6 +3,9 @@ import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+// JSX UI
+import { Fallback } from '/imports/ui/components/Fallback';
+
 export const Sample = () => (
   <>
     <Helmet>
@@ -22,7 +25,7 @@ export const Sample = () => (
         </Link>
       </nav>
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
-      <Suspense>
+      <Suspense fallback={<Fallback />}>
         {/* Renders the matched child (Sample||HelloContainer) route here */}
         <Outlet />
       </Suspense>
