@@ -1,10 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { Suspense } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+//Step 1: username, email
+//Step 2: Password, confirm password
+//Step 3: Full Name, Date of birth, Bio
+//Step 4: Avatar URL
+//Step 5: Terms and Conditions
 
 //This is the SignUp React Component to handle user registration
-export const SignUp = () => {
+const Step1 = () => {
   //Initialise state variables: const [state, setState] = useState(initialState)
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,6 +18,7 @@ export const SignUp = () => {
   const [repeatPass, setRepeatPass] = useState('');
   const [dateOfBirth, setDOB] = useState('');
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
+  const navigate = useNavigate();
 
   //Event listener: Clicking Sign Up
   const handleSignUp = async e => {
@@ -128,6 +135,12 @@ export const SignUp = () => {
           Login
         </Link>
       </p>
+
+      <div>
+        <button onClick={() => navigate('/signup/step2')}>Next</button>
+      </div>
     </form>
   );
 };
+
+export default Step1;

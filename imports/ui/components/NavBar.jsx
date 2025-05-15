@@ -28,7 +28,7 @@ export const NavBar = () => (
       >
         SignUp
       </Link>
-            <Link
+      <Link
         to="/pendingproofs"
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
       >
