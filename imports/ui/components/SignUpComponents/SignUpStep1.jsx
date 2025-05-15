@@ -56,22 +56,27 @@ const Step1 = () => {
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* LEFT SIDE: (SKILL TREE LOGO */}
-        <div className="w-1/2 bg-blue-600 text-white flex flex-col justify-center items-center p-8">
-          <img src="/logo.png" alt="Logo" className="w-32 mb-4" />
-          <h2 className="text-3xl font-bold mb-2">Welcome to Skilltree</h2>
-          <p className="text-center text-sm">
-            Please join skill tree man, its the best application ever!
+      <div className="flex w-full max-w-4xl bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+        {/* LEFT SIDE: Logo Block */}
+        <div className="w-1/2 bg-gray-200 flex flex-col justify-center items-center px-12 py-20 space-y-6">
+          <img src="/SKILLTREELOGO.png" alt="Skilltree Logo" className="w-28" />
+
+          <h2 className="text-4xl font-bold text-gray-700 tracking-wide">
+            SKILLTREE
+          </h2>
+
+          <p className="text-center text-sm text-gray-600 leading-relaxed max-w-xs">
+            “Every skill starts as a seed. You decide if it grows.”
+            <br />– William ShakeSpeare
           </p>
         </div>
 
-        {/* RIGHT SIDE: ACCOUNT USER INFOR -EMAIL, USERNAME, PASSWORD, CONFIRM PASSWORD */}
-        <form onSubmit={handleNext} className="w-1/2 p-10 space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Create Your Account
-          </h2>
-          {error && <p className="text-red-500">{error}</p>}
+        {/* RIGHT SIDE: Form Block */}
+        <form
+          onSubmit={handleNext}
+          className="w-1/2 flex flex-col justify-center px-10 py-12 space-y-5"
+        >
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <input
             name="email"
@@ -79,7 +84,7 @@ const Step1 = () => {
             onChange={handleChange}
             placeholder="Email"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
           />
           <input
             name="username"
@@ -87,7 +92,7 @@ const Step1 = () => {
             onChange={handleChange}
             placeholder="Username"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
           />
           <input
             name="password"
@@ -96,7 +101,7 @@ const Step1 = () => {
             onChange={handleChange}
             placeholder="Password"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
           />
           <input
             name="repeatPass"
@@ -105,15 +110,24 @@ const Step1 = () => {
             onChange={e => setRepeatPass(e.target.value)}
             placeholder="Confirm Password"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
           />
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          >
-            Next
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-green-600 text-white rounded-full px-5 py-2 hover:bg-green-700 transition"
+            >
+              →
+            </button>
+          </div>
+
+          <p className="text-sm text-center text-gray-500">
+            Already have an account?{' '}
+            <Link to="/login" className="text-green-600 hover:underline">
+              Log in
+            </Link>
+          </p>
         </form>
       </div>
     </div>

@@ -61,21 +61,25 @@ const Step2 = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* LEFT SIDE: (SKILL TREE LOGO) */}
-        <div className="w-1/2 bg-blue-600 text-white flex flex-col justify-center items-center p-8">
-          <img src="/logo.png" alt="Logo" className="w-32 mb-4" />
-          <h2 className="text-3xl font-bold mb-2">Welcome to Skilltree</h2>
-          <p className="text-center text-sm">
-            Please join skill tree man, its the best application ever!
+        {/* LEFT SIDE: Skilltree Branding */}
+        <div className="w-1/2 bg-gray-200 flex flex-col justify-center items-center p-12 space-y-6">
+          <img src="/logo.png" alt="Skilltree Logo" className="w-28" />
+          <h2 className="text-2xl font-semibold text-gray-700 tracking-wide">
+            SKILLTREE
+          </h2>
+          <p className="text-center text-sm text-gray-600 leading-relaxed max-w-xs">
+            “Growth doesn’t come by chance — it comes by effort.”
+            <br />– Skilltree
           </p>
         </div>
 
-        {/* RIGHT SIDE: PERSONAL INFORATION: FULL NAME, DATE OF BIRTH, BIO (OPTIONAL)*/}
-        <form onSubmit={handleNext} className="w-1/2 p-10 space-y-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            2. Personal Information
+        {/* RIGHT SIDE: Personal Information Form */}
+        <form onSubmit={handleNext} className="w-1/2 p-10 space-y-5 bg-white">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Step 2: Personal Information
           </h2>
-          {error && <p className="text-red-500">{error}</p>}
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <input
             name="profile.fullName"
@@ -83,33 +87,35 @@ const Step2 = () => {
             onChange={handleChange}
             placeholder="Full Name"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-3 border border-gray-300 rounded"
           />
+
           <input
             type="date"
             name="profile.dateOfBirth"
             value={formData.profile.dateOfBirth}
             onChange={handleChange}
-            placeholder="YYYY-MM-DD"
             required
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-3 border border-gray-300 rounded text-gray-600"
           />
 
-          <input
+          <textarea
             name="profile.bio"
-            type="text"
             value={formData.profile.bio}
             onChange={handleChange}
-            placeholder="Enter a Bio (OPTIONAL)"
-            className="w-full p-2 border border-gray-300 rounded"
+            placeholder="Tell us a bit about yourself (optional)"
+            rows="3"
+            className="w-full p-3 border border-gray-300 rounded resize-none"
           />
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          >
-            Submit
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-green-600 text-white rounded-full px-5 py-2 hover:bg-green-700 transition"
+            >
+              →
+            </button>
+          </div>
         </form>
       </div>
     </div>
