@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const NavBar = () => (
   <>
-    <nav className="bg-gray-400 p-4">
+    <nav className="bg-gray-400 p-4 flex gap-2">
       <Link
         to="/Home"
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
@@ -27,6 +27,18 @@ export const NavBar = () => (
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
       >
         SignUp
+      </Link>
+            <Link
+        to="/pendingproofs"
+        className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+      >
+        Pending Proofs
+      </Link>
+      <Link
+        to="/upload"
+        className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+      >
+        Upload Proof
       </Link>
     </nav>
   </>
