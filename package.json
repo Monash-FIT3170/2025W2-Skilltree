@@ -1,0 +1,48 @@
+{
+  "name": "SkillTree",
+  "private": true,
+  "scripts": {
+    "start": "meteor run --settings settings.json --exclude-archs web.browser.legacy,web.cordova",
+    "test": "meteor test --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --driver-package meteortesting:mocha",
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint --no-warn-ignored client/ imports/ server/",
+    "lint:fix": "eslint --fix --no-warn-ignored client/ imports/ server/",
+    "format": "prettier --write client/ imports/ server/"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.808.0",
+    "@babel/runtime": "^7.27.0",
+    "@tailwindcss/postcss": "^4.1.4",
+    "buffer": "^6.0.3",
+    "chai": "^5.2.0",
+    "lodash": "^4.17.21",
+    "@babel/runtime": "^7.27.1",
+    "@tailwindcss/postcss": "^4.1.6",
+    "meteor-node-stubs": "^1.2.17",
+    "postcss": "^8.5.3",
+    "postcss-load-config": "^6.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.30.0",
+    "tailwindcss": "^4.1.4"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "client/main.jsx",
+      "server": "server/main.js"
+    },
+    "testModule": "tests/main.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-jsx": "^0.1.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.1.0",
+    "prettier": "^3.5.3"
+  }
+}
