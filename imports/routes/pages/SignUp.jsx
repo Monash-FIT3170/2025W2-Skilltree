@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Navigate } from 'react-router-dom';
 
 // Element JSX UI
-import { SignUpPage } from '/imports/ui/components/SignUpView';
+import { SignUp } from '/imports/ui/pages/SignUp';
 
 const Step1 = lazy(
   () => import('/imports/ui/components/SignUpComponents/SignUpStep1')
@@ -10,17 +10,14 @@ const Step1 = lazy(
 const Step2 = lazy(
   () => import('/imports/ui/components/SignUpComponents/SignUpStep2')
 );
-const Step3 = lazy(
-  () => import('/imports/ui/components/SignUpComponents/SignUpStep3')
-);
 
 // Define Routes for SignUpView JSX component
 export const SignUpRoutes = [
   {
     //When the user visits /signup, the SignUpPage will render
-    //Note: SignUpPage has an Outlet component to tell React Router where to render the nested child routes.
+    //Note: SignUp has an Outlet component to tell React Router where to render the nested child routes.
     path: 'signup',
-    element: <SignUpPage />,
+    element: <SignUp />,
     children: [
       {
         //Default Child Route: index:true === /signup
@@ -34,10 +31,6 @@ export const SignUpRoutes = [
       {
         path: 'step2',
         element: <Step2 />
-      },
-      {
-        path: 'step3',
-        element: <Step3 />
       }
     ]
   }

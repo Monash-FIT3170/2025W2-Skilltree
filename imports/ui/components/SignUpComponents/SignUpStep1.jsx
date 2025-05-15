@@ -1,146 +1,122 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { Suspense } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 
-//Step 1: username, email
-//Step 2: Password, confirm password
-//Step 3: Full Name, Date of birth, Bio
-//Step 4: Avatar URL
-//Step 5: Terms and Conditions
+//Step 1: username, email, Password, confirm password
+//Step 2: Full Name, Date of birth, Bio
+//Step 3: Avatar URL
+//Step 4: Terms and Conditions
 
-//This is the SignUp React Component to handle user registration
 const Step1 = () => {
-  //Initialise state variables: const [state, setState] = useState(initialState)
-  const [username, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [repeatPass, setRepeatPass] = useState('');
-  const [dateOfBirth, setDOB] = useState('');
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
+
   const navigate = useNavigate();
+  const { formData, setFormData } = useOutletContext();
 
-  //Event listener: Clicking Sign Up
-  const handleSignUp = async e => {
-    e.preventDefault(); //no refreshing when submitting
+  /*
+  This function is used to update fields, including nested fields in an object
+  In ReactJS - do not update the formData directly, create a new copy --> update the state to use new copy
+  ReactJS DOC recommends library: Immer.
+  -Immer gives you a draft copy of the current state that you can safely mutate.
+  -Immer creates a draft copy,we can freely mutate the draft, then return an immutable object
+  */
+  const handleChange = e => {
+    const { name, value } = e.target;
 
-    if (password != repeatPass) {
+    setFormData(draft => {
+      const keys = name.split('.'); //takes the name atrribute and splits it eg: profile.fullName = ['profile', 'fullName]
+      let field = draft;
+      for (let i = 0; i < keys.length - 1; i++) {
+        field = field[keys[i]];
+      }
+      field[keys[keys.length - 1]] = value; //formData gets updated with the field object via setFormData
+    });
+  };
+
+  const handleNext = async e => {
+    e.preventDefault();
+    if (formData.password !== repeatPass) {
       setError('The Passwords do not match');
       return;
     }
 
-    //Note: Meteor by default restricts what user fields are published to the client.
-    //We can actually override this with a Meteor.publish
-    //However, this is not good practice apparently
-    //Instead, we can just include every custom field inside profile
-    //The Accounts.createUser() method expects email (singular) — not the full emails array that the schema is expecting.
-    var userOptions = {
-      username: username,
-      password: password,
-      email: email,
-      profile: {
-        fullName: 'Steven Kaing',
-        avatarUrl: 'https://example.com/avatar.jpg',
-        bio: 'idk what to put here lol',
-        dateOfBirth: new Date(dateOfBirth),
-        subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'iCZmdXWy5GyqoqBox'],
-        roles: ['user', 'moderator'],
-        isActive: true,
-        lastLogin: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        proof_of_practice_uploads: [
-          '65a8b11f3d93c27b3c1b9de1',
-          '65a8b11f3d93c27b3c1b9de2'
-        ],
-        expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
-        membership_tier: 'pro'
-      }
-    };
-
     try {
-      const validation = await Meteor.callAsync('validateNewUser', userOptions);
+      const validation = await Meteor.callAsync('validateNewUser', formData);
       console.log(validation);
       setError('');
 
-      const creation = await Meteor.callAsync('createNewUser', userOptions);
-      console.log('User has been successfully created with userID: ', creation);
-      setError('');
+      navigate('/signup/step2');
     } catch (error) {
       setError(
         error.reason || 'An unexpected error occurred with creating new user!'
       );
     }
   };
-
-  //
-
   return (
-    // className used to apply CSS classes to elements
-    <form onSubmit={handleSignUp} className="max-w-sm mx-auto mt-8 space-y-4">
-      <h2 className="text-x1 font-bold">Create Your Account</h2>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* LEFT SIDE: (SKILL TREE LOGO */}
+        <div className="w-1/2 bg-blue-600 text-white flex flex-col justify-center items-center p-8">
+          <img src="/logo.png" alt="Logo" className="w-32 mb-4" />
+          <h2 className="text-3xl font-bold mb-2">Welcome to Skilltree</h2>
+          <p className="text-center text-sm">
+            Please join skill tree man, its the best application ever!
+          </p>
+        </div>
 
-      <input
-        type="text"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        placeholder="Your Email"
-        required
-        className="w-full p-2 border"
-      ></input>
-      <input
-        type="username"
-        value={username}
-        onChange={e => setUserName(e.target.value)}
-        placeholder="Username"
-        required
-        className="w-full p-2 border"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-        className="w-full p-2 border"
-      />
-      <input
-        type="password"
-        value={repeatPass}
-        onChange={e => setRepeatPass(e.target.value)}
-        placeholder="Repeat Password"
-        required
-        className="w-full p-2 border"
-      />
-      <input
-        type="date"
-        value={dateOfBirth}
-        onChange={e => setDOB(e.target.value)}
-        placeholder="DD/MM/YYYY"
-        required
-        className="w-full p-2 border"
-      />
+        {/* RIGHT SIDE: ACCOUNT USER INFOR -EMAIL, USERNAME, PASSWORD, CONFIRM PASSWORD */}
+        <form onSubmit={handleNext} className="w-1/2 p-10 space-y-4">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Create Your Account
+          </h2>
+          {error && <p className="text-red-500">{error}</p>}
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Sign Up
-      </button>
+          <input
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Username"
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            name="repeatPass"
+            type="password"
+            value={repeatPass}
+            onChange={e => setRepeatPass(e.target.value)}
+            placeholder="Confirm Password"
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          />
 
-      <p>
-        Already have an account?{'   '}
-        <Link to="/login" className="text-blue-600 underline">
-          Login
-        </Link>
-      </p>
-
-      <div>
-        <button onClick={() => navigate('/signup/step2')}>Next</button>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Next
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
-
 export default Step1;
