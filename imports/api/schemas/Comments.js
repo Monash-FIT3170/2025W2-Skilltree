@@ -1,4 +1,3 @@
-// imports/api/schemas/Comments.js
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
 import { CommentsCollection } from '/imports/api/collections/Comments';
