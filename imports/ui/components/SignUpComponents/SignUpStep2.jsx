@@ -7,8 +7,12 @@ const Step2 = () => {
   const [repeatPass, setRepeatPass] = useState('');
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
 
+
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   /*
   This function is used to update fields, including nested fields in an object
@@ -75,31 +79,61 @@ const Step2 = () => {
             <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
           </div>
 
-          <h3 className="text-2xl font-semibold text-[#024059] px-4">
-            Profile Details
+          <h3 className="text-2xl font-semibold text-[#024059] pr-4">
+          Profile Details
           </h3>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <input
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-          />
+          <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+            Password
+          </label>
 
-          <input
-            name="repeatPass"
-            type="password"
-            value={repeatPass}
-            onChange={e => setRepeatPass(e.target.value)}
-            placeholder="Confirm Password"
-            required
-            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-          />
+          <div className="relative mb-4">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-600 hover:text-gray-800"
+            >
+              {showPassword ? "🔒" : "🔓"}
+            </button>
+          </div>
+
+
+          
+          <label htmlFor="repeatPass" className="block text-sm font-semibold text-gray-700 mb-2">
+            Confirm Password
+          </label>
+
+          <div className="relative mb-4">
+            <input
+              id="repeatPass"
+              name="repeatPass"
+              type= {showConfirmPassword ? "text" : "password"}
+              value={repeatPass}
+              onChange={e => setRepeatPass(e.target.value)}
+              placeholder="Re-enter your password"
+              required
+              
+              className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
+            />
+
+            <button type="button"
+            className='absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-600 hover:text-gray-800'
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+
+              {showConfirmPassword ? "🔒" : "🔓"}
+            </button>
+          </div>
 
           <div className="flex justify-end">
             <button

@@ -74,29 +74,37 @@ const Step1 = () => {
             <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
           </div>
 
-          <h3 className=" px-4 text-2xl font-semibold text-[#024059]">
+          <h3 className="text-2xl font-semibold text-[#024059]">
             Account Details
           </h3>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
+          <label className="block text-sm font-semibold mb-2" htmlFor="email">
+          Email Address
+          </label>
           <input
-            name="username"
-            value={formData.username}
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            placeholder="Username"
+            placeholder="jane@example.com"
             required
             className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
           />
 
+          <label className="block text-sm font-semibold mb-2" htmlFor="username">
+          Username
+          </label>
           <input
-            name="email"
-            value={formData.email}
+            id="username"
+            name="username"
+            value={formData.username}
             onChange={handleChange}
-            placeholder="Email"
             required
             className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
           />
+
 
           <div className="flex justify-end">
             <button

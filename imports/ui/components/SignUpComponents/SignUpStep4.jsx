@@ -87,7 +87,7 @@ const Step4 = () => {
             htmlFor="img"
             className="px-4 text-base text-gray-700 font-medium"
           >
-            Select an Image:
+            Select an Image (Optional):
           </label>
           <input
             type="file"
@@ -104,6 +104,15 @@ const Step4 = () => {
               Create Account
             </button>
           </div>
+
+          <div>
+            <p className='text-xs text-center text-gray-700'>
+              By creating an account, you agree to the {" "}
+              <Link to="" className='text-gray-600 underline hover:text-[#026873]'>Terms of Service</Link>{" "} 
+              and {" "} 
+              <Link to="" className='text-gray-600 underline hover:text-[#026873]'>Privacy Policy.</Link></p>
+          </div>
+
         </form>
       </div>
     </div>

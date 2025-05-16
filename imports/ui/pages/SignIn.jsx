@@ -10,6 +10,7 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,43 +49,73 @@ export const SignIn = () => {
 
   //
 
-  return (
-    // className used to apply CSS classes to elements
-    <form onSubmit={handleLogin} className="max-w-sm mx-auto mt-8 space-y-4">
-      <h2 className="text-x1 font-bold">Login into SkillTree</h2>
-      {error && <p className="text-red-500">{error}</p>}
+ return (
+  <div className="min-h-screen flex items-center justify-center bg-[#f7f9f8]">
+    <div className="bg-[#efefef] p-10 rounded-2xl shadow-md w-full max-w-md">
+      <h2 className="text-2xl font-bold text-center mb-6">Sign in</h2>
 
-      <input
-        type="text"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        placeholder="Your Email"
-        required
-        className="w-full p-2 border"
-      ></input>
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-      <input
-        type="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-        className="w-full p-2 border"
-      />
+      <form onSubmit={handleLogin} className="space-y-4">
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Login
-      </button>
+        <label className="block text-sm font-semibold mb-2" htmlFor="email">
+        Email Address
+        </label>
+        <input
+          id="email"
+          type="text"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="jane@example.com"
+          required
+          className="w-full px-4 py-2 border border-green-800 rounded-full placeholder:text-gray-500"
+        />
 
-      <p>
-        Don't have an account?{'   '}
-        <Link to="/signup" className="text-blue-600 underline">
-          Create Account
-        </Link>
+        <label className="block text-sm font-semibold mb-2" htmlFor="password">
+        Password
+        </label>
+        {/*If showPassword=true, type=text, if showPassword=false, type=password  */}
+        <div className="relative">
+          <input
+          id="password"
+          type={showPassword ? "text" : "password"} 
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          className="w-full px-4 py-2 border border-green-800 rounded-full placeholder:text-gray-500"
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-600"
+          >
+            {/*Not sure how to get the popular "eye/closed eye icon. Need to import image*/}
+            {showPassword ? "🔒" : "🔓"}
+          </button>
+        </div>
+        <p className='text-xs underline'>Forgot my password</p>
+
+
+        <button
+          type="submit"
+          className="w-full bg-[#2f8760] hover:bg-[#256b4a] text-white font-bold py-2 rounded-full"
+        >
+          Login
+        </button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-gray-700">
+        Don't have an account?
       </p>
-    </form>
-  );
+      <Link
+        to="/signup"
+        className="block mt-2 w-full bg-[#007a75] hover:bg-[#005f5c] text-white font-bold py-2 rounded-full text-center"
+      >
+        Create Account
+      </Link>
+    </div>
+  </div>
+);
+
 };
