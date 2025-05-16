@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { fullNameRegex } from '/imports/api/Schemas';
 
 Meteor.methods({
-  async validateUserPersonal(userOptions) {
+  async validateStep3(userOptions) {
     console.log(userOptions);
 
     //Validate the fullname

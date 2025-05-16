@@ -10,6 +10,12 @@ const Step1 = lazy(
 const Step2 = lazy(
   () => import('/imports/ui/components/SignUpComponents/SignUpStep2')
 );
+const Step3 = lazy(
+  () => import('/imports/ui/components/SignUpComponents/SignUpStep3')
+);
+const Step4 = lazy(
+  () => import('/imports/ui/components/SignUpComponents/SignUpStep4')
+);
 
 // Define Routes for SignUpView JSX component
 export const SignUpRoutes = [
@@ -31,6 +37,14 @@ export const SignUpRoutes = [
       {
         path: 'step2',
         element: <Step2 />
+      },
+      {
+        path: 'step3',
+        element: <Step3 />
+      },
+      {
+        path: 'step4',
+        element: <Step4 />
       }
     ]
   }

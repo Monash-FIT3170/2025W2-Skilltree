@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { emailRegex, passwordRegex, userNameRegex } from '/imports/api/Schemas';
+import { emailRegex, userNameRegex } from '/imports/api/Schemas';
 
 Meteor.methods({
-  async validateNewUser(userOptions) {
+  async validateStep1(userOptions) {
     console.log(userOptions);
 
     //Validate the email:
@@ -22,17 +22,6 @@ Meteor.methods({
       throw new Meteor.Error(
         'already-in-use-email',
         'This email has already been used!'
-      );
-    }
-
-    //Validate the password:
-    if (!passwordRegex.test(userOptions.password)) {
-      throw new Meteor.Error(
-        'invalid-password',
-        `Password is invalid:
-      - Minimum 8 characters
-      - Maximum 64 characters
-      - Must include uppercase, lowercase, number, and special character`
       );
     }
 

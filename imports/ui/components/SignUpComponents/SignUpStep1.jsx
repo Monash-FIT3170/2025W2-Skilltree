@@ -3,13 +3,7 @@ import { useState } from 'react';
 import React, { Suspense } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 
-//Step 1: username, email, Password, confirm password
-//Step 2: Full Name, Date of birth, Bio
-//Step 3: Avatar URL
-//Step 4: Terms and Conditions
-
 const Step1 = () => {
-  const [repeatPass, setRepeatPass] = useState('');
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
 
   const navigate = useNavigate();
@@ -37,13 +31,9 @@ const Step1 = () => {
 
   const handleNext = async e => {
     e.preventDefault();
-    if (formData.password !== repeatPass) {
-      setError('The Passwords do not match');
-      return;
-    }
 
     try {
-      const validation = await Meteor.callAsync('validateNewUser', formData);
+      const validation = await Meteor.callAsync('validateStep1', formData);
       console.log(validation);
       setError('');
 
@@ -55,28 +45,49 @@ const Step1 = () => {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex w-full max-w-4xl bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-        {/* LEFT SIDE: Logo Block */}
-        <div className="w-1/2 bg-gray-200 flex flex-col justify-center items-center px-12 py-20 space-y-6">
-          <img src="/SKILLTREELOGO.png" alt="Skilltree Logo" className="w-28" />
-
-          <h2 className="text-4xl font-bold text-gray-700 tracking-wide">
+    <div className="min-h-screen flex items-center justify-center bg-[#f3f7f6]">
+      {/*The SignUp Box Container */}
+      <div className="flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-lg transition-opacity bg-[#D9D9D9]">
+        {/* LEFT SIDE: Logo and Skilltree title */}
+        <div className="w-1/2 bg-[#D9D9D9] flex flex-col justify-center items-center px-12 py-20 space-y-6">
+          <h2 className="text-4xl font-bold text-[#025940] tracking-wide">
             SKILLTREE
           </h2>
-
-          <p className="text-center text-sm text-gray-600 leading-relaxed max-w-xs">
-            “Every skill starts as a seed. You decide if it grows.”
-            <br />– William ShakeSpeare
-          </p>
         </div>
 
-        {/* RIGHT SIDE: Form Block */}
+        {/* RIGHT SIDE: user name and email */}
         <form
           onSubmit={handleNext}
           className="w-1/2 flex flex-col justify-center px-10 py-12 space-y-5"
         >
+          {/*Progression Bar: Step 1*/}
+          <div className="flex items-center space-x-4 justify-center pb-4">
+            {/*Coloured Circle: Step 1*/}
+            <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
+            {/*Need a line connecting from Step 1 --> Step 2*/}
+            {/*Keep it as 1/n of the container to make it flexible, where n= number of steps*/}
+            <div className="w-1/4 h-1 bg-gray-300"></div>
+            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
+            <div className="w-1/4 h-1 bg-gray-300"></div>
+            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
+            <div className="w-1/4 h-1 bg-gray-300"></div>
+            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
+          </div>
+
+          <h3 className=" px-4 text-2xl font-semibold text-[#024059]">
+            Account Details
+          </h3>
+
           {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <input
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            placeholder="Username"
+            required
+            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
+          />
 
           <input
             name="email"
@@ -84,47 +95,21 @@ const Step1 = () => {
             onChange={handleChange}
             placeholder="Email"
             required
-            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
-          />
-          <input
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Username"
-            required
-            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
-          />
-          <input
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            required
-            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
-          />
-          <input
-            name="repeatPass"
-            type="password"
-            value={repeatPass}
-            onChange={e => setRepeatPass(e.target.value)}
-            placeholder="Confirm Password"
-            required
-            className="w-full p-2 px-4 border border-gray-300 rounded-full text-sm"
+            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
           />
 
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-green-600 text-white rounded-full px-5 py-2 hover:bg-green-700 transition"
+              className="bg-[#04BF8A] text-white rounded-full px-6 py-2 hover:bg-[#03A64A] transition"
             >
               →
             </button>
           </div>
 
-          <p className="text-sm text-center text-gray-500">
+          <p className="text-lg text-center text-gray-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-green-600 hover:underline">
+            <Link to="/login" className="text-[#026873] hover:underline">
               Log in
             </Link>
           </p>
@@ -133,4 +118,5 @@ const Step1 = () => {
     </div>
   );
 };
+
 export default Step1;
