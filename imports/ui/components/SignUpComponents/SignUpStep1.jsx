@@ -81,7 +81,7 @@ const Step1 = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <label className="block text-sm font-semibold mb-2" htmlFor="email">
-          Email Address
+            Email Address
           </label>
           <input
             id="email"
@@ -93,8 +93,11 @@ const Step1 = () => {
             className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
           />
 
-          <label className="block text-sm font-semibold mb-2" htmlFor="username">
-          Username
+          <label
+            className="block text-sm font-semibold mb-2"
+            htmlFor="username"
+          >
+            Username
           </label>
           <input
             id="username"
@@ -104,7 +107,6 @@ const Step1 = () => {
             required
             className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
           />
-
 
           <div className="flex justify-end">
             <button

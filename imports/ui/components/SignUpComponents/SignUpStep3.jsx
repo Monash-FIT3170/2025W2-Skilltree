@@ -64,13 +64,20 @@ const Step3 = () => {
             <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
           </div>
 
-          <h3 className="px-4 text-2xl font-semibold text-[#024059]">
+          <h3 className="text-2xl font-semibold text-[#024059] pr-4">
             Basic Information
           </h3>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
+          <label
+            htmlFor="fullName"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Full Name
+          </label>
           <input
+            id="fullName"
             name="profile.fullName"
             value={formData.profile.fullName}
             onChange={handleChange}
@@ -79,7 +86,14 @@ const Step3 = () => {
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-black"
           />
 
+          <label
+            htmlFor="dob"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Date Of Birth
+          </label>
           <input
+            id="dob"
             type="date"
             name="profile.dateOfBirth"
             value={formData.profile.dateOfBirth}

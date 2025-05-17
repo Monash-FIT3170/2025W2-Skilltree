@@ -77,16 +77,13 @@ const Step4 = () => {
             <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
           </div>
 
-          <h3 className="px-4 text-2xl font-semibold text-[#024059]">
+          <h3 className="text-2xl font-semibold text-[#024059]">
             Upload Profile Picture
           </h3>
 
           {error && <p className="text-red-500 text-base">{error}</p>}
 
-          <label
-            htmlFor="img"
-            className="px-4 text-base text-gray-700 font-medium"
-          >
+          <label htmlFor="img" className="text-base text-gray-700 font-medium">
             Select an Image (Optional):
           </label>
           <input
@@ -106,13 +103,23 @@ const Step4 = () => {
           </div>
 
           <div>
-            <p className='text-xs text-center text-gray-700'>
-              By creating an account, you agree to the {" "}
-              <Link to="" className='text-gray-600 underline hover:text-[#026873]'>Terms of Service</Link>{" "} 
-              and {" "} 
-              <Link to="" className='text-gray-600 underline hover:text-[#026873]'>Privacy Policy.</Link></p>
+            <p className="text-xs text-center text-gray-700">
+              By creating an account, you agree to the{' '}
+              <Link
+                to=""
+                className="text-gray-600 underline hover:text-[#026873]"
+              >
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link
+                to=""
+                className="text-gray-600 underline hover:text-[#026873]"
+              >
+                Privacy Policy.
+              </Link>
+            </p>
           </div>
-
         </form>
       </div>
     </div>
