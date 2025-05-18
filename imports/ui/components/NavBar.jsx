@@ -22,6 +22,12 @@ export const NavBar = () => (
       >
         404
       </Link>
+      <Link
+        to="/skilltree/example-skilltree"
+        className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+      >
+        SkillTree
+      </Link>
     </nav>
   </>
 );
