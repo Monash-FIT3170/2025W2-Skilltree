@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for routing
 import { CommentSection } from '/imports/ui/components/CommentSection'; // Importing the CommentSection component
 
 export const ProofsPostList = () => {
@@ -22,6 +23,17 @@ export const ProofsPostList = () => {
 
               {/* Placeholder for Caption */}
               <div className="text-sm text-white bg-gray-400 h-6 mb-4">Caption Placeholder</div>
+
+              {/* View More Button */}
+              <div className="text-right mt-4">
+                <Link
+                  to={`/hello/post/${index}`}
+                  // to={`/hello/${index}`} // Replace `index` with post._id when using real data
+                  className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  View More
+                </Link>
+              </div>
 
               {/* Placeholder for Comment Section */}
               <div className="p-3 border-t border-gray-300 mt-12">
