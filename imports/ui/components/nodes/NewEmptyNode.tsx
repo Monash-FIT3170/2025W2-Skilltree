@@ -3,7 +3,9 @@ import { Handle, Position, type NodeProps } from '@xyflow/react';
 
 export function NewEmptyNode({ data, id }: NodeProps<any>) {
   const [title, setTitle] = useState(data.label || '');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(data.description || '');
+  const [requirements, setRequirements] = useState(data.requirements || '');
+  const [xpPoints, setXP] = useState(data.xpPoints || '');
   const [showPopup, setShowPopup] = useState(false);
 
   const toggle = () => setShowPopup(!showPopup);
@@ -34,7 +36,7 @@ export function NewEmptyNode({ data, id }: NodeProps<any>) {
             toggle();        
           }}>
             <label>
-              Node Title:
+              Skill Title:
               <input
                 name="title"
                 type="text"
@@ -50,6 +52,25 @@ export function NewEmptyNode({ data, id }: NodeProps<any>) {
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Skill Requirements:
+              <input
+                name="requirements"
+                type="text"
+                value={requirements}
+                onChange={(e) => setRequirements(e.target.value)}
+              />
+            </label>
+            <label>
+              XP Required:
+              <input
+                name="xpPoints"
+                type="text"
+                value={xpPoints}
+                onChange={(e) => setXP(e.target.value)}
               />
             </label>
             <br />

@@ -12,7 +12,6 @@ import {
   ReactFlowProvider
 } from '@xyflow/react';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
-import { AppNode } from './nodes/types';
 
 export const SkillTreeLogic = () => {
   const initialNodes = [
@@ -49,7 +48,10 @@ export const SkillTreeLogic = () => {
             x: clientX,
             y: clientY
           }),
-          data: { label: `Node ${id}`, onEdit: handleNodeEdit(id) },
+          data: {
+            label: `Node ${id}`,
+            onEdit: handleNodeEdit(id)
+          },
           origin: [0.5, 0.0]
         };
 
@@ -66,19 +68,26 @@ export const SkillTreeLogic = () => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const label = formData.get('title') || 'Untitled';
+    const description = formData.get('description') || 'Untitled';
+    const requirements = formData.get('requirements') || 'Untitled';
+    const xpPoints = formData.get('xpPoints') || 'Untitled';
 
     setNodes(nodes =>
-      nodes.map(node =>
-        node.id === nodeId
-          ? {
-              ...node, // ✅ spread operator aligned under `{`
-              data: {
-                ...node.data, // ✅ nested spread also aligned
-                label
-              }
+      nodes.map(node => {
+        if (node.id === nodeId) {
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              label,
+              description,
+              requirements,
+              xpPoints
             }
-          : node
-      )
+          };
+        }
+        return node;
+      })
     );
   };
 
