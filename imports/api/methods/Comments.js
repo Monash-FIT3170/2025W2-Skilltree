@@ -4,13 +4,15 @@ import { check } from 'meteor/check';
 
 // Basic methods for Comments
 Meteor.methods({
-  'comments.insert'(username, comment) {
+  'comments.insert'(username, comment, postid) {
     check(username, String);
     check(comment, String);
-
+    check(postid, String);
+ 
     return CommentsCollection.insert({
       username,
       comment,
+      postid,
       createdAt: new Date()
     });
   },
