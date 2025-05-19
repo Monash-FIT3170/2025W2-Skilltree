@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import {
   ReactFlow,
   Background,
@@ -7,45 +7,60 @@ import {
   MiniMap,
   addEdge,
   useNodesState,
-  useEdgesState
+  useEdgesState,
+  useReactFlow,
+  ReactFlowProvider
 } from '@xyflow/react';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { AppNode } from './nodes/types';
 
-export const SkillTree = () => {
+export const SkillTreeLogic = () => {
   const initialNodes = [
     {
-      id: '1',
+      id: '0',
       type: 'input',
-      data: { label: 'Skill 1' },
+      data: { label: 'test root' },
       position: { x: 0, y: 0 }
-    },
-    {
-      id: '2',
-      data: { label: 'Skill 2' },
-      position: { x: 100, y: 0 }
-    },
-    {
-      id: '3',
-      data: { label: 'Skill 3' },
-      position: { x: 200, y: 0 }
-    },
-    {
-      id: '4',
-      type: 'new-empty',
-      data: { label: 'NewNode' },
-      position: { x: 200, y: 100 }
     }
   ];
+  let id = 1;
+  const getId = () => `${id++}`;
+  const nodeOrigin = [0.5, 0];
+  const initialEdges = [];
 
-  const initialEdges = [
-    { id: '1->3', source: '1', target: '3', animated: true },
-    { id: '2->3', source: '2', target: '3' },
-    { id: '1->2', source: '1', target: '2', animated: true }
-  ];
-
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const { screenToFlowPosition } = useReactFlow();
+
+  const onConnectEnd = useCallback(
+    (event, connectionState) => {
+      // when a connection is dropped on the pane it's not valid
+      if (!connectionState.isValid) {
+        // we need to remove the wrapper bounds, in order to get the correct position
+        const id = getId();
+        const { clientX, clientY } =
+          'changedTouches' in event ? event.changedTouches[0] : event;
+        const newNode = {
+          id,
+          type: 'new-empty',
+          position: screenToFlowPosition({
+            x: clientX,
+            y: clientY
+          }),
+          data: { label: `Node ${id}`, onEdit: handleNodeEdit(id) },
+          origin: [0.5, 0.0]
+        };
+
+        setNodes(nds => nds.concat(newNode));
+        setEdges(eds =>
+          eds.concat({ id, source: connectionState.fromNode.id, target: id })
+        );
+      }
+    },
+    [screenToFlowPosition]
+  );
 
   const handleNodeEdit = nodeId => event => {
     event.preventDefault();
@@ -56,12 +71,12 @@ export const SkillTree = () => {
       nodes.map(node =>
         node.id === nodeId
           ? {
-            ...node,
-            data: {
-              ...node.data,
-              label
+              ...node, // ✅ spread operator aligned under `{`
+              data: {
+                ...node.data, // ✅ nested spread also aligned
+                label
+              }
             }
-          }
           : node
       )
     );
@@ -85,26 +100,18 @@ export const SkillTree = () => {
     <>
       <h1>Create SkillTree Metrics</h1>
       <button onClick={onSave}> Save</button>
-      <div style={{ width: '100vw', height: '60vh' }}>
+      <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
         <ReactFlow
-          nodes={nodes.map(node =>
-            node.type === 'new-empty'
-              ? {
-                ...node,
-                data: {
-                  ...node.data,
-                  onEdit: handleNodeEdit(node.id)
-                }
-              }
-              : node
-          )}
+          nodes={nodes}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           edges={edges}
           // edgeTypes={edgeTypes}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          onConnectEnd={onConnectEnd}
           fitView
+          nodeOrigin={nodeOrigin}
         >
           <Background />
           <MiniMap />
@@ -114,3 +121,9 @@ export const SkillTree = () => {
     </>
   );
 };
+
+export const SkillTree = () => (
+  <ReactFlowProvider>
+    <SkillTreeLogic />
+  </ReactFlowProvider>
+);
