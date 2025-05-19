@@ -24,7 +24,7 @@ Meteor.methods({
 
     // add verification points to a post
     async addVerification(post_id,points){
-        const post = await self.findPostID(post_id);
+        const post = await PostCollection.findOneAsync({_id: post_id});
 
         if (post){
             return await PostCollection.updateAsync(post_id, {
