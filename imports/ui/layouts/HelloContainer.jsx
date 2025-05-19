@@ -2,6 +2,9 @@ import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 
+// JSX UI
+import { Fallback } from '/imports/ui/components/Fallback';
+
 export const HelloContainer = () => (
   <>
     <div className="p-2">
@@ -29,7 +32,7 @@ export const HelloContainer = () => (
         </nav>
         <div className="flex-1 p-4">
           {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
-          <Suspense>
+          <Suspense fallback={<Fallback />}>
             <Outlet /> {/* Renders the matched child (HelloView) route here */}
           </Suspense>
         </div>
