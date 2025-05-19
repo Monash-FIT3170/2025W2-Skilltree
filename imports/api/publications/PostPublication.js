@@ -17,6 +17,6 @@ Meteor.startup(async () => {
     verification: 1,
     user: 'User',
     date: new Date(),
-    evidence: 'Evidence',
+    evidence: 'Evidence'
   });
 });
