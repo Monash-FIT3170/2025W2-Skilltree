@@ -2,7 +2,8 @@
   "name": "SkillTree",
   "private": true,
   "scripts": {
-    "start": "meteor run --exclude-archs web.browser.legacy,web.cordova",
+    "setup": "meteor npm install && node -e \"require('fs').writeFileSync('settings.json', JSON.stringify({private:{AWSAccessKeyId:'',AWSSecretKey:''}}, null, 2))\"",
+    "start": "meteor run --settings settings.json --exclude-archs web.browser.legacy,web.cordova",
     "test": "meteor test --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
@@ -11,8 +12,12 @@
     "format": "prettier --write client/ imports/ server/"
   },
   "dependencies": {
-    "@babel/runtime": "^7.27.0",
-    "@tailwindcss/postcss": "^4.1.4",
+    "@aws-sdk/client-s3": "^3.810.0",
+    "@babel/runtime": "^7.27.1",
+    "@tailwindcss/postcss": "^4.1.6",
+    "buffer": "^6.0.3",
+    "chai": "^5.2.0",
+    "lodash": "^4.17.21",
     "@xyflow/react": "^12.6.0",
     "meteor-node-stubs": "^1.2.17",
     "postcss": "^8.5.3",
@@ -32,12 +37,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
-    "eslint": "^9.25.1",
-    "eslint-config-prettier": "^10.1.2",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jsx": "^0.1.0",
-    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.0.0",
+    "globals": "^16.1.0",
     "prettier": "^3.5.3"
   }
 }

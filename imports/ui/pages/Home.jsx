@@ -1,10 +1,12 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
+import { CommentSection } from '/imports/ui/components/CommentSection';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
 import { SkillTree } from '../components/SkillTree';
+import { Fallback } from '/imports/ui/components/Fallback';
 
 export const Home = () => (
   <>
@@ -16,8 +18,11 @@ export const Home = () => (
       <SkillTree />
       <SampleView />
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
-      <Suspense>
+      <Suspense fallback={<Fallback />}>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
+      </Suspense>
+      <Suspense fallback={<Fallback />}>
+        <CommentSection />
       </Suspense>
     </div>
   </>
