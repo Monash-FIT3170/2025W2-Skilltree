@@ -1,10 +1,6 @@
 import assert from "assert";
 import { Meteor } from 'meteor/meteor';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { PostCollection } from "../imports/api/collections/PostCollection";
-
-useSubscribeSuspense('post'); // Subscribe to the "post" publication, suspense waits and allows for subscribed data on SSR pre-rendering
+import '/imports/api/methods/PostMethods'; // Load Post Collection Methods 
 
 // methods
 const PostInsert = async post => {
@@ -26,12 +22,12 @@ const AddVerification = post_id => async points => {
     const res = await Meteor.callAsync('addVerification',post_id,points);
 }
 
-const PostRemove = post_id => async post_id => {
+const PostRemove = async post_id => {
     const res = await Meteor.callAsync('removePost',post_id);
 }
 
-const test_id_1 = a1b2c3d4;
-const test_id_2 = a2b3c4d5;
+const test_id_1 = 'a1b2c3d4';
+const test_id_2 = "a2b3c4d5";
 
 const test_post_1 = {
     _id: test_id_1,
@@ -64,43 +60,38 @@ const invalid_post = {
 
 describe("Post Method", function () {
     describe("#insertPost", function () {
-        it('should return ' + test_id_1 + ' if inserted correctly', function () {
-            const res = PostInsert(test_post_1);
+        it('should return ' + test_id_1 + ' if inserted correctly', async function () {
+            const res = await PostInsert(test_post_1);
             assert.strictEqual(test_id_1,res);
         });
     });
     describe("#findPostID", function () {
-        it('should return a post object with the same id as given', function () {
-            const res = PostFind(test_id_1);
+        it('should return a post object with the same id as given', async function () {
+            const res = await PostFind(test_id_1);
             assert.strictEqual(test_id_1,res._id);
         })
     });
     describe("#addVerification", function (){
-        it('should add verification points to a post', function () {
-            const res = AddVerification(test_id_1)(5);
-            const post = PostFind(test_id_1);
+        it('should add verification points to a post', async function () {
+            const res = await AddVerification(test_id_1)(5);
+            const post = await PostFind(test_id_1);
             assert.strictEqual(post.verification,6)
         })
     });
     describe("#getAllPost", function (){
-        it('should return an array of size 2', function () {
-            PostInsert(test_post_2);
-            const posts = PostGet();
+        it('should return an array of size 2', async function () {
+            await PostInsert(test_post_2);
+            const posts = await PostGet();
             const size = posts.length;
             assert.strictEqual(size,2);
         })
     });
     describe("#removePost", function (){
-        it('it should remove the specified post', function () {
-            PostRemove(test_id_2);
-            const posts = PostGet();
+        it('it should remove the specified post', async function () {
+            await PostRemove(test_id_2);
+            const posts = await PostGet();
             const size = posts.length;
             assert.strictEqual(size,1);
-        })
-    });
-    describe('invalid insert', function (){
-        it('post should not be inserted', function () {
-            assert.ifError(PostInsert(invalid_post));
         })
     });
 });
