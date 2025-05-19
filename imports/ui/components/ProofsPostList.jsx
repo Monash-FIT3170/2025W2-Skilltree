@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for routing
 import { CommentSection } from '/imports/ui/components/CommentSection'; // Importing the CommentSection component
+import { SampleCollection } from '../../api/collections/Sample';
 
 export const ProofsPostList = () => {
   // Dummy data for rendering empty boxes (since no data is available yet)
@@ -12,7 +13,7 @@ export const ProofsPostList = () => {
         <h3 className="text-xl font-semibold mt-4">Posts</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Render empty boxes */}
-          {posts.map((_, index) => (
+          {posts.map((Post, index) => (
             <div key={index} className="p-4 border border-gray-300 mb-4 bg-gray-200">
               {/* Placeholder for Post */}
               <div className="text-sm text-white bg-gray-400 h-6 mb-2">Username Placeholder</div>
@@ -34,6 +35,12 @@ export const ProofsPostList = () => {
                   View More
                 </Link>
               </div>
+
+              <div className="flex justify-between mt-2 text-sm">
+                <div>👍 {Post.upvotes}</div>
+                <div>👎 {Post.downvotes}</div>
+              </div>
+
 
               {/* Placeholder for Comment Section */}
               <div className="p-3 border-t border-gray-300 mt-12">
