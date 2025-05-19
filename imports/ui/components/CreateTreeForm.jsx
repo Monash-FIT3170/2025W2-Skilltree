@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
 export const CreateTreeForm = () => {
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
     tag: '', // New field for tag
-    tsandcs:'',
+    tsandcs: ''
   });
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     console.log('SkillTree Created:', formData);
     alert('You have successfully created a SkillTree!');
@@ -49,21 +49,21 @@ export const CreateTreeForm = () => {
 
         {/* Tag Dropdown */}
         <div className="mb-4">
-        <select
+          <select
             id="tag"
             name="tag"
             value={formData.tag}
             onChange={handleChange}
             className="h-5 border border-gray-300 rounded text-[12px] focus:outline-none focus:ring-2 focus:ring-green-500"
             required
-        >
+          >
             <option value="">Tags</option>
             <option value="music">Music</option>
             <option value="sports">Sports</option>
             <option value="wellbeing">Wellbeing</option>
             <option value="technology">Technology</option>
             <option value="cooking">Cooking</option>
-        </select>
+          </select>
         </div>
 
         {/* Description */}
@@ -105,7 +105,6 @@ export const CreateTreeForm = () => {
             required
           ></textarea>
         </div>
-
 
         {/* Submit Button */}
         <button

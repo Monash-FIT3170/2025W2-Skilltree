@@ -6,8 +6,7 @@ import { CreateTreeForm } from '/imports/ui/components/CreateTreeForm';
 
 export const CreateSkillTree = () => (
   <>
-    <Helmet>
-    </Helmet>
+    <Helmet></Helmet>
     <div className="p-2">
       {/* Render create tree form */}
       <CreateTreeForm />
