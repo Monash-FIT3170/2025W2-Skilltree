@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 export const CreateTreeForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     tag: '', // New field for tag
-    tsandcs: ''
+    tags: [],
+    newTag: '',
+    tsandcs: '',
+    image: null,
+    previewImage: "",
+    showCustomTagInput: false
   });
 
   const handleChange = e => {
