@@ -12,8 +12,6 @@ import {
 } from '@xyflow/react';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { ViewNode } from './nodes/ViewNode';
-import { EmptyNode } from './nodes/EmptyNode2';
-
 // This is the logic and page for creating/editing a skilltree
 
 const createNewEmptyNode = isEmpty => props => (
@@ -23,8 +21,7 @@ const createNewEmptyNode = isEmpty => props => (
 const nodeTypes = {
   'new-empty': createNewEmptyNode(true),
   'new-populated': createNewEmptyNode(false),
-  'view-node': ViewNode,
-  'empty-node': EmptyNode
+  'view-node': ViewNode
 };
 
 export const SkillTreeLogic = ({ isAdmin }) => {
@@ -34,6 +31,19 @@ export const SkillTreeLogic = ({ isAdmin }) => {
       type: 'input',
       data: { label: 'test root' },
       position: { x: 0, y: 0 }
+    },
+    {
+      id: '1000',
+      type: 'view-node',
+      data: {
+        label: `test view only Node`,
+        description: 'this is an example node of a normal user',
+        requirements: 'example reqs',
+        xpPoints: 20,
+        progressXp: 10, //example user is on 5 xp points
+        onOpenEditor: () => handleOpenEditor('1000')
+      },
+      position: { x: 0, y: 80 }
     }
   ];
 
@@ -95,7 +105,7 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         const id = getId();
         const { clientX, clientY } =
           'changedTouches' in event ? event.changedTouches[0] : event;
-        const position = screenToFlowPosition({ x: clientX, y: clientY });
+        const position = screenToFlowPosition({ x: clientX, y: clientY + 40 });
 
         const newNode = {
           id,
@@ -105,7 +115,8 @@ export const SkillTreeLogic = ({ isAdmin }) => {
             label: `Node ${id}`,
             description: '',
             requirements: '',
-            xpPoints: '',
+            xpPoints: 0,
+            progressXp: 0,
             onOpenEditor: () => handleOpenEditor(id)
           },
           origin: nodeOrigin
@@ -184,7 +195,7 @@ export const SkillTreeLogic = ({ isAdmin }) => {
               <br />
               <label
                 for="title"
-                class="block mb-2 text-sm font-medium text-emerald-700"
+                className="block mb-2 text-sm font-medium text-emerald-700"
               >
                 Skill Title:
               </label>
@@ -193,12 +204,12 @@ export const SkillTreeLogic = ({ isAdmin }) => {
                 id="title"
                 defaultValue={editingNode.label}
                 readOnly={!isAdmin}
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
               />
               <br />
               <label
                 for="description"
-                class="block mb-2 text-sm font-medium text-emerald-700"
+                className="block mb-2 text-sm font-medium text-emerald-700"
               >
                 Description:
               </label>
@@ -208,13 +219,14 @@ export const SkillTreeLogic = ({ isAdmin }) => {
                 rows="4"
                 placeholder="Write your thoughts here..."
                 defaultValue={editingNode.description}
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                 readOnly={!isAdmin}
               />
               <br />
               <label
                 for="requirements"
-                class="block mb-2 text-sm font-medium text-emerald-700">
+                className="block mb-2 text-sm font-medium text-emerald-700"
+              >
                 Requirements:
               </label>
               <input
@@ -222,12 +234,13 @@ export const SkillTreeLogic = ({ isAdmin }) => {
                 id="requirements"
                 defaultValue={editingNode.requirements}
                 readOnly={!isAdmin}
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
               />
               <br />
               <label
                 for="xpPoints"
-                class="block mb-2 text-sm font-medium text-emerald-700">
+                className="block mb-2 text-sm font-medium text-emerald-700"
+              >
                 XP Required:
               </label>
               <div className="flex items-center gap-4">
