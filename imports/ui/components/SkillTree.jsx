@@ -59,13 +59,13 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         nodes.map(node =>
           node.id === nodeId
             ? {
-                ...node,
-                type: 'new-populated',
-                data: {
-                  ...node.data,
-                  ...updatedData
-                }
+              ...node,
+              type: 'new-populated',
+              data: {
+                ...node.data,
+                ...updatedData
               }
+            }
             : node
         )
       );
@@ -81,6 +81,7 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         ...editnode.data
       });
     }
+    setSliderValue(editnode.data.xpPoints);
   }, []);
 
   const onConnect = useCallback(
@@ -128,6 +129,17 @@ export const SkillTreeLogic = ({ isAdmin }) => {
     console.log('Edges:', edges);
   };
 
+  const [sliderValue, setSliderValue] = useState(null);
+
+  const handleSliderChange = e => {
+    setSliderValue(e.target.value);
+  };
+
+  const handleInputChange = e => {
+    const newValue = Math.max(0, Math.min(100, e.target.value)); // Assuming 0-100 range
+    setSliderValue(newValue);
+  };
+
   return (
     <>
       <h1>Create SkillTree Metrics</h1>
@@ -153,29 +165,9 @@ export const SkillTreeLogic = ({ isAdmin }) => {
 
       {/* Modal rendered outside ReactFlow */}
       {editingNode && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000
-          }}
-        >
-          <div
-            style={{
-              background: 'white',
-              padding: 20,
-              borderRadius: 8,
-              width: '400px'
-            }}
-          >
-            <h3>Edit Skill</h3>
+        <div className="fixed top-0 left-0 w-screen h-screen bg-gray-600/40 flex justify-center items-center z-[1000]">
+          <div className="bg-neutral-200 p-5 rounded-lg w-[800px]">
+            <h3>Add Skill Details</h3>
             <form
               onSubmit={e => {
                 e.preventDefault();
@@ -189,42 +181,76 @@ export const SkillTreeLogic = ({ isAdmin }) => {
                 setEditingNode(null);
               }}
             >
-              <label>
+              <br />
+              <label
+                for="title"
+                class="block mb-2 text-sm font-medium text-emerald-700"
+              >
                 Skill Title:
-                <input
-                  name="title"
-                  defaultValue={editingNode.label}
-                  readOnly={!isAdmin}
-                />
               </label>
+              <input
+                name="title"
+                id="title"
+                defaultValue={editingNode.label}
+                readOnly={!isAdmin}
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+              />
               <br />
-              <label>
+              <label
+                for="description"
+                class="block mb-2 text-sm font-medium text-emerald-700"
+              >
                 Description:
-                <input
-                  name="description"
-                  defaultValue={editingNode.description}
-                  readOnly={!isAdmin}
-                />
               </label>
+              <textarea
+                name="description"
+                id="description"
+                rows="4"
+                placeholder="Write your thoughts here..."
+                defaultValue={editingNode.description}
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                readOnly={!isAdmin}
+              />
               <br />
-              <label>
+              <label
+                for="requirements"
+                class="block mb-2 text-sm font-medium text-emerald-700">
                 Requirements:
-                <input
-                  name="requirements"
-                  defaultValue={editingNode.requirements}
-                  readOnly={!isAdmin}
-                />
               </label>
+              <input
+                name="requirements"
+                id="requirements"
+                defaultValue={editingNode.requirements}
+                readOnly={!isAdmin}
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+              />
               <br />
-              <label>
+              <label
+                for="xpPoints"
+                class="block mb-2 text-sm font-medium text-emerald-700">
                 XP Required:
+              </label>
+              <div className="flex items-center gap-4">
                 <input
                   name="xpPoints"
+                  id="xpPoints"
                   type="range"
-                  defaultValue={editingNode.xpPoints}
+                  min="0"
+                  max="100" // Set your desired max value
+                  value={sliderValue}
+                  onChange={handleSliderChange}
                   readOnly={!isAdmin}
+                  className="w-full h-1 bg-emerald-700 rounded-lg range-lg appearance-none cursor-pointer"
                 />
-              </label>
+                <input
+                  type="number"
+                  value={sliderValue}
+                  onChange={handleInputChange}
+                  readOnly={!isAdmin}
+                  className="block w-20 px-3 py-2 text-sm border bg-gray-50 border-gray-300 rounded-md shadow-sm"
+                />
+              </div>
+              {/* </label> */}
               <br />
               <div style={{ marginTop: 10 }}>
                 <button type="submit">Save</button>
