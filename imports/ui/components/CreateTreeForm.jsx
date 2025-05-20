@@ -23,10 +23,12 @@ export const CreateTreeForm = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6">Create SkillTree</h2>
-
-      <form onSubmit={handleSubmit}>
+    <div className="p-6 flex gap-5 justify-center w-full">
+      <div className="border rounded-lg flex items-center justify-center aspect-square size-[200px]">
+        <span className="text-6xl !m-0 !p-0">+</span>
+      </div>
+      <form className="w-full" onSubmit={handleSubmit}>
+        <h2 className="text-3xl font-bold mb-6">Create SkillTree</h2>
         {/* Title */}
         <div className="mb-0.5">
           <label
