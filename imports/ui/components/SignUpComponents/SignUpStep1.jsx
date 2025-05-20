@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { Suspense } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Step1 = () => {
   const [error, setError] = useState(''); //This is to store any error messages when validating the account

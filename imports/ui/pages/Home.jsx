@@ -61,11 +61,17 @@ export const Home = () => {
       </Helmet>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
         <h1 className="text-3xl font-bold mb-6">Sign Up with Google</h1>
+
         <button
           onClick={handleGoogleLogin}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow"
+          className="flex items-center space-x-3 bg-white text-gray-700 border border-gray-300 px-6 py-2 rounded-lg shadow hover:shadow-md transition duration-200"
         >
-          Sign Up with Google
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            alt="Google logo"
+            className="w-5 h-5"
+          />
+          <span className="text-base font-medium">Continue with Google</span>
         </button>
       </div>
     </>

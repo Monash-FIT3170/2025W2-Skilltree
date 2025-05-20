@@ -14,6 +14,31 @@ export const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const handleGoogleLogin = async e => {
+    e.preventDefault();
+
+    Meteor.loginWithGoogle(
+      { requestPermissions: ['email', 'profile'] },
+      async err => {
+        if (err) {
+          console.error('Google login failed', err);
+        } else {
+          console.log('Logged in with Google successfully!');
+
+          try {
+            const user = Meteor.user();
+            const validation = await Meteor.callAsync('updateUserFields', user);
+            console.log('Update result:', validation); // 1 if update successful
+
+            navigate('/signup');
+          } catch (error) {
+            console.error('Failed to update user fields:', error);
+          }
+        }
+      }
+    );
+  };
+
   //Event listener: Clicking Login
   const handleLogin = async e => {
     e.preventDefault(); //no refreshing when submitting
@@ -115,6 +140,27 @@ export const SignIn = () => {
         >
           Create Account
         </Link>
+
+        <div className="flex items-center my-5 w-full max-w-ws">
+          <div className="flex-grow h-px bg-gray-700" />
+          <span className="px-3 text-gray-700 text-sm">or</span>
+          <div className="flex-grow h-px bg-gray-700" />
+        </div>
+
+        {/*Google logo open source:https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg */}
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-700 bg-white rounded-full shadow-sm hover:bg-gray-100 transition"
+        >
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            alt="Google logo"
+            className="w-5 h-5"
+          />
+          <span className="text-sm text-gray-700 font-medium">
+            Continue with Google
+          </span>
+        </button>
       </div>
     </div>
   );
