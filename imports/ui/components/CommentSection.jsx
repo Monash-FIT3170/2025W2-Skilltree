@@ -5,6 +5,10 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 
 export const CommentSection = () => {
+  // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
+  // Should be replaced by a reference to the current user's id (not username) once accounts are integrated.
+  const DUMMY_USERNAME = 'user1';
+
   // Subscribe to comments and get real-time data
   useSubscribeSuspense('comments');
   const comments = useFind(CommentsCollection, [
@@ -107,15 +111,20 @@ export const CommentSection = () => {
               </button>
             </div>
           ) : (
-            <div>
+            <>
               <p style={{ margin: '5px 0' }}>{item.comment}</p>
-              <button
-                className="text-center border-2 border-gray-950 bg-gray-600 text-white font-bold py-1 px-2 rounded hover:bg-gray-700 active:bg-gray-500 mt-2"
-                onClick={() => edit(item._id)}
-              >
-                Edit
-              </button>
-            </div>
+              {item.username === DUMMY_USERNAME && (
+                <div id="user-actions-container">
+                  <button
+                    id="edit-btn"
+                    className="text-center border-2 border-gray-950 bg-gray-600 text-white font-bold py-1 px-2 rounded hover:bg-gray-700 active:bg-gray-500 mt-2"
+                    onClick={() => edit(item._id)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       ))}
