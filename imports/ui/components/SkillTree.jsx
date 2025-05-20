@@ -1,5 +1,4 @@
-import React from 'react';
-import { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   ReactFlow,
   Background,
@@ -12,6 +11,8 @@ import {
   ReactFlowProvider
 } from '@xyflow/react';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
+import { ViewNode } from './nodes/ViewNode';
+import { EmptyNode } from './nodes/EmptyNode2';
 
 export const SkillTreeLogic = () => {
   const initialNodes = [
@@ -20,9 +21,21 @@ export const SkillTreeLogic = () => {
       type: 'input',
       data: { label: 'test root' },
       position: { x: 0, y: 0 }
+    },
+    {
+      id: '1',
+      type: 'view-node',
+      data: {
+        label: 'test view only',
+        description: 'test description',
+        requirements: 'req1,req2',
+        xpPoints: '3000'
+      },
+      position: { x: 0, y: 100 }
     }
   ];
-  let id = 1;
+
+  let id = 2;
   const getId = () => `${id++}`;
   const nodeOrigin = [0.5, 0];
   const initialEdges = [];
@@ -30,92 +43,91 @@ export const SkillTreeLogic = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
+  const [editingNode, setEditingNode] = useState(null);
   const { screenToFlowPosition } = useReactFlow();
+
+  const handleNodeEdit = useCallback(
+    (nodeId, updatedData) => {
+      setNodes((nodes) =>
+        nodes.map((node) =>
+          node.id === nodeId
+            ? {
+                ...node,
+                data: {
+                  ...node.data,
+                  ...updatedData
+                }
+              }
+            : node
+        )
+      );
+    },
+    [setNodes]
+  );
+
+  const onConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]
+  );
 
   const onConnectEnd = useCallback(
     (event, connectionState) => {
-      // when a connection is dropped on the pane it's not valid
       if (!connectionState.isValid) {
-        // we need to remove the wrapper bounds, in order to get the correct position
         const id = getId();
         const { clientX, clientY } =
           'changedTouches' in event ? event.changedTouches[0] : event;
+        const position = screenToFlowPosition({ x: clientX, y: clientY });
+
         const newNode = {
           id,
           type: 'new-empty',
-          position: screenToFlowPosition({
-            x: clientX,
-            y: clientY
-          }),
+          position,
           data: {
             label: `Node ${id}`,
-            onEdit: handleNodeEdit(id)
+            description: '',
+            requirements: '',
+            xpPoints: '',
+            onOpenEditor: () => setEditingNode({ id, ...newNode.data })
           },
-          origin: [0.5, 0.0]
+          origin: nodeOrigin
         };
 
-        setNodes(nds => nds.concat(newNode));
-        setEdges(eds =>
-          eds.concat({ id, source: connectionState.fromNode.id, target: id })
+        setNodes((nds) => nds.concat(newNode));
+        setEdges((eds) =>
+          eds.concat({ id: `e-${connectionState.fromNode.id}-${id}`, source: connectionState.fromNode.id, target: id })
         );
       }
     },
     [screenToFlowPosition]
   );
 
-  const handleNodeEdit = nodeId => event => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const label = formData.get('title') || 'Untitled';
-    const description = formData.get('description') || 'Untitled';
-    const requirements = formData.get('requirements') || 'Untitled';
-    const xpPoints = formData.get('xpPoints') || 'Untitled';
-
-    setNodes(nodes =>
-      nodes.map(node => {
-        if (node.id === nodeId) {
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              label,
-              description,
-              requirements,
-              xpPoints
-            }
-          };
-        }
-        return node;
-      })
-    );
+  const nodeTypes = {
+    'new-empty': (props) => (
+      <NewEmptyNode
+        {...props}
+        onOpenEditor={() => setEditingNode({ id: props.id, ...props.data })}
+      />
+    ),
+    'view-node': ViewNode,
+    'empty-node': EmptyNode
   };
-
-  const onConnect = useCallback(
-    connection => setEdges(edges => addEdge(connection, edges)),
-    [setEdges]
-  );
 
   const onSave = () => {
-    console.log(edges);
-    console.log(nodes);
-  };
-
-  const nodeTypes = {
-    'new-empty': NewEmptyNode
+    console.log('Nodes:', nodes);
+    console.log('Edges:', edges);
   };
 
   return (
     <>
       <h1>Create SkillTree Metrics</h1>
-      <button onClick={onSave}> Save</button>
+      <button onClick={onSave}>Save</button>
+
       <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           edges={edges}
-          // edgeTypes={edgeTypes}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onConnectEnd={onConnectEnd}
@@ -127,6 +139,79 @@ export const SkillTreeLogic = () => {
           <Controls />
         </ReactFlow>
       </div>
+
+      {/* Modal rendered outside ReactFlow */}
+      {editingNode && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
+          }}
+        >
+          <div
+            style={{
+              background: 'white',
+              padding: 20,
+              borderRadius: 8,
+              width: '400px'
+            }}
+          >
+            <h3>Edit Skill</h3>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                handleNodeEdit(editingNode.id, {
+                  label: formData.get('title'),
+                  description: formData.get('description'),
+                  requirements: formData.get('requirements'),
+                  xpPoints: formData.get('xpPoints')
+                });
+                setEditingNode(null);
+              }}
+            >
+              <label>
+                Skill Title:
+                <input name="title" defaultValue={editingNode.label} />
+              </label>
+              <br />
+              <label>
+                Description:
+                <input name="description" defaultValue={editingNode.description} />
+              </label>
+              <br />
+              <label>
+                Requirements:
+                <input name="requirements" defaultValue={editingNode.requirements} />
+              </label>
+              <br />
+              <label>
+                XP Required:
+                <input name="xpPoints" defaultValue={editingNode.xpPoints} />
+              </label>
+              <br />
+              <div style={{ marginTop: 10 }}>
+                <button type="submit">Save</button>
+                <button
+                  type="button"
+                  onClick={() => setEditingNode(null)}
+                  style={{ marginLeft: 10 }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 };

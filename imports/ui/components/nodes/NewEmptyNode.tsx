@@ -1,86 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 
-export function NewEmptyNode({ data, id }: NodeProps<any>) {
-  const [title, setTitle] = useState(data.label || '');
-  const [description, setDescription] = useState(data.description || '');
-  const [requirements, setRequirements] = useState(data.requirements || '');
-  const [xpPoints, setXP] = useState(data.xpPoints || '');
-  const [showPopup, setShowPopup] = useState(false);
-
-  const toggle = () => setShowPopup(!showPopup);
-
+export function NewEmptyNode({ data, id, onOpenEditor }: NodeProps<any> & { onOpenEditor: () => void }) {
   return (
     <div className="react-flow__node-default" style={{ padding: '10px' }}>
       <Handle type="target" position={Position.Top} />
       <div>
-        <strong>{data.label}</strong>
-        <button onClick={toggle} style={{ display: 'block', marginTop: '8px' }}>
+        <strong>{data.label || 'Untitled'}</strong>
+        <button onClick={onOpenEditor} style={{ display: 'block', marginTop: '8px' }}>
           Edit
         </button>
       </div>
       <Handle type="source" position={Position.Bottom} />
-
-      {showPopup && (
-        <div className="popup-overlay" style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          background: 'rgba(255, 255, 255, 0.9)',
-          border: '1px solid #ccc',
-          padding: '10px',
-          zIndex: 10
-        }}>
-          <form onSubmit={(e) => {
-            data.onEdit(e); 
-            toggle();        
-          }}>
-            <label>
-              Skill Title:
-              <input
-                name="title"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Description:
-              <input
-                name="description"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Skill Requirements:
-              <input
-                name="requirements"
-                type="text"
-                value={requirements}
-                onChange={(e) => setRequirements(e.target.value)}
-              />
-            </label>
-            <label>
-              XP Required:
-              <input
-                name="xpPoints"
-                type="text"
-                value={xpPoints}
-                onChange={(e) => setXP(e.target.value)}
-              />
-            </label>
-            <br />
-            <button type="submit">Save</button>
-            <button type="button" onClick={toggle} style={{ marginLeft: '8px' }}>
-              Cancel
-            </button>
-          </form>
-        </div>
-      )}
     </div>
   );
 }
