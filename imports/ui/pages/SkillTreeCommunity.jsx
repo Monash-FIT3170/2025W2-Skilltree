@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { SkillTree } from '../components/SkillTree';
+import { SkillTreeEdit } from '../components/SkillTree';
 
 // JSX UI
 import { useParams } from 'react-router-dom';
@@ -18,7 +18,7 @@ export const SkillTreeCommunity = () => {
         Ok so this page should mainly just load the react flow tree and have a
         dropdown to navigate to other pages
       </div>
-      <SkillTree />
+      <SkillTreeEdit isAdmin={true}/>
     </>
   );
 };

@@ -14,12 +14,20 @@ import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { ViewNode } from './nodes/ViewNode';
 import { EmptyNode } from './nodes/EmptyNode2';
 
-export const SkillTreeLogic = () => {
-  const nodeTypes = {
-    'new-empty': NewEmptyNode,
-    'view-node': ViewNode,
-    'empty-node': EmptyNode
-  };
+// This is the logic and page for creating/editing a skilltree
+
+const createNewEmptyNode = isEmpty => props => (
+  <NewEmptyNode {...props} isEmpty={isEmpty} />
+);
+
+const nodeTypes = {
+  'new-empty': createNewEmptyNode(true),
+  'new-populated': createNewEmptyNode(false),
+  'view-node': ViewNode,
+  'empty-node': EmptyNode
+};
+
+export const SkillTreeLogic = ({ isAdmin }) => {
   const initialNodes = [
     {
       id: '0',
@@ -52,6 +60,7 @@ export const SkillTreeLogic = () => {
           node.id === nodeId
             ? {
                 ...node,
+                type: 'new-populated',
                 data: {
                   ...node.data,
                   ...updatedData
@@ -182,7 +191,11 @@ export const SkillTreeLogic = () => {
             >
               <label>
                 Skill Title:
-                <input name="title" defaultValue={editingNode.label} />
+                <input
+                  name="title"
+                  defaultValue={editingNode.label}
+                  readOnly={!isAdmin}
+                />
               </label>
               <br />
               <label>
@@ -190,6 +203,7 @@ export const SkillTreeLogic = () => {
                 <input
                   name="description"
                   defaultValue={editingNode.description}
+                  readOnly={!isAdmin}
                 />
               </label>
               <br />
@@ -198,12 +212,18 @@ export const SkillTreeLogic = () => {
                 <input
                   name="requirements"
                   defaultValue={editingNode.requirements}
+                  readOnly={!isAdmin}
                 />
               </label>
               <br />
               <label>
                 XP Required:
-                <input name="xpPoints" defaultValue={editingNode.xpPoints} />
+                <input
+                  name="xpPoints"
+                  type="range"
+                  defaultValue={editingNode.xpPoints}
+                  readOnly={!isAdmin}
+                />
               </label>
               <br />
               <div style={{ marginTop: 10 }}>
@@ -224,8 +244,8 @@ export const SkillTreeLogic = () => {
   );
 };
 
-export const SkillTree = () => (
+export const SkillTreeEdit = ({ isAdmin }) => (
   <ReactFlowProvider>
-    <SkillTreeLogic />
+    <SkillTreeLogic isAdmin={isAdmin} />
   </ReactFlowProvider>
 );
