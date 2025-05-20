@@ -7,10 +7,12 @@ export const UserSkillTreeGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4 p-6">
-      {Array.from({ length: 25 }).map((_, i) => (
-        <UserSkillTree key={i} onClick={() => handleCardClick(i)} />
-      ))}
+    <div className = "flex justify-center">
+      <div className="grid grid-cols-3 gap-x-16 gap-y-10 p-1">
+        {Array.from({ length: 25 }).map((_, i) => (
+          <UserSkillTree key={i} onClick={() => handleCardClick(i)} />
+        ))}
+      </div>
     </div>
   );
 };

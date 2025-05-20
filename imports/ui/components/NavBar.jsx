@@ -23,6 +23,12 @@ export const NavBar = () => (
         404
       </Link>
       <Link
+        to="/SignUp"
+        className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+      >
+        SignUp
+      </Link>
+      <Link
         to="/pendingproofs"
         className="text-white hover:bg-gray-600 px-3 py-2 rounded"
       >

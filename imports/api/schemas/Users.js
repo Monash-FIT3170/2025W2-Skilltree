@@ -160,6 +160,12 @@ Schemas.UsersServices = new SimpleSchema({
   'password.bcrypt': {
     type: String, // The hash of the password is stored, not the password itself.
     label: 'bcrypt Password Hash'
+  },
+  resume: {
+    type: Object,
+    label: 'Resume Login Tokens',
+    optional: true,
+    blackbox: true // <-- Use blackbox here to allow dynamic/changing tokens. NOTE: When logging in with password, Meteor accesses the services.resume
   }
 });
 
