@@ -9,7 +9,7 @@ Meteor.startup(() => {
     { service: 'google' },
     {
       $set: {
-        clientId:CLIENT_ID,
+        clientId: CLIENT_ID,
         secret: CLIENT_SECRET
       }
     }
