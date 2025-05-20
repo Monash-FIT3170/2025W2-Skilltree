@@ -18,5 +18,11 @@ Meteor.methods({
   'comments.remove'(commentId) {
     check(commentId, String);
     return CommentsCollection.remove(commentId);
+  },
+
+  async editComment(commentId, newText) {
+    check(commentId, String);
+    check(newText, String);
+    CommentsCollection.updateAsync(commentId, { $set: { comment: newText } });
   }
 });
