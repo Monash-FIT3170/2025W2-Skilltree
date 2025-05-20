@@ -184,29 +184,92 @@ export const CreateTreeForm = () => {
         </div>
 
         {/* Tag Dropdown */}
-        <div className="mb-4">
-          <select
-            id="tag"
-            name="tag"
-            value={formData.tag}
-            onChange={handleChange}
-            className="h-5 border border-gray-300 rounded text-[12px] focus:outline-none focus:ring-2 focus:ring-green-500"
-            required
-          >
-            <option value="">Tags</option>
-            <option value="music">Music</option>
-            <option value="sports">Sports</option>
-            <option value="wellbeing">Wellbeing</option>
-            <option value="technology">Technology</option>
-            <option value="cooking">Cooking</option>
-          </select>
+      {/* <div className="mb-6">
+        <label className="block text-gray-700 text-xl font-semibold mb-2" style={{color: "#328E6E"}}>
+          Tags
+        </label>
+        
+          {formData.newTag !== undefined && (
+            <div className="mt-2 flex gap-2">
+              <input
+                type="text"
+                placeholder="Enter custom tag"
+                value={formData.newTag}
+                onChange={handleNewTagChange}
+                className="border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-green-500"
+              />
+              <button
+                type="button"
+                onClick={addCustomTag}
+                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+              >
+                Add
+              </button>
+            </div>
+          )}
+        </div>   */}
+
+        <div className="pt-6 flex gap-2">
+        <select
+          onChange={handleTagChange}
+          className="border border-gray-300 rounded text-base focus:outline-none focus:ring-2 focus:ring-green-500"
+          value=""
+        >
+          <option value="">Select a tag</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="wellbeing">Wellbeing</option>
+          <option value="technology">Technology</option>
+          <option value="cooking">Cooking</option>
+          <option value="custom">Add custom tag</option>
+        </select>
+        {/* Appear only when add custom is selected */}
+        {formData.showCustomTagInput && (
+          <div className="mt-2 flex gap-2">
+            <input
+              type="text"
+              placeholder="Enter custom tag"
+              value={formData.newTag}
+              onChange={handleNewTagChange}
+              className="border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-green-500"
+            />
+            <button
+              type="button"
+              onClick={addCustomTag}
+              className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+            >
+              Add
+            </button>
+          </div>
+        )}
+        {/* Show the tags selected or created */}
+          {formData.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {formData.tags.map(tag => (
+                <span 
+                  key={tag}
+                  className="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="ml-2 text-green-600 hover:text-green-900 font-bold"
+                  >
+                    &times;
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Description */}
-        <div className="mb-6">
+        <div className="pt-6 mb-6">
           <label
             htmlFor="description"
             className="block text-gray-700 text-l font-semibold mb-1"
+            style={{color: "#328E6E"}}
           >
             Description
           </label>
