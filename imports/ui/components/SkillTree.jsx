@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -15,28 +15,22 @@ import { ViewNode } from './nodes/ViewNode';
 import { EmptyNode } from './nodes/EmptyNode2';
 
 export const SkillTreeLogic = () => {
+  const nodeTypes = {
+    'new-empty': NewEmptyNode,
+    'view-node': ViewNode,
+    'empty-node': EmptyNode
+  };
   const initialNodes = [
     {
       id: '0',
       type: 'input',
       data: { label: 'test root' },
       position: { x: 0, y: 0 }
-    },
-    {
-      id: '1',
-      type: 'view-node',
-      data: {
-        label: 'test view only',
-        description: 'test description',
-        requirements: 'req1,req2',
-        xpPoints: '3000'
-      },
-      position: { x: 0, y: 100 }
     }
   ];
 
-  let id = 2;
-  const getId = () => `${id++}`;
+  const idRef = useRef(1);
+  const getId = () => `${idRef.current++}`;
   const nodeOrigin = [0.5, 0];
   const initialEdges = [];
 
@@ -46,10 +40,15 @@ export const SkillTreeLogic = () => {
   const [editingNode, setEditingNode] = useState(null);
   const { screenToFlowPosition } = useReactFlow();
 
+  const nodesRef = useRef(nodes);
+  useEffect(() => {
+    nodesRef.current = nodes;
+  }, [nodes]);
+
   const handleNodeEdit = useCallback(
     (nodeId, updatedData) => {
-      setNodes((nodes) =>
-        nodes.map((node) =>
+      setNodes(nodes =>
+        nodes.map(node =>
           node.id === nodeId
             ? {
                 ...node,
@@ -65,8 +64,18 @@ export const SkillTreeLogic = () => {
     [setNodes]
   );
 
+  const handleOpenEditor = useCallback(id => {
+    const editnode = nodesRef.current.find(n => n.id === id);
+    if (editnode) {
+      setEditingNode({
+        id: editnode.id,
+        ...editnode.data
+      });
+    }
+  }, []);
+
   const onConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    connection => setEdges(eds => addEdge(connection, eds)),
     [setEdges]
   );
 
@@ -87,30 +96,23 @@ export const SkillTreeLogic = () => {
             description: '',
             requirements: '',
             xpPoints: '',
-            onOpenEditor: () => setEditingNode({ id, ...newNode.data })
+            onOpenEditor: () => handleOpenEditor(id)
           },
           origin: nodeOrigin
         };
 
-        setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) =>
-          eds.concat({ id: `e-${connectionState.fromNode.id}-${id}`, source: connectionState.fromNode.id, target: id })
+        setNodes(nds => nds.concat(newNode));
+        setEdges(eds =>
+          eds.concat({
+            id: `e-${connectionState.fromNode.id}-${id}`,
+            source: connectionState.fromNode.id,
+            target: id
+          })
         );
       }
     },
-    [screenToFlowPosition]
+    [screenToFlowPosition, handleOpenEditor]
   );
-
-  const nodeTypes = {
-    'new-empty': (props) => (
-      <NewEmptyNode
-        {...props}
-        onOpenEditor={() => setEditingNode({ id: props.id, ...props.data })}
-      />
-    ),
-    'view-node': ViewNode,
-    'empty-node': EmptyNode
-  };
 
   const onSave = () => {
     console.log('Nodes:', nodes);
@@ -166,7 +168,7 @@ export const SkillTreeLogic = () => {
           >
             <h3>Edit Skill</h3>
             <form
-              onSubmit={(e) => {
+              onSubmit={e => {
                 e.preventDefault();
                 const formData = new FormData(e.target);
                 handleNodeEdit(editingNode.id, {
@@ -185,12 +187,18 @@ export const SkillTreeLogic = () => {
               <br />
               <label>
                 Description:
-                <input name="description" defaultValue={editingNode.description} />
+                <input
+                  name="description"
+                  defaultValue={editingNode.description}
+                />
               </label>
               <br />
               <label>
                 Requirements:
-                <input name="requirements" defaultValue={editingNode.requirements} />
+                <input
+                  name="requirements"
+                  defaultValue={editingNode.requirements}
+                />
               </label>
               <br />
               <label>
