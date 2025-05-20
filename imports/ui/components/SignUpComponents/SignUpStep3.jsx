@@ -71,33 +71,33 @@ const Step3 = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <label
-            htmlFor="firstName"
+            htmlFor="givenName"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            First Name
+            Given Name
           </label>
           <input
-            id="firstName"
-            name="profile.firstName"
-            value={formData.profile.firstName || ''}
+            id="givenName"
+            name="profile.givenName"
+            value={formData.profile.givenName || ''}
             onChange={handleChange}
-            placeholder="First Name"
+            placeholder="Given Name"
             required
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-black"
           />
 
           <label
-            htmlFor="lastName"
+            htmlFor="familyName"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            Last Name
+            Family Name
           </label>
           <input
-            id="lastName"
-            name="profile.lastName"
-            value={formData.profile.lastName || ''}
+            id="familyName"
+            name="profile.familyName"
+            value={formData.profile.familyName || ''}
             onChange={handleChange}
-            placeholder="Last Name"
+            placeholder="Family Name"
             required
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-black"
           />

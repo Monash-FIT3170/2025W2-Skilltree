@@ -8,8 +8,8 @@ export const SignUp = () => {
     password: '',
     email: '',
     profile: {
-      firstName: '',
-      lastName: '',
+      givenName: '',
+      familyName: '',
       avatarUrl: '',
       bio: '',
       dateOfBirth: '',

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import 'meteor/aldeed:collection2/static';
 
+import './google_oauth';
 import '/imports/api/Publications'; // Publications
 import '/imports/api/Methods'; // Methods
 import '/imports/Router'; // Router (Server-Side Rendering)

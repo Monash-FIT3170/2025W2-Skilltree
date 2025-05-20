@@ -5,8 +5,16 @@ Meteor.methods({
   async validateStep3(userOptions) {
     console.log(userOptions);
 
-    //Validate the fullname
-    if (!fullNameRegex.test(userOptions.profile.fullName)) {
+    //Validate the first name
+    if (!fullNameRegex.test(userOptions.profile.givenName)) {
+      throw new Meteor.Error(
+        'invalid-fullname',
+        'The input full name is invalid!'
+      );
+    }
+
+    //Validate the last name
+    if (!fullNameRegex.test(userOptions.profile.familyName)) {
       throw new Meteor.Error(
         'invalid-fullname',
         'The input full name is invalid!'

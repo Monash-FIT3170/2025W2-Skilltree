@@ -14,9 +14,12 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.810.0",
     "@babel/runtime": "^7.27.1",
+    "@react-oauth/google": "^0.12.2",
     "@tailwindcss/postcss": "^4.1.6",
     "buffer": "^6.0.3",
     "chai": "^5.2.0",
+    "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "meteor-node-stubs": "^1.2.17",
     "postcss": "^8.5.3",
