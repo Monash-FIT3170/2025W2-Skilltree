@@ -71,17 +71,33 @@ const Step3 = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <label
-            htmlFor="fullName"
+            htmlFor="firstName"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            Full Name
+            First Name
           </label>
           <input
-            id="fullName"
-            name="profile.fullName"
-            value={formData.profile.fullName}
+            id="firstName"
+            name="profile.firstName"
+            value={formData.profile.firstName || ''}
             onChange={handleChange}
-            placeholder="Full Name"
+            placeholder="First Name"
+            required
+            className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-black"
+          />
+
+          <label
+            htmlFor="lastName"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Last Name
+          </label>
+          <input
+            id="lastName"
+            name="profile.lastName"
+            value={formData.profile.lastName || ''}
+            onChange={handleChange}
+            placeholder="Last Name"
             required
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-black"
           />
@@ -96,7 +112,7 @@ const Step3 = () => {
             id="dob"
             type="date"
             name="profile.dateOfBirth"
-            value={formData.profile.dateOfBirth}
+            value={formData.profile.dateOfBirth || ''}
             onChange={handleChange}
             required
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-gray-600"

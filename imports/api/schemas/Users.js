@@ -17,9 +17,14 @@ Schemas.UsersEmail = new SimpleSchema({
 
 // Define the schema for UsersProfile
 Schemas.UsersProfile = new SimpleSchema({
-  fullName: {
+  firstName: {
     type: String,
-    label: 'Full Name',
+    label: 'First Name',
+    optional: true
+  },
+  lastName: {
+    type: String,
+    label: 'Last Name',
     optional: true
   },
   avatarUrl: {
