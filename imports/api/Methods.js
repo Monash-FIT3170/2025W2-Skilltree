@@ -8,4 +8,5 @@ import '/imports/api/methods/ValidateStep3';
 import '/imports/api/methods/ValidateStep4';
 import '/imports/api/methods/Proof';
 import '/imports/api/methods/Upload';
+import '/imports/api/methods/Comments';
 import '/imports/api/methods/PostMethods'; // Load Post Collection Methods
