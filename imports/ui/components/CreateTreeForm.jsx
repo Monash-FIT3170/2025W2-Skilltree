@@ -306,14 +306,20 @@ export const CreateTreeForm = () => {
           ></textarea>
         </div>
 
-        {/* Submit Button */}
+        {/* add skils Button */}
         <button
-          type="submit"
-          className="bg-green-600 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+          type="transition"
+          className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+          style={{
+            backgroundColor: "#328E6E",
+            width: "100%",
+            color: "#ffffff"
+          }}
         >
-          Create Post
+          Add Skils +
         </button>
       </form>
     </div>
+  </div>
   );
 };
