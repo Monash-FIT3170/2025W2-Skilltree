@@ -290,6 +290,7 @@ export const CreateTreeForm = () => {
           <label
             htmlFor="tsandcs"
             className="block text-gray-700 text-l font-semibold mb-1"
+            style={{color: "#328E6E"}}
           >
             Terms and Conditions
           </label>
