@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
+import { PostCollection } from '/imports/api/collections/PostCollection';
 import { Link } from 'react-router-dom'; // Import Link for routing
 import { CommentSection } from '/imports/ui/components/CommentSection'; // Importing the CommentSection component
 
