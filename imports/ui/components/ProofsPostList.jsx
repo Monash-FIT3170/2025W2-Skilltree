@@ -11,7 +11,7 @@ export const ProofsPostList = () => {
 
     return {
       posts: Array.isArray(data) ? data : [],
-      isLoading: !handle.ready(),
+      isLoading: !handle.ready()
     };
   }, []);
 
