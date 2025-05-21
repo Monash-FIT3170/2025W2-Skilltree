@@ -1,4 +1,4 @@
-import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
@@ -10,7 +10,7 @@ export const ProofsPostList = () => {
 
     return {
       posts: PostCollection.find({}, { sort: { date: -1 } }).fetch(),
-      isLoading: !handler.ready(),
+      isLoading: !handler.ready()
     };
   });
 
@@ -23,7 +23,7 @@ export const ProofsPostList = () => {
   }
 
   // Helper to format date nicely
-  const formatDate = (date) => {
+  const formatDate = date => {
     if (!date) return '';
     const d = new Date(date);
     return d.toLocaleDateString(undefined, {
@@ -31,7 +31,7 @@ export const ProofsPostList = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -39,20 +39,15 @@ export const ProofsPostList = () => {
     <div className="min-h-screen bg-white py-10">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          {posts.map((post) => (
-            <div
-              key={post._id}
-              className="p-4 bg-[#D2EAD1] rounded-xl "
-            >
+          {posts.map(post => (
+            <div key={post._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
               {/* Render real post data */}
               <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2 ">
                 <span className="flex items-center">
                   <span className="mr-1">👑</span>
                   <span>{post.user}</span>
                 </span>
-                <span className="text-xs italic">
-                  {formatDate(post.date)}
-                </span>
+                <span className="text-xs italic">{formatDate(post.date)}</span>
               </div>
 
               <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
@@ -74,9 +69,8 @@ export const ProofsPostList = () => {
               </div>
 
               <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
-                 {post.description || 'No caption'}
-                 </div>
-
+                {post.description || 'No caption'}
+              </div>
 
               <div className="p-3 border-t border-gray-300 mt-12">
                 <div className="mb-2">

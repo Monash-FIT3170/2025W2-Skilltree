@@ -3,8 +3,7 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
-import '/imports/api/methods/Comments';  
-
+import '/imports/api/methods/Comments';
 
 export const CommentSection = () => {
   const DUMMY_USERNAME = 'user1';
@@ -43,17 +42,17 @@ export const CommentSection = () => {
   };
 
   const deleteComment = async id => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this comment?');
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this comment?'
+    );
     if (!confirmDelete) return;
-  
+
     try {
       await Meteor.callAsync('deleteComment', id);
     } catch (error) {
       alert(`Failed to delete comment: ${error.message}`);
     }
   };
-  
-  
 
   return (
     <div

@@ -19,7 +19,10 @@ Meteor.methods({
 
     const removedCount = await CommentsCollection.removeAsync(commentId);
     if (removedCount === 0) {
-      throw new Meteor.Error('not-found', 'Comment not found or already removed');
+      throw new Meteor.Error(
+        'not-found',
+        'Comment not found or already removed'
+      );
     }
     return removedCount;
   },
@@ -28,6 +31,8 @@ Meteor.methods({
     check(commentId, String);
     check(newText, String);
 
-    await CommentsCollection.updateAsync(commentId, { $set: { comment: newText } });
-  },
+    await CommentsCollection.updateAsync(commentId, {
+      $set: { comment: newText }
+    });
+  }
 });
