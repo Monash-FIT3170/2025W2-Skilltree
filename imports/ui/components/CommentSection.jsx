@@ -41,8 +41,10 @@ export const CommentSection = () => {
     setCurrentText('');
   };
 
-  const deleteComment = async (id) => {
-    const confirmed = window.confirm('Are you sure you want to delete this comment?');
+  const deleteComment = async id => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this comment?'
+    );
     if (!confirmed) return;
 
     try {
@@ -51,7 +53,6 @@ export const CommentSection = () => {
       alert(`Failed to delete comment: ${err.message}`);
     }
   };
-
 
   return (
     <div

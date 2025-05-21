@@ -14,12 +14,15 @@ Meteor.methods({
     });
   },
 
-  async 'deleteComment'(commentId) {
+  async deleteComment(commentId) {
     check(commentId, String);
 
     const result = await CommentsCollection.removeAsync(commentId);
     if (result === 0) {
-      throw new Meteor.Error('not-found', 'Comment not found or already removed');
+      throw new Meteor.Error(
+        'not-found',
+        'Comment not found or already removed'
+      );
     }
     return result;
   },
