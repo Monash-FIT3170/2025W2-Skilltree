@@ -41,18 +41,17 @@ export const CommentSection = () => {
     setCurrentText('');
   };
 
-  const deleteComment = async id => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this comment?'
-    );
-    if (!confirmDelete) return;
+  const deleteComment = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this comment?');
+    if (!confirmed) return;
 
     try {
       await Meteor.callAsync('deleteComment', id);
-    } catch (error) {
-      alert(`Failed to delete comment: ${error.message}`);
+    } catch (err) {
+      alert(`Failed to delete comment: ${err.message}`);
     }
   };
+
 
   return (
     <div
