@@ -11,7 +11,7 @@ export const PendingProofs = () => (
       <title>SkillTree - Pending Proofs</title>
     </Helmet>
     <div className="p-2">
-      <h1 className="text-3xl font-bold mt-2">Pending Proofs Page</h1>
+      <h1 className="p-4 bg-[#328E6E]"><b>Community</b></h1>
       <SearchBar />
 
       {/* Render PostList below the header */}

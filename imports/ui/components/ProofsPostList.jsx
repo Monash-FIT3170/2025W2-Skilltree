@@ -43,10 +43,10 @@ export const ProofsPostList = () => {
           {posts.map((post) => (
             <div
               key={post._id}
-              className="p-4 border border-gray-300 mb-4 bg-gray-200"
+              className="p-4 bg-[#D2EAD1]"
             >
               {/* Render real post data */}
-              <div className="text-sm text-white bg-[#a0bc86] h-6 mb-1 flex items-center justify-between px-2">
+              <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
                 <span className="flex items-center">
                   <span className="mr-1">👑</span>
                   <span>{post.user}</span>
@@ -74,7 +74,7 @@ export const ProofsPostList = () => {
                 )}
               </div>
 
-              <div className="text-sm text-white bg-[#a0bc86] mb-4 px-2 py-1 rounded">
+              <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
                  {post.description || 'No caption'}
                  </div>
 
