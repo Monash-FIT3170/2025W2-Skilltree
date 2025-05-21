@@ -6,6 +6,8 @@ import { Meteor } from 'meteor/meteor';
 import '/imports/api/methods/Comments';
 
 export const CommentSection = () => {
+  // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
+  // Should be replaced by a reference to the current user's id (not username) once accounts are integrated.
   const DUMMY_USERNAME = 'user1';
 
   useSubscribeSuspense('comments');
