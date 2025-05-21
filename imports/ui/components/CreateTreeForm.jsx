@@ -98,11 +98,8 @@ export const CreateTreeForm = () => {
           Create SkillTree
         </h2>
 
-                  {/* Image Upload Section */}
+            {/* Image Upload Section */}
             <div className='pt-6'>
-            {/* <label className="block text-gray-700 text-xl font-semibold mb-2" style={{color: "#328E6E"}}>
-              Upload Cover Image
-            </label> */}
             <div 
               onClick={triggerFileInput}
               className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors max-w-xl mx-auto"
