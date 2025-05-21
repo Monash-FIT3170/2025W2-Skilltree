@@ -36,6 +36,16 @@ Schemas.Post = new SimpleSchema({
   date: {
     type: Date,
     label: 'Date post was made'
+  },
+  upvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true,
+  },
+  downvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true,
   }
 });
 

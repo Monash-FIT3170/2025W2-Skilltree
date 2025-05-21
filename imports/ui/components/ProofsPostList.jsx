@@ -37,6 +37,26 @@ export const ProofsPostList = () => {
       minute: '2-digit'
     });
   };
+  const handleUpvote = (postId) => {
+    Meteor.call('post.upvote', postId, (error, result) => {
+      if (error) {
+        console.error('Upvote failed:', error.reason);
+      } else {
+        console.log('Upvoted post:', postId);
+      }
+    });
+  };
+
+  const handleDownvote = (postId) => {
+    Meteor.call('post.downvote', postId, (error, result) => {
+      if (error) {
+        console.error('Downvote failed:', error.reason);
+      } else {
+        console.log('Downvoted post:', postId);
+      }
+    });
+  };
+
 
   return (
     <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
@@ -84,10 +104,21 @@ export const ProofsPostList = () => {
 
                 {/* Upvotes, Downvotes, Status, View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
-                  <div className="flex gap-4">
-                    <div>👍 {post.upvotes}</div>
-                    <div>👎 {post.downvotes}</div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleUpvote(post._id)}
+                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                      👍 Upvote ({post.upvotes || 0})
+                    </button>
+                    <button
+                      onClick={() => handleDownvote(post._id)}
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                      👎 Downvote ({post.downvotes || 0})
+                    </button>
                   </div>
+
 
                   <div className="text-center mx-2">
                     <span>

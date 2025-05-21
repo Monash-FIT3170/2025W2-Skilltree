@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 import { PostCollection } from '/imports/api/collections/PostCollection'; // Post collection
 
 Meteor.methods({
@@ -46,5 +47,20 @@ Meteor.methods({
   // remove all posts
   async removeAllPosts() {
     return await PostCollection.removeAsync({});
+  },
+  async 'post.upvote'(postId) {
+    check(postId, String);
+    return await PostCollection.updateAsync(
+      { _id: postId },
+      { $inc: { upvotes: 1 } }
+    );
+  },
+
+  async 'post.downvote'(postId) {
+    check(postId, String);
+    return await PostCollection.updateAsync(
+      { _id: postId },
+      { $inc: { downvotes: 1 } }
+    );
   }
 });
