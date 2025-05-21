@@ -11,7 +11,6 @@ Meteor.publish('comments', () => CommentsCollection.find());
 Meteor.startup(async () => {
   // console.log('comments.js loaded');
 
-
   // Add dummy comments data
   await CommentsCollection.removeAsync({}); // Clean existing comments
 
@@ -66,5 +65,4 @@ Meteor.startup(async () => {
   }
 
   // console.log(`Inserted ${dummyComments.length} dummy comments`);
-
 });

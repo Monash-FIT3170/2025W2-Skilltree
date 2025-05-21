@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
-
 import { CommentSection } from '/imports/ui/components/CommentSection';
 
 export const ProofsPostList = () => {
@@ -36,7 +35,6 @@ export const ProofsPostList = () => {
       minute: '2-digit'
     });
   };
-
 
   return (
     <div className="min-h-screen bg-white py-10">
@@ -73,6 +71,10 @@ export const ProofsPostList = () => {
 
               <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
                 {post.description || 'No caption'}
+              </div>
+              <div className="flex justify-between mt-2 text-sm">
+                <div>👍 {post.upvotes}</div>
+                <div>👎 {post.downvotes}</div>
               </div>
 
               <div className="p-3 border-t border-gray-300 mt-12">
