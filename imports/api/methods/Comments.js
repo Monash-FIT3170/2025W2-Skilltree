@@ -4,21 +4,22 @@ import { check } from 'meteor/check';
 
 // Basic methods for Comments
 Meteor.methods({
-  'comments.insert'(username, comment, postid) {
+  async commentInsert(username, comment, postid) {
     check(username, String);
     check(comment, String);
     check(postid, String);
+    console.log('commentInsert', username, comment, postid);
  
-    return CommentsCollection.insert({
-      username,
-      comment,
-      postid,
+    await CommentsCollection.insertAsync({
+      username: username,
+      comment: comment,
+      postId: postid,
       createdAt: new Date()
     });
   },
 
-  'comments.remove'(commentId) {
-    check(commentId, String);
-    return CommentsCollection.remove(commentId);
-  }
+  // 'comments.remove'(commentId) {
+  //   check(commentId, String);
+  //   return CommentsCollection.remove(commentId);
+  // }
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CommentSection } from '/imports/ui/components/CommentSection'; // Importing the CommentSection component
+import { AddComment } from './AddComment';
 
 export const ProofsPostList = () => {
   // Dummy data for rendering empty boxes (since no data is available yet)
@@ -34,17 +35,14 @@ export const ProofsPostList = () => {
               </div>
 
               {/* Placeholder for Comment Section */}
+              
               <div className="p-3 border-t border-gray-300 mt-12">
+                
                 <div className="mb-2">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
-                    disabled
-                    aria-label="Add a comment"
-                  />
+                  <AddComment username ="Username Placeholder" postid="Post ID Placeholder" />
                 </div>
                 <CommentSection />
+                
               </div>
             </div>
           ))}

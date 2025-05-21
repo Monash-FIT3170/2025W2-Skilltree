@@ -3,20 +3,24 @@
 //have method to get current post id
 
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 
 export const AddComment = ({ username, postid }) => {
     const [comment, setComment] = React.useState('');
 
-    const handleAddComment = () => {
+    const handleAddComment = async (e) => {
+        console.log('handleAddComment called');
+        e.preventDefault(); // prevent reloading the page
+        console.log('after prevent default');
         if (comment.trim()) {
             // Placeholder for addComment method
-            Meteor.call('comments.insert', username, comment.trim(), postid, (error) => {
-                if (error) {
-                    console.error('Error adding comment:', error);
-                } else {
-                    setComment(''); // Clear input on success
-                }
-            });
+            try {
+                console.log('Calling Meteor method');
+                await Meteor.callAsync('commentInsert', username, comment.trim(), postid);
+                setComment(''); // Clear input on success
+            } catch (error) {
+                console.error('Error adding comment:', error);
+            }
         }
     };
 
@@ -29,6 +33,7 @@ export const AddComment = ({ username, postid }) => {
                 onChange={(e) => setComment(e.target.value)}
                 className="comment-input"
             />
+            <button type="submit" style={{ display: 'none' }}>Submit</button>
         </form>
     );
 }
