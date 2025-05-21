@@ -18,7 +18,7 @@ export const SkillTreeCommunity = () => {
         Ok so this page should mainly just load the react flow tree and have a
         dropdown to navigate to other pages
       </div>
-      <SkillTreeEdit isAdmin={true}/>
+      <SkillTreeEdit isAdmin={true} />
     </>
   );
 };

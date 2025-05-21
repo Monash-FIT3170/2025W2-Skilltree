@@ -26,7 +26,7 @@ const nodeTypes = {
   'new-empty': createNewEmptyNode(true),
   'new-populated': createNewEmptyNode(false),
   'view-node-unlocked': createViewNode(true),
-  'view-node-locked': createViewNode(false),
+  'view-node-locked': createViewNode(false)
 };
 
 export const SkillTreeLogic = ({ isAdmin }) => {
