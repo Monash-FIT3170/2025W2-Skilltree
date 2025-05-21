@@ -28,12 +28,16 @@ meteor npm run start
 meteor npm install
 ```
 Create new file called `settings.json` and copy paste the below code into it.
-This is a dummy AWS key, to allow the program to run without errors:
+This is a dummy `settings.json`, to allow the program to run without errors:
 ```
 {
   "private": {
     "AWSAccessKeyId": "",
-    "AWSSecretKey": ""
+    "AWSSecretKey": "",
+    "google": {
+      "clientId": "",
+      "secret": ""
+    }
   }
 }
 ```
