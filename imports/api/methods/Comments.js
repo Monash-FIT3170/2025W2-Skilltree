@@ -8,8 +8,7 @@ Meteor.methods({
     check(username, String);
     check(comment, String);
     check(postid, String);
-    console.log('commentInsert', username, comment, postid);
- 
+
     await CommentsCollection.insertAsync({
       username: username,
       comment: comment,
@@ -18,8 +17,8 @@ Meteor.methods({
     });
   },
 
-  // 'comments.remove'(commentId) {
-  //   check(commentId, String);
-  //   return CommentsCollection.remove(commentId);
-  // }
+  'comments.remove'(commentId) {
+    check(commentId, String);
+    return CommentsCollection.remove(commentId);
+  }
 });

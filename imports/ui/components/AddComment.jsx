@@ -9,13 +9,10 @@ export const AddComment = ({ username, postid }) => {
     const [comment, setComment] = React.useState('');
 
     const handleAddComment = async (e) => {
-        console.log('handleAddComment called');
         e.preventDefault(); // prevent reloading the page
-        console.log('after prevent default');
         if (comment.trim()) {
             // Placeholder for addComment method
             try {
-                console.log('Calling Meteor method');
                 await Meteor.callAsync('commentInsert', username, comment.trim(), postid);
                 setComment(''); // Clear input on success
             } catch (error) {
