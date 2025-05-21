@@ -5,15 +5,15 @@ import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 
 export const ProofsPostList = () => {
-  // Subscribe and fetch posts reactively
   const { posts, isLoading } = useTracker(() => {
-    const handler = Meteor.subscribe('post');
+    const handle = Meteor.subscribe('post');
+    const data = PostCollection.find({}, { sort: { date: -1 } }).fetch();
 
     return {
-      posts: PostCollection.find({}, { sort: { date: -1 } }).fetch(),
-      isLoading: !handler.ready()
+      posts: Array.isArray(data) ? data : [],
+      isLoading: !handle.ready(),
     };
-  });
+  }, []);
 
   if (isLoading) {
     return <div>Loading posts...</div>;
