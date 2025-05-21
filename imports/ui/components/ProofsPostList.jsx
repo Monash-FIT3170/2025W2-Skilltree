@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+
+import { AddComment } from './AddComment';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
@@ -76,6 +78,7 @@ export const ProofsPostList = () => {
                   )}
                 </div>
 
+
                 {/* Description */}
                 <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
                   {post.description || 'No caption'}
@@ -86,7 +89,7 @@ export const ProofsPostList = () => {
                   <div className="flex gap-4">
                     <div>👍 {post.upvotes}</div>
                     <div>👎 {post.downvotes}</div>
-                  </div>
+                  </div>  
 
                   {/* Verification Status with Points */}
                   <div className="text-center mx-2">
@@ -111,6 +114,13 @@ export const ProofsPostList = () => {
                     className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
                     aria-label={`Verification progress: ${verification} out of 10`}
+
+              <div className="p-3 border-t border-gray-300 mt-12">
+                <div className="mb-2">
+                  <AddComment
+                    username="Username Placeholder"
+                    postid="Post ID Placeholder"
+
                   />
                 </div>
 
