@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { CommentsCollection } from '/imports/api/collections/Comments'; // SampleCollection
+import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
 
-// Basic methods for Comments
 Meteor.methods({
   async commentInsert(username, comment, postid) {
     check(username, String);
@@ -17,14 +16,25 @@ Meteor.methods({
     });
   },
 
-  'comments.remove'(commentId) {
+  async deleteComment(commentId) {
     check(commentId, String);
-    return CommentsCollection.remove(commentId);
+
+    const result = await CommentsCollection.removeAsync(commentId);
+    if (result === 0) {
+      throw new Meteor.Error(
+        'not-found',
+        'Comment not found or already removed'
+      );
+    }
+    return result;
   },
 
   async editComment(commentId, newText) {
     check(commentId, String);
     check(newText, String);
-    CommentsCollection.updateAsync(commentId, { $set: { comment: newText } });
+
+    await CommentsCollection.updateAsync(commentId, {
+      $set: { comment: newText }
+    });
   }
 });

@@ -19,6 +19,12 @@ Schemas.Post = new SimpleSchema({
     max: 1000,
     optional: true
   },
+  subskill: {
+    type: String,
+    label: 'Sub Skill',
+    max: 1000,
+    optional: true
+  },
   verification: {
     type: SimpleSchema.Integer,
     label: 'Verification points'
