@@ -84,7 +84,7 @@ export const CommentSection = () => {
       }}
     >
       {comments.map(item => (
-      // Individual Comment
+        // Individual Comment
         <div
           key={item._id}
           style={{
