@@ -7,9 +7,6 @@ export const PendingProofsRoutes = [
   {
     path: 'pendingproofs',
     element: <PendingProofs />,
-    children: [
-      ...SampleViewRoutes,
-      ...HelloContainerRoutes
-    ]
+    children: [...SampleViewRoutes, ...HelloContainerRoutes]
   }
 ];

@@ -6,13 +6,19 @@ export const NavBar = () => (
     <Link to="/Home" className="text-white hover:bg-gray-600 px-3 py-2 rounded">
       Home
     </Link>
-    <Link to="/Sample" className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+    <Link
+      to="/Sample"
+      className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+    >
       Sample
     </Link>
     <Link to="/404" className="text-white hover:bg-gray-600 px-3 py-2 rounded">
       404
     </Link>
-    <Link to="/pendingproofs" className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+    <Link
+      to="/pendingproofs"
+      className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+    >
       Pending Proofs
     </Link>
   </nav>

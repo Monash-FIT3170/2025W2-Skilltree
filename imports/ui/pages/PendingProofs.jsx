@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 
-
 import { ProofsPostList } from '/imports/ui/components/ProofsPostList';
 
 export const PendingProofs = () => (
@@ -14,8 +13,6 @@ export const PendingProofs = () => (
 
       {/* Render PostList below the header */}
       <ProofsPostList />
-
-    
     </div>
   </>
 );

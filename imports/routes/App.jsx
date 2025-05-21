@@ -9,8 +9,7 @@ import { SampleRoutes } from '/imports/routes/pages/Sample';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
 import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
-import { HelloViewRoutes } from '/imports/routes/components/HelloView'; 
-
+import { HelloViewRoutes } from '/imports/routes/components/HelloView';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -23,8 +22,8 @@ export const AppRoutes = [
       ...SampleRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
-      ...HelloViewRoutes, 
-      ...NotFoundRoutes, 
+      ...HelloViewRoutes,
+      ...NotFoundRoutes
     ]
   }
 ];

@@ -3,12 +3,10 @@ import { HelloView } from '/imports/ui/components/HelloView';
 import { PostDetails } from '/imports/ui/pages/PostDetails'; // ✅ Import your new page
 
 export const HelloViewRoutes = [
-  { path: 'hello', element: <HelloView /> },                 // default route
-  { path: 'hello/:name', element: <HelloView /> },            // existing dynamic route
-  { path: 'hello/post/:id', element: <PostDetails /> },       // ✅ NEW route for individual posts
+  { path: 'hello', element: <HelloView /> }, // default route
+  { path: 'hello/:name', element: <HelloView /> }, // existing dynamic route
+  { path: 'hello/post/:id', element: <PostDetails /> } // ✅ NEW route for individual posts
 ];
-
-
 
 // import React from 'react';
 
