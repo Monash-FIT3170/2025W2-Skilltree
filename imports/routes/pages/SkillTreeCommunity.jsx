@@ -5,7 +5,7 @@ import { SkillTreeCommunity } from '/imports/ui/pages/SkillTreeCommunity';
 
 export const SkillTreeCommunityRoutes = [
   {
-    path: 'skilltree/:name',
+    path: 'skilltree/:id',
     element: <SkillTreeCommunity />
   }
 ];

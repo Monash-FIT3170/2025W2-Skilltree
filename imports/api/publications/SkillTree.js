@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import '/imports/api/schemas/SkillTree';
 
+Meteor.publish('skilltreeById', function (id) {
+  return SkillTreeCollection.find({ _id: id });
+});
+
 Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 Meteor.startup(async () => {
@@ -9,6 +13,7 @@ Meteor.startup(async () => {
   //generated dummy inputs
   const dummySkillTrees = [
     {
+      _id: '1', // manually set _id for testing, normally this is auto-generated
       title: 'Basketball',
       image: 'https://example.com/image1.png',
       description: 'Learn dribbling to shooting.',
