@@ -1,26 +1,25 @@
-import React from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+import React, { useState } from 'react';
 import { CommentsCollection } from '/imports/api/collections/Comments';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
+import '/imports/api/methods/Comments';  
+
 
 export const CommentSection = () => {
-  // Subscribe to comments and get real-time data
-  const { comments, isLoading } = useTracker(() => {
-    // Subscribe to the publication
-    const subscription = Meteor.subscribe('comments');
-    const isLoading = !subscription.ready();
 
-    // Get the comments from the collection, sorted by creation date (newest first)
-    const comments = CommentsCollection.find({}, {
-      sort: { createdAt: -1 }
-    }).fetch();
+  const DUMMY_USERNAME = 'user1';
 
+  useSubscribeSuspense('comments');
+  const comments = useFind(CommentsCollection, [
+    {},
+    { sort: { createdAt: -1 } }
+  ]);
 
-    return { comments, isLoading };
-  }, []);
+  const [editingComment, setEditingComment] = useState('');
+  const [currentText, setCurrentText] = useState('');
 
-  // Format date to be more readable
-  const formatDate = (date) => {
+  const formatDate = date => {
     return date.toLocaleString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -29,32 +28,108 @@ export const CommentSection = () => {
     });
   };
 
-  // Shows a scrollable comment section
+
+  const edit = async id => {
+    setEditingComment(id);
+    setCurrentText(comments.find(item => item._id === id).comment);
+  };
+
+  const submitEdit = async (id, newText) => {
+    if (newText.trim() === '') {
+      alert('Please enter a comment');
+      return;
+    }
+    await Meteor.callAsync('editComment', id, newText);
+    setEditingComment('');
+    setCurrentText('');
+  };
+
+  const deleteComment = async id => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this comment?');
+    if (!confirmDelete) return;
+  
+    try {
+      await Meteor.callAsync('deleteComment', id);
+    } catch (error) {
+      alert(`Failed to delete comment: ${error.message}`);
+    }
+  };
+  
+  
+
   return (
-    <div style={{ maxHeight: '300px', overflowY: 'scroll', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+    <div
+      style={{
+        maxHeight: '300px',
+        overflowY: 'scroll',
+        border: '1px solid #ccc',
+        padding: '10px',
+        borderRadius: '5px'
+      }}
     >
-      {console.log(comments)}
-      {isLoading ? (
-        <div>Loading comments...</div>
-      ) : !comments || !Array.isArray(comments) || comments.length === 0 ? (
-        <div>No comments yet. Be the first to comment!</div>
-      ) : (
-        comments.map((item) => (
-          <div key={item._id} style={{
+      {comments.map(item => (
+        <div
+          key={item._id}
+          style={{
             marginBottom: '15px',
             padding: '10px',
-              borderBottom: '1px solid #eee'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-              <strong>{item.username}</strong>
-              <span style={{ fontSize: '0.8rem', color: '#666' }}>
-                {formatDate(item.createdAt)}
-              </span>
-            </div>
-            <p style={{ margin: '5px 0' }}>{item.comment}</p>
+            borderBottom: '1px solid #eee'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '5px'
+            }}
+          >
+            <strong>{item.username}</strong>
+
+            <span style={{ fontSize: '0.8rem', color: '#666' }}>
+              {formatDate(item.createdAt)}
+            </span>
           </div>
-        ))
-      )}
+
+          {editingComment === item._id ? (
+            <div>
+              <textarea
+                onChange={e => setCurrentText(e.target.value)}
+                value={currentText}
+                className="w-full bg-white"
+              ></textarea>
+              <button
+                className="text-center border-2 border-emerald-950 bg-emerald-600 text-white font-bold py-1 px-2 rounded hover:bg-emerald-700 active:bg-emerald-500 mt-2"
+                onClick={() => submitEdit(item._id, currentText)}
+              >
+                Save
+              </button>
+            </div>
+          ) : (
+            <>
+              <p style={{ margin: '5px 0' }}>{item.comment}</p>
+              {item.username === DUMMY_USERNAME && (
+                <div id="user-actions-container" className="flex gap-2">
+                  <button
+                    id="edit-btn"
+                    className="text-center border-2 border-gray-950 bg-gray-600 text-white font-bold py-1 px-2 rounded hover:bg-gray-700 active:bg-gray-500 mt-2"
+                    onClick={() => edit(item._id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    id="delete-btn"
+                    className="text-center border-2 border-red-950 bg-red-600 text-white font-bold py-1 px-2 rounded hover:bg-red-700 active:bg-red-500 mt-2"
+                    onClick={() => deleteComment(item._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      ))}
+
     </div>
   );
 };
