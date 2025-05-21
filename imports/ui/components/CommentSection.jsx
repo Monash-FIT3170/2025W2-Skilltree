@@ -48,6 +48,7 @@ export const CommentSection = () => {
    * @returns {Promise<void>}
    */
   const submitEdit = async (id, newText) => {
+    // TODO separate this into a validate function?
     if (newText.trim() === '') {
       alert('Please enter a comment');
       return;
