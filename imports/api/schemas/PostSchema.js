@@ -30,14 +30,6 @@ Schemas.Post = new SimpleSchema({
   date: {
     type: Date,
     label: 'Date post was made'
-  },
-  'proof.$': {
-    type: Schemas.Proof, // placeholder
-    label: 'Proof of practice'
-  },
-  'comments.$': {
-    type: Schemas.Comments, // comments schema
-    label: 'Comments'
   }
 });
 
