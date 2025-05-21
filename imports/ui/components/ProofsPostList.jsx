@@ -26,7 +26,6 @@ export const ProofsPostList = () => {
     return <div>No posts found.</div>;
   }
 
-  // Helper to format date nicely
   const formatDate = date => {
     if (!date) return '';
     const d = new Date(date);
@@ -45,7 +44,7 @@ export const ProofsPostList = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {posts.map(post => {
             const verification = post.verification || 0;
-            const progressPercent = Math.min((verification / 10) * 100, 100); // cap at 100%
+            const progressPercent = Math.min((verification / 10) * 100, 100);
 
             return (
               <div key={post._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
@@ -78,20 +77,18 @@ export const ProofsPostList = () => {
                   )}
                 </div>
 
-
                 {/* Description */}
                 <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
                   {post.description || 'No caption'}
                 </div>
 
-                {/* Upvotes, Downvotes, Status, and View Details in One Row */}
+                {/* Upvotes, Downvotes, Status, View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
                   <div className="flex gap-4">
                     <div>👍 {post.upvotes}</div>
                     <div>👎 {post.downvotes}</div>
-                  </div>  
+                  </div>
 
-                  {/* Verification Status with Points */}
                   <div className="text-center mx-2">
                     <span>
                       {post.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
@@ -99,7 +96,6 @@ export const ProofsPostList = () => {
                     {post.verification} / 10 Upvotes
                   </div>
 
-                  {/* View Details Button */}
                   <Link
                     to={`/post/${post._id}`}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
@@ -114,25 +110,15 @@ export const ProofsPostList = () => {
                     className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
                     aria-label={`Verification progress: ${verification} out of 10`}
-
-              <div className="p-3 border-t border-gray-300 mt-12">
-                <div className="mb-2">
-                  <AddComment
-                    username="Username Placeholder"
-                    postid="Post ID Placeholder"
-
-                  />
+                  ></div>
                 </div>
 
                 {/* Comment Section */}
                 <div className="p-3 border-t border-gray-300 mt-12">
                   <div className="mb-2">
-                    <input
-                      type="text"
-                      placeholder="Add a comment..."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
-                      disabled
-                      aria-label="Add a comment"
+                    <AddComment
+                      username="Username Placeholder"
+                      postid={post._id}
                     />
                   </div>
                   <CommentSection postId={post._id} />
