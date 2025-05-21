@@ -10,7 +10,7 @@ export const PostDetails = () => {
   const { post, isLoading } = useTracker(() => {
     const handle = Meteor.subscribe('post');
     const post = handle.ready()
-      ? PostCollection.findOne({ _id: id })  // Use _id here
+      ? PostCollection.findOne({ _id: id }) // Use _id here
       : null;
 
     return { post, isLoading: !handle.ready() };
@@ -19,14 +19,14 @@ export const PostDetails = () => {
   if (isLoading) return <div className="p-4">Loading post...</div>;
   if (!post) return <div className="p-4">Post not found.</div>;
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     if (!date) return '';
     return new Date(date).toLocaleString(undefined, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -37,7 +37,9 @@ export const PostDetails = () => {
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow-md">
       <h2 className="text-2xl font-bold mb-2">{post.user}</h2>
       <p className="text-gray-600 mb-1">Subskill: {post.subskill || 'N/A'}</p>
-      <p className="text-gray-500 text-sm mb-4">Posted on: {formatDate(post.date)}</p>
+      <p className="text-gray-500 text-sm mb-4">
+        Posted on: {formatDate(post.date)}
+      </p>
 
       <div className="w-full mb-4">
         {post.evidence ? (
@@ -53,7 +55,9 @@ export const PostDetails = () => {
         )}
       </div>
 
-      <p className="mb-6 text-lg text-gray-700">{post.description || 'No caption provided.'}</p>
+      <p className="mb-6 text-lg text-gray-700">
+        {post.description || 'No caption provided.'}
+      </p>
 
       <div className="flex space-x-4">
         <button

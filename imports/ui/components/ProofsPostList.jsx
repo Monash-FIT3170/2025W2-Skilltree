@@ -73,35 +73,34 @@ export const ProofsPostList = () => {
               <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
                 {post.description || 'No caption'}
               </div>
-             <div className="flex justify-between mt-2 text-sm">
-    <div>👍 {post.upvotes}</div>
-    <div>👎 {post.downvotes}</div>
-  </div>
+              <div className="flex justify-between mt-2 text-sm">
+                <div>👍 {post.upvotes}</div>
+                <div>👎 {post.downvotes}</div>
+              </div>
 
-  {/* View Details Button */}
-  <div className="mt-4">
-    <Link
-      to={`/post/${post._id}`}
-      className="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-    >
-      View Details
-    </Link>
-  </div>
+              {/* View Details Button */}
+              <div className="mt-4">
+                <Link
+                  to={`/post/${post._id}`}
+                  className="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                >
+                  View Details
+                </Link>
+              </div>
 
-  <div className="p-3 border-t border-gray-300 mt-12">
-    <div className="mb-2">
-      <input
-        type="text"
-        placeholder="Add a comment..."
-        className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
-        disabled
-        aria-label="Add a comment"
-      />
-    </div>
-    <CommentSection postId={post._id} />
-  </div>
-</div>
-
+              <div className="p-3 border-t border-gray-300 mt-12">
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
+                    disabled
+                    aria-label="Add a comment"
+                  />
+                </div>
+                <CommentSection postId={post._id} />
+              </div>
+            </div>
           ))}
         </div>
       </div>
