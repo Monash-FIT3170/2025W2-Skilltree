@@ -18,12 +18,40 @@ export const SignIn = () => {
     e.preventDefault();
 
     Meteor.loginWithGoogle(
-      { requestPermissions: ['email', 'profile'] },
+      { loginStyle: 'popup',
+        requestPermissions: ['email', 'profile'] },
       async err => {
         if (err) {
           console.error('Google login failed', err);
         } else {
           console.log('Logged in with Google successfully!');
+
+          try {
+            const user = Meteor.user();
+            const validation = await Meteor.callAsync('updateUserFields', user);
+            console.log('Update result:', validation); // 1 if update successful
+
+            navigate('/signup');
+          } catch (error) {
+            console.error('Failed to update user fields:', error);
+          }
+        }
+      }
+    );
+  };
+
+
+  const handleFacebookLogin = async e => {
+    e.preventDefault();
+
+    Meteor.loginWithFacebook(
+      { loginStyle: 'popup',
+        requestPermissions: ['email', 'public_profile'] },
+      async err => {
+        if (err) {
+          console.error('Facebook login failed', err);
+        } else {
+          console.log('Logged in with Facebook successfully!');
 
           try {
             const user = Meteor.user();
@@ -77,7 +105,50 @@ export const SignIn = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f7f9f8]">
       <div className="bg-[#efefef] p-10 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign in</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Welcome back to SkillTree</h2>
+
+
+    <div className="w-full flex flex-col items-center gap-4">
+      {/* Google Button */}
+      <button
+        onClick={handleGoogleLogin}
+        className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
+      >
+        <img
+          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          alt="Google logo"
+          className="w-5 h-5"
+        />
+        <span className="text-base text-gray-700 font-medium">
+          Continue with Google
+        </span>
+      </button>
+
+
+      <button
+        onClick={handleFacebookLogin}
+        className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
+      >
+        <img
+          src="/assets/FacebookLogo.svg"
+          alt="Facebook logo"
+          className="w-5 h-5"
+        />
+        <span className="text-base text-gray-700 font-medium">
+          Continue with Facebook
+        </span>
+      </button>
+    </div>
+
+
+
+
+
+        <div className="flex items-center my-5 w-full max-w-ws">
+          <div className="flex-grow h-px bg-gray-700" />
+          <span className="px-3 text-gray-700 text-sm">or</span>
+          <div className="flex-grow h-px bg-gray-700" />
+        </div>
 
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
@@ -141,26 +212,6 @@ export const SignIn = () => {
           Create Account
         </Link>
 
-        <div className="flex items-center my-5 w-full max-w-ws">
-          <div className="flex-grow h-px bg-gray-700" />
-          <span className="px-3 text-gray-700 text-sm">or</span>
-          <div className="flex-grow h-px bg-gray-700" />
-        </div>
-
-        {/*Google logo open source:https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg */}
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-700 bg-white rounded-full shadow-sm hover:bg-gray-100 transition"
-        >
-          <img
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            alt="Google logo"
-            className="w-5 h-5"
-          />
-          <span className="text-sm text-gray-700 font-medium">
-            Continue with Google
-          </span>
-        </button>
       </div>
     </div>
   );
