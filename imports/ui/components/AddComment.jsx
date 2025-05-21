@@ -1,6 +1,6 @@
 //TODO (not possible at the moment, as no post or user context is available)
 // have method to get the current user
-//have method to get current post id
+// have method to get current post id
 
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
