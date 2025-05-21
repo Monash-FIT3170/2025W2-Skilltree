@@ -2,6 +2,10 @@ import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 
+// Nested schema
+import '/imports/api/schemas/Comments'; // comments
+import '/imports/api/schemas/Proof'; // proof
+
 Schemas.Post = new SimpleSchema({
   title: {
     type: String,
@@ -27,10 +31,14 @@ Schemas.Post = new SimpleSchema({
     type: Date,
     label: 'Date post was made'
   },
-  evidence: {
-    type: String, // placeholder
+  'proof.$': {
+    type: Schemas.Proof, // placeholder
     label: 'Proof of practice'
-  }
+  },
+  'comments.$': {
+    type: Schemas.Comments, // comments schema
+    label: 'Comments',
+  },
 });
 
 PostCollection.attachSchema(Schemas.Post);
