@@ -38,15 +38,14 @@ export const ProofsPostList = () => {
   return (
     <div className="min-h-screen bg-white py-10">
       <div className="max-w-5xl mx-auto px-4">
-        <h3 className="text-xl font-semibold mt-4">Posts</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {posts.map((post) => (
             <div
               key={post._id}
-              className="p-4 bg-[#D2EAD1]"
+              className="p-4 bg-[#D2EAD1] rounded-xl "
             >
               {/* Render real post data */}
-              <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
+              <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2 ">
                 <span className="flex items-center">
                   <span className="mr-1">👑</span>
                   <span>{post.user}</span>
