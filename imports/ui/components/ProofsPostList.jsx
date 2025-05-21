@@ -35,14 +35,15 @@ export const ProofsPostList = () => {
               </div>
 
               {/* Placeholder for Comment Section */}
-              
+
               <div className="p-3 border-t border-gray-300 mt-12">
-                
                 <div className="mb-2">
-                  <AddComment username ="Username Placeholder" postid="Post ID Placeholder" />
+                  <AddComment
+                    username="Username Placeholder"
+                    postid="Post ID Placeholder"
+                  />
                 </div>
                 <CommentSection />
-                
               </div>
             </div>
           ))}
