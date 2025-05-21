@@ -14,7 +14,9 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
-        <h1 className="text-3xl font-bold mt-2">Welcome to {name}!</h1>
+        <h1 className="text-3xl font-bold mt-2">
+          Welcome to Skilltree {name}!
+        </h1>
         Ok so this page should mainly just load the react flow tree and have a
         dropdown to navigate to other pages
       </div>

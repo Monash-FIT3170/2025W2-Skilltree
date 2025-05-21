@@ -109,12 +109,12 @@ export const NavBar = () => {
         >
           Upload Proof
         </Link>
-      <Link
-        to="/skilltree/example-skilltree"
-        className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-      >
-        SkillTree
-      </Link>
+        <Link
+          to="/skilltree/example-skilltree"
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          SkillTree
+        </Link>
         <Link
           to="#" // Placeholder
           className="text-white hover:bg-gray-600 px-3 py-2 rounded"
