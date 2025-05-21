@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
+
 import { CommentSection } from '/imports/ui/components/CommentSection';
 
 export const ProofsPostList = () => {
@@ -35,48 +36,46 @@ export const ProofsPostList = () => {
     });
   };
 
+
   return (
     <div className="min-h-screen bg-white py-10">
       <div className="max-w-5xl mx-auto px-4">
         <h3 className="text-xl font-semibold mt-4">Posts</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts.map((post) => (
+
+          {/* Render empty boxes */}
+          {posts.map((_, index) => (
             <div
-              key={post._id}
+              key={index}
               className="p-4 border border-gray-300 mb-4 bg-gray-200"
             >
-              {/* Render real post data */}
-              <div className="text-sm text-white bg-[#a0bc86] h-6 mb-1 flex items-center justify-between px-2">
-                <span className="flex items-center">
-                  <span className="mr-1">👑</span>
-                  <span>{post.user}</span>
-                </span>
-                <span className="text-xs italic">
-                  {formatDate(post.date)}
-                </span>
+              {/* Placeholder for Post */}
+              <div className="text-sm text-white bg-gray-400 h-6 mb-2">
+                Username Placeholder
               </div>
-
-              <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
-                {/* Changed Community to Subskill */}
-                {post.subskill || 'Subskill Placeholder'}
-              </div>
-
-              {/* If you have evidence as image or URL, you can render it */}
-              <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
-                {post.evidence ? (
-                  <img
-                    src={post.evidence}
-                    alt="Evidence"
-                    className="max-h-full max-w-full"
-                  />
-                ) : (
-                  <span>No Image</span>
-                )}
+              <div className="text-sm text-white bg-gray-400 h-6 mb-2">
+                Community Placeholder
               </div>
 
               <div className="text-sm text-white bg-[#a0bc86] mb-4 px-2 py-1 rounded">
                  {post.description || 'No caption'}
                  </div>
+
+              {/* Placeholder for Caption */}
+              <div className="text-sm text-white bg-gray-400 h-6 mb-4">
+                Caption Placeholder
+              </div>
+
+              {/* View More Button */}
+              <div className="text-right mt-4">
+                <Link
+                  to={`/hello/post/${index}`}
+                  // to={`/hello/${index}`} // Replace `index` with post._id when using real data
+                  className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  View More
+                </Link>
+              </div>
 
 
               <div className="p-3 border-t border-gray-300 mt-12">

@@ -7,6 +7,7 @@ import '/imports/api/methods/Comments';
 
 
 export const CommentSection = () => {
+
   const DUMMY_USERNAME = 'user1';
 
   useSubscribeSuspense('comments');
@@ -26,6 +27,7 @@ export const CommentSection = () => {
       minute: '2-digit'
     });
   };
+
 
   const edit = async id => {
     setEditingComment(id);
@@ -127,6 +129,7 @@ export const CommentSection = () => {
           )}
         </div>
       ))}
+
     </div>
   );
 };
