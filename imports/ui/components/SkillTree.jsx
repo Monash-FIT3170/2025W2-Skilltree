@@ -18,10 +18,15 @@ const createNewEmptyNode = isEmpty => props => (
   <NewEmptyNode {...props} isEmpty={isEmpty} />
 );
 
+const createViewNode = unlocked => props => (
+  <ViewNode {...props} isUnlocked={unlocked} />
+);
+
 const nodeTypes = {
   'new-empty': createNewEmptyNode(true),
   'new-populated': createNewEmptyNode(false),
-  'view-node': ViewNode
+  'view-node-unlocked': createViewNode(true),
+  'view-node-locked': createViewNode(false),
 };
 
 export const SkillTreeLogic = ({ isAdmin }) => {
@@ -34,9 +39,9 @@ export const SkillTreeLogic = ({ isAdmin }) => {
     },
     {
       id: '1000',
-      type: 'view-node',
+      type: 'view-node-locked',
       data: {
-        label: `test view only Node`,
+        label: `Example Locked`,
         description: 'this is an example node of a normal user',
         requirements: 'example reqs',
         xpPoints: 20,
@@ -44,6 +49,19 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         onOpenEditor: () => handleOpenEditor('1000')
       },
       position: { x: 0, y: 80 }
+    },
+    {
+      id: '1001',
+      type: 'view-node-unlocked',
+      data: {
+        label: `test view only Node`,
+        description: 'this is an example node of a normal user',
+        requirements: 'example reqs',
+        xpPoints: 20,
+        progressXp: 10, //example user is on 5 xp points
+        onOpenEditor: () => handleOpenEditor('1001')
+      },
+      position: { x: 80, y: 80 }
     }
   ];
 
@@ -66,18 +84,17 @@ export const SkillTreeLogic = ({ isAdmin }) => {
   const handleNodeEdit = useCallback(
     (nodeId, updatedData) => {
       setNodes(nodes =>
-        nodes.map(node =>
-          node.id === nodeId
-            ? {
+        nodes.map(node => {
+          if (node.id === nodeId) {
+            return {
               ...node,
               type: 'new-populated',
-              data: {
-                ...node.data,
-                ...updatedData
-              }
-            }
-            : node
-        )
+              data: { ...node.data, ...updatedData }
+            };
+          } else {
+            return node;
+          }
+        })
       );
     },
     [setNodes]
