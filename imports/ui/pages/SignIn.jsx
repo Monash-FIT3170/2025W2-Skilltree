@@ -130,7 +130,7 @@ export const SignIn = () => {
         className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
       >
         <img
-          src="/assets/FacebookLogo.svg"
+          src="/images/FacebookLogo.svg"
           alt="Facebook logo"
           className="w-5 h-5"
         />

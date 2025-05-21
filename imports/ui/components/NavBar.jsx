@@ -115,6 +115,13 @@ export const NavBar = () => {
         >
           User
         </Link>
+
+        <Link
+          to="/SignUp"
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          SignUp
+        </Link>
       </nav>
     </div>
   );
