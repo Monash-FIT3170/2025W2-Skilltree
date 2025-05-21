@@ -3,7 +3,6 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
-import '/imports/api/methods/Comments';
 
 export const CommentSection = () => {
   // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
