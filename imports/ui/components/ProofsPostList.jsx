@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
+
+import { AddComment } from './AddComment';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
@@ -75,12 +77,9 @@ export const ProofsPostList = () => {
 
               <div className="p-3 border-t border-gray-300 mt-12">
                 <div className="mb-2">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
-                    disabled
-                    aria-label="Add a comment"
+                  <AddComment
+                    username="Username Placeholder"
+                    postid="Post ID Placeholder"
                   />
                 </div>
                 <CommentSection postId={post._id} />
