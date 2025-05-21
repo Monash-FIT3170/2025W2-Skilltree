@@ -37,8 +37,8 @@ Schemas.Post = new SimpleSchema({
   },
   'comments.$': {
     type: Schemas.Comments, // comments schema
-    label: 'Comments',
-  },
+    label: 'Comments'
+  }
 });
 
 PostCollection.attachSchema(Schemas.Post);
