@@ -183,32 +183,7 @@ export const CreateTreeForm = () => {
           />
         </div>
 
-        {/* Tag Dropdown */}
-      {/* <div className="mb-6">
-        <label className="block text-gray-700 text-xl font-semibold mb-2" style={{color: "#328E6E"}}>
-          Tags
-        </label>
-        
-          {formData.newTag !== undefined && (
-            <div className="mt-2 flex gap-2">
-              <input
-                type="text"
-                placeholder="Enter custom tag"
-                value={formData.newTag}
-                onChange={handleNewTagChange}
-                className="border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-green-500"
-              />
-              <button
-                type="button"
-                onClick={addCustomTag}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-              >
-                Add
-              </button>
-            </div>
-          )}
-        </div>   */}
-
+        {/* Tag Dropdown and Custom Tags*/}
         <div className="pt-6 flex gap-2">
         <select
           onChange={handleTagChange}
