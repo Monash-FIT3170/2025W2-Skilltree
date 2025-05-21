@@ -17,17 +17,22 @@ Meteor.methods({
   async deleteComment(commentId) {
     check(commentId, String);
 
-    const removedCount = await CommentsCollection.removeAsync(commentId);
-    if (removedCount === 0) {
-      throw new Meteor.Error('not-found', 'Comment not found or already removed');
+    const result = await CommentsCollection.removeAsync(commentId);
+    if (result === 0) {
+      throw new Meteor.Error(
+        'not-found',
+        'Comment not found or already removed'
+      );
     }
-    return removedCount;
+    return result;
   },
 
   async editComment(commentId, newText) {
     check(commentId, String);
     check(newText, String);
 
-    await CommentsCollection.updateAsync(commentId, { $set: { comment: newText } });
-  },
+    await CommentsCollection.updateAsync(commentId, {
+      $set: { comment: newText }
+    });
+  }
 });
