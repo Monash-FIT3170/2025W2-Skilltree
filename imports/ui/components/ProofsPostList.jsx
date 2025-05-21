@@ -41,67 +41,95 @@ export const ProofsPostList = () => {
     <div className="min-h-screen bg-white py-10">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          {posts.map(post => (
-            <div key={post._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
-              {/* Render real post data */}
-              <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2 ">
-                <span className="flex items-center">
-                  <span className="mr-1">👑</span>
-                  <span>{post.user}</span>
-                </span>
-                <span className="text-xs italic">{formatDate(post.date)}</span>
-              </div>
+          {posts.map(post => {
+            const verification = post.verification || 0;
+            const progressPercent = Math.min((verification / 10) * 100, 100); // cap at 100%
 
-              <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
-                {/* Changed Community to Subskill */}
-                {post.subskill || 'Subskill Placeholder'}
-              </div>
+            return (
+              <div key={post._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
+                {/* User & Date */}
+                <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2 ">
+                  <span className="flex items-center">
+                    <span className="mr-1">👑</span>
+                    <span>{post.user}</span>
+                  </span>
+                  <span className="text-xs italic">
+                    {formatDate(post.date)}
+                  </span>
+                </div>
 
-              {/* If you have evidence as image or URL, you can render it */}
-              <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
-                {post.evidence ? (
-                  <img
-                    src={post.evidence}
-                    alt="Evidence"
-                    className="max-h-full max-w-full"
-                  />
-                ) : (
-                  <span>No Image</span>
-                )}
-              </div>
+                {/* Subskill */}
+                <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
+                  {post.subskill || 'Subskill Placeholder'}
+                </div>
 
-              <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
-                {post.description || 'No caption'}
-              </div>
-              <div className="flex justify-between mt-2 text-sm">
-                <div>👍 {post.upvotes}</div>
-                <div>👎 {post.downvotes}</div>
-              </div>
+                {/* Evidence Image */}
+                <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
+                  {post.evidence ? (
+                    <img
+                      src={post.evidence}
+                      alt="Evidence"
+                      className="max-h-full max-w-full"
+                    />
+                  ) : (
+                    <span>No Image</span>
+                  )}
+                </div>
 
-              {/* View Details Button */}
-              <div className="mt-4">
-                <Link
-                  to={`/post/${post._id}`}
-                  className="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                >
-                  View Details
-                </Link>
-              </div>
+                {/* Description */}
+                <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
+                  {post.description || 'No caption'}
+                </div>
 
-              <div className="p-3 border-t border-gray-300 mt-12">
-                <div className="mb-2">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
-                    disabled
-                    aria-label="Add a comment"
+                {/* Upvotes, Downvotes, Status, and View Details in One Row */}
+                <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
+                  <div className="flex gap-4">
+                    <div>👍 {post.upvotes}</div>
+                    <div>👎 {post.downvotes}</div>
+                  </div>
+
+                  {/* Verification Status with Points */}
+                  <div className="text-center mx-2">
+                    <span>
+                      {post.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
+                    </span>
+                    {post.verification} / 10 Upvotes
+                  </div>
+
+                  {/* View Details Button */}
+                  <Link
+                    to={`/post/${post._id}`}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+                  >
+                    View Details
+                  </Link>
+                </div>
+
+                {/* Verification Progress Bar */}
+                <div className="mt-2 w-full bg-gray-300 rounded-full h-4 overflow-hidden">
+                  <div
+                    className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
+                    style={{ width: `${progressPercent}%` }}
+                    aria-label={`Verification progress: ${verification} out of 10`}
                   />
                 </div>
-                <CommentSection postId={post._id} />
+
+                {/* Comment Section */}
+                <div className="p-3 border-t border-gray-300 mt-12">
+                  <div className="mb-2">
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-200"
+                      disabled
+                      aria-label="Add a comment"
+                    />
+                  </div>
+                  <CommentSection postId={post._id} />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
