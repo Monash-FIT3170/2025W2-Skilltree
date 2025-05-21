@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
