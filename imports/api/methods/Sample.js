@@ -18,6 +18,7 @@
 import { Meteor } from 'meteor/meteor';
 import { SampleCollection } from '/imports/api/collections/Sample';
 
+// Define Meteor Methods for SampleCollection (client-side calls)
 Meteor.methods({
   async sampleCopiesInc(sampleId, amount) {
     const sample = await SampleCollection.findOneAsync(

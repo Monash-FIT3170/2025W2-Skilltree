@@ -1,7 +1,9 @@
 import React from 'react';
+// Element JSX UI
 import { HelloView } from '/imports/ui/components/HelloView';
 import { PostDetails } from '/imports/ui/pages/PostDetails'; // ✅ Import your new page
 
+// Define Routes for HelloView JSX component
 export const HelloViewRoutes = [
   { path: 'hello', element: <HelloView /> }, // default route
   { path: 'hello/:name', element: <HelloView /> }, // existing dynamic route
