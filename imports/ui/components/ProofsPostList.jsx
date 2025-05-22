@@ -1,23 +1,14 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+
+import { AddComment } from './AddComment';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 
 export const ProofsPostList = () => {
-  const { posts, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('post');
-    const data = PostCollection.find({}, { sort: { date: -1 } }).fetch();
-
-    return {
-      posts: Array.isArray(data) ? data : [],
-      isLoading: !handle.ready()
-    };
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading posts...</div>;
-  }
+  useSubscribeSuspense('post');
+  const posts = useFind(PostCollection, [{}, { sort: { date: -1 } }]) || [];
 
   if (posts.length === 0) {
     return <div>No posts found.</div>;

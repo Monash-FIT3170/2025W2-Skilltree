@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
+
 import { ProofsPostList } from '/imports/ui/components/ProofsPostList';
+import { Fallback } from '/imports/ui/components/Fallback';
 import SearchBar from '../components/SearchBar';
 
 export const PendingProofs = () => (
@@ -21,7 +23,9 @@ export const PendingProofs = () => (
       <SearchBar />
 
       {/* Render PostList below the header */}
-      <ProofsPostList />
+      <Suspense fallback={<Fallback msg={'Loading posts...'} />}>
+        <ProofsPostList />
+      </Suspense>
     </div>
   </>
 );
