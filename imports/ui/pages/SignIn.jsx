@@ -1,4 +1,3 @@
-// Add this at the top only if you're using Tailwind's custom animation classes
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React from 'react';
@@ -6,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { emailRegex, passwordRegex } from '/imports/api/Schemas';
 import { FiMail, FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import { ClipLoader } from 'react-spinners';
+import { toast, Toaster } from 'react-hot-toast';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -22,15 +23,18 @@ export const SignIn = () => {
       { loginStyle: 'popup', requestPermissions: ['email', 'profile'] },
       async err => {
         if (err) {
-          console.error('Google login failed', err);
+          toast.error('Google login failed');
+          console.error(err);
         } else {
           try {
             const user = Meteor.user();
             const validation = await Meteor.callAsync('updateUserFields', user);
             console.log('Update result:', validation);
+            toast.success('Logged in with Google');
             navigate('/home');
           } catch (error) {
             console.error('Failed to update user fields:', error);
+            toast.error('User field update failed');
           }
         }
       }
@@ -43,15 +47,18 @@ export const SignIn = () => {
       { loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] },
       async err => {
         if (err) {
-          console.error('Facebook login failed', err);
+          toast.error('Facebook login failed');
+          console.error(err);
         } else {
           try {
             const user = Meteor.user();
             const validation = await Meteor.callAsync('updateUserFields', user);
             console.log('Update result:', validation);
+            toast.success('Logged in with Facebook');
             navigate('/home');
           } catch (error) {
             console.error('Failed to update user fields:', error);
+            toast.error('User field update failed');
           }
         }
       }
@@ -63,11 +70,13 @@ export const SignIn = () => {
 
     if (!emailRegex.test(email)) {
       setError('Invalid email format.');
+      toast.error('Please enter a valid email');
       return;
     }
 
     if (!passwordRegex.test(password)) {
-      setError(`Password is invalid: must be 8-64 characters, include uppercase, lowercase, number, and special character.`);
+      setError('Password format is invalid.');
+      toast.error('Password must include upper, lower, number, special char');
       return;
     }
 
@@ -78,8 +87,10 @@ export const SignIn = () => {
       setLoggingIn(false);
       if (error) {
         setError(error.reason || 'Login failed.');
+        toast.error(error.reason || 'Login failed');
       } else {
         console.log('User logged in successfully');
+        toast.success('Welcome back!');
         navigate('/home');
       }
     });
@@ -87,6 +98,7 @@ export const SignIn = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f7f9f8] to-[#e0f7ed] px-4 py-12 sm:py-20">
+      <Toaster position="top-right" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -102,12 +114,14 @@ export const SignIn = () => {
           />
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-gray-800">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800">
           Welcome back to <span className="text-green-700">SkillTree</span>
         </h2>
+        <p className="text-sm text-gray-500 text-center mb-6">
+          Empowering your growth with community knowledge 🌱
+        </p>
 
         <div className="w-full flex flex-col items-center gap-4 mb-2">
-          {/* Google login button */}
           <button
             onClick={handleGoogleLogin}
             className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
@@ -116,7 +130,6 @@ export const SignIn = () => {
             <span className="text-sm font-medium text-gray-700">Continue with Google</span>
           </button>
 
-          {/* Facebook login button */}
           <button
             onClick={handleFacebookLogin}
             className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
@@ -135,7 +148,6 @@ export const SignIn = () => {
         {error && <p className="text-red-500 text-center mb-4 text-sm font-medium">{error}</p>}
 
         <form onSubmit={handleLogin} className="space-y-4">
-          {/* Email input */}
           <div className="relative">
             <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -149,7 +161,6 @@ export const SignIn = () => {
             />
           </div>
 
-          {/* Password input */}
           <div className="relative">
             <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -168,24 +179,30 @@ export const SignIn = () => {
             >
               {showPassword ? <FiEyeOff /> : <FiEye />}
             </button>
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-blue-600 cursor-pointer"
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </span>
           </div>
 
-          {/* Forgot password */}
           <div className="text-right">
             <p className="text-xs text-blue-600 hover:underline cursor-pointer">
               Forgot my password?
             </p>
           </div>
 
-          {/* Login button */}
           <button
             type="submit"
             disabled={loggingIn}
-            className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 rounded-full transition-all"
+            className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 rounded-full transition-all flex items-center justify-center"
           >
-            {loggingIn ? 'Logging in...' : 'Login'}
+            {loggingIn ? <ClipLoader size={20} color="#fff" /> : 'Login'}
           </button>
         </form>
+
+        <p className="text-xs text-center text-gray-400 mt-2">Press <strong>Enter</strong> to log in</p>
 
         <p className="mt-6 text-center text-sm text-gray-700">
           Don’t have an account?
