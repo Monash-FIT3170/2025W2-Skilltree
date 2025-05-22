@@ -3,9 +3,9 @@ import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { toast, Toaster } from 'react-hot-toast';
 
 const Step1 = () => {
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
 
@@ -23,18 +23,43 @@ const Step1 = () => {
 
   const handleNext = async e => {
     e.preventDefault();
+
+    // Custom username validation (example; change as needed)
+    const usernamePattern = /^[a-zA-Z0-9_-]{3,20}$/;
+    if (!usernamePattern.test(formData.username)) {
+      toast.error(
+        `Username is invalid:\n• Minimum 3 characters\n• Maximum 20 characters\n• Can only contain letters, digits, hyphens, underscores`
+      );
+      return;
+    }
+
     try {
       const validation = await Meteor.callAsync('validateStep1', formData);
-      console.log(validation);
-      setError('');
+      toast.success('✅ Step 1 Complete');
       navigate('/signup/step2');
     } catch (error) {
-      setError(error.reason || 'An unexpected error occurred!');
+      toast.error(error.reason || 'An unexpected error occurred!');
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f3f7f6] to-[#e6faf6] px-4 py-12 sm:py-20">
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            fontSize: '0.875rem',
+            padding: '12px 16px',
+            background: '#fff',
+            color: '#333',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
+            whiteSpace: 'pre-line',
+          },
+          duration: 4000,
+        }}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,10 +100,6 @@ const Step1 = () => {
           <h3 className="text-2xl font-semibold text-[#024059]">
             Account Details
           </h3>
-
-          {error && (
-            <p className="text-red-500 text-sm text-center">{error}</p>
-          )}
 
           <div>
             <label htmlFor="email" className="block text-sm font-semibold mb-1">
