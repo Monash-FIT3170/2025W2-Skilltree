@@ -31,7 +31,7 @@ export const SignIn = () => {
             const validation = await Meteor.callAsync('updateUserFields', user);
             console.log('Update result:', validation); // 1 if update successful
 
-            navigate('/signup');
+            navigate('/home');
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }
@@ -58,7 +58,7 @@ export const SignIn = () => {
             const validation = await Meteor.callAsync('updateUserFields', user);
             console.log('Update result:', validation); // 1 if update successful
 
-            navigate('/signup');
+            navigate('/home');
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }
