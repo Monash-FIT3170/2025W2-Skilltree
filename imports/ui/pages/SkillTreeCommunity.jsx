@@ -1,12 +1,32 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
 import { SkillTreeEdit } from '../components/SkillTree';
-
-// JSX UI
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
 
 export const SkillTreeCommunity = () => {
-  const { name } = useParams(); // Extract the name parameter from the URL if exists
+  // extract id from url params
+  const { id } = useParams();
+
+  // load skilltree data
+  const { skilltree, isLoading } = useTracker(() => {
+    const handle = Meteor.subscribe('skilltreeById', id);
+    const isLoading = !handle.ready();
+    const skilltree = SkillTreeCollection.findOne({ _id: id });
+
+    return {
+      skilltree,
+      isLoading: isLoading
+    };
+  }, [id]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!skilltree) return <div>Skill Tree not found</div>;
+
+  console.log('Nodes:', skilltree.skillNodes);
+  console.log('Edges:', skilltree.skillEdges);
 
   return (
     <>
@@ -14,11 +34,15 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
-        <h1 className="text-3xl font-bold mt-2">Welcome to {name}!</h1>
-        Ok so this page should mainly just load the react flow tree and have a
-        dropdown to navigate to other pages
+        <h1 className="text-3xl font-bold mt-2">
+          Welcome to {skilltree.title}!
+        </h1>
+        <div className="text-lg mt-2">
+          <p>Description: {skilltree.description}</p>
+          <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
+        </div>
       </div>
-      <SkillTreeEdit isAdmin={true}/>
+      <SkillTreeEdit isAdmin={true} />
     </>
   );
 };
