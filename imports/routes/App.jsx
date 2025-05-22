@@ -3,7 +3,6 @@ import React from 'react';
 // Element JSX UI
 import { App } from '/imports/ui/App';
 import { PublicLayout } from '/imports/ui/layouts/PublicLayout';
-import { SignIn } from '/imports/ui/pages/SignIn';
 
 // Nested/Children Routes
 import { HomeRoutes } from '/imports/routes/pages/Home';
@@ -21,7 +20,7 @@ export const AppRoutes = [
   {
     path: '/',
     element: <PublicLayout />,
-    children: [...SignInRoutes, ...SignUpRoutes]
+    children: [...SignInRoutes, ...SignUpRoutes,]
   },
   {
     path: '/',

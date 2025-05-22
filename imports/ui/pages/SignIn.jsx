@@ -27,10 +27,11 @@ export const SignIn = () => {
 
           try {
             const user = Meteor.user();
-            const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation); // 1 if update successful
+            
+            const validation = await Meteor.callAsync('updateGoogleFields', user);
+            console.log('Update result:', validation); 
+            navigate('/login/extraStep1');
 
-            navigate('/home');
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }
@@ -53,7 +54,7 @@ export const SignIn = () => {
           try {
             const user = Meteor.user();
             const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation); // 1 if update successful
+            console.log('Update result:', validation);
 
             navigate('/home');
           } catch (error) {
