@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-export const CreateTreeForm = () => {
+export const CreateTreeForm = ({ onAddSkills }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -93,6 +93,7 @@ export const CreateTreeForm = () => {
       image: null,
       previewImage: ''
     });
+    onAddSkills();
   };
 
   const triggerFileInput = () => {
