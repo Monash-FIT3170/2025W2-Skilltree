@@ -11,13 +11,15 @@ describe('searchSkillTrees (Chai)', function () {
         await SkillTreeCollection.insertAsync({
           title: 'Guitar',
           description: 'learn to play strings?',
-          tags: ['music', 'instrument']
+          tags: ['music', 'instrument'],
+          termsAndConditions: 'Standard terms apply.'
         });
         
         await SkillTreeCollection.insertAsync({
           title: 'Basketball',
           description: 'Learn to play with balls!',
-          tags: ['sport', 'ball']
+          tags: ['sport', 'ball'],
+          termsAndConditions: 'Standard terms apply.'
         });
       });
 
