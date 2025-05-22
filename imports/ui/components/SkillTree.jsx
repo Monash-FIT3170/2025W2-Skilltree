@@ -12,6 +12,8 @@ import {
 } from '@xyflow/react';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { ViewNode } from './nodes/ViewNode';
+import { SkillEditForm } from './SkillEditForm';
+import { SkillViewForm } from './SkillViewForm';
 // This is the logic and page for creating/editing a skilltree
 
 const createNewEmptyNode = isEmpty => props => (
@@ -30,7 +32,7 @@ const nodeTypes = {
 };
 
 export const SkillTreeLogic = ({ isAdmin }) => {
-  var initialNodes = []
+  var initialNodes = [];
   if (isAdmin) {
     initialNodes = [
       {
@@ -56,7 +58,7 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         id: '1001',
         type: 'view-node-unlocked',
         data: {
-          label: `test view only Node`,
+          label: `test view Node`,
           description: 'this is an example node of a normal user',
           requirements: 'example reqs',
           xpPoints: 20,
@@ -111,7 +113,6 @@ export const SkillTreeLogic = ({ isAdmin }) => {
         ...editnode.data
       });
     }
-    setSliderValue(editnode.data.xpPoints);
   }, []);
 
   const onConnect = useCallback(
@@ -160,17 +161,6 @@ export const SkillTreeLogic = ({ isAdmin }) => {
     console.log('Edges:', edges);
   };
 
-  const [sliderValue, setSliderValue] = useState(null);
-
-  const handleSliderChange = e => {
-    setSliderValue(e.target.value);
-  };
-
-  const handleInputChange = e => {
-    const newValue = Math.max(0, Math.min(100, e.target.value)); // Assuming 0-100 range
-    setSliderValue(newValue);
-  };
-
   return (
     <>
       <h1>Create SkillTree Metrics</h1>
@@ -195,110 +185,22 @@ export const SkillTreeLogic = ({ isAdmin }) => {
       </div>
 
       {/* Modal rendered outside ReactFlow */}
-      {editingNode && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-gray-600/40 flex justify-center items-center z-[1000]">
-          <div className="bg-neutral-200 p-5 rounded-lg w-[800px]">
-            <h3>Add Skill Details</h3>
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                handleNodeEdit(editingNode.id, {
-                  label: formData.get('title'),
-                  description: formData.get('description'),
-                  requirements: formData.get('requirements'),
-                  xpPoints: formData.get('xpPoints')
-                });
-                setEditingNode(null);
-              }}
-            >
-              <br />
-              <label
-                for="title"
-                className="block mb-2 text-sm font-medium text-emerald-700"
-              >
-                Skill Title:
-              </label>
-              <input
-                name="title"
-                id="title"
-                defaultValue={editingNode.label}
-                readOnly={!isAdmin}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              />
-              <br />
-              <label
-                for="description"
-                className="block mb-2 text-sm font-medium text-emerald-700"
-              >
-                Description:
-              </label>
-              <textarea
-                name="description"
-                id="description"
-                rows="4"
-                placeholder="Write your thoughts here..."
-                defaultValue={editingNode.description}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-                readOnly={!isAdmin}
-              />
-              <br />
-              <label
-                for="requirements"
-                className="block mb-2 text-sm font-medium text-emerald-700"
-              >
-                Requirements:
-              </label>
-              <input
-                name="requirements"
-                id="requirements"
-                defaultValue={editingNode.requirements}
-                readOnly={!isAdmin}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              />
-              <br />
-              <label
-                for="xpPoints"
-                className="block mb-2 text-sm font-medium text-emerald-700"
-              >
-                XP Required:
-              </label>
-              <div className="flex items-center gap-4">
-                <input
-                  name="xpPoints"
-                  id="xpPoints"
-                  type="range"
-                  min="0"
-                  max="100" // Set your desired max value
-                  value={sliderValue}
-                  onChange={handleSliderChange}
-                  readOnly={!isAdmin}
-                  className="w-full h-1 bg-emerald-700 rounded-lg range-lg appearance-none cursor-pointer"
-                />
-                <input
-                  type="number"
-                  value={sliderValue}
-                  onChange={handleInputChange}
-                  readOnly={!isAdmin}
-                  className="block w-20 px-3 py-2 text-sm border bg-gray-50 border-gray-300 rounded-md shadow-sm"
-                />
-              </div>
-              {/* </label> */}
-              <br />
-              <div style={{ marginTop: 10 }}>
-                <button type="submit">Save</button>
-                <button
-                  type="button"
-                  onClick={() => setEditingNode(null)}
-                  style={{ marginLeft: 10 }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {editingNode &&
+        (isAdmin ? (
+          <SkillEditForm
+            editingNode={editingNode}
+            onSave={updatedData => {
+              handleNodeEdit(editingNode.id, updatedData);
+              setEditingNode(null);
+            }}
+            onCancel={() => setEditingNode(null)}
+          />
+        ) : (
+          <SkillViewForm
+            editingNode={editingNode}
+            onCancel={() => setEditingNode(null)}
+          />
+        ))}
     </>
   );
 };
