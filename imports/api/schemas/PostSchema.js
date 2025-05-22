@@ -31,13 +31,19 @@ Schemas.Post = new SimpleSchema({
     type: Date,
     label: 'Date post was made'
   },
-  'proof.$': {
+  proof: {
     type: Schemas.Proof, // placeholder
     label: 'Proof of practice'
   },
+  comments: {
+    type: Array, 
+    label: 'Post comments',
+    optional: true,
+    defaultValue: [],
+  },
   'comments.$': {
     type: Schemas.Comments, // comments schema
-    label: 'Comments',
+    label: 'Comment',
   },
 });
 

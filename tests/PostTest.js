@@ -1,6 +1,7 @@
 import assert from "assert";
 import { Meteor } from 'meteor/meteor';
 import '/imports/api/methods/PostMethods'; // Load Post Collection Methods 
+import { PostCollection } from '/imports/api/collections/PostCollection'; // Post collection
 
 // methods
 const PostInsert = async post => {
@@ -36,7 +37,6 @@ const test_post_1 = {
     verification: 1,
     user: "User",
     date: new Date(),
-    evidence: "Evidence",
 };
 
 const test_post_2 = {
@@ -46,17 +46,11 @@ const test_post_2 = {
     verification: 1,
     user: "User",
     date: new Date(),
-    evidence: "Evidence",
 };
 
-const invalid_post = {
-    title: 1,
-    description: 1,
-    verification: "string",
-    user: 1,
-    date: 1,
-    evidence: 1,
-}
+before( async function(){
+    PostCollection.removeAsync({});
+})
 
 describe("Post Method", function () {
     describe("#insertPost", function () {
