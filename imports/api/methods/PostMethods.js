@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { PostCollection } from '/imports/api/collections/PostCollection'; // Post collection
+import { CommentsCollection } from '/imports/api/collections/Comments'; // Comment collection
 
 Meteor.methods({
   // method to insert a post
@@ -27,8 +28,8 @@ Meteor.methods({
     const post = await PostCollection.findOneAsync({ _id: post_id });
 
     if (post) {
-      return await PostCollection.updateAsync(post_id, {
-        $set: { verification: post.verification + points }
+      return await PostCollection.updateAsync({_id: post_id}, {
+        $inc: { verification: points }
       });
     }
   },
@@ -43,5 +44,5 @@ Meteor.methods({
   // remove all posts
   async removeAllPosts() {
     return await PostCollection.removeAsync({});
-  }
+  },
 });
