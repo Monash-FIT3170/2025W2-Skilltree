@@ -19,6 +19,12 @@ Schemas.Post = new SimpleSchema({
     max: 1000,
     optional: true
   },
+  subskill: {
+    type: String,
+    label: 'Sub Skill',
+    max: 1000,
+    optional: true
+  },
   verification: {
     type: SimpleSchema.Integer,
     label: 'Verification points'
@@ -30,21 +36,7 @@ Schemas.Post = new SimpleSchema({
   date: {
     type: Date,
     label: 'Date post was made'
-  },
-  proof: {
-    type: Schemas.Proof, // placeholder
-    label: 'Proof of practice'
-  },
-  comments: {
-    type: Array, 
-    label: 'Post comments',
-    optional: true,
-    defaultValue: [],
-  },
-  'comments.$': {
-    type: Schemas.Comments, // comments schema
-    label: 'Comment',
-  },
+  }
 });
 
 PostCollection.attachSchema(Schemas.Post);

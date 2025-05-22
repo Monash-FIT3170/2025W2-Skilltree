@@ -59,6 +59,19 @@ export const CommentSection = () => {
   };
 
   // Shows a scrollable comment section
+  const deleteComment = async id => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this comment?'
+    );
+    if (!confirmed) return;
+
+    try {
+      await Meteor.callAsync('deleteComment', id);
+    } catch (err) {
+      alert(`Failed to delete comment: ${err.message}`);
+    }
+  };
+
   return (
     // Comment Section
     <div
@@ -94,6 +107,7 @@ export const CommentSection = () => {
             </span>
           </div>
           {/* If this comment is being edited, show an edit box and submit button, else show the comment and an edit button */}
+
           {editingComment === item._id ? (
             <div>
               <textarea
@@ -103,9 +117,7 @@ export const CommentSection = () => {
               ></textarea>
               <button
                 className="text-center border-2 border-emerald-950 bg-emerald-600 text-white font-bold py-1 px-2 rounded hover:bg-emerald-700 active:bg-emerald-500 mt-2"
-                onClick={() => {
-                  submitEdit(item._id, currentText);
-                }}
+                onClick={() => submitEdit(item._id, currentText)}
               >
                 Save
               </button>
@@ -114,13 +126,20 @@ export const CommentSection = () => {
             <>
               <p style={{ margin: '5px 0' }}>{item.comment}</p>
               {item.username === DUMMY_USERNAME && (
-                <div id="user-actions-container">
+                <div id="user-actions-container" className="flex gap-2">
                   <button
                     id="edit-btn"
                     className="text-center border-2 border-gray-950 bg-gray-600 text-white font-bold py-1 px-2 rounded hover:bg-gray-700 active:bg-gray-500 mt-2"
                     onClick={() => edit(item._id)}
                   >
                     Edit
+                  </button>
+                  <button
+                    id="delete-btn"
+                    className="text-center border-2 border-red-950 bg-red-600 text-white font-bold py-1 px-2 rounded hover:bg-red-700 active:bg-red-500 mt-2"
+                    onClick={() => deleteComment(item._id)}
+                  >
+                    Delete
                   </button>
                 </div>
               )}
