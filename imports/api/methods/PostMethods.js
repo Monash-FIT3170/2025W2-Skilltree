@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { PostCollection } from '/imports/api/collections/PostCollection'; // Post collection
-import { CommentsCollection } from '/imports/api/collections/Comments'; // Comment collection
 
 Meteor.methods({
   // method to insert a post
@@ -47,5 +46,5 @@ Meteor.methods({
   // remove all posts
   async removeAllPosts() {
     return await PostCollection.removeAsync({});
-  },
+  }
 });
