@@ -23,8 +23,6 @@ const Step1 = () => {
 
   const handleNext = async e => {
     e.preventDefault();
-
-    // Custom username validation (example; change as needed)
     const usernamePattern = /^[a-zA-Z0-9_-]{3,20}$/;
     if (!usernamePattern.test(formData.username)) {
       toast.error(
@@ -43,7 +41,7 @@ const Step1 = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f3f7f6] to-[#e6faf6] px-4 py-12 sm:py-20">
+    <div className="w-full min-h-screen flex items-center justify-center bg-white">
       <Toaster
         position="bottom-center"
         toastOptions={{
@@ -64,60 +62,38 @@ const Step1 = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col md:flex-row w-full max-w-5xl rounded-2xl overflow-hidden shadow-xl bg-white"
+        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-xl overflow-hidden"
       >
-        {/* LEFT: Logo and tagline */}
-        <div className="md:w-1/2 w-full bg-[#D9D9D9] flex flex-col justify-center items-center p-10 space-y-4">
-          <img
-            src="/images/logo.png"
-            alt="SkillTree Logo"
-            className="w-24 h-24 object-contain drop-shadow-sm"
-          />
-          <h2 className="text-4xl font-bold text-[#025940] tracking-wide">
-            SKILLTREE
-          </h2>
-          <p className="text-center text-sm text-[#025940] max-w-xs">
-            Join a community that’s growing with you 🌿
-          </p>
+        {/* LEFT: Logo and branding in a row */}
+        <div className="w-1/2 flex items-center justify-center px-12">
+          <div className="flex items-center space-x-6">
+            <img
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="w-28 h-28 object-contain drop-shadow-sm"
+            />
+            <h2 className="text-4xl font-bold text-[#025940]">SKILLTREE</h2>
+          </div>
         </div>
 
         {/* RIGHT: Step 1 Form */}
         <form
           onSubmit={handleNext}
-          className="md:w-1/2 w-full p-8 sm:p-10 flex flex-col justify-center space-y-6 bg-white"
+          className="w-1/2 p-12 flex flex-col justify-center space-y-6 bg-[#D9D9D9]"
         >
           {/* Step indicator */}
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex items-center space-x-4">
             <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
+            <div className="w-1/4 h-1 bg-white"></div>
+            <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
+            <div className="w-1/4 h-1 bg-white"></div>
+            <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
           </div>
 
-          <h3 className="text-2xl font-semibold text-[#024059]">
-            Account Details
-          </h3>
+          <h3 className="text-2xl font-semibold text-black">Account Details</h3>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold mb-1">
-              Email Address
-            </label>
-            <input
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="jane@example.com"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-400 outline-none"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="username" className="block text-sm font-semibold mb-1">
+            <label htmlFor="username" className="block text-sm font-semibold mb-1 text-black">
               Username
             </label>
             <input
@@ -126,7 +102,22 @@ const Step1 = () => {
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-400 outline-none"
+              className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-semibold mb-1 text-black">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="jane@example.com"
+              className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
             />
           </div>
 
@@ -138,13 +129,6 @@ const Step1 = () => {
               →
             </button>
           </div>
-
-          <p className="text-sm text-center text-gray-500">
-            Already have an account?{' '}
-            <Link to="/login" className="text-[#026873] hover:underline">
-              Log in
-            </Link>
-          </p>
         </form>
       </motion.div>
     </div>
