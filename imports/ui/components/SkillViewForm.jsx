@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 export const SkillViewForm = ({ editingNode, onCancel }) => {
@@ -13,13 +13,12 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
         <h3 className="block mb-2 text-xl font-bold text-emerald-700">
           {editingNode.label}
         </h3>
-        <form
-        >
+        <form>
           <label
             htmlFor="description"
             className="block mb-2 text-sm font-medium text-emerald-700"
           >
-                        Description:
+            Description:
           </label>
           <textarea
             name="description"
@@ -35,7 +34,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
             htmlFor="requirements"
             className="block mb-2 text-sm font-medium text-emerald-700"
           >
-                        Requirements:
+            Requirements:
           </label>
           <input
             name="requirements"
@@ -49,7 +48,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
             htmlFor="xpPoints"
             className="block mb-2 text-sm font-medium text-emerald-700"
           >
-                        XP Required:
+            XP Required:
           </label>
           <div className="flex items-center gap-4">
             <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
