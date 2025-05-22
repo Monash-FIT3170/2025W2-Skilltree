@@ -20,7 +20,7 @@ export const AppRoutes = [
   {
     path: '/',
     element: <PublicLayout />,
-    children: [...SignInRoutes, ...SignUpRoutes,]
+    children: [...SignInRoutes, ...SignUpRoutes]
   },
   {
     path: '/',

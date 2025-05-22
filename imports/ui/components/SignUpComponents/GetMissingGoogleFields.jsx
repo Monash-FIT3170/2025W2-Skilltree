@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { Suspense } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 const GetMissingGoogleFields = () => {
   const [error, setError] = useState(''); //This is to store any error messages when validating the account
@@ -16,7 +15,6 @@ const GetMissingGoogleFields = () => {
     }
   });
 
-  
   const handleChange = e => {
     const { name, value } = e.target;
 
@@ -46,7 +44,6 @@ const GetMissingGoogleFields = () => {
       setError('');
 
       navigate('/home');
-
     } catch (error) {
       setError(
         error.reason || 'An unexpected error occurred with creating new user!'
@@ -82,7 +79,6 @@ const GetMissingGoogleFields = () => {
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        
           <label
             className="block text-sm font-semibold mb-2"
             htmlFor="username"
@@ -114,9 +110,6 @@ const GetMissingGoogleFields = () => {
             className="w-full p-3 border border-gray-300 rounded-full text-base bg-white text-gray-600"
           />
 
-
-
-
           <div className="flex justify-end">
             <button
               type="submit"
@@ -144,7 +137,6 @@ const GetMissingGoogleFields = () => {
               </Link>
             </p>
           </div>
-
         </form>
       </div>
     </div>

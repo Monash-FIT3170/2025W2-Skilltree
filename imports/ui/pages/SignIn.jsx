@@ -14,6 +14,12 @@ export const SignIn = () => {
 
   const navigate = useNavigate();
 
+  /*
+  Logging in with google, does not let us have access to their dateofbirth and other sensitive data.
+  The user also misses out on creating a username.
+  Default username is their id, however, it is not recommended to render database information to the public eye.
+  Thus, we must ask for extra information.
+  */
   const handleGoogleLogin = async e => {
     e.preventDefault();
 
@@ -27,11 +33,14 @@ export const SignIn = () => {
 
           try {
             const user = Meteor.user();
-            
-            const validation = await Meteor.callAsync('updateGoogleFields', user);
-            console.log('Update result:', validation); 
-            navigate('/login/extraStep1');
 
+            const validation = await Meteor.callAsync(
+              'updateGoogleFields',
+              user
+            );
+            console.log('Update result:', validation);
+
+            navigate('/login/extraStep1');
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }
