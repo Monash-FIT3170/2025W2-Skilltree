@@ -1,74 +1,110 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { toast, Toaster } from 'react-hot-toast';
 
 const Step2 = () => {
   const [repeatPass, setRepeatPass] = useState('');
-  const [error, setError] = useState(''); //This is to store any error messages when validating the account
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  /*
-  This function is used to update fields, including nested fields in an object
-  In ReactJS - do not update the formData directly, create a new copy --> update the state to use new copy
-  ReactJS DOC recommends library: Immer.
-  -Immer gives you a draft copy of the current state that you can safely mutate.
-  -Immer creates a draft copy,we can freely mutate the draft, then return an immutable object
-  */
   const handleChange = e => {
     const { name, value } = e.target;
-
     setFormData(draft => {
-      const keys = name.split('.'); //takes the name atrribute and splits it eg: profile.fullName = ['profile', 'fullName]
+      const keys = name.split('.');
       let field = draft;
       for (let i = 0; i < keys.length - 1; i++) {
         field = field[keys[i]];
       }
-      field[keys[keys.length - 1]] = value; //formData gets updated with the field object via setFormData
+      field[keys[keys.length - 1]] = value;
     });
   };
 
   const handleNext = async e => {
     e.preventDefault();
+
     if (formData.password !== repeatPass) {
-      setError('The Passwords do not match');
+      toast.error('❌ Passwords must match');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error('❌ Weak password: Minimum 8 characters');
       return;
     }
 
     try {
       const validation = await Meteor.callAsync('validateStep2', formData);
-      console.log(validation);
-      setError('');
-
+      toast.success('✅ Step 2 Complete');
       navigate('/signup/step3');
     } catch (error) {
-      setError(
-        error.reason || 'An unexpected error occurred with creating new user!'
-      );
+      toast.error(error.reason || 'An unexpected error occurred!');
     }
   };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f3f7f6]">
-      <div className="flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-lg bg-[#D9D9D9]">
-        {/* LEFT SIDE: Logo and SkillTree title */}
-        <div className="w-1/2 bg-[#D9D9D9] flex flex-col justify-center items-center px-12 py-20 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f3f7f6] to-[#e6faf6] px-4 py-12 sm:py-20">
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            fontSize: '0.875rem',
+            padding: '12px 16px',
+            background: '#fff',
+            color: '#333',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
+          },
+          duration: 3500,
+          error: {
+            iconTheme: {
+              primary: '#DC2626',
+              secondary: '#FFEBEB'
+            }
+          },
+          success: {
+            iconTheme: {
+              primary: '#059669',
+              secondary: '#ECFDF5'
+            }
+          }
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col md:flex-row w-full max-w-5xl rounded-2xl overflow-hidden shadow-xl bg-white"
+      >
+        {/* LEFT: Logo Section */}
+        <div className="md:w-1/2 w-full bg-[#D9D9D9] flex flex-col justify-center items-center p-10 space-y-4">
+          <img
+            src="/images/logo.png"
+            alt="SkillTree Logo"
+            className="w-24 h-24 object-contain drop-shadow-sm"
+          />
           <h2 className="text-4xl font-bold text-[#025940] tracking-wide">
             SKILLTREE
           </h2>
+          <p className="text-center text-sm text-[#025940] max-w-xs">
+            Secure your profile with a strong password 🔐
+          </p>
         </div>
 
-        {/* RIGHT SIDE: Step 2 Form */}
+        {/* RIGHT: Form Section */}
         <form
           onSubmit={handleNext}
-          className="w-1/2 flex flex-col justify-center px-10 py-12 space-y-5"
+          className="md:w-1/2 w-full p-8 sm:p-10 flex flex-col justify-center space-y-6 bg-white"
         >
-          {/* Progression Bar: Step 2 */}
-          <div className="flex items-center space-x-4 justify-center pb-4">
+          {/* Progress Indicator */}
+          <div className="flex items-center justify-center space-x-4">
             <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
             <div className="w-1/4 h-1 bg-[#04BF8A]"></div>
             <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
@@ -78,76 +114,85 @@ const Step2 = () => {
             <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
           </div>
 
-          <h3 className="text-2xl font-semibold text-[#024059] pr-4">
+          <h3 className="text-2xl font-semibold text-[#024059]">
             Profile Details
           </h3>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <label
-            htmlFor="password"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            Password
-          </label>
-
-          <div className="relative mb-4">
-            <input
-              id="password"
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-600 hover:text-gray-800"
+          {/* Password */}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              {showPassword ? '🔒' : '🔓'}
-            </button>
+              Password
+            </label>
+            <div className="relative">
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-400 outline-none transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
           </div>
 
-          <label
-            htmlFor="repeatPass"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            Confirm Password
-          </label>
-
-          <div className="relative mb-4">
-            <input
-              id="repeatPass"
-              name="repeatPass"
-              type={showConfirmPassword ? 'text' : 'password'}
-              value={repeatPass}
-              onChange={e => setRepeatPass(e.target.value)}
-              placeholder="Re-enter your password"
-              required
-              className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-            />
-
-            <button
-              type="button"
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-600 hover:text-gray-800"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          {/* Confirm Password */}
+          <div>
+            <label
+              htmlFor="repeatPass"
+              className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              {showConfirmPassword ? '🔒' : '🔓'}
-            </button>
+              Confirm Password
+            </label>
+            <div className="relative">
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                id="repeatPass"
+                name="repeatPass"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={repeatPass}
+                onChange={e => setRepeatPass(e.target.value)}
+                placeholder="Re-enter your password"
+                required
+                className="pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-400 outline-none transition-all"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
           </div>
 
+          {/* Submit */}
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-[#04BF8A] text-white rounded-full px-6 py-2 hover:bg-[#03A64A] transition"
+              className="bg-[#04BF8A] text-white rounded-full px-6 py-2 hover:bg-[#03A64A] transition font-semibold"
             >
               →
             </button>
           </div>
+
+          {/* Instruction */}
+          <p className="text-xs text-center text-gray-400">
+            Press <strong>Enter</strong> to continue
+          </p>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
