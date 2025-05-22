@@ -1,22 +1,16 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { PostCollection } from '/imports/api/collections/PostCollection';
 
 export const PostDetails = () => {
   const { id } = useParams();
 
-  const { post, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('post');
-    const post = handle.ready()
-      ? PostCollection.findOne({ _id: id }) // Use _id here
-      : null;
+  useSubscribeSuspense('post');
+  const post = useFind(PostCollection, [{ _id: { $eq: id } }])[0]; // Find returns an array of matches, [0] first value for 'findOne'
 
-    return { post, isLoading: !handle.ready() };
-  }, [id]);
-
-  if (isLoading) return <div className="p-4">Loading post...</div>;
   if (!post) return <div className="p-4">Post not found.</div>;
 
   const formatDate = date => {
