@@ -8,7 +8,6 @@ import { HelloContainerRoutes } from '/imports/routes/layouts/HelloContainer';
 
 // Define Routes for Sample JSX component
 export const HomeRoutes = [
-  { path: '', element: <Home /> }, // "" Will make it the default one to be displayed at / where no children displays nothing in <Outlet /> at Home UI JSX
   {
     path: 'home/',
     element: <Home />,

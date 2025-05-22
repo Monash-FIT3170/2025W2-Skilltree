@@ -2,6 +2,8 @@ import React from 'react';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
+import { PublicLayout } from '/imports/ui/layouts/PublicLayout';
+import { SignIn } from '/imports/ui/pages/SignIn';
 
 // Nested/Children Routes
 import { HomeRoutes } from '/imports/routes/pages/Home';
@@ -18,11 +20,14 @@ import { PostDetailsRoute } from '/imports/routes/pages/ViewPost';
 export const AppRoutes = [
   {
     path: '/',
+    element: <PublicLayout />,
+    children: [...SignInRoutes, ...SignUpRoutes]
+  },
+  {
+    path: '/',
     element: <App />,
     children: [
       // Extends children array with nested routes via spread operator (...)
-      ...SignUpRoutes,
-      ...SignInRoutes,
       ...HomeRoutes,
       ...SampleRoutes,
       ...PendingProofsRoutes,

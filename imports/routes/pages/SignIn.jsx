@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { SignIn } from '/imports/ui/pages/SignIn';
 
 export const SignInRoutes = [
+  { path: '', element: <SignIn /> }, // "" Will make it the default one to be displayed at / where no children displays nothing in <Outlet /> at Home UI JSX
   {
     path: 'login/',
     element: <SignIn />,
