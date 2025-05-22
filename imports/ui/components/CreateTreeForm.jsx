@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateTreeForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -14,7 +16,6 @@ export const CreateTreeForm = () => {
   });
 
   const fileInputRef = useRef(null);
-
   //Used for Custom Tags
   const handleTagChange = e => {
     const value = e.target.value;
@@ -84,7 +85,6 @@ export const CreateTreeForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log('SkillTree Created:', formData);
-    alert('You have successfully created a SkillTree!');
     setFormData({
       title: '',
       description: '',
@@ -93,6 +93,7 @@ export const CreateTreeForm = () => {
       image: null,
       previewImage: ''
     });
+    navigate('/create/tree');
   };
 
   const triggerFileInput = () => {
