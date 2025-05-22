@@ -13,8 +13,8 @@ const Step4 = () => {
     const file = e.target.files?.[0];
     if (file) {
       setFormData(draft => {
-        draft.profile.avatarUrl = URL.createObjectURL(file); // Optional preview URL
-        draft.profile.avatarFile = file; // You may handle actual upload later
+        draft.profile.avatarUrl = URL.createObjectURL(file); // preview only
+        draft.profile.avatarFile = file; // raw file stored
       });
     }
   };
@@ -28,7 +28,6 @@ const Step4 = () => {
 
       try {
         const creation = await Meteor.callAsync('createNewUser', formData);
-        console.log('User created with ID:', creation);
         toast.success('🎉 Account created successfully!');
         navigate('/home');
       } catch (error) {
@@ -97,15 +96,43 @@ const Step4 = () => {
             Upload Profile Picture
           </h3>
 
-          <label htmlFor="img" className="text-base text-gray-700 font-medium">
-            Select an Image (Optional):
+          {/* Custom file upload box */}
+          <label
+            htmlFor="profileUpload"
+            className="w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-green-500 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10 text-gray-400 mb-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 0L3 8m4-4l4 4m5 4h5m0 0l-4-4m4 4l-4 4" />
+            </svg>
+
+            <span className="text-gray-600 font-medium">Choose a file</span>
+            <span className="text-sm text-gray-500">or drag it here</span>
+
+            <input
+              id="profileUpload"
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+              className="hidden"
+            />
           </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-full bg-white text-sm text-gray-700"
-          />
+
+          {/* Preview image */}
+          {formData.profile.avatarUrl && (
+            <div className="flex justify-center mt-3">
+              <img
+                src={formData.profile.avatarUrl}
+                alt="Preview"
+                className="h-20 w-20 rounded-full object-cover border border-gray-300 shadow"
+              />
+            </div>
+          )}
 
           <div className="flex justify-end">
             <button
@@ -118,13 +145,13 @@ const Step4 = () => {
 
           <p className="text-xs text-center text-gray-700">
             By creating an account, you agree to the{' '}
-            <Link to="" className="text-gray-600 underline hover:text-[#026873]">
+            <Link to="#" className="text-gray-600 underline hover:text-[#026873]">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="" className="text-gray-600 underline hover:text-[#026873]">
-              Privacy Policy.
-            </Link>
+            <Link to="#" className="text-gray-600 underline hover:text-[#026873]">
+              Privacy Policy
+            </Link>.
           </p>
         </form>
       </motion.div>
