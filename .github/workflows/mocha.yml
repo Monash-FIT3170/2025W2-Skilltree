@@ -21,7 +21,10 @@ jobs:
         run: curl https://install.meteor.com/ | sh
 
       - name: Install dependencies
-        run: npm install
+        run: meteor npm run setup
 
       - name: Run Meteor tests
-        run: npm test
+        run: meteor npm run test
+        
+      - name: Run Meteor test-start
+        run: meteor npm run test-start
