@@ -6,22 +6,44 @@ import '/imports/api/methods/skillTreeMethods';
 
 describe('searchSkillTrees (Chai)', function () {
     beforeEach(async function () {
-        await SkillTreeCollection.removeAsync({});
-        
-        await SkillTreeCollection.insertAsync({
-          title: 'Guitar',
-          description: 'learn to play strings?',
-          tags: ['music', 'instrument'],
-          termsAndConditions: 'Standard terms apply.'
-        });
-        
-        await SkillTreeCollection.insertAsync({
-          title: 'Basketball',
-          description: 'Learn to play with balls!',
-          tags: ['sport', 'ball'],
-          termsAndConditions: 'Standard terms apply.'
-        });
+      await SkillTreeCollection.insertAsync({
+        title: 'Guitar',
+        description: 'learn to play strings?',
+        termsAndConditions: 'Basic usage terms apply.',
+        tags: ['music', 'instrument'],
+        skillNodes: [
+          {
+            id: '1',
+            type: 'default',
+            data: { label: 'Basic chords' },
+            position: { x: 0, y: 0 }
+          }
+        ],
+        skillEdges: [],
+        admins: ['test-admin-1'],
+        subscribers: ['test-user-1']
       });
+      
+      await SkillTreeCollection.insertAsync({
+        title: 'Basketball',
+        description: 'Learn to play with balls!',
+        termsAndConditions: 'Basic usage terms apply.',
+        tags: ['sport', 'ball'],
+        skillNodes: [
+          {
+            id: '2',
+            type: 'default',
+            data: { label: 'Dribbling' },
+            position: { x: 0, y: 0 }
+          }
+        ],
+        skillEdges: [],
+        admins: ['test-admin-2'],
+        subscribers: ['test-user-2']
+      });
+    });
+
+      
 
   // Test 1: keyword as title
   it('finds communities by title', async function () {
