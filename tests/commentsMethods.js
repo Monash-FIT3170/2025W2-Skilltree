@@ -50,7 +50,10 @@ const CommentGetAll = async post_id => {
     return res;
 }
 
-const CommentGet = async 
+const CommentGet = async comment_id => {
+    const res = await Meteor.call('getComment', comment_id);
+    return res;
+}
 
 const CommentRemove = async comment_id => {
     const res = await Meteor.call('removeComment', comment_id);
@@ -79,7 +82,7 @@ describe("Comment methods", function () {
     describe("getComment", function () {
         it("should retrieve a comment that has been inserted", async function () {
             const res = await CommentGet(comment_id_1);
-            assert.strictEqual(res, comment_1)
+            assert.deepStrictEqual(res, comment_1)
         })
     })
     describe("editComment", function () {

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { CommentsCollection } from '/imports/api/collections/Comments';
+import { check } from 'meteor/check';
 
 Meteor.methods({
   // add comment to collection
@@ -25,20 +26,25 @@ Meteor.methods({
   async editComment(commentId, newText) {
     check(commentId, String);
     check(newText, String);
-    return await CommentsCollection.updateAsync({_id: commentId}, {
-      $set: {comment: newText}
-    });
+    return await CommentsCollection.updateAsync(
+      { _id: commentId },
+      {
+        $set: { comment: newText }
+      }
+    );
   },
 
   // retrieve comment from comment_id
   async getComment(comment_id) {
-    return await CommentsCollection.findOneAsync({ _id: comment_id })
+    return await CommentsCollection.findOneAsync({ _id: comment_id });
   },
 
   // retrieve all comments associated with a post
   async getAllComments(post_id) {
-    const comment = await CommentsCollection.find({ postId: post_id }.fetchAsync());
+    const comment = await CommentsCollection.find({
+      postId: post_id
+    }).fetchAsync();
 
     return comment;
-  },
+  }
 });
