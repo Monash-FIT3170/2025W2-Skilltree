@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
+import { Button } from 'flowbite-react';
 
 // Mongo Collections
 import { SampleCollection } from '/imports/api/collections/Sample';
@@ -22,18 +23,22 @@ export const SampleView = () => {
         {samples.map(sample => (
           <li key={sample._id} className="mb-1">
             {sample.title} by {sample.author}: {sample.copies}x
-            <button
+            <Button
+              color="green"
+              size="sm"
               onClick={() => copiesAddOne(sample._id)}
-              className="bg-gray-500 text-white py-1 px-2 rounded mt-3 hover:bg-gray-600 active:bg-gray-400"
+              pill
             >
               +1
-            </button>
-            <button
+            </Button>
+            <Button
+              color="green"
+              size="sm"
               onClick={() => copiesSubOne(sample._id)}
-              className="bg-gray-500 text-white py-1 px-2 rounded mt-3 hover:bg-gray-600 active:bg-gray-400"
+              pill
             >
               -1
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
