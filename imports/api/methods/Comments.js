@@ -1,28 +1,34 @@
 import { Meteor } from 'meteor/meteor';
 import { CommentsCollection } from '/imports/api/collections/Comments'; // SampleCollection
-import { check } from 'meteor/check';
 
 // Basic methods for Comments
 Meteor.methods({
-  'comments.insert'(username, comment) {
-    check(username, String);
-    check(comment, String);
+  // add comment to collection
+  async addComment(comment) {
+    return await CommentsCollection.insertAsync(comment);
+  },
 
-    return CommentsCollection.insert({
-      username,
-      comment,
-      createdAt: new Date()
+  // remove comment from collection
+  async removeComment(comment_id) {
+    return await CommentsCollection.removeAsync({_id: comment_id});
+  },
+
+  // edit comment in collection
+  async editComment(commentId, newText) {
+    return await CommentsCollection.updateAsync({_id: commentId}, {
+      $set: {comment: newText}
     });
   },
 
-  'comments.remove'(commentId) {
-    check(commentId, String);
-    return CommentsCollection.remove(commentId);
+  // retrieve comment from comment_id
+  async getComment(comment_id) {
+    return await CommentsCollection.findOneAsync({ _id: comment_id })
   },
 
-  async editComment(commentId, newText) {
-    check(commentId, String);
-    check(newText, String);
-    CommentsCollection.updateAsync(commentId, { $set: { comment: newText } });
-  }
+  // retrieve all comments associated with a post
+  async getAllComments(post_id) {
+    const comment = await CommentsCollection.find({ postId: post_id }.fetchAsync());
+
+    return comment;
+  },
 });
