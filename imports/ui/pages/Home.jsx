@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
-import { Meteor } from 'meteor/meteor';
-import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { CommentSection } from '/imports/ui/components/CommentSection';
+
+// JSX UI
+import { SampleView } from '/imports/ui/components/SampleView';
+import { Fallback } from '/imports/ui/components/Fallback';
 
 export const Home = () => (
   <>

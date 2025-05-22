@@ -11,7 +11,7 @@ Meteor.startup(() => {
       $set: {
         appId: CLIENT_ID,
         secret: CLIENT_SECRET,
-        loginStyle:'popup'
+        loginStyle: 'popup'
       }
     }
   );

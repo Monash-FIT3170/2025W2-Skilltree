@@ -18,8 +18,7 @@ export const SignIn = () => {
     e.preventDefault();
 
     Meteor.loginWithGoogle(
-      { loginStyle: 'popup',
-        requestPermissions: ['email', 'profile'] },
+      { loginStyle: 'popup', requestPermissions: ['email', 'profile'] },
       async err => {
         if (err) {
           console.error('Google login failed', err);
@@ -40,13 +39,11 @@ export const SignIn = () => {
     );
   };
 
-
   const handleFacebookLogin = async e => {
     e.preventDefault();
 
     Meteor.loginWithFacebook(
-      { loginStyle: 'popup',
-        requestPermissions: ['email', 'public_profile'] },
+      { loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] },
       async err => {
         if (err) {
           console.error('Facebook login failed', err);
@@ -105,44 +102,40 @@ export const SignIn = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f7f9f8]">
       <div className="bg-[#efefef] p-10 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Welcome back to SkillTree</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Welcome back to SkillTree
+        </h2>
 
+        <div className="w-full flex flex-col items-center gap-4">
+          {/* Google Button */}
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
+          >
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google logo"
+              className="w-5 h-5"
+            />
+            <span className="text-base text-gray-700 font-medium">
+              Continue with Google
+            </span>
+          </button>
 
-    <div className="w-full flex flex-col items-center gap-4">
-      {/* Google Button */}
-      <button
-        onClick={handleGoogleLogin}
-        className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
-      >
-        <img
-          src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-          alt="Google logo"
-          className="w-5 h-5"
-        />
-        <span className="text-base text-gray-700 font-medium">
-          Continue with Google
-        </span>
-      </button>
-
-
-      <button
-        onClick={handleFacebookLogin}
-        className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
-      >
-        <img
-          src="/images/FacebookLogo.svg"
-          alt="Facebook logo"
-          className="w-5 h-5"
-        />
-        <span className="text-base text-gray-700 font-medium">
-          Continue with Facebook
-        </span>
-      </button>
-    </div>
-
-
-
-
+          <button
+            onClick={handleFacebookLogin}
+            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
+          >
+            <img
+              src="/images/FacebookLogo.svg"
+              alt="Facebook logo"
+              className="w-5 h-5"
+            />
+            <span className="text-base text-gray-700 font-medium">
+              Continue with Facebook
+            </span>
+          </button>
+        </div>
 
         <div className="flex items-center my-5 w-full max-w-ws">
           <div className="flex-grow h-px bg-gray-700" />
@@ -211,7 +204,6 @@ export const SignIn = () => {
         >
           Create Account
         </Link>
-
       </div>
     </div>
   );
