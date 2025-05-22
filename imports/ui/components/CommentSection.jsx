@@ -66,7 +66,7 @@ export const CommentSection = () => {
     if (!confirmed) return;
 
     try {
-      await Meteor.callAsync('deleteComment', id);
+      await Meteor.callAsync('removeComment', id);
     } catch (err) {
       alert(`Failed to delete comment: ${err.message}`);
     }

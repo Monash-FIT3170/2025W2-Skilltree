@@ -12,12 +12,16 @@ export const AddComment = ({ username, postid }) => {
     e.preventDefault(); // prevent reloading the page
     if (comment.trim()) {
       // Placeholder for addComment method
+        const comment_insert = {
+          username: username,
+          comment: comment.trim(),
+          postId: postid,
+          createdAt: new Date(),
+        }
       try {
         await Meteor.callAsync(
-          'commentInsert',
-          username,
-          comment.trim(),
-          postid
+          'addComment',
+          comment_insert
         );
         setComment(''); // Clear input on success
       } catch (error) {
