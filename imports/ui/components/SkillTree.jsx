@@ -26,49 +26,52 @@ const nodeTypes = {
   'new-empty': createNewEmptyNode(true),
   'new-populated': createNewEmptyNode(false),
   'view-node-unlocked': createViewNode(true),
-  'view-node-locked': createViewNode(false),
+  'view-node-locked': createViewNode(false)
 };
 
 export const SkillTreeLogic = ({ isAdmin }) => {
-  const initialNodes = [
-    {
-      id: '0',
-      type: 'input',
-      data: { label: 'test root' },
-      position: { x: 0, y: 0 }
-    },
-    {
-      id: '1000',
-      type: 'view-node-locked',
-      data: {
-        label: `Example Locked`,
-        description: 'this is an example node of a normal user',
-        requirements: 'example reqs',
-        xpPoints: 20,
-        progressXp: 10, //example user is on 5 xp points
-        onOpenEditor: () => handleOpenEditor('1000')
+  var initialNodes = []
+  if (isAdmin) {
+    initialNodes = [
+      {
+        id: '0',
+        type: 'input',
+        data: { label: 'test root' },
+        position: { x: 0, y: 0 }
       },
-      position: { x: 0, y: 80 }
-    },
-    {
-      id: '1001',
-      type: 'view-node-unlocked',
-      data: {
-        label: `test view only Node`,
-        description: 'this is an example node of a normal user',
-        requirements: 'example reqs',
-        xpPoints: 20,
-        progressXp: 10, //example user is on 5 xp points
-        onOpenEditor: () => handleOpenEditor('1001')
+      {
+        id: '1000',
+        type: 'view-node-locked',
+        data: {
+          label: `Example Locked`,
+          description: 'this is an example node of a normal user',
+          requirements: 'example reqs',
+          xpPoints: 20,
+          progressXp: 10, //example user is on 5 xp points
+          onOpenEditor: () => handleOpenEditor('1000')
+        },
+        position: { x: 0, y: 80 }
       },
-      position: { x: 80, y: 80 }
-    }
-  ];
+      {
+        id: '1001',
+        type: 'view-node-unlocked',
+        data: {
+          label: `test view only Node`,
+          description: 'this is an example node of a normal user',
+          requirements: 'example reqs',
+          xpPoints: 20,
+          progressXp: 10, //example user is on 5 xp points
+          onOpenEditor: () => handleOpenEditor('1001')
+        },
+        position: { x: 80, y: 80 }
+      }
+    ];
+  }
+  const initialEdges = [{ id: '0->1000', source: '0', target: '1000' }];
 
   const idRef = useRef(1);
   const getId = () => `${idRef.current++}`;
   const nodeOrigin = [0.5, 0];
-  const initialEdges = [];
 
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -179,9 +182,9 @@ export const SkillTreeLogic = ({ isAdmin }) => {
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           edges={edges}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onConnectEnd={onConnectEnd}
+          onEdgesChange={isAdmin ? onEdgesChange : null}
+          onConnect={isAdmin ? onConnect : null}
+          onConnectEnd={isAdmin ? onConnectEnd : null}
           fitView
           nodeOrigin={nodeOrigin}
         >
