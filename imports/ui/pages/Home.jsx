@@ -21,6 +21,7 @@ export const Home = () => (
       <Suspense fallback={<Fallback />}>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
       </Suspense>
+
       <Suspense fallback={<Fallback />}>
         <CommentSection />
       </Suspense>
