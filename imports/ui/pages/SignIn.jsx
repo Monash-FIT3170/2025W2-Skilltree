@@ -1,3 +1,4 @@
+// Add this at the top only if you're using Tailwind's custom animation classes
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React from 'react';
@@ -85,49 +86,56 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f7f9f8] to-[#e0f7ed] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f7f9f8] to-[#e0f7ed] px-4 py-12 sm:py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-white p-10 rounded-2xl shadow-md w-full max-w-md"
+        className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-md"
       >
-        {/* Logo fix applied below */}
-        <div className="flex justify-center mb-4">
-          <img src="/images/logo.png" alt="SkillTree Logo" className="w-32 h-32 object-contain drop-shadow-md" />
+        {/* 🌿 Logo area */}
+        <div className="flex justify-center mb-6">
+          <img
+            src="/images/logo.png"
+            alt="SkillTree Logo"
+            className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-md"
+          />
         </div>
 
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-gray-800">
           Welcome back to <span className="text-green-700">SkillTree</span>
         </h2>
 
-        <div className="w-full flex flex-col items-center gap-4">
+        <div className="w-full flex flex-col items-center gap-4 mb-2">
+          {/* Google login button */}
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all"
+            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
           >
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
-            <span className="text-base text-gray-700 font-medium">Continue with Google</span>
+            <span className="text-sm font-medium text-gray-700">Continue with Google</span>
           </button>
 
+          {/* Facebook login button */}
           <button
             onClick={handleFacebookLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all"
+            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
           >
             <img src="/images/FacebookLogo.svg" alt="Facebook" className="w-5 h-5" />
-            <span className="text-base text-gray-700 font-medium">Continue with Facebook</span>
+            <span className="text-sm font-medium text-gray-700">Continue with Facebook</span>
           </button>
         </div>
 
         <div className="flex items-center my-5">
-          <div className="flex-grow h-px bg-gray-400" />
-          <span className="px-3 text-gray-700 text-sm">or</span>
-          <div className="flex-grow h-px bg-gray-400" />
+          <div className="flex-grow h-px bg-gray-300" />
+          <span className="px-3 text-sm text-gray-500">or</span>
+          <div className="flex-grow h-px bg-gray-300" />
         </div>
 
-        {error && <p className="text-red-500 text-center mb-4 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-center mb-4 text-sm font-medium">{error}</p>}
 
         <form onSubmit={handleLogin} className="space-y-4">
+          {/* Email input */}
           <div className="relative">
             <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -137,10 +145,11 @@ export const SignIn = () => {
               onChange={e => setEmail(e.target.value)}
               placeholder="Email Address"
               required
-              className="pl-10 pr-4 py-2 w-full border border-green-800 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 transition-all"
+              className="pl-10 pr-4 py-2 w-full border border-green-700 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 outline-none transition-all"
             />
           </div>
 
+          {/* Password input */}
           <div className="relative">
             <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
@@ -150,7 +159,7 @@ export const SignIn = () => {
               onChange={e => setPassword(e.target.value)}
               placeholder="Password"
               required
-              className="pl-10 pr-10 py-2 w-full border border-green-800 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 transition-all"
+              className="pl-10 pr-10 py-2 w-full border border-green-700 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 outline-none transition-all"
             />
             <button
               type="button"
@@ -161,12 +170,14 @@ export const SignIn = () => {
             </button>
           </div>
 
+          {/* Forgot password */}
           <div className="text-right">
             <p className="text-xs text-blue-600 hover:underline cursor-pointer">
               Forgot my password?
             </p>
           </div>
 
+          {/* Login button */}
           <button
             type="submit"
             disabled={loggingIn}
