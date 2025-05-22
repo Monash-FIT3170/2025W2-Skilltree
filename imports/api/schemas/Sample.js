@@ -33,8 +33,14 @@ Schemas.Sample = new SimpleSchema({
     optional: true,
     max: 1000
   },
-  'author.$': {
-    // Array of authors (another collection)
+  authors: {
+    type: Array,
+    label: 'Array of Authors',
+    optional: true,
+    defaultValue: []
+  },
+  'authors.$': {
+    // An instance (object) of authors
     type: Schemas.AuthorSample, // Reuse the schema defined for the AuthorCollection
     optional: true
   }
