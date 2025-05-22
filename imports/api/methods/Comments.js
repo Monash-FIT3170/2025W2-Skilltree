@@ -3,15 +3,13 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  async commentInsert(username, comment, postid) {
+  'comments.insert'(username, comment) {
     check(username, String);
     check(comment, String);
-    check(postid, String);
 
-    await CommentsCollection.insertAsync({
-      username: username,
-      comment: comment,
-      postId: postid,
+    return CommentsCollection.insert({
+      username,
+      comment,
       createdAt: new Date()
     });
   },

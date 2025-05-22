@@ -25,7 +25,7 @@ Meteor.startup(async () => {
     {
       title: 'Test Post 2',
       description: 'Recognising and utilising different types of handholds',
-      verification: 5,
+      verification: 2,
       user: 'Adam',
       date: new Date('2025-05-02T11:30:00Z'),
       evidence: '/images/pic3.png',
@@ -45,7 +45,7 @@ Meteor.startup(async () => {
       title: 'Test Post 4',
       description:
         'Using momentum and power to propel oneself up the wall, requiring core engagement and coordination.',
-      verification: 10,
+      verification: 4,
       user: 'Kate',
       date: new Date('2025-05-04T09:20:00Z'),
       evidence: '/images/pic5.png',
@@ -55,7 +55,7 @@ Meteor.startup(async () => {
       title: 'Test Post 5',
       description:
         'Recognising and using rest points to recover and conserve energy.',
-      verification: 4,
+      verification: 5,
       user: 'Lily',
       date: new Date('2025-05-05T14:10:00Z'),
       evidence: '/images/pic6.png',

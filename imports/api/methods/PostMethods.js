@@ -27,12 +27,9 @@ Meteor.methods({
     const post = await PostCollection.findOneAsync({ _id: post_id });
 
     if (post) {
-      return await PostCollection.updateAsync(
-        { _id: post_id },
-        {
-          $inc: { verification: points }
-        }
-      );
+      return await PostCollection.updateAsync(post_id, {
+        $set: { verification: post.verification + points }
+      });
     }
   },
 
