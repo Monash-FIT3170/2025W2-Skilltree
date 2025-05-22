@@ -11,6 +11,7 @@ import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { PostDetailsRoute } from '/imports/routes/pages/ViewPost';
 import { PendingProofsRoutes } from './pages/PendingProofs';
 import { SkillTreeCommunityRoutes } from './pages/SkillTreeCommunity';
+import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -26,6 +27,7 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...PostDetailsRoute,
       ...SkillTreeCommunityRoutes,
+      ...CreateSkillTreeRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }
