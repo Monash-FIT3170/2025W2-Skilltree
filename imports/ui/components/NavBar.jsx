@@ -115,6 +115,12 @@ export const NavBar = () => {
         >
           User
         </Link>
+        <Link
+          to="/create"
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          Create SkillTree
+        </Link>
       </nav>
     </div>
   );
