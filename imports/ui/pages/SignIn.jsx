@@ -94,7 +94,7 @@ export const SignIn = () => {
       >
         {/* Logo fix applied below */}
         <div className="flex justify-center mb-4">
-          <img src="/images/logo.png" alt="SkillTree Logo" className="w-20 h-20 object-contain" />
+          <img src="/images/logo.png" alt="SkillTree Logo" className="w-32 h-32 object-contain drop-shadow-md" />
         </div>
 
         <h2 className="text-2xl font-bold text-center mb-6">
