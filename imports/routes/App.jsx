@@ -25,8 +25,8 @@ export const AppRoutes = [
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
       ...HelloViewRoutes,
-      ...NotFoundRoutes,
-      ...PostDetailsRoute
+      ...PostDetailsRoute,
+      ...NotFoundRoutes // * Keep last for Page not found
     ]
   }
 ];
