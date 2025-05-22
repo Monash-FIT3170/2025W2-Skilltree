@@ -24,7 +24,6 @@ export const AppRoutes = [
       ...SampleRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
-      ...HelloViewRoutes,
       ...PostDetailsRoute,
       ...NotFoundRoutes // * Keep last for Page not found
     ]
