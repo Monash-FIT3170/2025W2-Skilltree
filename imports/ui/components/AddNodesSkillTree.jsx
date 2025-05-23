@@ -1,12 +1,10 @@
-'use client';
-
 import React, { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
   Background,
-  Controls
+  Controls // UI controls (zoom, fit view)
 } from 'reactflow';
 import { RootNode } from './RootNode';
 import { SkillNode } from './SkillNode';
@@ -16,10 +14,11 @@ const nodeTypes = {
   skillNode: SkillNode
 };
 
+// Main component for creating and managing the skilltree
 export const AddNodesSkillTree = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
+  // Generate ID for new nodes
   const getId = () => {
     return `node_${Date.now()}`;
   };
@@ -52,6 +51,7 @@ export const AddNodesSkillTree = () => {
       const childNodeCount = nodes.filter(node =>
         edges.some(edge => edge.source === parentId && edge.target === node.id)
       ).length;
+
       const siblingOffset = 50;
       const initialX =
         parentNode.position.x +
@@ -86,13 +86,13 @@ export const AddNodesSkillTree = () => {
           stroke: '#328E6E'
         }
       };
-
       setNodes(nds => [...nds, newNode]);
       setEdges(eds => [...eds, newEdge]);
     },
     [nodes, edges, setNodes, setEdges, getId, onTitleChange]
   );
 
+  // Connects two nodes
   const onConnect = useCallback(
     connection => {
       const newEdge = {
@@ -108,6 +108,7 @@ export const AddNodesSkillTree = () => {
     [setEdges]
   );
 
+  // Initialize the skilltree with a root node
   useEffect(() => {
     const handleAddChildForRoot = parentId => onAddChild(parentId);
     const initialNodes = [
@@ -129,12 +130,10 @@ export const AddNodesSkillTree = () => {
       nds.map(node => {
         let needsUpdate = false;
         const newData = { ...node.data };
-
         if (node.data.onAddChild !== onAddChild) {
           newData.onAddChild = onAddChild;
           needsUpdate = true;
         }
-
         if (
           node.type === 'skillNode' &&
           node.data.onTitleChange !== onTitleChange

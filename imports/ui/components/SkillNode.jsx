@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
+// Individual skill nodes in the skilltree other than the root node
 export const SkillNode = ({ data, id }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(data.title || 'New Skill');
@@ -52,7 +53,9 @@ export const SkillNode = ({ data, id }) => {
         <img src="/images/EditIcon.png" alt="Edit Title" className="w-4 h-4" />
       </button>
       {}
+
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+        {/* Add a new child node */}
         <button
           type="button"
           onClick={() => data.onAddChild(id)}
@@ -61,6 +64,7 @@ export const SkillNode = ({ data, id }) => {
           <img src="/images/AddIcon.png" alt="Add Child" className="w-4 h-4" />
         </button>
       </div>
+
       <Handle
         type="source"
         position={Position.Bottom}

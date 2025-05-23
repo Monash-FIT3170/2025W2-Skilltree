@@ -1,6 +1,7 @@
 import React from 'react';
 import { Handle, Position } from 'reactflow';
 
+// Root node of the skilltree
 export const RootNode = ({ id, data }) => {
   return (
     <div className="relative flex items-center justify-center w-[120px] h-[80px] rounded-[22px] bg-[#025940] shadow-md">
@@ -10,6 +11,7 @@ export const RootNode = ({ id, data }) => {
         className="w-8 h-8"
       />
       <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+        {/* Add a new child node from the root */}
         <button
           type="button"
           onClick={() => data.onAddChild(id)}
