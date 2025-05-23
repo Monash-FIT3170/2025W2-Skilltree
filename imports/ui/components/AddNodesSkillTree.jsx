@@ -24,6 +24,26 @@ export const AddNodesSkillTree = () => {
     return `node_${Date.now()}`;
   };
 
+  const onTitleChange = useCallback(
+    (nodeId, newTitle) => {
+      setNodes(nds =>
+        nds.map(node => {
+          if (node.id === nodeId) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                title: newTitle
+              }
+            };
+          }
+          return node;
+        })
+      );
+    },
+    [setNodes]
+  );
+
   const onAddChild = useCallback(
     parentId => {
       const parentNode = nodes.find(node => node.id === parentId);
@@ -50,6 +70,7 @@ export const AddNodesSkillTree = () => {
         },
         data: {
           title: 'New Skill',
+          onTitleChange,
           onAddChild
         },
         parentNode: parentId
@@ -69,7 +90,7 @@ export const AddNodesSkillTree = () => {
       setNodes(nds => [...nds, newNode]);
       setEdges(eds => [...eds, newEdge]);
     },
-    [nodes, edges, setNodes, setEdges]
+    [nodes, edges, setNodes, setEdges, getId, onTitleChange]
   );
 
   const onConnect = useCallback(
