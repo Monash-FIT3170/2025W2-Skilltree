@@ -51,9 +51,9 @@ const Step1 = () => {
             color: '#333',
             border: '1px solid #e0e0e0',
             boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line',
+            whiteSpace: 'pre-line'
           },
-          duration: 4000,
+          duration: 4000
         }}
       />
 
@@ -71,7 +71,9 @@ const Step1 = () => {
               alt="SkillTree Logo"
               className="w-80 h-80 object-contain shrink-0"
             />
-            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">SKILLTREE</h2>
+            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
+              SKILLTREE
+            </h2>
           </div>
         </div>
 
@@ -92,11 +94,16 @@ const Step1 = () => {
               <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
             </div>
 
-            <h3 className="text-2xl font-semibold text-black">Account Details</h3>
+            <h3 className="text-2xl font-semibold text-black">
+              Account Details
+            </h3>
 
             {/* Username */}
             <div className="space-y-1">
-              <label htmlFor="username" className="block text-sm font-semibold text-black">
+              <label
+                htmlFor="username"
+                className="block text-sm font-semibold text-black"
+              >
                 Username
               </label>
               <input
@@ -111,7 +118,10 @@ const Step1 = () => {
 
             {/* Email */}
             <div className="space-y-1">
-              <label htmlFor="email" className="block text-sm font-semibold text-black">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-black"
+              >
                 Email
               </label>
               <input

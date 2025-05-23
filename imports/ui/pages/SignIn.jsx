@@ -48,7 +48,8 @@ export const SignIn = () => {
             console.error('Failed to update user fields:', error);
           }
         }
-      })
+      }
+    );
   };
 
   const handleFacebookLogin = async e => {
@@ -72,7 +73,8 @@ export const SignIn = () => {
             console.error('Failed to update user fields:', error);
           }
         }
-      })
+      }
+    );
   };
 
   const handleLogin = async e => {
@@ -120,7 +122,9 @@ export const SignIn = () => {
               alt="SkillTree Logo"
               className="w-80 h-80 object-contain shrink-0"
             />
-            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">SKILLTREE</h2>
+            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
+              SKILLTREE
+            </h2>
           </div>
         </div>
 
@@ -172,7 +176,9 @@ export const SignIn = () => {
             </button>
           </form>
 
-          <p className="text-xs text-center text-gray-500 pt-1">New to SkillTree?</p>
+          <p className="text-xs text-center text-gray-500 pt-1">
+            New to SkillTree?
+          </p>
           <Link
             to="/signup"
             className="w-full bg-[#024E40] text-white text-sm font-semibold py-2 rounded-full text-center hover:bg-[#023e31] transition-all"
@@ -191,7 +197,11 @@ export const SignIn = () => {
               onClick={handleGoogleLogin}
               className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
             >
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google"
+                className="w-5 h-5"
+              />
               <span className="text-sm">Continue with Google</span>
             </button>
 
@@ -199,7 +209,11 @@ export const SignIn = () => {
               onClick={handleFacebookLogin}
               className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
             >
-              <img src="/images/FacebookLogo.svg" alt="Facebook" className="w-5 h-5" />
+              <img
+                src="/images/FacebookLogo.svg"
+                alt="Facebook"
+                className="w-5 h-5"
+              />
               <span className="text-sm">Continue with Facebook</span>
             </button>
           </div>

@@ -29,7 +29,9 @@ export const SignUp = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-8">
-      <Suspense fallback={<p className="text-center text-gray-400">Loading form...</p>}>
+      <Suspense
+        fallback={<p className="text-center text-gray-400">Loading form...</p>}
+      >
         <Outlet context={{ formData, setFormData }} />
       </Suspense>
     </div>

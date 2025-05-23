@@ -43,9 +43,9 @@ const Step4 = () => {
             color: '#333',
             border: '1px solid #e0e0e0',
             boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line',
+            whiteSpace: 'pre-line'
           },
-          duration: 4000,
+          duration: 4000
         }}
       />
 
@@ -63,7 +63,9 @@ const Step4 = () => {
               alt="SkillTree Logo"
               className="w-80 h-80 object-contain shrink-0"
             />
-            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">SKILLTREE</h2>
+            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
+              SKILLTREE
+            </h2>
           </div>
         </div>
 
@@ -84,7 +86,9 @@ const Step4 = () => {
               <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
             </div>
 
-            <h3 className="text-2xl font-semibold text-black">Create Profile Picture</h3>
+            <h3 className="text-2xl font-semibold text-black">
+              Create Profile Picture
+            </h3>
 
             {/* Profile Icon */}
             <label
@@ -112,7 +116,9 @@ const Step4 = () => {
             </label>
 
             {/* Optional Username Preview */}
-            <p className="text-sm text-center text-black">@{formData.username || 'user123'}</p>
+            <p className="text-sm text-center text-black">
+              @{formData.username || 'user123'}
+            </p>
 
             {/* Navigation + Submit Buttons */}
             <div className="flex justify-between pt-2">
