@@ -90,17 +90,19 @@ export const SignIn = () => {
         transition={{ duration: 0.6 }}
         className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
       >
-        {/* LEFT SECTION: Logo + Text with adjusted alignment */}
-        <div className="w-1/2 flex items-center gap-6 pl-4">
-          <img
-            src="/images/logo.png"
-            alt="SkillTree Logo"
-            className="w-80 h-80 object-contain"
-          />
-          <h2 className="text-5xl font-bold text-[#025940]">SKILLTREE</h2>
+        {/* LEFT SECTION: Logo + Text */}
+        <div className="w-1/2 flex items-center justify-center gap-8 px-6">
+          <div className="flex items-center gap-6">
+            <img
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="w-80 h-80 object-contain"
+            />
+            <h2 className="text-5xl font-bold text-[#025940] whitespace-nowrap">SKILLTREE</h2>
+          </div>
         </div>
 
-        {/* RIGHT SECTION: Form Card */}
+        {/* RIGHT SECTION: Sign-in Form */}
         <div className="w-1/2 bg-white rounded-xl p-10 flex flex-col justify-center space-y-4">
           <h2 className="text-2xl font-bold text-center">Sign in</h2>
 
