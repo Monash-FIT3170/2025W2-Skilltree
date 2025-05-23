@@ -51,30 +51,6 @@ export const SignIn = () => {
     );
   };
 
-  const handleFacebookLogin = async e => {
-    e.preventDefault();
-
-    Meteor.loginWithFacebook(
-      { loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] },
-      async err => {
-        if (err) {
-          console.error('Facebook login failed', err);
-        } else {
-          console.log('Logged in with Facebook successfully!');
-
-          try {
-            const user = Meteor.user();
-            const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation);
-
-            navigate('/home');
-          } catch (error) {
-            console.error('Failed to update user fields:', error);
-          }
-        }
-      }
-    );
-  };
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -209,19 +185,6 @@ export const SignIn = () => {
               <span className="text-base ml-3">Continue with Google</span>
             </button>
 
-            <button
-              onClick={handleFacebookLogin}
-              className="w-full flex items-center justify-center px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
-            >
-              <span className="w-6 flex justify-center">
-                <img
-                  src="/images/FacebookLogo.svg"
-                  alt="Facebook"
-                  className="w-5 h-5"
-                />
-              </span>
-              <span className="text-base ml-3">Continue with Facebook</span>
-            </button>
           </div>
 
           <div className="flex justify-center items-center gap-x-4 mt-6 text-gray-500 text-base">
