@@ -82,7 +82,7 @@ export const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#f7f9f8] to-[#e0f7ed] px-4 py-12 sm:py-20">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-12 sm:py-20">
       <Toaster position="top-right" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -90,7 +90,7 @@ export const SignIn = () => {
         transition={{ duration: 0.6 }}
         className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
       >
-         {/* LEFT SECTION: Logo + Text */}
+        {/* LEFT SECTION: Logo + Text */}
         <div className="w-1/2 flex items-center pr-4">
           <div className="relative flex items-center">
             <img
