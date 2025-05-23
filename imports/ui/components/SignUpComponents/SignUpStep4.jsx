@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -136,6 +136,25 @@ const Step4 = () => {
               >
                 Create
               </button>
+            </div>
+
+            <div>
+              <p className="text-xs text-center text-gray-700">
+                By creating an account, you agree to the{' '}
+                <Link
+                  to=""
+                  className="text-gray-600 underline hover:text-[#026873]"
+                >
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link
+                  to=""
+                  className="text-gray-600 underline hover:text-[#026873]"
+                >
+                  Privacy Policy.
+                </Link>
+              </p>
             </div>
           </div>
         </form>

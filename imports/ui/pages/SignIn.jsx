@@ -38,10 +38,9 @@ export const SignIn = () => {
             const user = Meteor.user();
 
             const validation = await Meteor.callAsync(
-              'updateGoogleFields',
+              'addNewGoogleFields',
               user
             );
-            console.log('Update result:', validation);
 
             navigate('/login/extraStep1');
           } catch (error) {
@@ -130,7 +129,9 @@ export const SignIn = () => {
 
         {/* RIGHT SECTION: Form */}
         <div className="w-1/2 bg-white rounded-xl p-10 flex flex-col justify-center space-y-4">
-          <h2 className="text-2xl font-bold text-center">Sign in</h2>
+          <h2 className="text-2xl font-bold text-center">
+            Welcome back to SkillTree
+          </h2>
 
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Email input with icon */}
@@ -176,8 +177,8 @@ export const SignIn = () => {
             </button>
           </form>
 
-          <p className="text-xs text-center text-gray-500 pt-1">
-            New to SkillTree?
+          <p className="text-base text-center text-gray-500 pt-1">
+            Don't have an account?
           </p>
           <Link
             to="/signup"
@@ -188,34 +189,55 @@ export const SignIn = () => {
 
           <div className="flex items-center my-5 w-full max-w-ws">
             <div className="flex-grow h-px bg-gray-700" />
-            <span className="px-3 text-gray-700 text-sm">or</span>
+            <span className="px-3 text-gray-700 text-sm">OR</span>
             <div className="flex-grow h-px bg-gray-700" />
           </div>
 
           <div className="space-y-3 pt-2">
             <button
               onClick={handleGoogleLogin}
-              className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
+              className="w-full flex items-center justify-center px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
             >
-              <img
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                alt="Google"
-                className="w-5 h-5"
-              />
-              <span className="text-sm">Continue with Google</span>
+              <span className="w-6 flex justify-center">
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+              </span>
+
+              <span className="text-base ml-3">Continue with Google</span>
             </button>
 
             <button
               onClick={handleFacebookLogin}
-              className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
+              className="w-full flex items-center justify-center px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
             >
-              <img
-                src="/images/FacebookLogo.svg"
-                alt="Facebook"
-                className="w-5 h-5"
-              />
-              <span className="text-sm">Continue with Facebook</span>
+              <span className="w-6 flex justify-center">
+                <img
+                  src="/images/FacebookLogo.svg"
+                  alt="Facebook"
+                  className="w-5 h-5"
+                />
+              </span>
+              <span className="text-base ml-3">Continue with Facebook</span>
             </button>
+          </div>
+
+          <div className="flex justify-center items-center gap-x-4 mt-6 text-gray-500 text-base">
+            <Link
+              to=""
+              className="hover:underline transition-all duration-300 underline-offset-4"
+            >
+              <p>Terms of Service</p>
+            </Link>{' '}
+            <span>|</span>{' '}
+            <Link
+              to=""
+              className="hover:underline transition-all duration-300 underline-offset-4"
+            >
+              <p>Privacy Policy</p>
+            </Link>
           </div>
         </div>
       </motion.div>

@@ -98,24 +98,6 @@ const Step1 = () => {
               Account Details
             </h3>
 
-            {/* Username */}
-            <div className="space-y-1">
-              <label
-                htmlFor="username"
-                className="block text-sm font-semibold text-black"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
-              />
-            </div>
-
             {/* Email */}
             <div className="space-y-1">
               <label
@@ -131,6 +113,24 @@ const Step1 = () => {
                 onChange={handleChange}
                 required
                 placeholder="jane@example.com"
+                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
+              />
+            </div>
+
+            {/* Username */}
+            <div className="space-y-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-semibold text-black"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
                 className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
               />
             </div>
