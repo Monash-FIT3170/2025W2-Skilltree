@@ -3,17 +3,6 @@ import { ProofCollection } from '/imports/api/collections/Proof';
 
 // Define Meteor Methods for ProofCollection (client-side calls)
 Meteor.methods({
-  // TODO combine top 2?
-  async proofUpload(data) {
-    await ProofCollection.insertAsync({
-      title: data.title,
-      author: data.author,
-      communityId: data.communityId,
-      caption: data.caption,
-      link: data.link,
-      uploadedAt: data.uploadedAt
-    });
-  },
   // method to insert a proof
   // returns ID of proof or null
   async insertProof(proof) {

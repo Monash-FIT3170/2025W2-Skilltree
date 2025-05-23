@@ -1,6 +1,6 @@
 import assert from 'assert';
 import { Meteor } from 'meteor/meteor';
-import '/imports/api/methods/ProofMethods'; // Load Proof Collection Methods
+import '/imports/api/methods/Proof'; // Load Proof Collection Methods
 import { ProofCollection } from '/imports/api/collections/Proof'; // Proof collection
 
 // methods

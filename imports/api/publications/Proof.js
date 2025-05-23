@@ -20,7 +20,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-01T10:00:00Z'),
       evidenceLink: '/images/pic1.jpg',
       verification: 1,
-      skillTreeId: 'Climbing', // should eventually be a skillTree/skillTree ID
+      skillTreeId: 'Climbing', // should eventually be a community/skillTree ID
       subskill: 'Footwork'
     },
     {
