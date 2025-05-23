@@ -90,11 +90,13 @@ const Step2 = () => {
           className="w-1/2 flex flex-col justify-center pl-6"
         >
           <div className="flex flex-col space-y-6 w-full max-w-[400px]">
-            {/* Step Bar */}
+            {/* Step Bar - 4 steps */}
             <div className="flex items-center justify-between w-full">
               <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
               <div className="h-1 bg-white flex-grow mx-2"></div>
               <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
+              <div className="h-1 bg-white flex-grow mx-2"></div>
+              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
               <div className="h-1 bg-white flex-grow mx-2"></div>
               <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
             </div>
