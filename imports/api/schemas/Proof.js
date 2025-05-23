@@ -14,17 +14,17 @@ Schemas.Proof = new SimpleSchema({
   },
   description: {
     type: String,
-    label: 'Post description',
+    label: 'Proof description',
     max: 1000,
     optional: true
   },
   user: {
     type: String, // placeholder
-    label: 'User who submitted post'
+    label: 'User who submitted proof'
   },
   date: {
     type: Date,
-    label: 'Date post was made'
+    label: 'Date proof was made'
   },
   evidenceLink: {
     type: String,

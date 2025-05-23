@@ -1,11 +1,11 @@
-//TODO (not possible at the moment, as no post or user context is available)
+//TODO (not possible at the moment, as no proof or user context is available)
 // have method to get the current user
-// have method to get current post id
+// have method to get current proof id
 
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 
-export const AddComment = ({ username, postid }) => {
+export const AddComment = ({ username, proofid }) => {
   const [comment, setComment] = React.useState('');
 
   const handleAddComment = async e => {
@@ -15,7 +15,7 @@ export const AddComment = ({ username, postid }) => {
       const commentToInsert = {
         username: username,
         comment: comment.trim(),
-        postId: postid,
+        proofId: proofid,
         createdAt: new Date()
       };
       try {
@@ -53,7 +53,7 @@ export const AddComment = ({ username, postid }) => {
 //             className="comment-input"
 //         />
 //         <button onClick={handleAddComment} className="comment-button">
-//             Post
+//             Proof
 //         </button>
 //     </div>
 // );
