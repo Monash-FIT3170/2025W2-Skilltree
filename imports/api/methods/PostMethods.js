@@ -13,8 +13,8 @@ Meteor.methods({
 
   // find a post by ID
   // returns document object or null
-  async findPostID(post_id) {
-    return await PostCollection.findOneAsync({ _id: post_id });
+  async findPostID(postId) {
+    return await PostCollection.findOneAsync({ _id: postId });
   },
 
   // get all posts as an array
@@ -23,12 +23,12 @@ Meteor.methods({
   },
 
   // add verification points to a post
-  async addVerification(post_id, points) {
-    const post = await PostCollection.findOneAsync({ _id: post_id });
+  async addVerification(postId, points) {
+    const post = await PostCollection.findOneAsync({ _id: postId });
 
     if (post) {
       return await PostCollection.updateAsync(
-        { _id: post_id },
+        { _id: postId },
         {
           $inc: { verification: points }
         }
@@ -37,8 +37,8 @@ Meteor.methods({
   },
 
   // remove specific post
-  async removePost(post_id) {
-    const res = await PostCollection.removeAsync({ _id: post_id });
+  async removePost(postId) {
+    const res = await PostCollection.removeAsync({ _id: postId });
 
     return res;
   },
