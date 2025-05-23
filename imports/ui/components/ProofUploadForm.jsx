@@ -141,7 +141,7 @@ export const ProofUploadForm = () => {
    * @returns {Promise<void>}
    */
   const insertProof = async data => {
-    await Meteor.callAsync('proofUpload', data);
+    await Meteor.callAsync('insertProof', data);
   };
 
   /**  Main Functions */
@@ -156,15 +156,17 @@ export const ProofUploadForm = () => {
     const uploadResults = await handleUploadFile(
       _.first(e.target.elements.file.files)
     );
-    const data = {
+    const proof = {
       title: e.target.title.value,
-      author: 'my user', // TODO dummy data
-      communityId: 'samplecommunityid', // TODO dummy data
-      caption: e.target.caption.value,
-      link: uploadResults.Location,
-      uploadedAt: new Date()
+      description: e.target.caption.value,
+      user: 'my user', // TODO dummy data
+      date: new Date(),
+      evidenceLink: uploadResults.Location,
+      verification: 0,
+      skillTreeId: 'my skilltree', // should eventually be a community/skillTree ID
+      subskill: 'my subskill'
     };
-    await insertProof(data);
+    await insertProof(proof);
   };
 
   /**
