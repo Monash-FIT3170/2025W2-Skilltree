@@ -204,6 +204,15 @@ export const ProofUploadForm = () => {
     setPreviewUrl(url);
   };
 
+  /**
+   * Removes the selected file so a new one can be chosen
+   */
+  const removeFile = () => {
+    setPreviewUrl('');
+    setPreviewType('');
+    setIsValidFile(false);
+  };
+
   /** JSX */
   return (
     <>
@@ -269,6 +278,9 @@ export const ProofUploadForm = () => {
             disabled={!isValidFile}
           >
             Post
+          </Button>
+          <Button color="red" size="sm" outline onClick={removeFile}>
+            X
           </Button>
         </form>
       </div>
