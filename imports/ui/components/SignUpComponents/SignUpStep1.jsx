@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -31,7 +31,7 @@ const Step1 = () => {
     }
 
     try {
-      const validation = await Meteor.callAsync('validateStep1', formData);
+      await Meteor.callAsync('validateStep1', formData);
       toast.success('✅ Step 1 Complete');
       navigate('/signup/step2');
     } catch (error) {
@@ -40,7 +40,7 @@ const Step1 = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="w-full min-h-screen bg-white flex items-center justify-center">
       <Toaster
         position="bottom-center"
         toastOptions={{
@@ -61,35 +61,35 @@ const Step1 = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-2xl shadow-lg overflow-hidden"
+        className="flex w-full max-w-6xl bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden"
       >
-        {/* LEFT: Logo and Title */}
-        <div className="w-1/2 flex flex-col justify-center items-center px-10 py-16 space-y-6">
-          <img
-            src="/images/logo.png"
-            alt="SkillTree Logo"
-            className="w-52 h-52 object-contain drop-shadow-sm"
-          />
-          <h2 className="text-5xl font-bold text-[#025940] tracking-wide">
-            SKILLTREE
-          </h2>
+        {/* LEFT: Logo and Branding */}
+        <div className="w-1/2 flex items-center justify-center px-10 py-16">
+          <div className="flex items-center space-x-6">
+            <img
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="w-48 h-48 object-contain"
+            />
+            <h2 className="text-5xl font-bold text-[#025940]">SKILLTREE</h2>
+          </div>
         </div>
 
         {/* RIGHT: Step 1 Form */}
         <form
           onSubmit={handleNext}
-          className="w-1/2 px-12 py-16 flex flex-col justify-center space-y-6 bg-[#D9D9D9]"
+          className="w-1/2 p-12 flex flex-col justify-center space-y-6"
         >
           {/* Step indicator */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mb-4">
             <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-            <div className="w-1/4 h-1 bg-white"></div>
-            <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-            <div className="w-1/4 h-1 bg-white"></div>
-            <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
+            <div className="w-24 h-[2px] bg-white"></div>
+            <div className="w-4 h-4 bg-white rounded-full"></div>
+            <div className="w-24 h-[2px] bg-white"></div>
+            <div className="w-4 h-4 bg-white rounded-full"></div>
           </div>
 
-          <h3 className="text-2xl font-bold text-black">Account Details</h3>
+          <h3 className="text-xl font-bold text-black">Account Details</h3>
 
           <div>
             <label htmlFor="username" className="block text-sm font-semibold mb-1 text-black">
