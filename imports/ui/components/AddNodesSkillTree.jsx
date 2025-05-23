@@ -124,6 +124,36 @@ export const AddNodesSkillTree = () => {
     setEdges([]);
   }, [setNodes, setEdges]);
 
+  useEffect(() => {
+    setNodes(nds =>
+      nds.map(node => {
+        let needsUpdate = false;
+        const newData = { ...node.data };
+
+        if (node.data.onAddChild !== onAddChild) {
+          newData.onAddChild = onAddChild;
+          needsUpdate = true;
+        }
+
+        if (
+          node.type === 'skillNode' &&
+          node.data.onTitleChange !== onTitleChange
+        ) {
+          newData.onTitleChange = onTitleChange;
+          needsUpdate = true;
+        }
+
+        if (needsUpdate) {
+          return {
+            ...node,
+            data: newData
+          };
+        }
+        return node;
+      })
+    );
+  }, [onAddChild, onTitleChange, setNodes]);
+
   return (
     <div className="w-full h-[600px] border rounded-lg overflow-hidden bg-white">
       <ReactFlow
