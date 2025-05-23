@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -41,7 +40,7 @@ const Step1 = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-white">
+    <div className="w-full min-h-screen bg-white flex items-center justify-center px-4">
       <Toaster
         position="bottom-center"
         toastOptions={{
@@ -62,24 +61,24 @@ const Step1 = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-xl overflow-hidden"
+        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-2xl shadow-lg overflow-hidden"
       >
-        {/* LEFT: Logo and branding in a row */}
-        <div className="w-1/2 flex items-center justify-center px-12">
-          <div className="flex items-center space-x-6">
-            <img
-              src="/images/logo.png"
-              alt="SkillTree Logo"
-              className="w-28 h-28 object-contain drop-shadow-sm"
-            />
-            <h2 className="text-4xl font-bold text-[#025940]">SKILLTREE</h2>
-          </div>
+        {/* LEFT: Logo and Title */}
+        <div className="w-1/2 flex flex-col justify-center items-center px-10 py-16 space-y-6">
+          <img
+            src="/images/logo.png"
+            alt="SkillTree Logo"
+            className="w-52 h-52 object-contain drop-shadow-sm"
+          />
+          <h2 className="text-5xl font-bold text-[#025940] tracking-wide">
+            SKILLTREE
+          </h2>
         </div>
 
         {/* RIGHT: Step 1 Form */}
         <form
           onSubmit={handleNext}
-          className="w-1/2 p-12 flex flex-col justify-center space-y-6 bg-[#D9D9D9]"
+          className="w-1/2 px-12 py-16 flex flex-col justify-center space-y-6 bg-[#D9D9D9]"
         >
           {/* Step indicator */}
           <div className="flex items-center space-x-4">
@@ -90,7 +89,7 @@ const Step1 = () => {
             <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
           </div>
 
-          <h3 className="text-2xl font-semibold text-black">Account Details</h3>
+          <h3 className="text-2xl font-bold text-black">Account Details</h3>
 
           <div>
             <label htmlFor="username" className="block text-sm font-semibold mb-1 text-black">

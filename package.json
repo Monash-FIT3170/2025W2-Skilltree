@@ -34,7 +34,7 @@
     "react-helmet": "^6.1.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^6.30.0",
+    "react-router-dom": "^6.30.1",
     "react-spinners": "^0.17.0",
     "tailwindcss": "^4.1.4",
     "use-immer": "^0.11.0"
