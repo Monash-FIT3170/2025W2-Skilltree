@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailRegex, passwordRegex } from '/imports/api/Schemas';
+import { emailRegex, passwordRegex } from '/imports/api/Regex';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
