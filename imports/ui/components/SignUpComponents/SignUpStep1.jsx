@@ -123,11 +123,11 @@ const Step1 = () => {
               />
             </div>
 
-            {/* Next Button */}
+            {/* Next Button - Circular Bordered Arrow */}
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-[#04BF8A] text-white rounded-full px-6 py-2 hover:bg-[#03a57e] transition-all font-medium"
+                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
               >
                 →
               </button>
