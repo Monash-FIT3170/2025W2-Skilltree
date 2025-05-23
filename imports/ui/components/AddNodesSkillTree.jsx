@@ -9,14 +9,68 @@ import ReactFlow, {
   Controls
 } from 'reactflow';
 import { RootNode } from './RootNode';
+import { SkillNode } from './SkillNode';
 
 const nodeTypes = {
-  rootNode: RootNode
+  rootNode: RootNode,
+  skillNode: SkillNode
 };
 
 export const AddNodesSkillTree = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const getId = () => {
+    return `node_${Date.now()}`;
+  };
+
+  const onAddChild = useCallback(
+    parentId => {
+      const parentNode = nodes.find(node => node.id === parentId);
+      if (!parentNode) return;
+
+      const childNodeCount = nodes.filter(node =>
+        edges.some(edge => edge.source === parentId && edge.target === node.id)
+      ).length;
+      const siblingOffset = 50;
+      const initialX =
+        parentNode.position.x +
+        ((childNodeCount - 1) * (180 + siblingOffset)) / 2;
+
+      const id = getId();
+      const newNode = {
+        id,
+        type: 'skillNode',
+        position: {
+          x:
+            parentNode.type === 'rootNode'
+              ? parentNode.position.x
+              : initialX + childNodeCount * (180 + siblingOffset),
+          y: parentNode.position.y + 150
+        },
+        data: {
+          title: 'New Skill',
+          onAddChild
+        },
+        parentNode: parentId
+      };
+
+      const newEdge = {
+        id: `e${parentId}-${id}`,
+        source: parentId,
+        target: id,
+        type: 'smoothstep',
+        style: {
+          strokeWidth: 2,
+          stroke: '#328E6E'
+        }
+      };
+
+      setNodes(nds => [...nds, newNode]);
+      setEdges(eds => [...eds, newEdge]);
+    },
+    [nodes, edges, setNodes, setEdges]
+  );
 
   const onConnect = useCallback(
     connection => {
@@ -34,12 +88,15 @@ export const AddNodesSkillTree = () => {
   );
 
   useEffect(() => {
+    const handleAddChildForRoot = parentId => onAddChild(parentId);
     const initialNodes = [
       {
         id: 'root',
         type: 'rootNode',
         position: { x: 400, y: 50 },
-        data: {}
+        data: {
+          onAddChild: handleAddChildForRoot
+        }
       }
     ];
     setNodes(initialNodes);
