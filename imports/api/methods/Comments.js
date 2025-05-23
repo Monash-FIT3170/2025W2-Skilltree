@@ -39,10 +39,10 @@ Meteor.methods({
     return await CommentsCollection.findOneAsync({ _id: commentId });
   },
 
-  // retrieve all comments associated with a post
-  async getAllComments(postId) {
+  // retrieve all comments associated with a proof
+  async getAllComments(proofId) {
     const comment = await CommentsCollection.find({
-      postId: postId
+      proofId: proofId
     }).fetchAsync();
 
     return comment;

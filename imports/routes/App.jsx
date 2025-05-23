@@ -12,7 +12,7 @@ import { SignUpRoutes } from '/imports/routes/pages/SignUp';
 import { SignInRoutes } from '/imports/routes/pages/SignIn';
 import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
-import { PostDetailsRoute } from '/imports/routes/pages/ViewPost';
+import { ProofDetailsRoutes } from '/imports/routes/pages/ProofDetails';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -30,7 +30,7 @@ export const AppRoutes = [
       ...SampleRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
-      ...PostDetailsRoute,
+      ...ProofDetailsRoutes,
       ...NotFoundRoutes // * Keep last for Page not found
     ]
   }
