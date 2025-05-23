@@ -3,7 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { emailRegex, passwordRegex } from '/imports/api/Schemas';
-import { FiMail, FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { toast, Toaster } from 'react-hot-toast';
@@ -19,61 +19,47 @@ export const SignIn = () => {
 
   const handleGoogleLogin = async e => {
     e.preventDefault();
-    Meteor.loginWithGoogle(
-      { loginStyle: 'popup', requestPermissions: ['email', 'profile'] },
-      async err => {
-        if (err) {
-          toast.error('Google login failed');
-          console.error(err);
-        } else {
-          try {
-            const user = Meteor.user();
-            const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation);
-            toast.success('Logged in with Google');
-            navigate('/home');
-          } catch (error) {
-            console.error('Failed to update user fields:', error);
-            toast.error('User field update failed');
-          }
+    Meteor.loginWithGoogle({ loginStyle: 'popup', requestPermissions: ['email', 'profile'] }, async err => {
+      if (err) {
+        toast.error('Google login failed');
+      } else {
+        try {
+          const user = Meteor.user();
+          await Meteor.callAsync('updateUserFields', user);
+          toast.success('Logged in with Google');
+          navigate('/home');
+        } catch {
+          toast.error('User field update failed');
         }
       }
-    );
+    });
   };
 
   const handleFacebookLogin = async e => {
     e.preventDefault();
-    Meteor.loginWithFacebook(
-      { loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] },
-      async err => {
-        if (err) {
-          toast.error('Facebook login failed');
-          console.error(err);
-        } else {
-          try {
-            const user = Meteor.user();
-            const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation);
-            toast.success('Logged in with Facebook');
-            navigate('/home');
-          } catch (error) {
-            console.error('Failed to update user fields:', error);
-            toast.error('User field update failed');
-          }
+    Meteor.loginWithFacebook({ loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] }, async err => {
+      if (err) {
+        toast.error('Facebook login failed');
+      } else {
+        try {
+          const user = Meteor.user();
+          await Meteor.callAsync('updateUserFields', user);
+          toast.success('Logged in with Facebook');
+          navigate('/home');
+        } catch {
+          toast.error('User field update failed');
         }
       }
-    );
+    });
   };
 
   const handleLogin = async e => {
     e.preventDefault();
-
     if (!emailRegex.test(email)) {
       setError('Invalid email format.');
       toast.error('Please enter a valid email');
       return;
     }
-
     if (!passwordRegex.test(password)) {
       setError('Password format is invalid.');
       toast.error('Password must include upper, lower, number, special char');
@@ -89,7 +75,6 @@ export const SignIn = () => {
         setError(error.reason || 'Login failed.');
         toast.error(error.reason || 'Login failed');
       } else {
-        console.log('User logged in successfully');
         toast.success('Welcome back!');
         navigate('/home');
       }
@@ -103,116 +88,83 @@ export const SignIn = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl w-full max-w-md"
+        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
       >
-        {/* 🌿 Logo area */}
-        <div className="flex justify-center mb-6">
+        {/* LEFT SECTION: Logo + Text with adjusted alignment */}
+        <div className="w-1/2 flex items-center gap-6 pl-4">
           <img
             src="/images/logo.png"
             alt="SkillTree Logo"
-            className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-md"
+            className="w-80 h-80 object-contain"
           />
+          <h2 className="text-5xl font-bold text-[#025940]">SKILLTREE</h2>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800">
-          Welcome back to <span className="text-green-700">SkillTree</span>
-        </h2>
-        <p className="text-sm text-gray-500 text-center mb-6">
-          Empowering your growth with community knowledge 🌱
-        </p>
+        {/* RIGHT SECTION: Form Card */}
+        <div className="w-1/2 bg-white rounded-xl p-10 flex flex-col justify-center space-y-4">
+          <h2 className="text-2xl font-bold text-center">Sign in</h2>
 
-        <div className="w-full flex flex-col items-center gap-4 mb-2">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
-          >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
-            <span className="text-sm font-medium text-gray-700">Continue with Google</span>
-          </button>
-
-          <button
-            onClick={handleFacebookLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-green-300"
-          >
-            <img src="/images/FacebookLogo.svg" alt="Facebook" className="w-5 h-5" />
-            <span className="text-sm font-medium text-gray-700">Continue with Facebook</span>
-          </button>
-        </div>
-
-        <div className="flex items-center my-5">
-          <div className="flex-grow h-px bg-gray-300" />
-          <span className="px-3 text-sm text-gray-500">or</span>
-          <div className="flex-grow h-px bg-gray-300" />
-        </div>
-
-        {error && <p className="text-red-500 text-center mb-4 text-sm font-medium">{error}</p>}
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div className="relative">
-            <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <form onSubmit={handleLogin} className="space-y-4">
             <input
-              id="email"
               type="email"
+              placeholder="Email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="Email Address"
+              className="w-full px-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
               required
-              className="pl-10 pr-4 py-2 w-full border border-green-700 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 outline-none transition-all"
             />
-          </div>
-
-          <div className="relative">
-            <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-              className="pl-10 pr-10 py-2 w-full border border-green-700 rounded-full placeholder:text-gray-500 focus:ring-2 focus:ring-green-500 outline-none transition-all"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-4 py-2 pr-10 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
             <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-500 hover:text-gray-800"
+              type="submit"
+              disabled={loggingIn}
+              className="w-full bg-[#04BF8A] text-white font-semibold py-2 rounded-full hover:bg-[#03a57e] transition-all"
             >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
+              {loggingIn ? <ClipLoader size={20} color="#fff" /> : 'Login'}
             </button>
-            <span
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-10 top-1/2 transform -translate-y-1/2 text-xs text-blue-600 cursor-pointer"
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </span>
-          </div>
+          </form>
 
-          <div className="text-right">
-            <p className="text-xs text-blue-600 hover:underline cursor-pointer">
-              Forgot my password?
-            </p>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loggingIn}
-            className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 rounded-full transition-all flex items-center justify-center"
+          <p className="text-xs text-center text-gray-500 pt-1">New to SkillTree?</p>
+          <Link
+            to="/signup"
+            className="w-full bg-[#024E40] text-white text-sm font-semibold py-2 rounded-full text-center hover:bg-[#023e31] transition-all"
           >
-            {loggingIn ? <ClipLoader size={20} color="#fff" /> : 'Login'}
-          </button>
-        </form>
+            Create Account
+          </Link>
 
-        <p className="text-xs text-center text-gray-400 mt-2">Press <strong>Enter</strong> to log in</p>
+          <div className="space-y-3 pt-2">
+            <button
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
+            >
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
+              <span className="text-sm">Continue with Google</span>
+            </button>
 
-        <p className="mt-6 text-center text-sm text-gray-700">
-          Don’t have an account?
-        </p>
-        <Link
-          to="/signup"
-          className="block mt-2 w-full bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 rounded-full text-center transition-all"
-        >
-          Create Account
-        </Link>
+            <button
+              onClick={handleFacebookLogin}
+              className="w-full flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
+            >
+              <img src="/images/FacebookLogo.svg" alt="Facebook" className="w-5 h-5" />
+              <span className="text-sm">Continue with Facebook</span>
+            </button>
+          </div>
+        </div>
       </motion.div>
     </div>
   );
