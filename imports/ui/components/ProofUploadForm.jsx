@@ -3,6 +3,8 @@ import { Buffer } from 'buffer'; //
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import _ from 'lodash';
+import { Button } from 'flowbite-react';
+import { Dropzone } from './Dropzone';
 
 /** A form for a user to upload proof of progression in the SkillTree.
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket,
@@ -231,13 +233,15 @@ export const ProofUploadForm = () => {
             accept="image/*,video/*"
             onChange={updatePreview}
           />
+
           {/* File Preview */}
           <div id="preview" className="w-96 border-2 border-green-500">
-            {previewUrl && previewType === 'image' && (
+            {previewUrl && previewType === 'image' ? (
               <img alt="Image preview" src={previewUrl} />
-            )}
-            {previewUrl && previewType === 'video' && (
+            ) : previewUrl && previewType === 'video' ? (
               <video autoPlay={false} controls={true} src={previewUrl} />
+            ) : (
+              <Dropzone onChangeFunc={updatePreview} />
             )}
           </div>
           {/* File Upload Progress */}
@@ -257,13 +261,15 @@ export const ProofUploadForm = () => {
             )}
           </div>
           {/* Submit button */}
-          <button
-            className="enabled:cursor-pointer enabled:bg-blue-500 enabled:hover:bg-blue-700 enabled:text-white bg-gray-300 text-gray-400 font-bold py-2 px-4 rounded"
+          <Button
+            pill
+            color="green"
+            className="w-32 font-bold text-lg enabled:cursor-pointer"
             type="submit"
             disabled={!isValidFile}
           >
-            Add Task
-          </button>
+            Post
+          </Button>
         </form>
       </div>
     </>
