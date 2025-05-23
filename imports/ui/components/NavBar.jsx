@@ -45,7 +45,11 @@ export const NavBar = () => {
     <div className="sticky top-0 z-50">
       <nav className="bg-[#328E6E] h-15 flex items-center justify-between px-5 py-2 relative">
         <div className="flex items-center mr-5">
-          <img src="/images/logo.png" alt="SkillTree Logo" className="h-8 w-8 mr-2" />
+          <img
+            src="/images/logo.png"
+            alt="SkillTree Logo"
+            className="h-8 w-8 mr-2"
+          />
           <div className="text-white text-[24px] font-bold">SKILLTREE</div>
         </div>
 
@@ -53,8 +57,19 @@ export const NavBar = () => {
           <form onSubmit={handleSearch}>
             <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
                 </svg>
               </div>
               <input
@@ -81,17 +96,17 @@ export const NavBar = () => {
                 >
                   <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
                     {item.image ? (
-                      <img 
-                        src={item.image} 
+                      <img
+                        src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover"
-                        onError={(e) => {
+                        onError={e => {
                           e.target.style.display = 'none';
                           e.target.nextSibling.style.display = 'flex';
                         }}
                       />
                     ) : null}
-                    <div 
+                    <div
                       className="w-full h-full bg-gradient-to-br from-green-300 to-green-700 flex items-center justify-center text-white font-semibold text-lg"
                       style={{ display: item.image ? 'none' : 'flex' }}
                     >
@@ -99,7 +114,9 @@ export const NavBar = () => {
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-800 truncate">{item.title}</div>
+                    <div className="font-medium text-gray-800 truncate">
+                      {item.title}
+                    </div>
                     <div className="text-sm text-gray-500 truncate">
                       {item.description}
                     </div>

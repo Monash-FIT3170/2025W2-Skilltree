@@ -10,7 +10,8 @@ Meteor.startup(async () => {
   const dummySkillTrees = [
     {
       title: 'Basketball',
-      image: 'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
+      image:
+        'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
       description: 'Learn dribbling to shooting.',
       termsAndConditions:
         'This SkillTree is intended for sports training purposes.',
