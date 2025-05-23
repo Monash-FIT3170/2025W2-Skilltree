@@ -143,6 +143,11 @@ export const SignIn = () => {
               </button>
             </div>
 
+            <p className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
+              Forgot my password?
+            </p>
+
+
             {/* Submit button */}
             <button
               type="submit"
