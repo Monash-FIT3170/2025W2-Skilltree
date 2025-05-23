@@ -81,9 +81,11 @@ const Step1 = () => {
           className="w-1/2 flex flex-col justify-center pl-6"
         >
           <div className="flex flex-col space-y-6 w-full max-w-[400px]">
-            {/* Step Bar */}
+            {/* Step Bar - 4 steps */}
             <div className="flex items-center justify-between w-full">
               <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
+              <div className="h-1 bg-white flex-grow mx-2"></div>
+              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
               <div className="h-1 bg-white flex-grow mx-2"></div>
               <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
               <div className="h-1 bg-white flex-grow mx-2"></div>
@@ -103,7 +105,7 @@ const Step1 = () => {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
+                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
               />
             </div>
 
@@ -119,11 +121,11 @@ const Step1 = () => {
                 onChange={handleChange}
                 required
                 placeholder="jane@example.com"
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
+                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
               />
             </div>
 
-            {/* Next Button - Circular Bordered Arrow */}
+            {/* Navigation Button */}
             <div className="flex justify-end">
               <button
                 type="submit"
