@@ -180,6 +180,12 @@ export const SignIn = () => {
             Create Account
           </Link>
 
+          <div className="flex items-center my-5 w-full max-w-ws">
+            <div className="flex-grow h-px bg-gray-700" />
+            <span className="px-3 text-gray-700 text-sm">or</span>
+            <div className="flex-grow h-px bg-gray-700" />
+          </div>
+
           <div className="space-y-3 pt-2">
             <button
               onClick={handleGoogleLogin}
