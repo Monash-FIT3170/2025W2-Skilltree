@@ -3,7 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { emailRegex, passwordRegex } from '/imports/api/Schemas';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { toast, Toaster } from 'react-hot-toast';
@@ -107,23 +107,30 @@ export const SignIn = () => {
           <h2 className="text-2xl font-bold text-center">Sign in</h2>
 
           <form onSubmit={handleLogin} className="space-y-4">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
-              required
-            />
+            {/* Email input with icon */}
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                required
+              />
+              <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            </div>
+
+            {/* Password input with icon and eye toggle */}
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full px-4 py-2 pr-10 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                className="w-full pl-10 pr-10 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
                 required
               />
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -132,6 +139,8 @@ export const SignIn = () => {
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
+
+            {/* Submit button */}
             <button
               type="submit"
               disabled={loggingIn}
