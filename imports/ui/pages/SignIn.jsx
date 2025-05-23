@@ -6,7 +6,7 @@ import { emailRegex, passwordRegex } from '/imports/api/Schemas';
 
 //This is the Login React Component to handle user registration
 export const SignIn = () => {
-  conszt [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
