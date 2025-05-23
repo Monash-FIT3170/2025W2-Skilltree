@@ -38,7 +38,7 @@ export const NavBar = () => {
 
   const handleResultClick = id => {
     setShowDropdown(false);
-    navigate(`/skilltree/${id}`);
+    navigate('');
   };
 
   return (
