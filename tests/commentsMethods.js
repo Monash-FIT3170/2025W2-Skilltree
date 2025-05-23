@@ -4,39 +4,39 @@ import '/imports/api/methods/Comments';
 import { CommentsCollection } from '/imports/api/collections/Comments'; // Comment collection
 
 // _id
-const comment_id_1 = "abcd12345"
-const test_id_1 = 'a1b2c3d4';
-const test_id_2 = "a2b3c4d5";
+const COMMENT_ID_1 = "abcd12345"
+const TEST_ID_1 = 'a1b2c3d4';
+const TEST_ID_2 = "a2b3c4d5";
 
-const new_text = "This comment is edited"
+const NEW_TEXT = "This comment is edited"
 
 // dummy data
-const comment_1 = {
-    _id: comment_id_1,
+const COMMENT_1 = {
+    _id: COMMENT_ID_1,
     username: 'User 1',
     comment: 'Hello World',
-    postId: test_id_1,
+    postId: TEST_ID_1,
     createdAt: new Date(), 
 }
 
-const comment_2 = {
+const COMMENT_2 = {
     username: 'User 2',
     comment: 'Hello World',
-    postId: test_id_2,
+    postId: TEST_ID_2,
     createdAt: new Date(), 
 }
 
-const comment_3 = {
+const COMMENT_3 = {
     username: 'User 3',
     comment: 'Hello World',
-    postId: test_id_1,
+    postId: TEST_ID_1,
     createdAt: new Date(), 
 }
 
-const comment_4 = {
+const COMMENT_4 = {
     username: 'User 4',
     comment: 'Hello World',
-    postId: test_id_2,
+    postId: TEST_ID_2,
     createdAt: new Date(), 
 }
 
@@ -45,23 +45,23 @@ const CommentAdd = async comment => {
     return res;
 }
 
-const CommentGetAll = async post_id => {
-    const res = await Meteor.call('getAllComments', post_id);
+const CommentGetAll = async postId => {
+    const res = await Meteor.call('getAllComments', postId);
     return res;
 }
 
-const CommentGet = async comment_id => {
-    const res = await Meteor.call('getComment', comment_id);
+const CommentGet = async commentId => {
+    const res = await Meteor.call('getComment', commentId);
     return res;
 }
 
-const CommentRemove = async comment_id => {
-    const res = await Meteor.call('removeComment', comment_id);
+const CommentRemove = async commentId => {
+    const res = await Meteor.call('removeComment', commentId);
     return res;
 }
 
-const CommentEdit = comment_id => async new_text => {
-    const res = await Meteor.call('editComment', comment_id, new_text);
+const CommentEdit = commentId => async newText => {
+    const res = await Meteor.call('editComment', commentId, newText);
     return res;
 }
 
@@ -75,36 +75,36 @@ before(
 describe("Comment methods", function () {
     describe("addComment", function () {
         it("should add a comment to the database", async function () {
-            const res = await CommentAdd(comment_1);
-            assert.strictEqual(res,comment_id_1);
+            const res = await CommentAdd(COMMENT_1);
+            assert.strictEqual(res,COMMENT_ID_1);
         })
     })
     describe("getComment", function () {
         it("should retrieve a comment that has been inserted", async function () {
-            const res = await CommentGet(comment_id_1);
-            assert.deepStrictEqual(res, comment_1)
+            const res = await CommentGet(COMMENT_ID_1);
+            assert.deepStrictEqual(res, COMMENT_1)
         })
     })
     describe("editComment", function () {
         it("should edit the contents of a comment", async function () {
-            await CommentEdit(comment_id_1)(new_text);
-            const res = await CommentGet(comment_id_1);
-            assert.strictEqual(res.comment, new_text);
+            await CommentEdit(COMMENT_ID_1)(NEW_TEXT);
+            const res = await CommentGet(COMMENT_ID_1);
+            assert.strictEqual(res.comment, NEW_TEXT);
         })
     })
     describe("removeComment", function () {
         it("should remove comment from database", async function () {
-            const res = await CommentRemove(comment_id_1);
+            const res = await CommentRemove(COMMENT_ID_1);
             assert.strictEqual(res,1);
         })
     })
     describe("getAllComments", function () {
         it("should return all comments from database associated with a post", async function () {
-            await CommentAdd(comment_1);
-            await CommentAdd(comment_2);
-            await CommentAdd(comment_3);
-            await CommentAdd(comment_4);
-            const res = await CommentGetAll(test_id_1);
+            await CommentAdd(COMMENT_1);
+            await CommentAdd(COMMENT_2);
+            await CommentAdd(COMMENT_3);
+            await CommentAdd(COMMENT_4);
+            const res = await CommentGetAll(TEST_ID_1);
             assert.strictEqual(res.length, 2);
         })
     })

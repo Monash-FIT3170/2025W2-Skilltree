@@ -9,10 +9,10 @@ Meteor.methods({
   },
 
   // remove comment from collection
-  async removeComment(comment_id) {
-    check(comment_id, String);
+  async removeComment(commentId) {
+    check(commentId, String);
 
-    const result = await CommentsCollection.removeAsync(comment_id);
+    const result = await CommentsCollection.removeAsync(commentId);
     if (result === 0) {
       throw new Meteor.Error(
         'not-found',
@@ -34,15 +34,15 @@ Meteor.methods({
     );
   },
 
-  // retrieve comment from comment_id
-  async getComment(comment_id) {
-    return await CommentsCollection.findOneAsync({ _id: comment_id });
+  // retrieve comment from commentId
+  async getComment(commentId) {
+    return await CommentsCollection.findOneAsync({ _id: commentId });
   },
 
   // retrieve all comments associated with a post
-  async getAllComments(post_id) {
+  async getAllComments(postId) {
     const comment = await CommentsCollection.find({
-      postId: post_id
+      postId: postId
     }).fetchAsync();
 
     return comment;
