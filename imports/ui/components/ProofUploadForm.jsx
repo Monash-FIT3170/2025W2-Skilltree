@@ -225,11 +225,23 @@ export const ProofUploadForm = () => {
         >
           <h1 className="text-xl font-bold self-start">Title</h1>
 
-          <div id="preview" className="flex-1 flex items-center justify-center">
+          <div
+            id="preview"
+            className="flex items-center justify-center h-64 bg-gray-200 rounded-md mb-4"
+          >
             {previewUrl && previewType === 'image' ? (
-              <img alt="Image preview" src={previewUrl} />
+              <img
+                alt="Image preview"
+                src={previewUrl}
+                className="max-h-full max-w-full object-contain"
+              />
             ) : previewUrl && previewType === 'video' ? (
-              <video autoPlay={false} controls={true} src={previewUrl} />
+              <video
+                autoPlay={false}
+                controls={true}
+                src={previewUrl}
+                className="max-h-full max-w-full object-contain"
+              />
             ) : (
               <Dropzone onChangeFunc={updatePreview} />
             )}
