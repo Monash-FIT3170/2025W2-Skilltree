@@ -3,7 +3,7 @@ import { PublicRoute, PrivateRoute } from '/imports/utils/RouteGuard';
 
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
-import GetMissingGoogleFields from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
 
 export const SignInRoutes = [
   {
