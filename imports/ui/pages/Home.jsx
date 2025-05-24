@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { Outlet } from 'react-router-dom';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 
 // JSX UI

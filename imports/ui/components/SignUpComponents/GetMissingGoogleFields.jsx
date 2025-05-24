@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
-import React, { Suspense } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { toast, Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const GetMissingGoogleFields = () => {
-  const [error, setError] = useState(''); //This is to store any error messages when validating the account
+  const [, setError] = useState(''); //This is to store any error messages when validating the account
 
   const navigate = useNavigate();
 
