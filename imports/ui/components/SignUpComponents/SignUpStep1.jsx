@@ -1,129 +1,152 @@
 import { Meteor } from 'meteor/meteor';
-import { useState } from 'react';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-const Step1 = () => {
-  const [error, setError] = useState(''); //This is to store any error messages when validating the account
+import { motion } from 'framer-motion';
+import { toast, Toaster } from 'react-hot-toast';
 
+const Step1 = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
 
-  /*
-  This function is used to update fields, including nested fields in an object
-  In ReactJS - do not update the formData directly, create a new copy --> update the state to use new copy
-  ReactJS DOC recommends library: Immer.
-  -Immer gives you a draft copy of the current state that you can safely mutate.
-  -Immer creates a draft copy,we can freely mutate the draft, then return an immutable object
-  */
   const handleChange = e => {
     const { name, value } = e.target;
-
     setFormData(draft => {
-      const keys = name.split('.'); //takes the name atrribute and splits it eg: profile.fullName = ['profile', 'fullName]
+      const keys = name.split('.');
       let field = draft;
       for (let i = 0; i < keys.length - 1; i++) {
         field = field[keys[i]];
       }
-      field[keys[keys.length - 1]] = value; //formData gets updated with the field object via setFormData
+      field[keys[keys.length - 1]] = value;
     });
   };
 
   const handleNext = async e => {
     e.preventDefault();
+    const usernamePattern = /^[a-zA-Z0-9_-]{3,20}$/;
+    if (!usernamePattern.test(formData.username)) {
+      toast.error(
+        `Username is invalid:\n• Minimum 3 characters\n• Maximum 20 characters\n• Can only contain letters, digits, hyphens, underscores`
+      );
+      return;
+    }
 
     try {
-      const validation = await Meteor.callAsync('validateStep1', formData);
-      console.log(validation);
-      setError('');
-
+      await Meteor.callAsync('validateStep1', formData);
+      toast.success('✅ Step 1 Complete');
       navigate('/signup/step2');
     } catch (error) {
-      setError(
-        error.reason || 'An unexpected error occurred with creating new user!'
-      );
+      toast.error(error.reason || 'An unexpected error occurred!');
     }
   };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f3f7f6]">
-      {/*The SignUp Box Container */}
-      <div className="flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-lg transition-opacity bg-[#D9D9D9]">
-        {/* LEFT SIDE: Logo and Skilltree title */}
-        <div className="w-1/2 bg-[#D9D9D9] flex flex-col justify-center items-center px-12 py-20 space-y-6">
-          <h2 className="text-4xl font-bold text-[#025940] tracking-wide">
-            SKILLTREE
-          </h2>
+    <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            fontSize: '0.875rem',
+            padding: '12px 16px',
+            background: '#fff',
+            color: '#333',
+            border: '1px solid #e0e0e0',
+            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
+            whiteSpace: 'pre-line'
+          },
+          duration: 4000
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
+      >
+        {/* LEFT SECTION: Logo + Text */}
+        <div className="w-1/2 flex items-center pr-4">
+          <div className="relative flex items-center">
+            <img
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="w-80 h-80 object-contain shrink-0"
+            />
+            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
+              SKILLTREE
+            </h2>
+          </div>
         </div>
 
-        {/* RIGHT SIDE: user name and email */}
+        {/* RIGHT SECTION: Form */}
         <form
           onSubmit={handleNext}
-          className="w-1/2 flex flex-col justify-center px-10 py-12 space-y-5"
+          className="w-1/2 flex flex-col justify-center pl-6"
         >
-          {/*Progression Bar: Step 1*/}
-          <div className="flex items-center space-x-4 justify-center pb-4">
-            {/*Coloured Circle: Step 1*/}
-            <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-            {/*Need a line connecting from Step 1 --> Step 2*/}
-            {/*Keep it as 1/n of the container to make it flexible, where n= number of steps*/}
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
-            <div className="w-1/4 h-1 bg-gray-300"></div>
-            <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded-full"></div>
+          <div className="flex flex-col space-y-6 w-full max-w-[400px]">
+            {/* Step Bar - 4 steps */}
+            <div className="flex items-center justify-between w-full">
+              <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
+              <div className="h-1 bg-white flex-grow mx-2"></div>
+              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
+              <div className="h-1 bg-white flex-grow mx-2"></div>
+              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
+              <div className="h-1 bg-white flex-grow mx-2"></div>
+              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
+            </div>
+
+            <h3 className="text-2xl font-semibold text-black">
+              Account Details
+            </h3>
+
+            {/* Email */}
+            <div className="space-y-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-black"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="jane@example.com"
+                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
+              />
+            </div>
+
+            {/* Username */}
+            <div className="space-y-1">
+              <label
+                htmlFor="username"
+                className="block text-sm font-semibold text-black"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
+              />
+            </div>
+
+            {/* Navigation Button */}
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
+              >
+                →
+              </button>
+            </div>
           </div>
-
-          <h3 className="text-2xl font-semibold text-[#024059]">
-            Account Details
-          </h3>
-
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <label className="block text-sm font-semibold mb-2" htmlFor="email">
-            Email Address
-          </label>
-          <input
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="jane@example.com"
-            required
-            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-          />
-
-          <label
-            className="block text-sm font-semibold mb-2"
-            htmlFor="username"
-          >
-            Username
-          </label>
-          <input
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            className="w-full p-2 px-4 py-4 border border-gray-300 rounded-full text-base bg-white text-black"
-          />
-
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-[#04BF8A] text-white rounded-full px-6 py-2 hover:bg-[#03A64A] transition"
-            >
-              →
-            </button>
-          </div>
-
-          <p className="text-lg text-center text-gray-500">
-            Already have an account?{' '}
-            <Link to="/login" className="text-[#026873] hover:underline">
-              Log in
-            </Link>
-          </p>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

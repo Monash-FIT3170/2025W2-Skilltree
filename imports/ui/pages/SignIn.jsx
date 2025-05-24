@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailRegex, passwordRegex } from '/imports/api/Schemas';
+import { emailRegex, passwordRegex } from '/imports/api/Regex';
+import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { ClipLoader } from 'react-spinners';
+import { toast, Toaster } from 'react-hot-toast';
 
-//This is the Login React Component to handle user registration
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,10 +38,9 @@ export const SignIn = () => {
             const user = Meteor.user();
 
             const validation = await Meteor.callAsync(
-              'updateGoogleFields',
+              'addNewGoogleFields',
               user
             );
-            console.log('Update result:', validation);
 
             navigate('/login/extraStep1');
           } catch (error) {
@@ -49,47 +51,17 @@ export const SignIn = () => {
     );
   };
 
-  const handleFacebookLogin = async e => {
-    e.preventDefault();
 
-    Meteor.loginWithFacebook(
-      { loginStyle: 'popup', requestPermissions: ['email', 'public_profile'] },
-      async err => {
-        if (err) {
-          console.error('Facebook login failed', err);
-        } else {
-          console.log('Logged in with Facebook successfully!');
-
-          try {
-            const user = Meteor.user();
-            const validation = await Meteor.callAsync('updateUserFields', user);
-            console.log('Update result:', validation);
-
-            navigate('/home');
-          } catch (error) {
-            console.error('Failed to update user fields:', error);
-          }
-        }
-      }
-    );
-  };
-
-  //Event listener: Clicking Login
   const handleLogin = async e => {
-    e.preventDefault(); //no refreshing when submitting
-
-    //Validate the email:
+    e.preventDefault();
     if (!emailRegex.test(email)) {
       setError('Invalid email format.');
+      toast.error('Please enter a valid email');
       return;
     }
-
-    //Validate the password:
     if (!passwordRegex.test(password)) {
-      setError(`Password is invalid:
-        - Minimum 8 characters
-        - Maximum 64 characters
-        - Must include uppercase, lowercase, number, and special character`);
+      setError('Password format is invalid.');
+      toast.error('Password must include upper, lower, number, special char');
       return;
     }
 
@@ -100,121 +72,143 @@ export const SignIn = () => {
       setLoggingIn(false);
       if (error) {
         setError(error.reason || 'Login failed.');
+        toast.error(error.reason || 'Login failed');
       } else {
-        console.log('User logged in successfully');
-        navigate('/home'); //should be changed to Dashboard
+        toast.success('Welcome back!');
+        navigate('/home');
       }
     });
   };
 
-  //
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f7f9f8]">
-      <div className="bg-[#efefef] p-10 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Welcome back to SkillTree
-        </h2>
-
-        <div className="w-full flex flex-col items-center gap-4">
-          {/* Google Button */}
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
-          >
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-12 sm:py-20">
+      <Toaster position="top-right" />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
+      >
+        {/* LEFT SECTION: Logo + Text */}
+        <div className="w-1/2 flex items-center pr-4">
+          <div className="relative flex items-center">
             <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              alt="Google logo"
-              className="w-5 h-5"
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="w-80 h-80 object-contain shrink-0"
             />
-            <span className="text-base text-gray-700 font-medium">
-              Continue with Google
-            </span>
-          </button>
-
-          <button
-            onClick={handleFacebookLogin}
-            className="w-full flex items-center gap-3 px-6 py-3 border border-gray-300 bg-white rounded-lg shadow-sm hover:bg-gray-100 transition"
-          >
-            <img
-              src="/images/FacebookLogo.svg"
-              alt="Facebook logo"
-              className="w-5 h-5"
-            />
-            <span className="text-base text-gray-700 font-medium">
-              Continue with Facebook
-            </span>
-          </button>
-        </div>
-
-        <div className="flex items-center my-5 w-full max-w-ws">
-          <div className="flex-grow h-px bg-gray-700" />
-          <span className="px-3 text-gray-700 text-sm">or</span>
-          <div className="flex-grow h-px bg-gray-700" />
-        </div>
-
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <label className="block text-sm font-semibold mb-2" htmlFor="email">
-            Email Address
-          </label>
-          <input
-            id="email"
-            type="text"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="jane@example.com"
-            required
-            className="w-full px-4 py-2 border border-green-800 rounded-full placeholder:text-gray-500"
-          />
-
-          <label
-            className="block text-sm font-semibold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          {/*If showPassword=true, type=text, if showPassword=false, type=password  */}
-          <div className="relative">
-            <input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-green-800 rounded-full placeholder:text-gray-500"
-            />
-
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-600 hover:text-gray-800"
-            >
-              {/*Not sure how to get the popular "eye/closed eye icon. Need to import image*/}
-              {showPassword ? '🔒' : '🔓'}
-            </button>
+            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
+              SKILLTREE
+            </h2>
           </div>
-          <p className="text-xs underline">Forgot my password</p>
+        </div>
 
-          <button
-            type="submit"
-            className="w-full bg-[#2f8760] hover:bg-[#256b4a] text-white font-bold py-2 rounded-full"
+        {/* RIGHT SECTION: Form */}
+        <div className="w-1/2 bg-white rounded-xl p-10 flex flex-col justify-center space-y-4">
+          <h2 className="text-2xl font-bold text-center">
+            Welcome back to SkillTree
+          </h2>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            {/* Email input with icon */}
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                required
+              />
+              <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            </div>
+
+            {/* Password input with icon and eye toggle */}
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                required
+              />
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
+
+            <p className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
+              Forgot my password?
+            </p>
+
+
+            {/* Submit button */}
+            <button
+              type="submit"
+              disabled={loggingIn}
+              className="w-full bg-[#04BF8A] text-white font-semibold py-2 rounded-full hover:bg-[#03a57e] transition-all"
+            >
+              {loggingIn ? <ClipLoader size={20} color="#fff" /> : 'Login'}
+            </button>
+          </form>
+
+          <p className="text-base text-center text-gray-500 pt-1">
+            Don't have an account?
+          </p>
+          <Link
+            to="/signup"
+            className="w-full bg-[#024E40] text-white text-sm font-semibold py-2 rounded-full text-center hover:bg-[#023e31] transition-all"
           >
-            Login
-          </button>
-        </form>
+            Create Account
+          </Link>
 
-        <p className="mt-6 text-center text-sm text-gray-700">
-          Don't have an account?
-        </p>
-        <Link
-          to="/signup"
-          className="block mt-2 w-full bg-[#007a75] hover:bg-[#005f5c] text-white font-bold py-2 rounded-full text-center"
-        >
-          Create Account
-        </Link>
-      </div>
+          <div className="flex items-center my-5 w-full max-w-ws">
+            <div className="flex-grow h-px bg-gray-700" />
+            <span className="px-3 text-gray-700 text-sm">OR</span>
+            <div className="flex-grow h-px bg-gray-700" />
+          </div>
+
+          <div className="space-y-3 pt-2">
+            <button
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center px-6 py-2 border border-gray-300 bg-white rounded-full hover:scale-[1.02] transition-all"
+            >
+              <span className="w-6 flex justify-center">
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+              </span>
+
+              <span className="text-base ml-3">Continue with Google</span>
+            </button>
+
+          </div>
+
+          <div className="flex justify-center items-center gap-x-4 mt-6 text-gray-500 text-base">
+            <Link
+              to=""
+              className="hover:underline transition-all duration-300 underline-offset-4"
+            >
+              <p>Terms of Service</p>
+            </Link>{' '}
+            <span>|</span>{' '}
+            <Link
+              to=""
+              className="hover:underline transition-all duration-300 underline-offset-4"
+            >
+              <p>Privacy Policy</p>
+            </Link>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
 Meteor.methods({
-  async updateGoogleFields(user) {
+  async addNewGoogleFields(user) {
     const userID = user._id;
     const userOnServer = await Meteor.users.findOneAsync(userID);
 

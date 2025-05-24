@@ -1,5 +1,5 @@
-import React, { Suspense, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 
 export const SignUp = () => {
@@ -28,10 +28,11 @@ export const SignUp = () => {
   const [formData, setFormData] = useImmer(userForm);
 
   return (
-    <div>
-      <Suspense>
-        <Outlet context={{ formData, setFormData }} />{' '}
-        {/* Renders step1, step2, or step3 */}
+    <div className="min-h-screen w-full flex items-center justify-center bg-white px-4 py-8">
+      <Suspense
+        fallback={<p className="text-center text-gray-400">Loading form...</p>}
+      >
+        <Outlet context={{ formData, setFormData }} />
       </Suspense>
     </div>
   );

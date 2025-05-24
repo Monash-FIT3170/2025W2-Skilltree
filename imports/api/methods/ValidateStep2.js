@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { passwordRegex } from '/imports/api/Schemas';
+import { passwordRegex } from '/imports/api/Regex';
 
 Meteor.methods({
   async validateStep2(userOptions) {
