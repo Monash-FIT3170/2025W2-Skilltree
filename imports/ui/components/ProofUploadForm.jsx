@@ -232,7 +232,7 @@ export const ProofUploadForm = () => {
 
           <div
             id="preview"
-            className="flex items-center justify-center h-64 bg-white rounded-md m-4"
+            className="flex items-center justify-center h-96 bg-white rounded-md m-4"
           >
             {previewUrl && previewType === 'image' ? (
               <img
