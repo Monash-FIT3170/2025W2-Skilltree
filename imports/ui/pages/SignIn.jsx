@@ -38,8 +38,6 @@ export const SignIn = () => {
             //Attempt to merge the google account with existing account
             const validation = await Meteor.callAsync('mergeGoogleAccount');
 
-            console.log(validation);
-
             if (
               validation.status === 'alreadyMerged' ||
               validation.status === 'googleOnlyAccount'

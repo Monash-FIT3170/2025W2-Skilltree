@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 
 Meteor.methods({
   async addGoogleAccount() {
-    console.log(this.userId);
     const userID = this.userId;
     const userOnServer = await Meteor.users.findOneAsync(userID);
 

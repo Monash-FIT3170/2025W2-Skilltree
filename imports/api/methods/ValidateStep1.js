@@ -3,8 +3,6 @@ import { emailRegex, userNameRegex } from '/imports/api/Regex';
 
 Meteor.methods({
   async validateStep1(userOptions) {
-    console.log(userOptions);
-
     //Validate the email:
     if (!emailRegex.test(userOptions.email)) {
       throw new Meteor.Error(

@@ -41,7 +41,6 @@ export const GetMissingGoogleFields = () => {
     e.preventDefault();
 
     try {
-      console.log(formData);
       await Meteor.callAsync('validateMissingGoogleFields', formData);
       setError('');
 

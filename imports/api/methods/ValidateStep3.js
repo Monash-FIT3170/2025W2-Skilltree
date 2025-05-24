@@ -3,8 +3,6 @@ import { fullNameRegex } from '/imports/api/Regex';
 
 Meteor.methods({
   async validateStep3(userOptions) {
-    console.log(userOptions);
-
     //Validate the first name
     if (!fullNameRegex.test(userOptions.profile.givenName)) {
       throw new Meteor.Error(

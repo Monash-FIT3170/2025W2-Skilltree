@@ -3,8 +3,6 @@ import { passwordRegex } from '/imports/api/Regex';
 
 Meteor.methods({
   async validateStep2(userOptions) {
-    console.log(userOptions);
-
     //Validate the password:
     if (!passwordRegex.test(userOptions.password)) {
       throw new Meteor.Error(

@@ -2,10 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base'; //we are using Meteor's account-base package. It gives us the ability to create new users
 
 Meteor.methods({
-  createNewUser(userOptions) {
+  async createNewUser(userOptions) {
     try {
       //Create the new Skill Tree User
-      const userID = Accounts.createUser(userOptions);
+      const userID = await Accounts.createUserAsync(userOptions);
       return userID;
     } catch (error) {
       throw new Meteor.Error(

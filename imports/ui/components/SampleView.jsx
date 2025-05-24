@@ -24,7 +24,6 @@ export const SampleView = () => {
       if (error) {
         console.error('failed logout');
       } else {
-        console.log('passed');
         navigate('/login');
       }
     });
