@@ -38,6 +38,7 @@ export const Dropzone = ({ onChangeFunc }) => {
           </div>
           <FileInput
             id="dropzone-file"
+            name="file"
             className=" absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
             accept="image/*,video/*"
             onChange={onChangeFunc}

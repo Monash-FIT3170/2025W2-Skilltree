@@ -27,6 +27,8 @@ export const ProofUploadForm = () => {
   /** useStates */
   // Stores the file upload progress
   const [fileUploadProgress, setFileUploadProgress] = useState(undefined);
+  // Stores the selected file
+  const [selectedFile, setSelectedFile] = useState(null);
   // Stores the file upload result
   const [result, setResult] = useState(null);
   // Stores the file URL of the chosen file for the pre-upload preview (Note: NOT the S3 url)
@@ -155,12 +157,10 @@ export const ProofUploadForm = () => {
    */
   const handleSubmit = async e => {
     e.preventDefault();
-    const uploadResults = await handleUploadFile(
-      _.first(e.target.elements.file.files)
-    );
+    const uploadResults = await handleUploadFile(selectedFile);
     const proof = {
-      title: e.target.title.value,
-      description: e.target.caption.value,
+      title: 'given title',
+      description: 'given desc',
       user: 'my user', // TODO dummy data
       date: new Date(),
       evidenceLink: uploadResults.Location,
@@ -178,6 +178,7 @@ export const ProofUploadForm = () => {
    */
   const updatePreview = async e => {
     const file = e.target.files[0];
+
     if (!file) return;
 
     // Validate file
@@ -189,6 +190,7 @@ export const ProofUploadForm = () => {
       return;
     }
     setIsValidFile(fileValid);
+    setSelectedFile(file);
 
     // Set preview type
     if (file.type.startsWith('image/')) {
@@ -216,35 +218,14 @@ export const ProofUploadForm = () => {
   /** JSX */
   return (
     <>
-      <div className=" border-2 border-red-500">
-        <form className="upload-form" onSubmit={handleSubmit}>
-          {/* Title */}
-          <label htmlFor="title">Title:</label>
-          <input
-            className=" border-1 border-solid"
-            name="title"
-            type="text"
-            required
-          />
-          {/* Caption */}
-          <label htmlFor="caption">Caption:</label>
-          <input
-            className=" border-1 border-solid"
-            name="caption"
-            type="text"
-            required
-          />
-          {/* File */}
-          <input
-            className="file:bg-slate-500 file:pr-2 file:pl-1 file:text-white file:cursor-pointer border-1  border-solid"
-            name="file"
-            type="file"
-            accept="image/*,video/*"
-            onChange={updatePreview}
-          />
+      <div className="flex flex-col justify-between p-4">
+        <form
+          className="flex flex-col flex-1 justify-between"
+          onSubmit={handleSubmit}
+        >
+          <h1 className="text-xl font-bold self-start">Title</h1>
 
-          {/* File Preview */}
-          <div id="preview" className="w-96 border-2 border-green-500">
+          <div id="preview" className="flex-1 flex items-center justify-center">
             {previewUrl && previewType === 'image' ? (
               <img alt="Image preview" src={previewUrl} />
             ) : previewUrl && previewType === 'video' ? (
@@ -254,7 +235,10 @@ export const ProofUploadForm = () => {
             )}
           </div>
           {/* File Upload Progress */}
-          <div id="progress" className=" border-2 border-aqua-500 w-96">
+          <div
+            id="progress"
+            className="self-center border-2 border-aqua-500 w-96"
+          >
             {fileUploadProgress !== undefined && (
               <p>
                 File Upload Progress:{' '}
@@ -269,19 +253,22 @@ export const ProofUploadForm = () => {
               </p>
             )}
           </div>
-          {/* Submit button */}
-          <Button
-            pill
-            color="green"
-            className="w-32 font-bold text-lg enabled:cursor-pointer"
-            type="submit"
-            disabled={!isValidFile}
-          >
-            Post
-          </Button>
-          <Button color="red" size="sm" outline onClick={removeFile}>
-            X
-          </Button>
+
+          <div className="self-end">
+            {/* Submit button */}
+            <Button
+              pill
+              color="green"
+              className="w-32 font-bold text-lg enabled:cursor-pointer"
+              type="submit"
+              disabled={!isValidFile}
+            >
+              Post
+            </Button>
+            <Button color="red" size="sm" outline onClick={removeFile}>
+              X
+            </Button>
+          </div>
         </form>
       </div>
     </>
