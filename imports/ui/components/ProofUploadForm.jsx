@@ -280,7 +280,10 @@ export const ProofUploadForm = () => {
                 )}
               </div>
 
-              <div id="progress" className="self-center text-center">
+              <div
+                id="progress"
+                className="text-[#328E6E] font-bold self-center text-center h-6 items-center justify-center"
+              >
                 {fileUploadProgress !== undefined && (
                   <p>
                     {fileUploadProgress === null
