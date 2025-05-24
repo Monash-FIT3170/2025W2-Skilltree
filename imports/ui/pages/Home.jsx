@@ -17,10 +17,6 @@ export const Home = () => (
       <SampleView />
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense fallback={<Fallback />}>
-        <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
-      </Suspense>
-
-      <Suspense fallback={<Fallback />}>
         <CommentSection />
       </Suspense>
     </div>
