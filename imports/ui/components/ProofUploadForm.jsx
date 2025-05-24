@@ -222,10 +222,14 @@ export const ProofUploadForm = () => {
     <>
       <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
       {openModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={() => setOpenModal(false)}
+        >
           <div
             id="uploadModal"
             className="w-[90vw] max-w-[90vw] bg-[#d9d9d9] rounded-4xl border-2 border-green-300 flex flex-col justify-between p-4 max-h-[95vh] overflow-y-auto"
+            onClick={e => e.stopPropagation()}
           >
             <form
               className="flex flex-col flex-1 justify-between m-4"
