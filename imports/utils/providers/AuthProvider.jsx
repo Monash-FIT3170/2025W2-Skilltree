@@ -7,11 +7,6 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 // Create Provider
 export const AuthProvider = ({ children }) => {
-  const authInfo = useTracker(() => {
-    const id = Meteor.userId(); // Reactive Change
-    return { userId: id, loggedIn: !!id };
-  });
-  return (
-    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-  );
+  const userId = useTracker(() => Meteor.userId(), []); // Reactive Change
+  return <AuthContext.Provider value={userId}>{children}</AuthContext.Provider>;
 };
