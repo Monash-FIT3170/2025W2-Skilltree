@@ -215,6 +215,7 @@ export const ProofUploadForm = ({ skill, requirements }) => {
     setPreviewUrl('');
     setPreviewType('');
     setIsValidFile(false);
+    setSelectedFile(null);
   };
 
   /** JSX */
@@ -257,8 +258,20 @@ export const ProofUploadForm = ({ skill, requirements }) => {
 
               <div
                 id="preview"
-                className="flex items-center justify-center h-96 bg-white rounded-4xl m-4"
+                className="relative flex items-center justify-center h-96 bg-white rounded-4xl m-4"
               >
+                {selectedFile && (
+                  <Button
+                    className="absolute top-2 right-2 z-10 shadow focus:ring-0"
+                    color="red"
+                    pill
+                    outline
+                    onClick={removeFile}
+                  >
+                    <AiOutlineClose />
+                  </Button>
+                )}
+
                 {previewUrl && previewType === 'image' ? (
                   <img
                     alt="Image preview"
@@ -292,17 +305,6 @@ export const ProofUploadForm = ({ skill, requirements }) => {
               </div>
 
               <div className="flex justify-end space-x-2 mt-4">
-                {selectedFile && (
-                  <Button
-                    className="focus:ring-0"
-                    color="red"
-                    pill
-                    outline
-                    onClick={removeFile}
-                  >
-                    <AiOutlineClose />
-                  </Button>
-                )}
                 <Button
                   pill
                   color="green"
