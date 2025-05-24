@@ -21,7 +21,7 @@ import { AiOutlineClose } from 'react-icons/ai';
  *   }
  * }
  * */
-export const ProofUploadForm = () => {
+export const ProofUploadForm = ({ skill, requirements }) => {
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
@@ -237,7 +237,7 @@ export const ProofUploadForm = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl text-[#328E6E] font-bold">
-                  Skill: C Major Scale
+                  Skill: {skill}
                 </h1>
                 <Button
                   className="focus:ring-0 hover:text-gray-700 text-2xl"
@@ -252,10 +252,7 @@ export const ProofUploadForm = () => {
 
               <div className="mb-4">
                 <p className="text-xl font-bold self-start">Requirements:</p>
-                <p className="text-xl self-start">
-                  Upload a video of yourself playing 2 octaves of the C Major
-                  scale.
-                </p>
+                <p className="text-xl self-start">{requirements}</p>
               </div>
 
               <div
