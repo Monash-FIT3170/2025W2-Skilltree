@@ -80,8 +80,7 @@ export const ProofUploadForm = () => {
 
           console.warn(error);
           // If we haven't hit 5 tries, try again
-          const res = await executeAndPrint(buffer, iteration, runCount + 1);
-          return res;
+          return await executeAndPrint(buffer, iteration, runCount + 1);
         }
       };
 
