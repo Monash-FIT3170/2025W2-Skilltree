@@ -1,7 +1,8 @@
 // Methods
 import '/imports/api/methods/Sample'; // Load Sample Collection Methods (demonstration)
 import '/imports/api/methods/CreateUsers';
-import '/imports/api/methods/AddNewGoogleFields';
+import '/imports/api/methods/MergeGoogleAccount';
+import '/imports/api/methods/AddGoogleAccount';
 import '/imports/api/methods/UpdateFields';
 import '/imports/api/methods/ValidateMissingGoogle';
 import '/imports/api/methods/ValidateStep1';

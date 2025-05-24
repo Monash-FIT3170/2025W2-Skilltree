@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { userNameRegex } from '/imports/api/Schemas';
+import { userNameRegex } from '/imports/api/Regex';
 
 /*
 Validates the following fields that are apart of our schema, but not in googles:
@@ -9,6 +9,8 @@ Validates the following fields that are apart of our schema, but not in googles:
 
 Meteor.methods({
   async validateMissingGoogleFields(userOptions) {
+    console.log('yolo');
+    console.log(userOptions);
     //Validate the username:
     if (!userNameRegex.test(userOptions.username)) {
       throw new Meteor.Error(

@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
 Meteor.methods({
-  async addNewGoogleFields(user) {
-    const userID = user._id;
+  async addGoogleAccount() {
+    console.log(this.userId);
+    const userID = this.userId;
     const userOnServer = await Meteor.users.findOneAsync(userID);
 
     const googleEmail = userOnServer?.services?.google?.email;

@@ -41,6 +41,7 @@ const GetMissingGoogleFields = () => {
     e.preventDefault();
 
     try {
+      console.log(formData);
       await Meteor.callAsync('validateMissingGoogleFields', formData);
       setError('');
 
@@ -52,7 +53,7 @@ const GetMissingGoogleFields = () => {
         'profile.lastLogin': formData.profile.lastLogin
       };
 
-      await Meteor.callAsync('updateFields', Meteor.user(), updateFields);
+      await Meteor.callAsync('updateFields', updateFields);
       setError('');
 
       navigate('/home');

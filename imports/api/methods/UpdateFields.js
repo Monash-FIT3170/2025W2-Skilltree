@@ -17,11 +17,13 @@ profile: {
  */
 
 Meteor.methods({
-  async updateFields(user, updateFields) {
-    const userID = user._id;
+  async updateFields(updateFields) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorised', 'User must be logged in first!');
+    }
 
     return await Meteor.users.updateAsync(
-      { _id: userID },
+      { _id: this.userId },
       { $set: updateFields }
     );
   }

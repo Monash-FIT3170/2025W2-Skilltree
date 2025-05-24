@@ -35,14 +35,24 @@ export const SignIn = () => {
           console.log('Logged in with Google successfully!');
 
           try {
-            const user = Meteor.user();
+            //Attempt to merge the google account with existing account
+            const validation = await Meteor.callAsync('mergeGoogleAccount');
 
-            const validation = await Meteor.callAsync(
-              'addNewGoogleFields',
-              user
-            );
+            console.log(validation);
 
-            navigate('/login/extraStep1');
+            if (
+              validation.status === 'alreadyMerged' ||
+              validation.status === 'googleOnlyAccount'
+            ) {
+              navigate('/home');
+            } else if (validation.status === 'justMerged') {
+              navigate('/home');
+            } else if (validation.status === 'noManualAccount') {
+              const createAcc = await Meteor.callAsync('addGoogleAccount');
+              navigate('/login/extraStep1');
+            } else if (validation.status === 'missingGoogleEmail') {
+              console.error('Google login failed: No Google email found');
+            }
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }
@@ -50,7 +60,6 @@ export const SignIn = () => {
       }
     );
   };
-
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -147,7 +156,6 @@ export const SignIn = () => {
               Forgot my password?
             </p>
 
-
             {/* Submit button */}
             <button
               type="submit"
@@ -189,7 +197,6 @@ export const SignIn = () => {
 
               <span className="text-base ml-3">Continue with Google</span>
             </button>
-
           </div>
 
           <div className="flex justify-center items-center gap-x-4 mt-6 text-gray-500 text-base">
