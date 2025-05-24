@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import React, { Suspense, useState } from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 
