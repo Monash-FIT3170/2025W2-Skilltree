@@ -22,9 +22,9 @@ const Step4 = () => {
     e.preventDefault();
     try {
       await Meteor.callAsync('validateStep4', formData);
-      toast.success('✅ Step 4 Complete');
+    
       await Meteor.callAsync('createNewUser', formData);
-      toast.success('🎉 Account created successfully!');
+    
       navigate('/home');
     } catch (error) {
       toast.error(error.reason || 'Something went wrong!');
@@ -34,7 +34,7 @@ const Step4 = () => {
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
       <Toaster
-        position="bottom-center"
+        position="top-center"
         toastOptions={{
           style: {
             fontSize: '0.875rem',

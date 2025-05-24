@@ -24,7 +24,6 @@ const Step3 = () => {
     e.preventDefault();
     try {
       await Meteor.callAsync('validateStep3', formData);
-      toast.success('✅ Step 3 Complete');
       navigate('/signup/step4');
     } catch (error) {
       toast.error(error.reason || 'An unexpected error occurred!');
@@ -34,7 +33,7 @@ const Step3 = () => {
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
       <Toaster
-        position="bottom-center"
+        position="top-center"
         toastOptions={{
           style: {
             fontSize: '0.875rem',
