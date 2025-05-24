@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'; //
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import _ from 'lodash';
-import { Button, Modal, ModalBody } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 import { Dropzone } from './Dropzone';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -39,7 +39,7 @@ export const ProofUploadForm = () => {
   // Stores whether the chosen file is of valid format and size
   const [isValidFile, setIsValidFile] = useState(false);
   // Modal Controller
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   /**  Helper Functions */
   /**
@@ -221,95 +221,96 @@ export const ProofUploadForm = () => {
   return (
     <>
       <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <ModalBody>
-          <div className="bg-[#d9d9d9]  border-2 border-green-300 flex flex-col justify-between p-4">
-            <form
-              className="flex flex-col flex-1 justify-between "
-              onSubmit={handleSubmit}
+      {openModal && (
+        <div
+          id="uploadModal"
+          className="w-[90vw] max-w-[90vw] mx-auto bg-[#d9d9d9] rounded-4xl border-2 border-green-300 flex flex-col justify-between p-4"
+        >
+          <form
+            className="flex flex-col flex-1 justify-between m-4"
+            onSubmit={handleSubmit}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-3xl text-[#328E6E] font-bold font-bold">
+                Skill: C Major Scale
+              </h1>
+              <Button
+                className="focus:ring-0 hover:text-gray-700 text-lg"
+                color="black"
+                pill
+                outline
+                onClick={() => setOpenModal(false)}
+              >
+                <AiOutlineClose />
+              </Button>
+            </div>
+            <div className="mb-4">
+              <p className="text-xl font-bold self-start">Requirements:</p>
+              <p className="text-xl self-start">
+                Upload a video of yourself playing 2 octaves of the C Major
+                scale.
+              </p>
+            </div>
+
+            <div
+              id="preview"
+              className="flex items-center justify-center h-96 bg-white rounded-4xl m-4"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h1 className="text-3xl text-[#328E6E] font-bold font-bold">
-                  Skill: C Major Scale
-                </h1>
+              {previewUrl && previewType === 'image' ? (
+                <img
+                  alt="Image preview"
+                  src={previewUrl}
+                  className="max-h-full max-w-full object-contain"
+                />
+              ) : previewUrl && previewType === 'video' ? (
+                <video
+                  autoPlay={false}
+                  controls={true}
+                  src={previewUrl}
+                  className="max-h-full max-w-full object-contain"
+                />
+              ) : (
+                <Dropzone onChangeFunc={updatePreview} />
+              )}
+            </div>
+            {/* File Upload Progress */}
+            <div id="progress" className="self-center text-center">
+              {fileUploadProgress !== undefined && (
+                <p>
+                  {fileUploadProgress === null
+                    ? 'Starting upload'
+                    : `${fileUploadProgress}%`}
+                </p>
+              )}
+              {result && <p>Done!</p>}
+            </div>
+
+            <div className="flex justify-end space-x-2 mt-4">
+              {selectedFile && (
                 <Button
-                  className="focus:ring-0 hover:text-gray-700 text-lg"
-                  color="black"
+                  className="focus:ring-0"
+                  color="red"
                   pill
                   outline
-                  onClick={() => setOpenModal(false)}
+                  onClick={removeFile}
                 >
                   <AiOutlineClose />
                 </Button>
-              </div>
-              <div className="mb-4">
-                <p className="text-xl font-bold self-start">Requirements:</p>
-                <p className="text-xl self-start">
-                  Upload a video of yourself playing 2 octaves of the C Major
-                  scale.
-                </p>
-              </div>
-
-              <div
-                id="preview"
-                className="flex items-center justify-center h-96 bg-white rounded-md m-4"
+              )}
+              {/* Submit button */}
+              <Button
+                pill
+                color="green"
+                className="focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer"
+                type="submit"
+                disabled={!isValidFile}
               >
-                {previewUrl && previewType === 'image' ? (
-                  <img
-                    alt="Image preview"
-                    src={previewUrl}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                ) : previewUrl && previewType === 'video' ? (
-                  <video
-                    autoPlay={false}
-                    controls={true}
-                    src={previewUrl}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                ) : (
-                  <Dropzone onChangeFunc={updatePreview} />
-                )}
-              </div>
-              {/* File Upload Progress */}
-              <div id="progress" className="self-center text-center">
-                {fileUploadProgress !== undefined && (
-                  <p>
-                    {fileUploadProgress === null
-                      ? 'Starting upload'
-                      : `${fileUploadProgress}%`}
-                  </p>
-                )}
-                {result && <p>Done!</p>}
-              </div>
-
-              <div className="flex justify-end space-x-2 mt-4">
-                {selectedFile && (
-                  <Button
-                    className="focus:ring-0"
-                    color="red"
-                    pill
-                    outline
-                    onClick={removeFile}
-                  >
-                    <AiOutlineClose />
-                  </Button>
-                )}
-                {/* Submit button */}
-                <Button
-                  pill
-                  color="green"
-                  className="focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer"
-                  type="submit"
-                  disabled={!isValidFile}
-                >
-                  Post
-                </Button>
-              </div>
-            </form>
-          </div>
-        </ModalBody>
-      </Modal>
+                Post
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
 };

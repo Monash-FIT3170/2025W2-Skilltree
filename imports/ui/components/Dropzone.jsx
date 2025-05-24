@@ -10,7 +10,7 @@ export const Dropzone = ({ onChangeFunc }) => {
       <div className="flex w-full items-center justify-center">
         <Label
           htmlFor="dropzone-file"
-          className="relative flex h-96 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-white hover:bg-gray-100 light:border-gray-600 light:bg-gray-700 light:hover:border-gray-500 light:hover:bg-gray-600"
+          className="relative flex h-96 w-full cursor-pointer flex-col items-center justify-center rounded-4xl border-2 border-dashed border-gray-300 bg-white hover:bg-gray-100 light:border-gray-600 light:bg-gray-700 light:hover:border-gray-500 light:hover:bg-gray-600"
         >
           <div className="flex flex-col items-center justify-center pb-6 pt-5">
             <svg
