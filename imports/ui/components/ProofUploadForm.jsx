@@ -247,23 +247,15 @@ export const ProofUploadForm = () => {
             )}
           </div>
           {/* File Upload Progress */}
-          <div
-            id="progress"
-            className="self-center border-2 border-aqua-500 w-96"
-          >
+          <div id="progress" className="self-center text-center">
             {fileUploadProgress !== undefined && (
               <p>
-                File Upload Progress:{' '}
                 {fileUploadProgress === null
                   ? 'Starting upload'
                   : `${fileUploadProgress}%`}
               </p>
             )}
-            {result && (
-              <p>
-                file link: <a href={result.Location}>click me</a>{' '}
-              </p>
-            )}
+            {result && <p>Done!</p>}
           </div>
 
           <div className="flex justify-end space-x-2 mt-4">
