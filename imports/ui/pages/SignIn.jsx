@@ -35,14 +35,26 @@ export const SignIn = () => {
           console.log('Logged in with Google successfully!');
 
           try {
-            const user = Meteor.user();
+            //Attempt to merge the google account with existing account
+            const validation = await Meteor.callAsync('mergeGoogleAccount');
 
-            const validation = await Meteor.callAsync(
-              'addNewGoogleFields',
-              user
-            );
+            console.log(validation);
 
-            navigate('/login/extraStep1');
+            if (
+              validation.status === 'alreadyMerged' ||
+              validation.status === 'googleOnlyAccount'
+            ) {
+              navigate('/home');
+            } else if (validation.status === 'justMerged') {
+              navigate('/home');
+            } else if (validation.status === 'noManualAccount') {
+              const createAcc = await Meteor.callAsync('addGoogleAccount');
+
+              navigate('/login/extraStep1');
+              
+            } else if (validation.status === 'missingGoogleEmail') {
+              console.error('Google login failed: No Google email found');
+            }
           } catch (error) {
             console.error('Failed to update user fields:', error);
           }

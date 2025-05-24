@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 
-const GetMissingGoogleFields = () => {
+export const GetMissingGoogleFields = () => {
   const [, setError] = useState(''); //This is to store any error messages when validating the account
 
   const navigate = useNavigate();
@@ -170,4 +170,3 @@ const GetMissingGoogleFields = () => {
   );
 };
 
-export default GetMissingGoogleFields;

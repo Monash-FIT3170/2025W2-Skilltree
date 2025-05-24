@@ -1,9 +1,9 @@
 import React from 'react';
-import { PublicRoute } from '/imports/utils/RouteGuard';
+import { PublicRoute, PrivateRoute } from '/imports/utils/RouteGuard';
 
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
-import MissingGoogleFieldsStep from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import GetMissingGoogleFields from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
 
 export const SignInRoutes = [
   {
@@ -18,9 +18,9 @@ export const SignInRoutes = [
   {
     path: 'login/extraStep1',
     element: (
-      <PublicRoute hideForLoggedIn={true} redirect="/">
-        <MissingGoogleFieldsStep />
-      </PublicRoute>
+      <PrivateRoute redirect="/login">
+        <GetMissingGoogleFields />
+      </PrivateRoute>
     )
   }
 ];
