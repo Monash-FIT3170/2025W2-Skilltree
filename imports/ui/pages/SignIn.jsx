@@ -48,10 +48,9 @@ export const SignIn = () => {
             } else if (validation.status === 'justMerged') {
               navigate('/home');
             } else if (validation.status === 'noManualAccount') {
-              const createAcc = await Meteor.callAsync('addGoogleAccount');
+              await Meteor.callAsync('addGoogleAccount');
 
               navigate('/login/extraStep1');
-              
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
             }
@@ -155,10 +154,9 @@ export const SignIn = () => {
                 </button>
               </div>
 
-            <p className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
-              Forgot my password?
-            </p>
-
+              <p className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
+                Forgot my password?
+              </p>
 
               {/* Submit button */}
               <button
@@ -199,10 +197,9 @@ export const SignIn = () => {
                   />
                 </span>
 
-              <span className="text-base ml-3">Continue with Google</span>
-            </button>
-
-          </div>
+                <span className="text-base ml-3">Continue with Google</span>
+              </button>
+            </div>
 
             <div className="flex justify-center items-center gap-x-4 mt-6 text-gray-500 text-base">
               <Link

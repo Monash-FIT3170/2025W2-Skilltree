@@ -7,14 +7,28 @@ import { Button } from 'flowbite-react';
 // Mongo Collections
 import { SampleCollection } from '/imports/api/collections/Sample';
 
+import { useNavigate } from 'react-router-dom';
+
 export const SampleView = () => {
   useSubscribeSuspense('sample'); // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering
   const samples = useFind(SampleCollection, []); // Fetch documents from SampleCollection using Meteor's useFind method for real-time updates from the database
   const SampleCopiesInc = sampleId => async amount => {
     await Meteor.callAsync('sampleCopiesInc', sampleId, amount); // Call Meteor method to increase copies by amount on SampleCollection by the sampleId
   };
-  const copiesAddOne = sampleId => SampleCopiesInc(sampleId)(+1);
   const copiesSubOne = sampleId => SampleCopiesInc(sampleId)(-1);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    Meteor.logout(error => {
+      if (error) {
+        console.error('failed logout');
+      } else {
+        console.log('passed');
+        navigate('/login');
+      }
+    });
+  };
 
   return (
     <>
@@ -23,13 +37,8 @@ export const SampleView = () => {
         {samples.map(sample => (
           <li key={sample._id} className="mb-1">
             {sample.title} by {sample.author}: {sample.copies}x
-            <Button
-              color="green"
-              size="sm"
-              onClick={() => copiesAddOne(sample._id)}
-              pill
-            >
-              +1
+            <Button color="green" size="sm" onClick={() => handleLogout()} pill>
+              logout
             </Button>
             <Button
               color="green"
