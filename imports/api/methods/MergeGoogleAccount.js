@@ -60,13 +60,12 @@ Meteor.methods({
     }
 
     //CASE 4: We have a manual account existing in the DB and we are currently trying to log into skilltree with a google account
-    //Thus, we merge the exisiting manual setup into the google account
-    const manualUsername = manualUser.username;
-    const manualEmail = manualUser.emails?.[0]?.address;
-    const manualPasswordHash = manualUser.services?.password?.bcrypt;
+    //Thus, we merge the Google account data into the existing manual account.
 
-    // Step 1: Set everything except username and email (to avoid unique conflicts)
-    await Meteor.users.updateAsync(googleUser._id, {
+    const manualUserId = manualUser._id;
+
+    // Step 1: We need to attach the Google Service to the existing account
+    await Meteor.users.updateAsync(manualUserId, {
       $set: {
         'profile.givenName':
           manualUser.profile?.givenName || googleUser.profile?.givenName,
@@ -74,8 +73,6 @@ Meteor.methods({
           manualUser.profile?.familyName || googleUser.profile?.familyName,
         'profile.dateOfBirth':
           manualUser.profile?.dateOfBirth || googleUser.profile?.dateOfBirth,
-
-        'services.password.bcrypt': manualPasswordHash,
 
         'profile.subscribedCommunities': manualUser.subscribedCommunities || [],
         'profile.createdCommunities': manualUser.createdCommunities || [],
@@ -93,30 +90,33 @@ Meteor.methods({
       }
     });
 
-    // Step 2: Remove the manual user so username + email are freed
-    await Meteor.users.removeAsync({ _id: manualUser._id });
+    // Step 2: Remove the google user so the email is freed up
+    await Meteor.users.removeAsync({ _id: googleUser._id });
 
-    // Step 3: Now safe to set email and username
-    if (manualEmail || manualUsername) {
-      const emailAndUsernameUpdate = {};
+    // Step 3: Now safe to set the email and service.google since google account is removed
+    // Since we do not have this.userId anymore, we need to reference the manual user without id
+    const finalUser = await Meteor.users.findOneAsync({
+      'emails.address': googleEmail
+    });
+    const finalUserId = finalUser._id;
+    console.log(googleUser);
+    const safeUpdates = {
+      'services.google': googleUser.services.google,
+      'services.resume': googleUser.services.resume
+    };
 
-      if (manualUsername) {
-        emailAndUsernameUpdate.username = manualUsername;
-      }
-
-      if (manualEmail) {
-        emailAndUsernameUpdate.emails = [
-          {
-            address: manualEmail,
-            verified: true
-          }
-        ];
-      }
-
-      await Meteor.users.updateAsync(googleUser._id, {
-        $set: emailAndUsernameUpdate
-      });
+    if (googleEmail) {
+      safeUpdates.emails = [
+        {
+          address: googleEmail,
+          verified: true
+        }
+      ];
     }
+
+    await Meteor.users.updateAsync(finalUserId, {
+      $set: safeUpdates
+    });
 
     return { success: true, alreadyMerged: false, status: 'justMerged' };
   }
