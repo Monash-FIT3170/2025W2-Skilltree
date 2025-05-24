@@ -22,9 +22,9 @@ const Step4 = () => {
     e.preventDefault();
     try {
       await Meteor.callAsync('validateStep4', formData);
-    
+
       await Meteor.callAsync('createNewUser', formData);
-    
+
       navigate('/home');
     } catch (error) {
       toast.error(error.reason || 'Something went wrong!');
