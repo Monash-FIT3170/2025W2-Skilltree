@@ -254,7 +254,12 @@ export const ProofUploadForm = () => {
             )}
           </div>
 
-          <div className="self-end">
+          <div className="flex justify-end space-x-2 mt-4">
+            {selectedFile && (
+              <Button color="red" pill outline onClick={removeFile}>
+                X
+              </Button>
+            )}
             {/* Submit button */}
             <Button
               pill
@@ -264,9 +269,6 @@ export const ProofUploadForm = () => {
               disabled={!isValidFile}
             >
               Post
-            </Button>
-            <Button color="red" size="sm" outline onClick={removeFile}>
-              X
             </Button>
           </div>
         </form>
