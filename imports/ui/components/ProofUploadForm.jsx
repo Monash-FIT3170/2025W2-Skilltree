@@ -217,16 +217,22 @@ export const ProofUploadForm = () => {
   /** JSX */
   return (
     <>
-      <div className="flex flex-col justify-between p-4">
+      <div className="bg-[#d9d9d9]  border-2 border-green-300 flex flex-col justify-between p-4">
         <form
           className="flex flex-col flex-1 justify-between"
           onSubmit={handleSubmit}
         >
-          <h1 className="text-xl font-bold self-start">Title</h1>
+          <p className="text-3xl text-[#328E6E] font-bold self-start mb-4">
+            Title
+          </p>
+          <div className="mb-4">
+            <p className="text-xl font-bold self-start">Requirements:</p>
+            <p className="text-xl self-start">awdjafhuwafhufa</p>
+          </div>
 
           <div
             id="preview"
-            className="flex items-center justify-center h-64 bg-gray-200 rounded-md mb-4"
+            className="flex items-center justify-center h-64 bg-white rounded-md m-4"
           >
             {previewUrl && previewType === 'image' ? (
               <img
