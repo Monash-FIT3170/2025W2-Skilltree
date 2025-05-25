@@ -102,20 +102,6 @@ export const ProofsList = () => {
                     aria-label={`Verification progress: ${verification} out of 10`}
                   ></div>
                 </div>
-
-                {/* Comment Section */}
-                <div>
-                  <FullCommentSection username="placeholder" proofid={proof._id}/>
-                </div>
-                {/* <div className="p-3 border-t border-gray-300 mt-12">
-                  <div className="mb-2">
-                    <AddComment
-                      username="Username Placeholder"
-                      proofid={proof._id}
-                    />
-                  </div>
-                  <CommentSection proofId={proof._id} />
-                </div> */}
               </div>
             );
           })}
