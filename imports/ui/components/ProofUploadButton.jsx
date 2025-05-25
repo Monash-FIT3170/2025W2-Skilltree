@@ -163,6 +163,14 @@ export const ProofUploadButton = ({ skill, requirements }) => {
       subskill: skill
     };
     await insertProof(proof);
+    // Uncomment these if you want to close the modal after submission. Should probably just link to the post view instead
+    // setOpenModal(false);
+    // setPreviewUrl('');
+    // setPreviewType('');
+    // setIsValidFile(false);
+    // setSelectedFile(null);
+    // setResult(null);
+    // setFileUploadProgress(undefined);
   };
 
   /**
