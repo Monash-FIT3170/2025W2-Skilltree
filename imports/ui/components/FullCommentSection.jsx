@@ -15,6 +15,7 @@ export const FullCommentSection = ({ username, proofid }) => {
                 padding: '1.5rem',
                 maxWidth: '500px',
                 margin: '2rem auto',
+                maxHeight: '400px',
             }}
         >
             <AddComment
