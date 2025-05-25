@@ -22,8 +22,13 @@ react-meteor-data       # React higher-order component for reactively tracking M
 aldeed:simple-schema
 aldeed:collection2
 communitypackages:react-router-ssr
-accounts-base@3.0.4
+accounts-base
 accounts-password@3.0.3
 meteortesting:browser-tests
 meteortesting:mocha
 meteortesting:mocha-core
+accounts-ui
+accounts-google
+service-configuration
+jquery
+accounts-facebook
