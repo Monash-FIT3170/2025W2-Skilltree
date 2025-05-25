@@ -7,8 +7,6 @@ import { Button } from 'flowbite-react';
 // Mongo Collections
 import { SampleCollection } from '/imports/api/collections/Sample';
 
-import { useNavigate } from 'react-router-dom';
-
 export const SampleView = () => {
   useSubscribeSuspense('sample'); // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering
   const samples = useFind(SampleCollection, []); // Fetch documents from SampleCollection using Meteor's useFind method for real-time updates from the database
