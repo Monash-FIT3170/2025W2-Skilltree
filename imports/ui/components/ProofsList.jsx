@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { AddComment } from './AddComment';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Link } from 'react-router-dom';
 
 export const ProofsList = () => {
@@ -100,17 +98,6 @@ export const ProofsList = () => {
                     style={{ width: `${progressPercent}%` }}
                     aria-label={`Verification progress: ${verification} out of 10`}
                   ></div>
-                </div>
-
-                {/* Comment Section */}
-                <div className="p-3 border-t border-gray-300 mt-12">
-                  <div className="mb-2">
-                    <AddComment
-                      username="Username Placeholder"
-                      proofid={proof._id}
-                    />
-                  </div>
-                  <CommentSection proofId={proof._id} />
                 </div>
               </div>
             );
