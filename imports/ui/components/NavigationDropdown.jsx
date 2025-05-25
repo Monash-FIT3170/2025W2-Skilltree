@@ -4,6 +4,57 @@ import { FiChevronDown } from 'react-icons/fi';
 export const NavigationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const menuItems = [
+    {
+      id: 'community-tree',
+      label: 'Community Tree',
+      icon: (
+        <img
+          src="/images/CommunityTree.png"
+          alt="Logo"
+          className="w-8 h-8 rounded-lg object-contain"
+        />
+      ),
+      link: '/skilltree/1'
+    },
+    {
+      id: 'general-forum',
+      label: 'General Forum',
+      icon: (
+        <img
+          src="/images/GeneralForum.png"
+          alt="Logo"
+          className="w-8 h-8 rounded-lg object-contain"
+        />
+      ),
+      link: '/'
+    },
+    {
+      id: 'pending-proof',
+      label: 'Pending Proof',
+      icon: (
+        <img
+          src="/images/PendingProof.png"
+          alt="Logo"
+          className="w-8 h-8 rounded-lg object-contain"
+        />
+      ),
+      link: '/pendingproofs'
+    },
+    {
+      id: 'upload-evidence',
+      label: 'Upload Evidence',
+      icon: (
+        <img
+          src="/images/UploadEvidence.png"
+          alt="Logo"
+          className="w-8 h-8 rounded-lg object-contain"
+        />
+      ),
+      link: '/upload'
+    }
+  ];
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -20,6 +71,7 @@ export const NavigationDropdown = () => {
         <div className="flex items-center gap-2">
           <img
             src="https://picsum.photos/50/50"
+            // src={skilltree.image}
             alt="Logo"
             className="w-8 h-8 rounded-full"
           />
@@ -33,6 +85,29 @@ export const NavigationDropdown = () => {
           }`}
         />
       </button>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-2 w-full min-w-[280px] bg-[#328E6E] rounded-[22px] shadow-lg z-50 overflow-hidden transition-all duration-200 opacity-100 translate-y-0">
+          <div className="p-3">
+            <div className="bg-white rounded-[18px] overflow-hidden">
+              {menuItems.map((item, index) => (
+                <button
+                  key={item.id}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left text-black text-base font-sans ${
+                    index !== menuItems.length - 1
+                      ? 'border-b border-gray-100'
+                      : ''
+                  }`}
+                >
+                  <span className="flex-shrink-0">{item.icon}</span>
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
