@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 export const NavigationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -59,6 +61,15 @@ export const NavigationDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleMenuItemClick = itemId => {
+    console.log(`Clicked: ${itemId}`);
+    const selectedItem = menuItems.find(item => item.id === itemId);
+    if (selectedItem) {
+      navigate(selectedItem.link);
+    }
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative inline-block">
       {/* Dropdown Trigger */}
@@ -94,7 +105,8 @@ export const NavigationDropdown = () => {
               {menuItems.map((item, index) => (
                 <button
                   key={item.id}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left text-black text-base font-sans ${
+                  onClick={() => handleMenuItemClick(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-150 text-black text-base font-sans rounded-none hover:bg-[#328E6E] hover:text-white ${
                     index !== menuItems.length - 1
                       ? 'border-b border-gray-100'
                       : ''
