@@ -3,7 +3,6 @@ import React, { Suspense, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button } from 'flowbite-react';
 
-// Components
 import { SampleView } from '/imports/ui/components/SampleView';
 import { SkillTreeEdit } from '../components/SkillTree';
 import { CommentSection } from '/imports/ui/components/CommentSection';
@@ -11,7 +10,6 @@ import { Fallback } from '/imports/ui/components/Fallback';
 import { Outlet } from 'react-router-dom';
 import { ProofUploadButton } from '../components/ProofUploadButton';
 
-// Context
 import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const Home = () => {
@@ -49,5 +47,3 @@ export const Home = () => {
     </>
   );
 };
-
->>>>>>> origin/m2-sprint3
