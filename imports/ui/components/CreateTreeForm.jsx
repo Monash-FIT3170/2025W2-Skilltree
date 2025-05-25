@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const CreateTreeForm = ({ onAddSkills }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    tag: '', // New field for tag
+    tag: '', 
     tags: [],
     newTag: '',
     tsandcs: '',
@@ -81,10 +82,11 @@ export const CreateTreeForm = ({ onAddSkills }) => {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = e => {
     e.preventDefault();
     console.log('SkillTree Created:', formData);
-    alert('You have successfully created a SkillTree!');
     setFormData({
       title: '',
       description: '',
@@ -94,6 +96,7 @@ export const CreateTreeForm = ({ onAddSkills }) => {
       previewImage: ''
     });
     onAddSkills();
+    navigate('/SkillEditForm', {state: {formData: localForm}});
   };
 
   const triggerFileInput = () => {
