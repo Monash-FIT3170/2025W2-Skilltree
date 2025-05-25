@@ -1,12 +1,9 @@
 import React from 'react';
 
-import { AddComment } from './AddComment';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Link } from 'react-router-dom';
-import { FullCommentSection } from './FullCommentSection';
 
 export const ProofsList = () => {
   useSubscribeSuspense('proof');

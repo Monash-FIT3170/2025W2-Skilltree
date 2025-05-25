@@ -42,18 +42,3 @@ export const AddComment = ({ username, proofid }) => {
     </form>
   );
 };
-
-// return (
-//     <div className="add-comment">
-//         <input
-//             type="text"
-//             placeholder="Add a comment..."
-//             value={comment}
-//             onChange={(e) => setComment(e.target.value)}
-//             className="comment-input"
-//         />
-//         <button onClick={handleAddComment} className="comment-button">
-//             Proof
-//         </button>
-//     </div>
-// );

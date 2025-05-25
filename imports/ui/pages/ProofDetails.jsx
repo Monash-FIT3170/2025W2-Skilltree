@@ -52,7 +52,10 @@ export const ProofDetails = () => {
         </div>
 
         <div className="w-1/2">
-          <FullCommentSection username="usernameOfPersonLoggedIn" proofid={proof._id} />
+          <FullCommentSection
+            username="usernameOfPersonLoggedIn"
+            proofid={proof._id}
+          />
         </div>
       </div>
 
