@@ -7,19 +7,11 @@ import { Button } from 'flowbite-react';
 import { Dropzone } from './Dropzone';
 import { AiOutlineClose } from 'react-icons/ai';
 
-/** A form for a user to upload proof of progression in the SkillTree.
- * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket,
+/** A button that opens a form for a user to upload proof of progression in the SkillTree.
+ * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket
  * and inserts a proof document into the MongoDB 'proof' collection.
  *
- * NOTE: To input your AWS credentials, create a settings.json file in the
- * project root and ADD IT TO .GITIGNORE, never commit this.
- * Inside, type your Access Key ID and Secret Access Key for the bucket like so:
- * {
- *     "private": {
- *     "AWSAccessKeyId": "accesskeyhere",
- *     "AWSSecretAccessKey": "secretkeygoesherealsoitsverylong"
- *   }
- * }
+ * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
 export const ProofUploadForm = ({ skill, requirements }) => {
   /** CREDITS */
@@ -221,7 +213,16 @@ export const ProofUploadForm = ({ skill, requirements }) => {
   /** JSX */
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
+      {/* Button to Open Modal */}
+      <Button
+        pill
+        color="green"
+        className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+        onClick={() => setOpenModal(true)}
+      >
+        Post Proof
+      </Button>
+      {/* Modal */}
       {openModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
