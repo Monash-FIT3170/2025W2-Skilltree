@@ -23,26 +23,44 @@ Meteor.startup(async () => {
       skillNodes: [
         {
           id: 'dribble',
-          type: 'input',
-          data: { label: 'Dribbling' },
-          position: { x: 100, y: 100 }
-        },
-        {
-          id: 'shoot',
-          type: 'default',
-          data: { label: 'Shooting' },
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Dribbling',
+            description: 'Learn how to dribble the basketball effectively.',
+            progressXp: 10,
+            requirements: 'Upload a video of yourself dribbling for 10 seconds',
+            xpPoints: 10
+          },
           position: { x: 300, y: 100 }
         },
         {
+          id: 'shoot',
+          type: 'view-node-locked',
+          data: {
+            label: 'Shooting',
+            description: 'Learn how to shoot the basketball effectively.',
+            progressXp: 20,
+            requirements: 'Upload a video of yourself scoring a basket',
+            xpPoints: 20
+          },
+          position: { x: 200, y: 200 }
+        },
+        {
           id: 'defend',
-          type: 'output',
-          data: { label: 'Defensive Skills' },
-          position: { x: 500, y: 100 }
+          type: 'view-node-locked',
+          data: {
+            label: 'Defensive Skills',
+            description: 'Learn how to defend against other players.',
+            progressXp: 50,
+            requirements: 'Upload a video of yourself blocking another player',
+            xpPoints: 50
+          },
+          position: { x: 400, y: 200 }
         }
       ],
       skillEdges: [
         { id: 'e1', source: 'dribble', target: 'shoot' },
-        { id: 'e2', source: 'shoot', target: 'defend', animated: true }
+        { id: 'e2', source: 'dribble', target: 'defend' }
       ],
       admins: ['basketballpro'],
       subscribers: ['playerA', 'playerB']
@@ -57,21 +75,40 @@ Meteor.startup(async () => {
       skillNodes: [
         {
           id: 'pass',
-          type: 'input',
-          data: { label: 'Passing' },
-          position: { x: 100, y: 100 }
-        },
-        {
-          id: 'shoot',
-          type: 'default',
-          data: { label: 'Shooting' },
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Passing',
+            description: 'Learn how to pass the ball effectively.',
+            progressXp: 10,
+            requirements:
+              'Upload a video of yourself passing back and forth 3 times with another player',
+            xpPoints: 10
+          },
           position: { x: 300, y: 100 }
         },
         {
+          id: 'shoot',
+          type: 'view-node-locked',
+          data: {
+            label: 'Shooting',
+            description: 'Learn how to shoot and score',
+            progressXp: 30,
+            requirements: 'Upload a video of yourself scoring a goal',
+            xpPoints: 30
+          },
+          position: { x: 100, y: 250 }
+        },
+        {
           id: 'goalkeep',
-          type: 'output',
-          data: { label: 'Goalkeeping' },
-          position: { x: 500, y: 100 }
+          type: 'view-node-locked',
+          data: {
+            label: 'Goalkeeping',
+            description: 'Learn how to defend the goal',
+            progressXp: 50,
+            requirements: 'Upload a video of yourself making a save',
+            xpPoints: 50
+          },
+          position: { x: 500, y: 350 }
         }
       ],
       skillEdges: [
@@ -90,21 +127,39 @@ Meteor.startup(async () => {
       skillNodes: [
         {
           id: 'bat',
-          type: 'input',
-          data: { label: 'Batting' },
-          position: { x: 100, y: 100 }
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Batting',
+            description: 'Learn how to bat effectively.',
+            progressXp: 15,
+            requirements: 'Upload a video of yourself batting for 10 balls',
+            xpPoints: 15
+          },
+          position: { x: 100, y: 75 }
         },
         {
           id: 'bowl',
-          type: 'default',
-          data: { label: 'Bowling' },
-          position: { x: 300, y: 100 }
+          type: 'view-node-locked',
+          data: {
+            label: 'Bowling',
+            description: 'Learn how to bowl effectively.',
+            progressXp: 25,
+            requirements: 'Upload a video of yourself bowling 10 balls',
+            xpPoints: 25
+          },
+          position: { x: 300, y: 175 }
         },
         {
           id: 'field',
-          type: 'output',
-          data: { label: 'Fielding' },
-          position: { x: 500, y: 100 }
+          type: 'view-node-locked',
+          data: {
+            label: 'Fielding',
+            description: 'Learn how to field effectively.',
+            progressXp: 35,
+            requirements: 'Upload a video of yourself fielding and catching',
+            xpPoints: 35
+          },
+          position: { x: 500, y: 275 }
         }
       ],
       skillEdges: [
@@ -123,26 +178,46 @@ Meteor.startup(async () => {
       skillNodes: [
         {
           id: 'serve',
-          type: 'input',
-          data: { label: 'Serving' },
-          position: { x: 100, y: 100 }
-        },
-        {
-          id: 'rally',
-          type: 'default',
-          data: { label: 'Rally Techniques' },
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Serving',
+            description: 'Learn how to serve the tennis ball effectively.',
+            progressXp: 20,
+            requirements: 'Upload a video of yourself serving 5 times',
+            xpPoints: 20
+          },
           position: { x: 300, y: 100 }
         },
         {
-          id: 'strategy',
-          type: 'output',
-          data: { label: 'Match Strategy' },
-          position: { x: 500, y: 100 }
+          id: 'rally',
+          type: 'view-node-locked',
+          data: {
+            label: 'Rally Techniques',
+            description: 'Learn how to rally with a partner.',
+            progressXp: 30,
+            requirements:
+              'Upload a video of yourself making a rally with at least 10 hits',
+            xpPoints: 30
+          },
+          position: { x: 300, y: 200 }
+        },
+        {
+          id: 'serve-and-volley',
+          type: 'view-node-locked',
+          data: {
+            label: 'Serve and Volley',
+            description: 'Learn how serve and volley for the winner',
+            progressXp: 75,
+            requirements:
+              'Upload a video of yourself winning a point with a serve and volley',
+            xpPoints: 75
+          },
+          position: { x: 300, y: 300 }
         }
       ],
       skillEdges: [
         { id: 'e1', source: 'serve', target: 'rally' },
-        { id: 'e2', source: 'rally', target: 'strategy', animated: true }
+        { id: 'e2', source: 'rally', target: 'serve-and-volley' }
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']

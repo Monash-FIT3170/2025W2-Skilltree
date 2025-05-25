@@ -8,6 +8,37 @@ const skillDataSchema = new SimpleSchema({
     label: 'Skill label',
     max: 200,
     min: 1
+  },
+  description: {
+    type: String,
+    label: 'Skill description',
+    max: 1000,
+    min: 1,
+    optional: true
+  },
+  progressXp: {
+    type: Number,
+    label: 'Progress XP',
+    optional: true,
+    defaultValue: 0
+  },
+  xpPoints: {
+    type: Number,
+    label: 'XP Points',
+    optional: true,
+    defaultValue: 0
+  },
+  requirements: {
+    type: String,
+    label: 'Requirements to unlock this skill',
+    max: 1000,
+    min: 1,
+    optional: true
+  },
+  onOpenEditor: {
+    type: Function,
+    label: 'Function to open the editor for this skill',
+    optional: true
   }
 });
 
