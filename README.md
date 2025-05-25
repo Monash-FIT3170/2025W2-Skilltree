@@ -35,15 +35,20 @@ meteor npm run start
 meteor npm install
 ```
 Create new file called `settings.json` and copy paste the below code into it.
-This is a dummy AWS key, to allow the program to run without errors:
+This is a dummy `settings.json`, to allow the program to run without errors:
 ```
 {
   "private": {
     "AWSAccessKeyId": "",
-    "AWSSecretKey": ""
+    "AWSSecretKey": "",
+    "google": {
+      "clientId": "",
+      "secret": ""
+    }
   }
 }
 ```
+
 ## Lint
 
 ```
@@ -80,7 +85,9 @@ imports/
 │   ├── layouts/            // Reusable JSX layouts
 │   ├── pages/              // JSX pages
 │   └── App.jsx             // Root JSX container
-├── utils/                // Utility helper functions          
+├── utils/                // Utility helper functions
+│   ├── contexts/           // React contexts
+│   └── providers/          // React providers          
 └── Router.js             // Router loaded on client & server (SSR)
 private/                <Server Assets>
 public/                 <Client Assets>

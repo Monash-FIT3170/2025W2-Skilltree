@@ -8,7 +8,7 @@ import reactPlugin from 'eslint-plugin-react';
 export default [
   js.configs.recommended,
   {
-    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -25,20 +25,16 @@ export default [
       'no-multi-spaces': 'error',
       'no-trailing-spaces': 'error',
       'eol-last': ['error', 'always'],
-      'indent': ['error', 2],
+      indent: ['error', 2],
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off'
     }
   },
   {
-    ignores: [
-      "node_modules/",
-      "build/",
-      "dist/"
-    ]
+    ignores: ['node_modules/', 'build/', 'dist/']
   },
   {
-    files: ["**/*.jsx"],
+    files: ['**/*.jsx'],
     rules: {
       'no-unused-vars': ['warn', { varsIgnorePattern: '^React$' }],
       'react/jsx-uses-vars': 'warn'

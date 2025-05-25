@@ -22,9 +22,9 @@ Meteor.publish('users', () => {
 Meteor.startup(async () => {
   Meteor.users.removeAsync({}); // Drop users content to update and avoid dupes (debug)
   Accounts.createUser({
-    username: 'username',
-    email: 'example@email.com',
-    password: 'password'
+    username: 'sample',
+    email: 'sample@email.com',
+    password: 'Sample123!'
   });
 
   Accounts.createUser({
