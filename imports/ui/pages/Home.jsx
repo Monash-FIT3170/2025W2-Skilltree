@@ -8,7 +8,10 @@ import { SampleView } from '/imports/ui/components/SampleView';
 import { SkillTreeEdit } from '../components/SkillTree';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Fallback } from '/imports/ui/components/Fallback';
-import { Outlet } from 'react-router-dom'; // If you're using React Router
+import { Outlet } from 'react-router-dom';
+import { ProofUploadButton } from '../components/ProofUploadButton';
+
+// Context
 import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const Home = () => {
@@ -31,8 +34,13 @@ export const Home = () => {
         <SampleView />
 
         <Suspense fallback={<Fallback />}>
-          <Outlet /> {/* Renders child route if using nested routes */}
+          <Outlet />
         </Suspense>
+
+        <ProofUploadButton
+          skill="C Major Scale"
+          requirements="Upload a video of yourself playing 2 octaves of the C Major scale."
+        />
 
         <Suspense fallback={<Fallback />}>
           <CommentSection />
@@ -41,3 +49,5 @@ export const Home = () => {
     </>
   );
 };
+
+>>>>>>> origin/m2-sprint3
