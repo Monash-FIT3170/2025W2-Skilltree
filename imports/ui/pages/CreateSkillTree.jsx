@@ -17,7 +17,7 @@ export const CreateSkillTree = () => {
     termsAndConditions: '',
     skillNodes: [],
     skillEdges: [],
-    admins: [], //add the user who created the skill tree
+    admins: [], // TO DO: add the user who created the skill tree
     subscribers: []
   });
 

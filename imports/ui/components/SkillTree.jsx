@@ -159,8 +159,6 @@ export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
   );
 
   const handleOnSave = () => {
-    console.log('NodesToSave:', nodes);
-    console.log('EdgesToSave:', edges);
     onSave({ nodes, edges });
   };
 
