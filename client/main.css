@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
 @import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
 @plugin 'flowbite-react/plugin/tailwindcss';
 @source '../.flowbite-react/class-list.json';
 

@@ -38,7 +38,7 @@ export const NavBar = () => {
 
   const handleResultClick = id => {
     setShowDropdown(false);
-    navigate('');
+    navigate(`/skilltree/${id}`);
   };
 
   return (
@@ -162,6 +162,13 @@ export const NavBar = () => {
           className="text-white hover:bg-gray-600 px-3 py-2 rounded"
         >
           User
+        </Link>
+
+        <Link
+          to="/create"
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          Create SkillTree
         </Link>
       </nav>
     </div>

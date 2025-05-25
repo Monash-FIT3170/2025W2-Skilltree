@@ -2,6 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import '/imports/api/schemas/SkillTree';
 
+Meteor.publish('skilltreeById', function (id) {
+  return SkillTreeCollection.find({ _id: id });
+});
+
 Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 Meteor.startup(async () => {
@@ -45,7 +49,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Soccer',
-      image: '',
+      image: 'https://example.com/image1.png',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
         'Content for personal development in football skills.',
@@ -79,7 +83,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Cricket',
-      image: '',
+      image: 'https://example.com/image1.png',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
       tags: ['cricket', 'bat', 'sports'],
@@ -112,7 +116,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Tennis',
-      image: '',
+      image: 'https://example.com/image1.png',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
       tags: ['tennis', 'racket', 'sports'],
