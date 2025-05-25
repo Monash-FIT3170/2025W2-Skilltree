@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import { Button } from 'flowbite-react';
 
 import { SampleView } from '/imports/ui/components/SampleView';
-import { SkillTreeEdit } from '../components/SkillTree';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Fallback } from '/imports/ui/components/Fallback';
 import { Outlet } from 'react-router-dom';
@@ -28,7 +27,6 @@ export const Home = () => {
           logout
         </Button>
 
-        <SkillTreeEdit />
         <SampleView />
 
         <Suspense fallback={<Fallback />}>

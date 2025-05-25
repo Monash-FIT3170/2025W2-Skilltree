@@ -32,7 +32,7 @@ export const NavigationDropdown = ({ id }) => {
           className="w-8 h-8 rounded-lg object-contain"
         />
       ),
-      link: '/skilltree/1' // Example link, need to make it dynamic based on skilltree
+      link: `/skilltree/${id}`
     },
     {
       id: 'general-forum',
@@ -56,7 +56,7 @@ export const NavigationDropdown = ({ id }) => {
           className="w-8 h-8 rounded-lg object-contain"
         />
       ),
-      link: '/pendingproofs'
+      link: '/pendingproofs' // Eventually should go to specific skill tree pending proofs
     },
     {
       id: 'upload-evidence',
@@ -68,7 +68,7 @@ export const NavigationDropdown = ({ id }) => {
           className="w-8 h-8 rounded-lg object-contain"
         />
       ),
-      link: '/upload'
+      link: '/upload' // Eventually should go to specific skill tree upload
     }
   ];
 

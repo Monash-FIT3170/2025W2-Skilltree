@@ -44,7 +44,12 @@ export const SkillTreeCommunity = () => {
           <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
         </div>
       </div>
-      <SkillTreeEdit isAdmin={true} />
+      <SkillTreeEdit
+        isAdmin={false}
+        onSave={() => {}}
+        savedNodes={skilltree.skillNodes}
+        savedEdges={skilltree.skillEdges}
+      />
     </>
   );
 };
