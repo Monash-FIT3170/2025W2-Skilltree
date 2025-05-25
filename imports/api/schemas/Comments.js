@@ -16,10 +16,10 @@ Schemas.Comments = new SimpleSchema({
     max: 500, // Limit comment length
     min: 1
   },
-  postId: {
+  proofId: {
     type: String,
-    label: 'Associated Post ID',
-    optional: true // If you want to associate comments with specific posts
+    label: 'Associated Proof ID',
+    optional: true // If you want to associate comments with specific proofs
   },
   createdAt: {
     type: Date,

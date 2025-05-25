@@ -13,9 +13,9 @@ Meteor.startup(async () => {
   //generated dummy inputs
   const dummySkillTrees = [
     {
-      _id: '1', // manually set _id for testing, normally this is auto-generated
       title: 'Basketball',
-      image: 'https://picsum.photos/100',
+      image:
+        'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
       description: 'Learn dribbling to shooting.',
       termsAndConditions:
         'This SkillTree is intended for sports training purposes.',

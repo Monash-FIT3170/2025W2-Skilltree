@@ -73,7 +73,8 @@ Schemas.SkillTree = new SimpleSchema({
   image: {
     type: String,
     label: 'Image URL',
-    regEx: SimpleSchema.RegEx.Url
+    regEx: SimpleSchema.RegEx.Url,
+    optional: true
   },
   description: {
     type: String,
