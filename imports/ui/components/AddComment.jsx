@@ -28,7 +28,7 @@ export const AddComment = ({ username, proofid }) => {
   };
 
   return (
-    <form onSubmit={handleAddComment} className="add-comment">
+    <form onSubmit={handleAddComment} className="px-4 py-3">
       <input
         type="text"
         placeholder="Add a comment..."

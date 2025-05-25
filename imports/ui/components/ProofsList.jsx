@@ -6,6 +6,7 @@ import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr'
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Link } from 'react-router-dom';
+import { FullCommentSection } from './FullCommentSection';
 
 export const ProofsList = () => {
   useSubscribeSuspense('proof');
@@ -103,7 +104,10 @@ export const ProofsList = () => {
                 </div>
 
                 {/* Comment Section */}
-                <div className="p-3 border-t border-gray-300 mt-12">
+                <div>
+                  <FullCommentSection username="placeholder" proofid={proof._id}/>
+                </div>
+                {/* <div className="p-3 border-t border-gray-300 mt-12">
                   <div className="mb-2">
                     <AddComment
                       username="Username Placeholder"
@@ -111,7 +115,7 @@ export const ProofsList = () => {
                     />
                   </div>
                   <CommentSection proofId={proof._id} />
-                </div>
+                </div> */}
               </div>
             );
           })}
