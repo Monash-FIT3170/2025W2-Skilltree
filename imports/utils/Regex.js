@@ -4,11 +4,5 @@ export const Regex = {
   email: /^([a-zA-Z0-9_.+-]+)@([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,})$/,
   password:
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#~^()_+=-])[A-Za-z\d@$!%*?&#~^()_+=-]{8,64}$/,
-  username: /^[a-zA-Z0-9_-]{3,20}$/,
-  /*
-  -No fullnames has any digits
-  -Some fullnames have ' : Like Italian/Irish names --> O'Donnell, D'Ambrosio
-  -Some fullnames have - : Like Aubree-Rose
-  */
-  fullName: /^[\p{L}'\- ]+$/u
+  username: /^[a-zA-Z0-9_-]{3,20}$/
 };
