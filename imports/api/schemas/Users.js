@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
-import { Schemas, Regex } from '/imports/api/Schemas';
+import { Schemas } from '/imports/api/Schemas';
+import { Regex } from '/imports/utils/Regex';
 
 // Define the schema for UsersEmail
 Schemas.UsersEmail = new SimpleSchema({

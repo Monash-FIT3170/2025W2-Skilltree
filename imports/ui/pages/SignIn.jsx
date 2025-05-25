@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailRegex, passwordRegex } from '/imports/api/Regex';
+import { Regex } from '/imports/utils/Regex.js';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
@@ -62,12 +62,12 @@ export const SignIn = () => {
 
   const handleLogin = async e => {
     e.preventDefault();
-    if (!emailRegex.test(email)) {
+    if (!Regex.email.test(email)) {
       setError('Invalid email format.');
       toast.error('Please enter a valid email');
       return;
     }
-    if (!passwordRegex.test(password)) {
+    if (!Regex.password.test(password)) {
       setError('Password format is invalid.');
       toast.error('Password must include upper, lower, number, special char');
       return;

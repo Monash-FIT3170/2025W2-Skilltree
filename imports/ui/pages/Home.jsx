@@ -1,23 +1,37 @@
-import React, { Suspense } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { Suspense, useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { CommentSection } from '/imports/ui/components/CommentSection';
+import { Button } from 'flowbite-react';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
+import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Fallback } from '/imports/ui/components/Fallback';
 
-export const Home = () => (
-  <>
-    <Helmet>
-      <title>SkillTree - Home</title>
-    </Helmet>
-    <div className="p-2">
-      <h1 className="text-3xl font-bold mt-2">Welcome to SkillTree!</h1>
-      <SampleView />
-      {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
-      <Suspense fallback={<Fallback />}>
-        <CommentSection />
-      </Suspense>
-    </div>
-  </>
-);
+// UserContext
+import { UserContext } from '/imports/utils/contexts/UserContext';
+
+export const Home = () => {
+  const { username } = useContext(UserContext);
+
+  return (
+    <>
+      <Helmet>
+        <title>SkillTree - Home</title>
+      </Helmet>
+      <div className="p-2">
+        <h1 className="text-3xl font-bold mt-2">
+          Welcome @{username} to SkillTree!
+        </h1>
+        <Button color="green" size="sm" onClick={() => Meteor.logout()} pill>
+          logout
+        </Button>
+        <SampleView />
+        {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
+        <Suspense fallback={<Fallback />}>
+          <CommentSection />
+        </Suspense>
+      </div>
+    </>
+  );
+};

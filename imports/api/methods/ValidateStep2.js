@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { passwordRegex } from '/imports/api/Regex';
+import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
   async validateStep2(userOptions) {
     //Validate the password:
-    if (!passwordRegex.test(userOptions.password)) {
+    if (!Regex.password.test(userOptions.password)) {
       throw new Meteor.Error(
         'invalid-password',
         `Password is invalid:

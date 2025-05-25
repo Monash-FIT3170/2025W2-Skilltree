@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { fullNameRegex } from '/imports/api/Regex';
+import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
   async validateStep3(userOptions) {
     //Validate the first name
-    if (!fullNameRegex.test(userOptions.profile.givenName)) {
+    if (!Regex.fullName.test(userOptions.profile.givenName)) {
       throw new Meteor.Error(
         'invalid-fullname',
         'The input full name is invalid!'
@@ -12,7 +12,7 @@ Meteor.methods({
     }
 
     //Validate the last name
-    if (!fullNameRegex.test(userOptions.profile.familyName)) {
+    if (!Regex.fullName.test(userOptions.profile.familyName)) {
       throw new Meteor.Error(
         'invalid-fullname',
         'The input full name is invalid!'
