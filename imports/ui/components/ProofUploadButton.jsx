@@ -153,14 +153,14 @@ export const ProofUploadButton = ({ skill, requirements }) => {
     e.preventDefault();
     const uploadResults = await handleUploadFile(selectedFile);
     const proof = {
-      title: 'given title',
-      description: 'given desc',
-      user: 'my user', // TODO dummy data
+      title: skill, // TODO proof schema needs to be updated to reflect the fact that we dont have posts/descs, only subskills and requirements
+      description: requirements, // TODO schema updates will affect proof display stuff as well
+      user: 'my user', // TODO dummy data. need to be integrated
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
       skillTreeId: 'my skilltree', // should eventually be a community/skillTree ID
-      subskill: 'my subskill'
+      subskill: skill
     };
     await insertProof(proof);
   };
