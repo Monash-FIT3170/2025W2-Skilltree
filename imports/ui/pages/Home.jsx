@@ -5,6 +5,7 @@ import { CommentSection } from '/imports/ui/components/CommentSection';
 
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
+import { SkillTreeEdit } from '../components/SkillTree';
 import { Fallback } from '/imports/ui/components/Fallback';
 import { ProofUploadButton } from '../components/ProofUploadButton';
 
@@ -15,6 +16,7 @@ export const Home = () => (
     </Helmet>
     <div className="p-2">
       <h1 className="text-3xl font-bold mt-2">Welcome to SkillTree!</h1>
+      <SkillTreeEdit />
       <SampleView />
       {/* Suspense delays rendering until asynchronous data is ready (SSR) */}
       <Suspense fallback={<Fallback />}>
