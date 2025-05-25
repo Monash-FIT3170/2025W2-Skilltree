@@ -98,7 +98,7 @@ export const NavigationDropdown = ({ id }) => {
           <img
             src={skilltree.image || 'https://picsum.photos/100'}
             alt="Logo"
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 rounded-full object-cover"
           />
           <h2 className="text-white text-2xl font-semibold leading-none !font-sans">
             {skilltree.title}
