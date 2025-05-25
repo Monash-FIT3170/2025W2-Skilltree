@@ -9,6 +9,7 @@ import '/imports/api/methods/ValidateStep1';
 import '/imports/api/methods/ValidateStep2';
 import '/imports/api/methods/ValidateStep3';
 import '/imports/api/methods/ValidateStep4';
+import '/imports/api/methods/SkillTree';
 import '/imports/api/methods/Proof';
 import '/imports/api/methods/Upload';
 import '/imports/api/methods/skillTreeMethods';

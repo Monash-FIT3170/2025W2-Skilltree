@@ -11,6 +11,8 @@ import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
 import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { ProofDetailsRoutes } from '/imports/routes/pages/ProofDetails';
+import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
+import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -29,7 +31,9 @@ export const AppRoutes = [
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
       ...ProofDetailsRoutes,
-      ...NotFoundRoutes // * Keep last for Page not found
+      ...SkillTreeCommunityRoutes,
+      ...CreateSkillTreeRoutes,
+      ...NotFoundRoutes // * Last for Page not found
     ]
   }
 ];
