@@ -32,7 +32,17 @@ const nodeTypes = {
 };
 
 export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
-  var initialNodes = savedNodes ?? [];
+  // Reattach OpenEditor handlers to nodes. They are lost when saved to DB
+  const attachOpenEditorHandlers = (savedNodes = []) =>
+    savedNodes.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        onOpenEditor: () => handleOpenEditor(node.id)
+      }
+    }));
+
+  var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
   if (isAdmin && !savedNodes) {
     initialNodes = [
       {
