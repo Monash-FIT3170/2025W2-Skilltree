@@ -31,8 +31,9 @@ const nodeTypes = {
   'view-node-locked': createViewNode(false)
 };
 
-export const SkillTreeLogic = ({ isAdmin, onSave }) => {
-  var initialNodes = [];
+export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
+
+  var initialNodes = savedNodes ?? [];
   if (isAdmin) {
     initialNodes = [
       {
@@ -69,7 +70,9 @@ export const SkillTreeLogic = ({ isAdmin, onSave }) => {
       }
     ];
   }
-  const initialEdges = [{ id: '0->1000', source: '0', target: '1000' }];
+  const initialEdges = savedEdges ?? [
+    { id: '0->1000', source: '0', target: '1000' }
+  ];
 
   const idRef = useRef(1);
   const getId = () => `${idRef.current++}`;
@@ -206,8 +209,13 @@ export const SkillTreeLogic = ({ isAdmin, onSave }) => {
   );
 };
 
-export const SkillTreeEdit = ({ isAdmin, onSave }) => (
+export const SkillTreeEdit = ({ isAdmin, onSave, savedNodes, savedEdges }) => (
   <ReactFlowProvider>
-    <SkillTreeLogic isAdmin={isAdmin} onSave={onSave} />
+    <SkillTreeLogic
+      isAdmin={isAdmin}
+      onSave={onSave}
+      savedNodes={savedNodes}
+      savedEdges={savedEdges}
+    />
   </ReactFlowProvider>
 );
