@@ -35,7 +35,7 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
-        <NavigationDropdown />
+        <NavigationDropdown id={id} />
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>

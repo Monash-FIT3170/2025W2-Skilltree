@@ -15,7 +15,7 @@ Meteor.startup(async () => {
     {
       _id: '1', // manually set _id for testing, normally this is auto-generated
       title: 'Basketball',
-      image: 'https://example.com/image1.png',
+      image: 'https://picsum.photos/100',
       description: 'Learn dribbling to shooting.',
       termsAndConditions:
         'This SkillTree is intended for sports training purposes.',
