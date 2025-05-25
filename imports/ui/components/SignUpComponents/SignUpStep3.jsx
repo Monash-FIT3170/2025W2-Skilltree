@@ -58,7 +58,7 @@ const Step3 = () => {
         <div className="w-1/2 flex items-center pr-4">
           <div className="relative flex items-center">
             <img
-              src="/images/logo.png"
+              src="/images/colouredLogo.png"
               alt="SkillTree Logo"
               className="w-80 h-80 object-contain shrink-0"
             />
