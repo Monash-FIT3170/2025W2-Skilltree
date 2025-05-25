@@ -1,4 +1,5 @@
 import React from 'react';
+import { PrivateRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
@@ -7,26 +8,34 @@ import { App } from '/imports/ui/App';
 import { HomeRoutes } from '/imports/routes/pages/Home';
 import { SampleRoutes } from '/imports/routes/pages/Sample';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
-import { SignUpRoutes } from '/imports/routes/pages/SignUp';
-import { SignInRoutes } from '/imports/routes/pages/SignIn';
+import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
-import { PendingProofsRoutes } from './pages/PendingProofs';
-import { ProfileDashboardRoutes } from './pages/ProfileDashboard';
+import { ProofDetailsRoutes } from '/imports/routes/pages/ProofDetails';
+import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
+import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
   {
-    path: '/',
-    element: <App />,
+    // PrivateRoute requires loggedIn otherwise redirects to /login
+    path: '',
+    element: (
+      <PrivateRoute redirect="/login">
+        <App />
+      </PrivateRoute>
+    ),
     children: [
       // Extends children array with nested routes via spread operator (...)
       ...SignUpRoutes,
       ...SignInRoutes,
       ...HomeRoutes,
       ...SampleRoutes,
-      ...ProofUploadRoutes,
       ...PendingProofsRoutes,
       ...ProfileDashboardRoutes,
+      ...ProofUploadRoutes,
+      ...ProofDetailsRoutes,
+      ...SkillTreeCommunityRoutes,
+      ...CreateSkillTreeRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

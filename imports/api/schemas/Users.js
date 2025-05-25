@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'meteor/aldeed:simple-schema';
-import { Schemas, Regex } from '/imports/api/Schemas';
+import { Schemas } from '/imports/api/Schemas';
+import { Regex } from '/imports/utils/Regex';
 
 // Define the schema for UsersEmail
 Schemas.UsersEmail = new SimpleSchema({
@@ -17,9 +18,14 @@ Schemas.UsersEmail = new SimpleSchema({
 
 // Define the schema for UsersProfile
 Schemas.UsersProfile = new SimpleSchema({
-  fullName: {
+  givenName: {
     type: String,
-    label: 'Full Name',
+    label: 'Given Name',
+    optional: true
+  },
+  familyName: {
+    type: String,
+    label: 'Family Name',
     optional: true
   },
   avatarUrl: {
@@ -152,14 +158,27 @@ Schemas.UsersProfile = new SimpleSchema({
 });
 
 // Define the schema for UsersServices
+//NOTE: 20/05/2025 Some of these fields are optional, because when we do Meteor.loginWithGoogle and insertAsync,
+// Meteor automatically stores the OAuth info inside: services.google
+// the loginwithgoogle does not contain password, username, or email directly in the array.
+// Keep black box since services.google can be dynamic
 Schemas.UsersServices = new SimpleSchema({
   password: {
     type: Object,
-    label: 'Hashed Password Object'
+    label: 'Hashed Password Object',
+    optional: true
   },
   'password.bcrypt': {
     type: String, // The hash of the password is stored, not the password itself.
-    label: 'bcrypt Password Hash'
+    label: 'bcrypt Password Hash',
+    optional: true
+  },
+  google: {
+    //In the future, if we want to do facebook, github etc.. make sure to include it under UsersServices
+    type: Object,
+    label: 'Google OAuth Data',
+    optional: true,
+    blackbox: true
   },
   resume: {
     type: Object,
@@ -174,11 +193,13 @@ Schemas.User = new SimpleSchema({
   username: {
     type: String,
     label: 'Username',
-    max: 50
+    max: 50,
+    optional: true
   },
   emails: {
     type: Array,
-    label: 'User Emails'
+    label: 'User Emails',
+    optional: true
   },
   'emails.$': {
     type: Schemas.UsersEmail,
