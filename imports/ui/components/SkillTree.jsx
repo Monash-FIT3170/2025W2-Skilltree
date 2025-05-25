@@ -32,7 +32,6 @@ const nodeTypes = {
 };
 
 export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
-
   var initialNodes = savedNodes ?? [];
   if (isAdmin) {
     initialNodes = [
