@@ -6,7 +6,7 @@ import { CommentSection } from '/imports/ui/components/CommentSection';
 // JSX UI
 import { SampleView } from '/imports/ui/components/SampleView';
 import { Fallback } from '/imports/ui/components/Fallback';
-import { ProofUploadForm } from '../components/ProofUploadForm';
+import { ProofUploadButton } from '../components/ProofUploadButton';
 
 export const Home = () => (
   <>
@@ -20,7 +20,7 @@ export const Home = () => (
       <Suspense fallback={<Fallback />}>
         <Outlet /> {/* Renders the matched child (HelloContainer) route here */}
       </Suspense>
-      <ProofUploadForm
+      <ProofUploadButton
         skill="C Major Scale"
         requirements="Upload a video of yourself playing 2 octaves of the C Major scale."
       />

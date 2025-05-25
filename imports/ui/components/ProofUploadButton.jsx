@@ -13,7 +13,7 @@ import { AiOutlineClose } from 'react-icons/ai';
  *
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
-export const ProofUploadForm = ({ skill, requirements }) => {
+export const ProofUploadButton = ({ skill, requirements }) => {
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
