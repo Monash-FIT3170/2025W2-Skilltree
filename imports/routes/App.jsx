@@ -22,7 +22,6 @@ export const AppRoutes = [
       // Extends children array with nested routes via spread operator (...)
       ...HomeRoutes,
       ...SampleRoutes,
-      ...ProofUploadRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
       ...ProofDetailsRoutes,
