@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { emailRegex, userNameRegex } from '/imports/api/Regex';
+import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
   async validateStep1(userOptions) {
     //Validate the email:
-    if (!emailRegex.test(userOptions.email)) {
+    if (!Regex.email.test(userOptions.email)) {
       throw new Meteor.Error(
         'invalid-email',
         'The input email format is invalid!'
@@ -24,7 +24,7 @@ Meteor.methods({
     }
 
     //Validate the username:
-    if (!userNameRegex.test(userOptions.username)) {
+    if (!Regex.username.test(userOptions.username)) {
       throw new Meteor.Error(
         'invalid-username',
         `Username is invalid

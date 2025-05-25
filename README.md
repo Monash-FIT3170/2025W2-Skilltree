@@ -85,7 +85,9 @@ imports/
 │   ├── layouts/            // Reusable JSX layouts
 │   ├── pages/              // JSX pages
 │   └── App.jsx             // Root JSX container
-├── utils/                // Utility helper functions          
+├── utils/                // Utility helper functions
+│   ├── contexts/           // React contexts
+│   └── providers/          // React providers          
 └── Router.js             // Router loaded on client & server (SSR)
 private/                <Server Assets>
 public/                 <Client Assets>
