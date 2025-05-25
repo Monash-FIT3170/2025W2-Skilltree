@@ -20,7 +20,9 @@ Meteor.startup(async () => {
       user: 'James',
       date: new Date('2025-05-01T10:00:00Z'),
       evidence: '/images/pic1.jpg', // Updated evidence path
-      subskill: 'Footwork'
+      subskill: 'Footwork',
+      upvotes: 0,
+      downvotes: 0,
     },
     {
       title: 'Test Post 2',
@@ -29,7 +31,9 @@ Meteor.startup(async () => {
       user: 'Adam',
       date: new Date('2025-05-02T11:30:00Z'),
       evidence: '/images/pic3.png',
-      subskill: 'Handholds'
+      subskill: 'Handholds',
+      upvotes: 0,
+      downvotes: 0,
     },
     {
       title: 'Test Post 3',
@@ -39,7 +43,9 @@ Meteor.startup(async () => {
       user: 'Sally',
       date: new Date('2025-05-03T15:45:00Z'),
       evidence: '/images/pic4.png',
-      subskill: 'Balance'
+      subskill: 'Balance',
+      upvotes: 0,
+      downvotes: 0,
     },
     {
       title: 'Test Post 4',
@@ -49,7 +55,9 @@ Meteor.startup(async () => {
       user: 'Kate',
       date: new Date('2025-05-04T09:20:00Z'),
       evidence: '/images/pic5.png',
-      subskill: 'Dynamic Movement'
+      subskill: 'Dynamic Movement',
+      upvotes: 0,
+      downvotes: 0,
     },
     {
       title: 'Test Post 5',
@@ -59,7 +67,10 @@ Meteor.startup(async () => {
       user: 'Lily',
       date: new Date('2025-05-05T14:10:00Z'),
       evidence: '/images/pic6.png',
-      subskill: 'Resting'
+      subskill: 'Resting',
+      upvotes: 0,
+      downvotes: 0,
+
     }
   ];
 

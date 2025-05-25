@@ -1,13 +1,15 @@
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
-
-import { AddComment } from './AddComment';
 import { useTracker } from 'meteor/react-meteor-data';
+
 import { PostCollection } from '/imports/api/collections/PostCollection';
+import { AddComment } from './AddComment';
 import { CommentSection } from '/imports/ui/components/CommentSection';
-import { Link } from 'react-router-dom';
+import { PostDetailPopup } from '/imports/ui/pages/PostDetailPopup';
 
 export const ProofsPostList = () => {
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
   const { posts, isLoading } = useTracker(() => {
     const handle = Meteor.subscribe('post');
     const data = PostCollection.find({}, { sort: { date: -1 } }).fetch();
@@ -18,15 +20,11 @@ export const ProofsPostList = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <div>Loading posts...</div>;
-  }
+  if (isLoading) return <div>Loading posts...</div>;
 
-  if (posts.length === 0) {
-    return <div>No posts found.</div>;
-  }
+  if (posts.length === 0) return <div>No posts found.</div>;
 
-  const formatDate = date => {
+  const formatDate = (date) => {
     if (!date) return '';
     const d = new Date(date);
     return d.toLocaleDateString(undefined, {
@@ -35,6 +33,18 @@ export const ProofsPostList = () => {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
+    });
+  };
+
+  const handleUpvote = (postId) => {
+    Meteor.call('post.upvote', postId, (error) => {
+      if (error) console.error('Upvote failed:', error.reason);
+    });
+  };
+
+  const handleDownvote = (postId) => {
+    Meteor.call('post.downvote', postId, (error) => {
+      if (error) console.error('Downvote failed:', error.reason);
     });
   };
 
@@ -54,9 +64,7 @@ export const ProofsPostList = () => {
                     <span className="mr-1">👑</span>
                     <span>{post.user}</span>
                   </span>
-                  <span className="text-xs italic">
-                    {formatDate(post.date)}
-                  </span>
+                  <span className="text-xs italic">{formatDate(post.date)}</span>
                 </div>
 
                 {/* Subskill */}
@@ -84,9 +92,19 @@ export const ProofsPostList = () => {
 
                 {/* Upvotes, Downvotes, Status, View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
-                  <div className="flex gap-4">
-                    <div>👍 {post.upvotes}</div>
-                    <div>👎 {post.downvotes}</div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleUpvote(post._id)}
+                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                      👍 Upvote ({post.upvotes || 0})
+                    </button>
+                    <button
+                      onClick={() => handleDownvote(post._id)}
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                      👎 Downvote ({post.downvotes || 0})
+                    </button>
                   </div>
 
                   <div className="text-center mx-2">
@@ -96,12 +114,12 @@ export const ProofsPostList = () => {
                     {post.verification} / 10 Upvotes
                   </div>
 
-                  <Link
-                    to={`/post/${post._id}`}
+                  <button
+                    onClick={() => setSelectedPostId(post._id)}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
                   >
                     View Details
-                  </Link>
+                  </button>
                 </div>
 
                 {/* Verification Progress Bar */}
@@ -121,13 +139,22 @@ export const ProofsPostList = () => {
                       postid={post._id}
                     />
                   </div>
-                  <CommentSection postId={post._id} />
+                  <CommentSection postId={post._id} maxHeight={300} />
+
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Post Detail Popup */}
+      {selectedPostId && (
+        <PostDetailPopup
+          postId={selectedPostId}
+          onClose={() => setSelectedPostId(null)}
+        />
+      )}
     </div>
-  );
+  );d
 };

@@ -4,7 +4,8 @@ import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr'
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 
-export const CommentSection = () => {
+export const CommentSection = ({ maxHeight = 300 }) => {
+
   // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
   // Should be replaced by a reference to the current user's id (not username) once accounts are integrated.
   const DUMMY_USERNAME = 'user1';
@@ -76,7 +77,7 @@ export const CommentSection = () => {
     // Comment Section
     <div
       style={{
-        maxHeight: '300px',
+        maxHeight: `${maxHeight}px`,
         overflowY: 'scroll',
         border: '1px solid #ccc',
         padding: '10px',
