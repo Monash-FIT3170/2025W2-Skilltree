@@ -42,7 +42,7 @@ export const SkillTreeCommunity = () => {
           <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
         </div>
       </div>
-      <SkillTreeEdit isAdmin={true} />
+      <SkillTreeEdit isAdmin={true} onSave={() => {}} />
     </>
   );
 };

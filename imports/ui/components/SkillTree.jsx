@@ -31,7 +31,7 @@ const nodeTypes = {
   'view-node-locked': createViewNode(false)
 };
 
-export const SkillTreeLogic = ({ isAdmin }) => {
+export const SkillTreeLogic = ({ isAdmin, onSave }) => {
   var initialNodes = [];
   if (isAdmin) {
     initialNodes = [
@@ -156,15 +156,16 @@ export const SkillTreeLogic = ({ isAdmin }) => {
     [screenToFlowPosition, handleOpenEditor]
   );
 
-  const onSave = () => {
-    console.log('Nodes:', nodes);
-    console.log('Edges:', edges);
+  const handleOnSave = () => {
+    console.log('NodesToSave:', nodes);
+    console.log('EdgesToSave:', edges);
+    onSave({ nodes, edges });
   };
 
   return (
     <>
       <h1>Create SkillTree Metrics</h1>
-      <button onClick={onSave}>Save</button>
+      <button onClick={handleOnSave}>Save</button>
 
       <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
         <ReactFlow
@@ -205,8 +206,8 @@ export const SkillTreeLogic = ({ isAdmin }) => {
   );
 };
 
-export const SkillTreeEdit = ({ isAdmin }) => (
+export const SkillTreeEdit = ({ isAdmin, onSave }) => (
   <ReactFlowProvider>
-    <SkillTreeLogic isAdmin={isAdmin} />
+    <SkillTreeLogic isAdmin={isAdmin} onSave={onSave} />
   </ReactFlowProvider>
 );

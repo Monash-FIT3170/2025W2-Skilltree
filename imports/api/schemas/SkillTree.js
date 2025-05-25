@@ -22,7 +22,15 @@ const skillNodeSchema = new SimpleSchema({
     type: String,
     label: 'Skill type',
     optional: true,
-    allowedValues: ['input', 'output', 'default'] // we can add our custom node type here
+    allowedValues: [
+      'input',
+      'output',
+      'default',
+      'new-empty',
+      'new-populated',
+      'view-node-unlocked',
+      'view-node-locked'
+    ] // add our custom node types here
   },
   data: {
     type: skillDataSchema, // Probs have to change this to have skill name and description
