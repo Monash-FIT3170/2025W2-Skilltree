@@ -33,7 +33,7 @@ const nodeTypes = {
 
 export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
   var initialNodes = savedNodes ?? [];
-  if (isAdmin) {
+  if (isAdmin && !savedNodes) {
     initialNodes = [
       {
         id: '0',
@@ -166,8 +166,10 @@ export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
 
   return (
     <>
-      <h1>Create SkillTree Metrics</h1>
-      <button onClick={handleOnSave}>Save</button>
+      <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
+        Add Skills
+      </h2>
+      {isAdmin && <button onClick={handleOnSave}>Save</button>}
 
       <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
         <ReactFlow

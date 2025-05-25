@@ -95,7 +95,6 @@ export const CreateSkillTree = () => {
             <button onClick={handleOnBack}> Back</button>
           </>
         )}
-        <button onClick={handleSaveSkillTree}>Save SkillTree</button>
       </div>
     </>
   );
