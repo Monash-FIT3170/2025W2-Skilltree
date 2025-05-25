@@ -5,6 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { SkillTreeEdit } from '../components/SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
+import { NavigationDropdown } from '../components/NavigationDropdown';
 
 export const SkillTreeCommunity = () => {
   // extract id from url params
@@ -34,6 +35,7 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
+        <NavigationDropdown />
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>
