@@ -28,7 +28,7 @@ export const AddComment = ({ username, proofid }) => {
   };
 
   return (
-    <form onSubmit={handleAddComment} className="add-comment">
+    <form onSubmit={handleAddComment} className="px-4 py-3">
       <input
         type="text"
         placeholder="Add a comment..."
@@ -42,18 +42,3 @@ export const AddComment = ({ username, proofid }) => {
     </form>
   );
 };
-
-// return (
-//     <div className="add-comment">
-//         <input
-//             type="text"
-//             placeholder="Add a comment..."
-//             value={comment}
-//             onChange={(e) => setComment(e.target.value)}
-//             className="comment-input"
-//         />
-//         <button onClick={handleAddComment} className="comment-button">
-//             Proof
-//         </button>
-//     </div>
-// );

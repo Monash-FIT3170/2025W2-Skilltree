@@ -4,6 +4,7 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
+import { FullCommentSection } from '../components/FullCommentSection';
 
 export const ProofDetails = () => {
   const { id } = useParams();
@@ -35,18 +36,27 @@ export const ProofDetails = () => {
         Proofed on: {formatDate(proof.date)}
       </p>
 
-      <div className="w-full mb-4">
-        {proof.evidence ? (
-          <img
-            src={proof.evidence}
-            alt="Proof Evidence"
-            className="w-full max-h-[400px] object-contain rounded"
+      <div className="w-full mb-4 flex gap-4">
+        <div className="w-1/2">
+          {proof.evidence ? (
+            <img
+              src={proof.evidence}
+              alt="Proof Evidence"
+              className="w-full max-h-[400px] object-contain rounded"
+            />
+          ) : (
+            <div className="bg-gray-200 h-full flex items-center justify-center rounded w-full">
+              No Image Available
+            </div>
+          )}
+        </div>
+
+        <div className="w-1/2">
+          <FullCommentSection
+            username="usernameOfPersonLoggedIn"
+            proofid={proof._id}
           />
-        ) : (
-          <div className="bg-gray-200 h-48 flex items-center justify-center rounded">
-            No Image Available
-          </div>
-        )}
+        </div>
       </div>
 
       <p className="mb-6 text-lg text-gray-700">
