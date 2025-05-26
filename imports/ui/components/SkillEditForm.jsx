@@ -14,7 +14,7 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   });
 
   // Used to enforce non empty value
-  const [setErrors] = useState({
+  const [errors, setErrors] = useState({
     label: false,
     description: false,
     requirements: false
