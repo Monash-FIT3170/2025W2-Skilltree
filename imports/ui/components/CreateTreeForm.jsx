@@ -315,7 +315,7 @@ export const CreateTreeForm = ({ onAddSkills }) => {
               color: '#ffffff'
             }}
           >
-            Add Skils +
+            Add Skills +
           </button>
         </form>
       </div>
