@@ -84,7 +84,16 @@ export const CreateTreeForm = ({ onAddSkills }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log('SkillTree Created:', formData);
-    alert('You have successfully created a SkillTree!');
+
+    // pass form details to parent component
+    onAddSkills(
+      formData.title,
+      formData.tags,
+      formData.description,
+      formData.tsandcs,
+      formData.image
+    );
+
     setFormData({
       title: '',
       description: '',
@@ -93,7 +102,6 @@ export const CreateTreeForm = ({ onAddSkills }) => {
       image: null,
       previewImage: ''
     });
-    onAddSkills();
   };
 
   const triggerFileInput = () => {

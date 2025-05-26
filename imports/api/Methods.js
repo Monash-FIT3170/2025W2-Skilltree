@@ -1,5 +1,14 @@
 // Methods
 import '/imports/api/methods/Sample'; // Load Sample Collection Methods (demonstration)
+import '/imports/api/methods/CreateUsers';
+import '/imports/api/methods/Accounts/MergeGoogleAccount';
+import '/imports/api/methods/Accounts/AddGoogleAccount';
+import '/imports/api/methods/UpdateFields';
+import '/imports/api/methods/Accounts/ValidateMissingGoogle';
+import '/imports/api/methods/Accounts/ValidateStep1';
+import '/imports/api/methods/Accounts/ValidateStep2';
+import '/imports/api/methods/Accounts/ValidateStep3';
+import '/imports/api/methods/Accounts/ValidateStep4';
 import '/imports/api/methods/SkillTree';
 import '/imports/api/methods/Proof';
 import '/imports/api/methods/Upload';
