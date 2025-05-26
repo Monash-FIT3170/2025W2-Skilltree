@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export const CreateTreeForm = ({ onAddSkills }) => {
+export const CreateTreeForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -82,21 +81,8 @@ export const CreateTreeForm = ({ onAddSkills }) => {
     }
   };
 
-  const navigate = useNavigate();
-
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('SkillTree Created:', formData);
-
-    // pass form details to parent component
-    onAddSkills(
-      formData.title,
-      formData.tags,
-      formData.description,
-      formData.tsandcs,
-      formData.image
-    );
-
     setFormData({
       title: '',
       description: '',
@@ -105,8 +91,6 @@ export const CreateTreeForm = ({ onAddSkills }) => {
       image: null,
       previewImage: ''
     });
-    onAddSkills();
-    navigate('/SkillEditForm', { state: formData });
   };
 
   const triggerFileInput = () => {
