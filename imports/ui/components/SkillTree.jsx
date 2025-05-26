@@ -31,9 +31,19 @@ const nodeTypes = {
   'view-node-locked': createViewNode(false)
 };
 
-export const SkillTreeLogic = ({ isAdmin }) => {
-  var initialNodes = [];
-  if (isAdmin) {
+export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
+  // Reattach OpenEditor handlers to nodes. They are lost when saved to DB
+  const attachOpenEditorHandlers = (savedNodes = []) =>
+    savedNodes.map(node => ({
+      ...node,
+      data: {
+        ...node.data,
+        onOpenEditor: () => handleOpenEditor(node.id)
+      }
+    }));
+
+  var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
+  if (isAdmin && !savedNodes) {
     initialNodes = [
       {
         id: '0',
@@ -69,7 +79,9 @@ export const SkillTreeLogic = ({ isAdmin }) => {
       }
     ];
   }
-  const initialEdges = [{ id: '0->1000', source: '0', target: '1000' }];
+  const initialEdges = savedEdges ?? [
+    { id: '0->1000', source: '0', target: '1000' }
+  ];
 
   const idRef = useRef(1);
   const getId = () => `${idRef.current++}`;
@@ -156,15 +168,16 @@ export const SkillTreeLogic = ({ isAdmin }) => {
     [screenToFlowPosition, handleOpenEditor]
   );
 
-  const onSave = () => {
-    console.log('Nodes:', nodes);
-    console.log('Edges:', edges);
+  const handleOnSave = () => {
+    onSave({ nodes, edges });
   };
 
   return (
     <>
-      <h1>Create SkillTree Metrics</h1>
-      <button onClick={onSave}>Save</button>
+      <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
+        Add Skills
+      </h2>
+      {isAdmin && <button onClick={handleOnSave}>Save</button>}
 
       <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
         <ReactFlow
@@ -205,8 +218,13 @@ export const SkillTreeLogic = ({ isAdmin }) => {
   );
 };
 
-export const SkillTreeEdit = ({ isAdmin }) => (
+export const SkillTreeEdit = ({ isAdmin, onSave, savedNodes, savedEdges }) => (
   <ReactFlowProvider>
-    <SkillTreeLogic isAdmin={isAdmin} />
+    <SkillTreeLogic
+      isAdmin={isAdmin}
+      onSave={onSave}
+      savedNodes={savedNodes}
+      savedEdges={savedEdges}
+    />
   </ReactFlowProvider>
 );

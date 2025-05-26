@@ -66,7 +66,7 @@ export const CommentSection = () => {
     if (!confirmed) return;
 
     try {
-      await Meteor.callAsync('deleteComment', id);
+      await Meteor.callAsync('removeComment', id);
     } catch (err) {
       alert(`Failed to delete comment: ${err.message}`);
     }
@@ -78,7 +78,6 @@ export const CommentSection = () => {
       style={{
         maxHeight: '300px',
         overflowY: 'scroll',
-        border: '1px solid #ccc',
         padding: '10px',
         borderRadius: '5px'
       }}
@@ -88,9 +87,8 @@ export const CommentSection = () => {
         <div
           key={item._id}
           style={{
-            marginBottom: '15px',
-            padding: '10px',
-            borderBottom: '1px solid #eee'
+            marginBottom: '20px',
+            padding: '10px'
           }}
         >
           <div
@@ -129,14 +127,14 @@ export const CommentSection = () => {
                 <div id="user-actions-container" className="flex gap-2">
                   <button
                     id="edit-btn"
-                    className="text-center border-2 border-gray-950 bg-gray-600 text-white font-bold py-1 px-2 rounded hover:bg-gray-700 active:bg-gray-500 mt-2"
+                    className="text-[#328E6E] text-sm border-2 border-[#328E6E] bg-white py-1 px-2 rounded cursor-pointer hover:bg-[#328E6E] hover:text-white transition-colors"
                     onClick={() => edit(item._id)}
                   >
                     Edit
                   </button>
                   <button
                     id="delete-btn"
-                    className="text-center border-2 border-red-950 bg-red-600 text-white font-bold py-1 px-2 rounded hover:bg-red-700 active:bg-red-500 mt-2"
+                    className="text-black text-sm border-2 border-black bg-white py-1 px-2 rounded cursor-pointer hover:bg-red-600 hover:border-red-600 hover:text-white transition-colors"
                     onClick={() => deleteComment(item._id)}
                   >
                     Delete

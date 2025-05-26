@@ -87,6 +87,16 @@ export const CreateTreeForm = ({ onAddSkills }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log('SkillTree Created:', formData);
+
+    // pass form details to parent component
+    onAddSkills(
+      formData.title,
+      formData.tags,
+      formData.description,
+      formData.tsandcs,
+      formData.image
+    );
+
     setFormData({
       title: '',
       description: '',
