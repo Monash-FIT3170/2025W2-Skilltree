@@ -64,7 +64,14 @@ export const CreateSkillTree = () => {
     setShowAddDetailsForm(false);
   };
 
-  const handleOnBack = () => {
+  const handleOnBack = (nodes, edges) => {
+    // set the skilltree nodes and edges
+    setSkillTree(prev => ({
+      ...prev,
+      skillNodes: nodes,
+      skillEdges: edges
+    }));
+
     setShowAddSkillsForm(false);
     setShowAddDetailsForm(true);
     console.log('back button clicked');
@@ -86,13 +93,37 @@ export const CreateSkillTree = () => {
       <div className="p-2">
         {/* Conditionally render create tree form */}
         {showAddDetailsForm && (
-          <CreateTreeForm onAddSkills={handleOnAddSkills} />
+          <CreateTreeForm
+            onAddSkills={handleOnAddSkills}
+            initialValues={{
+              title: skillTree.title,
+              tags: skillTree.tags,
+              description: skillTree.description,
+              tsandcs: skillTree.termsAndConditions,
+              image: skillTree.image,
+              previewImage: skillTree.previewImage
+            }}
+          />
         )}
-        {/* Conditionally render add skills form */}
-        {showAddSkillsForm && (
+        {/* Conditionally render add skills form, Only pass nodes and edges if they exist*/}
+        {showAddSkillsForm && skillTree.skillNodes.length > 0 && (
           <>
-            <SkillTreeEdit isAdmin={true} onSave={updateNodesAndEdges} />
-            <button onClick={handleOnBack}> Back</button>
+            <SkillTreeEdit
+              isAdmin={true}
+              onSave={updateNodesAndEdges}
+              savedNodes={skillTree.skillNodes}
+              savedEdges={skillTree.skillEdges}
+              onBack={handleOnBack}
+            ></SkillTreeEdit>
+          </>
+        )}
+        {showAddSkillsForm && skillTree.skillNodes.length == 0 && (
+          <>
+            <SkillTreeEdit
+              isAdmin={true}
+              onSave={updateNodesAndEdges}
+              onBack={handleOnBack}
+            ></SkillTreeEdit>
           </>
         )}
       </div>
