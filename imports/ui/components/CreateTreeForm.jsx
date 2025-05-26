@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateTreeForm = ({ onAddSkills }) => {
   const [formData, setFormData] = useState({
@@ -106,7 +106,7 @@ export const CreateTreeForm = ({ onAddSkills }) => {
       previewImage: ''
     });
     onAddSkills();
-    navigate('/SkillEditForm', { state: { formData: localForm } });
+    navigate('/SkillEditForm', { state: formData });
   };
 
   const triggerFileInput = () => {
