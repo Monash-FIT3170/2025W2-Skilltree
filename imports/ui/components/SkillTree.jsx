@@ -31,7 +31,13 @@ const nodeTypes = {
   'view-node-locked': createViewNode(false)
 };
 
-export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
+export const SkillTreeLogic = ({
+  isAdmin,
+  onSave,
+  savedNodes,
+  savedEdges,
+  onBack
+}) => {
   // Reattach OpenEditor handlers to nodes. They are lost when saved to DB
   const attachOpenEditorHandlers = (savedNodes = []) =>
     savedNodes.map(node => ({
@@ -196,7 +202,13 @@ export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
           <Controls />
         </ReactFlow>
       </div>
-
+      <button
+        onClick={() => {
+          onBack(nodes, edges);
+        }}
+      >
+        Back
+      </button>
       {/* Modal rendered outside ReactFlow */}
       {editingNode &&
         (isAdmin ? (
@@ -218,13 +230,20 @@ export const SkillTreeLogic = ({ isAdmin, onSave, savedNodes, savedEdges }) => {
   );
 };
 
-export const SkillTreeEdit = ({ isAdmin, onSave, savedNodes, savedEdges }) => (
+export const SkillTreeEdit = ({
+  isAdmin,
+  onSave,
+  savedNodes,
+  savedEdges,
+  onBack
+}) => (
   <ReactFlowProvider>
     <SkillTreeLogic
       isAdmin={isAdmin}
       onSave={onSave}
       savedNodes={savedNodes}
       savedEdges={savedEdges}
+      onBack={onBack}
     />
   </ReactFlowProvider>
 );
