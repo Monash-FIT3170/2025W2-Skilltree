@@ -109,19 +109,6 @@ export const CreateTreeForm = ({ onAddSkills }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="p-6 flex gap-5 justify-center w-full">
-      <div className="border rounded-lg flex items-center justify-center aspect-square size-[200px]">
-        <span className="text-6xl !m-0 !p-0">+</span>
-      </div>
-      <form className="w-full" onSubmit={handleSubmit}>
-        <h2 className="text-3xl font-bold mb-6">Create SkillTree</h2>
-        {/* Title */}
-        <div className="mb-0.5">
-          <label
-            htmlFor="title"
-            className="block text-gray-700 text-xl font-semibold mb-1"
-=======
     <div className="relative p-6">
       {/* Top-right title */}
       <div className="absolute top-6 left-6">
@@ -134,7 +121,6 @@ export const CreateTreeForm = ({ onAddSkills }) => {
           <div
             onClick={triggerFileInput}
             className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors max-w-xl mx-auto"
->>>>>>> m2-sprint3
           >
             {formData.previewImage ? (
               <img
