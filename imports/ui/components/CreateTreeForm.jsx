@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react';
 
-export const CreateTreeForm = ({ onAddSkills }) => {
+export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
+    title: initialValues.title || '',
+    description: initialValues.description || '',
     tag: '', // New field for tag
     tags: [],
     newTag: '',
-    tsandcs: '',
-    image: null,
-    previewImage: '',
+    tsandcs: initialValues.tsandcs || '',
+    image: initialValues.image || null,
+    previewImage: initialValues.previewImage || '',
     showCustomTagInput: false
   });
 
@@ -305,9 +305,9 @@ export const CreateTreeForm = ({ onAddSkills }) => {
             ></textarea>
           </div>
 
-          {/* add skils Button */}
+          {/* add skills Button */}
           <button
-            type="transition"
+            type="submit"
             className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
             style={{
               backgroundColor: '#328E6E',

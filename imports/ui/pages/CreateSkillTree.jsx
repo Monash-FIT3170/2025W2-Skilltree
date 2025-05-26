@@ -64,7 +64,18 @@ export const CreateSkillTree = () => {
     setShowAddDetailsForm(false);
   };
 
-  const handleOnBack = () => {
+  const handleOnBack = async () => {
+    const shouldSave = window.confirm('Save changes before going back?');
+
+    if (shouldSave) {
+      try {
+        await handleSaveSkillTree(skillTree);
+        alert('Changes saved!');
+      } catch (error) {
+        console.error('Save failed:', error);
+        alert('Could not save changes.');
+      }
+    }
     setShowAddSkillsForm(false);
     setShowAddDetailsForm(true);
     console.log('back button clicked');
@@ -86,7 +97,17 @@ export const CreateSkillTree = () => {
       <div className="p-2">
         {/* Conditionally render create tree form */}
         {showAddDetailsForm && (
-          <CreateTreeForm onAddSkills={handleOnAddSkills} />
+          <CreateTreeForm
+            onAddSkills={handleOnAddSkills}
+            initialValues={{
+              title: skillTree.title,
+              tags: skillTree.tags,
+              description: skillTree.description,
+              tsandcs: skillTree.termsAndConditions,
+              image: skillTree.image,
+              previewImage: skillTree.previewImage
+            }}
+          />
         )}
         {/* Conditionally render add skills form */}
         {showAddSkillsForm && (
