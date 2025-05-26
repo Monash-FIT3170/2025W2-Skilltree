@@ -22,45 +22,125 @@ Meteor.startup(async () => {
       tags: ['basketball', 'sports', 'ball'],
       skillNodes: [
         {
-          id: 'dribble',
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            progressXp: null,
+            requirements: 'root',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: '1',
           type: 'view-node-unlocked',
           data: {
-            label: 'Dribbling',
+            label: 'basic dribbling 🏀',
             description: 'Learn how to dribble the basketball effectively.',
             progressXp: 10,
             requirements: 'Upload a video of yourself dribbling for 10 seconds',
             xpPoints: 10
           },
-          position: { x: 300, y: 100 }
+          position: { x: 200, y: 300 }
         },
         {
-          id: 'shoot',
-          type: 'view-node-locked',
+          id: '2',
+          type: 'view-node-unlocked',
           data: {
-            label: 'Shooting',
-            description: 'Learn how to shoot the basketball effectively.',
-            progressXp: 20,
-            requirements: 'Upload a video of yourself scoring a basket',
-            xpPoints: 20
+            label: 'Layup 🏃‍♂️',
+            description:
+              ' A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
+            progressXp: 6,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 10
           },
           position: { x: 200, y: 200 }
         },
         {
-          id: 'defend',
+          id: '3',
           type: 'view-node-locked',
           data: {
-            label: 'Defensive Skills',
-            description: 'Learn how to defend against other players.',
-            progressXp: 50,
-            requirements: 'Upload a video of yourself blocking another player',
+            label: 'Spin Move 😵',
+            description: 'Learn how to do a spin move.',
+            progressXp: 0,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 20
+          },
+          position: { x: 200, y: 100 }
+        },
+        {
+          id: '4',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Agility 💨',
+            description: 'Learn how to be agile.',
+            progressXp: 34,
+            requirements:
+              'Upload a video of yourself doing the illinois agility test',
             xpPoints: 50
           },
-          position: { x: 400, y: 200 }
+          position: { x: 0, y: 100 }
+        },
+        {
+          id: '5',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Shooting Form 🎯',
+            description: 'Learn how to do proper shooting form.',
+            progressXp: 20,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 20
+          },
+          position: { x: -200, y: 300 }
+        },
+        {
+          id: '6',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Free Throws 💸',
+            description: 'Learn how to do free throws.',
+            progressXp: 6,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 20
+          },
+          position: { x: -150, y: 200 }
+        },
+        {
+          id: '7',
+          type: 'view-node-locked',
+          data: {
+            label: 'Three Pointers 💧',
+            description: 'Learn how to do a spin move.',
+            progressXp: 0,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 20
+          },
+          position: { x: -250, y: 100 }
+        },
+        {
+          id: '8',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Mid Range 🥶',
+            description: 'Learn how to do a spin move.',
+            progressXp: 4,
+            requirements: 'Upload a video of yourself',
+            xpPoints: 20
+          },
+          position: { x: -350, y: 200 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'dribble', target: 'shoot' },
-        { id: 'e2', source: 'dribble', target: 'defend' }
+        { id: 'e1', source: '0', target: '7' },
+        { id: 'e2', source: '0', target: '4' },
+        { id: 'e3', source: '0', target: '3' },
+        { id: 'e4', source: '3', target: '2' },
+        { id: 'e5', source: '2', target: '1' },
+        { id: 'e6', source: '7', target: '6' },
+        { id: 'e7', source: '6', target: '5' },
+        { id: 'e7', source: '7', target: '8' }
       ],
       admins: ['basketballpro'],
       subscribers: ['playerA', 'playerB']
