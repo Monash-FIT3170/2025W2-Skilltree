@@ -106,7 +106,7 @@ export const CreateSkillTree = () => {
           />
         )}
         {/* Conditionally render add skills form, Only pass nodes and edges if they exist*/}
-        {/* {showAddSkillsForm && skillTree.skillNodes.length > 0 && (
+        {showAddSkillsForm && skillTree.skillNodes.length > 0 && (
           <>
             <SkillTreeEdit
               isAdmin={true}
@@ -116,9 +116,8 @@ export const CreateSkillTree = () => {
               onBack={handleOnBack}
             ></SkillTreeEdit>
           </>
-        )} */}
-        {/* {showAddSkillsForm && skillTree.skillNodes.length == 0 && ( */}
-        {showAddSkillsForm && (
+        )}
+        {showAddSkillsForm && skillTree.skillNodes.length == 0 && (
           <>
             <SkillTreeEdit
               isAdmin={true}

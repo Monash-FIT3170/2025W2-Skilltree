@@ -204,21 +204,11 @@ export const SkillTreeLogic = ({
       </div>
       <button
         onClick={() => {
-          console.log('back button clicked');
           onBack(nodes, edges);
         }}
       >
         Back
       </button>
-
-      <button
-        onClick={() => {
-          console.log('hello there');
-        }}
-      >
-        Test
-      </button>
-
       {/* Modal rendered outside ReactFlow */}
       {editingNode &&
         (isAdmin ? (
@@ -240,13 +230,20 @@ export const SkillTreeLogic = ({
   );
 };
 
-export const SkillTreeEdit = ({ isAdmin, onSave, savedNodes, savedEdges }) => (
+export const SkillTreeEdit = ({
+  isAdmin,
+  onSave,
+  savedNodes,
+  savedEdges,
+  onBack
+}) => (
   <ReactFlowProvider>
     <SkillTreeLogic
       isAdmin={isAdmin}
       onSave={onSave}
       savedNodes={savedNodes}
       savedEdges={savedEdges}
+      onBack={onBack}
     />
   </ReactFlowProvider>
 );
