@@ -139,8 +139,9 @@ Meteor.startup(async () => {
         { id: 'e4', source: '3', target: '2' },
         { id: 'e5', source: '2', target: '1' },
         { id: 'e6', source: '7', target: '6' },
-        { id: 'e7', source: '6', target: '5' },
-        { id: 'e7', source: '7', target: '8' }
+        { id: 'e7', source: '7', target: '8' },
+        { id: 'e8', source: '6', target: '5' },
+        { id: 'e9', source: '8', target: '5' }
       ],
       admins: ['basketballpro'],
       subscribers: ['playerA', 'playerB']
