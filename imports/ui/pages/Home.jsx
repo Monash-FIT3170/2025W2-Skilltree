@@ -3,13 +3,9 @@ import React, { Suspense, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button } from 'flowbite-react';
 
-import { SampleView } from '/imports/ui/components/SampleView';
-import { CommentSection } from '/imports/ui/components/CommentSection';
 import { Fallback } from '/imports/ui/components/Fallback';
-import { Outlet } from 'react-router-dom';
-import { ProofUploadButton } from '../components/ProofUploadButton';
-
 import { UserContext } from '/imports/utils/contexts/UserContext';
+import { UserSkillTreeGrid } from '../layouts/UserSkillTreeGrid';
 
 export const Home = () => {
   const { username } = useContext(UserContext);
@@ -23,23 +19,17 @@ export const Home = () => {
         <h1 className="text-3xl font-bold mt-2">
           Welcome @{username} to SkillTree!
         </h1>
+
         <Button color="green" size="sm" onClick={() => Meteor.logout()} pill>
           logout
         </Button>
 
-        <SampleView />
+        <h3 className="font-sans text-[30px] font-bold text-left">
+          MY SKILLTREES
+        </h3>
 
         <Suspense fallback={<Fallback />}>
-          <Outlet />
-        </Suspense>
-
-        <ProofUploadButton
-          skill="C Major Scale"
-          requirements="Upload a video of yourself playing 2 octaves of the C Major scale."
-        />
-
-        <Suspense fallback={<Fallback />}>
-          <CommentSection />
+          <UserSkillTreeGrid />
         </Suspense>
       </div>
     </>

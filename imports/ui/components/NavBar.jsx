@@ -157,24 +157,19 @@ export const NavBar = () => {
         >
           Upload Proof
         </Link>
-        <Link
-          to="#" // Placeholder
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          User
-        </Link>
-          <Link
-          to="profiledashboard"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Dashboard
-        </Link>
 
         <Link
           to="/create"
           className="text-white hover:bg-gray-600 px-3 py-2 rounded"
         >
           Create SkillTree
+        </Link>
+
+        <Link
+          to="#" // Placeholder
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          User
         </Link>
       </nav>
     </div>

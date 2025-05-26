@@ -1,6 +1,4 @@
-import React, { Suspense } from 'react';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 export const UserSkillTree = ({ onClick }) => {
   return (
