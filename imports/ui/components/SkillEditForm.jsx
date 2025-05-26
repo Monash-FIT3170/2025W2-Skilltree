@@ -137,9 +137,9 @@ import { useLocation } from 'react-router-dom';
 
 export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   //retrive the data that was saved or empty
-  const location = useLocation;
+  // const location = useLocation;
   const [formData, setFormData] = useState({
-    ...location.state?.formData,
+    // ...location.state?.formData,
     label: editingNode?.data?.label || '',
     description: editingNode?.data?.description || '',
     requirements: editingNode?.data?.requirements || '',
