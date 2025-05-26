@@ -5,7 +5,7 @@ export const CreateTreeForm = ({ onAddSkills }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    tag: '', 
+    tag: '',
     tags: [],
     newTag: '',
     tsandcs: '',
@@ -106,7 +106,7 @@ export const CreateTreeForm = ({ onAddSkills }) => {
       previewImage: ''
     });
     onAddSkills();
-    navigate('/SkillEditForm', {state: {formData: localForm}});
+    navigate('/SkillEditForm', { state: { formData: localForm } });
   };
 
   const triggerFileInput = () => {

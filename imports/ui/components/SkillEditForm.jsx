@@ -111,15 +111,15 @@
 //               </div>
 //             </form>
 //             <div className="flex justify-end gap-2 mt-4">
-//                 <button 
-//                   type="button" 
-//                   onClick={onCancel} 
+//                 <button
+//                   type="button"
+//                   onClick={onCancel}
 //                   className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
 //                 >
 //                   Cancel
 //                 </button>
-//                 <button 
-//                   type="submit" 
+//                 <button
+//                   type="submit"
 //                   className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition-colors"
 //                 >
 //                   Save
@@ -147,14 +147,16 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
     image: editingNode?.data?.image || null
   });
 
-  // Used to enforce non empty value 
+  // Used to enforce non empty value
   const [errors, setErrors] = useState({
     label: false,
     description: false,
     requirements: false
-  })
+  });
 
-  const [previewImage, setPreviewImage] = useState(editingNode?.data?.image || null);
+  const [previewImage, setPreviewImage] = useState(
+    editingNode?.data?.image || null
+  );
   const fileInputRef = useRef(null);
 
   // Make changed to the skill node but it cannot be empty
@@ -171,21 +173,20 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
       label: false,
       description: false,
       requirements: false
-    })
+    });
   }, [editingNode]);
 
-  const validForm =() =>{
+  const validForm = () => {
     const newErrors = {
       label: formData.label.trim() === '',
       description: formData.description.trim() === '',
       requirements: formData.requirements.trim() === ''
-    }
+    };
     setErrors(newErrors);
     return !Object.values(newErrors).some(error => error);
+  };
 
-  }
-
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -200,8 +201,8 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
     }));
   };
 
-  // Save the image uploaded 
-  const handleImageUpload = (e) => {
+  // Save the image uploaded
+  const handleImageUpload = e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -230,9 +231,9 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   };
 
   // Saves forms information to database
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const isValid = validForm
+    const isValid = validForm;
     if (!isValid) return;
     onSave({
       id: editingNode?.id || '',
@@ -248,21 +249,31 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
     });
   };
 
-  //Checking form is valid no empty fields 
-  const isFormValid = formData.label.trim() !== '' && formData.description.trim() !== '' && formData.requirements.trim() !== '';
+  //Checking form is valid no empty fields
+  const isFormValid =
+    formData.label.trim() !== '' &&
+    formData.description.trim() !== '' &&
+    formData.requirements.trim() !== '';
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-gray-600/40 flex justify-center items-center z-[1000]">
       <div className="bg-neutral-200 p-5 rounded-lg w-[1000px]">
-        <h3 className="block mb-2 text-3xl font-bold " style={{ color: '#328E6E' }}>
+        <h3
+          className="block mb-2 text-3xl font-bold "
+          style={{ color: '#328E6E' }}
+        >
           Add Skill Details
         </h3>
-        
+
         <div className="flex gap-6">
           {/* Left side - Form inputs */}
           <div className="flex-1">
             <form onSubmit={handleSubmit} id="skillForm">
-              <label htmlFor="label" className="block mb-2 text-xl font-medium " style={{ color: '#328E6E' }}>
+              <label
+                htmlFor="label"
+                className="block mb-2 text-xl font-medium "
+                style={{ color: '#328E6E' }}
+              >
                 Skill Label:
               </label>
               <input
@@ -274,7 +285,11 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
                 maxLength={200}
               />
               <br />
-              <label htmlFor="description" className="block mb-2 text-xl font-medium "style={{ color: '#328E6E' }}>
+              <label
+                htmlFor="description"
+                className="block mb-2 text-xl font-medium "
+                style={{ color: '#328E6E' }}
+              >
                 Description:
               </label>
               <textarea
@@ -287,7 +302,11 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
                 maxLength={1000}
               />
               <br />
-              <label htmlFor="requirements" className="block mb-2 text-xl font-medium" style={{ color: '#328E6E' }} >
+              <label
+                htmlFor="requirements"
+                className="block mb-2 text-xl font-medium"
+                style={{ color: '#328E6E' }}
+              >
                 Requirements:
               </label>
               <input
@@ -298,7 +317,11 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
               />
               <br />
-              <label htmlFor="xpPoints" className="block mb-2 text-xl font-medium " style={{ color: '#328E6E' }}>
+              <label
+                htmlFor="xpPoints"
+                className="block mb-2 text-xl font-medium "
+                style={{ color: '#328E6E' }}
+              >
                 XP Required:
               </label>
               <div className="flex items-center gap-4">
@@ -316,7 +339,7 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
                   type="number"
                   name="xpPointsValue"
                   value={formData.xpPoints}
-                  onChange={(e) => {
+                  onChange={e => {
                     const value = Math.max(0, Math.min(100, e.target.value));
                     setFormData(prev => ({ ...prev, xpPoints: value }));
                   }}
@@ -357,7 +380,10 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
                     />
                   </svg>
                   <p className="mt-4 text-sm text-gray-600">
-                    <span className="font-semibold" style={{ color: '#328E6E' }}>
+                    <span
+                      className="font-semibold"
+                      style={{ color: '#328E6E' }}
+                    >
                       Click to upload
                     </span>
                   </p>
@@ -394,23 +420,21 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
 
         {/* Buttons at bottom right */}
         <div className="flex justify-end gap-2 mt-4">
-          <button 
-            type="button" 
-            onClick={onCancel} 
+          <button
+            type="button"
+            onClick={onCancel}
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
           >
             Cancel
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             form="skillForm"
             disabled={!isFormValid}
             className={`px-4 py-2 text-white rounded transition-colors ${
-              isFormValid 
-                ? 'bg-emerald-600 ' 
-                : 'bg-gray-400 cursor-not-allowed'
+              isFormValid ? 'bg-emerald-600 ' : 'bg-gray-400 cursor-not-allowed'
             }`}
-            style={{ 
+            style={{
               backgroundColor: isFormValid ? '#328E6E' : undefined
             }}
           >
