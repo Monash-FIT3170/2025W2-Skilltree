@@ -64,18 +64,14 @@ export const CreateSkillTree = () => {
     setShowAddDetailsForm(false);
   };
 
-  const handleOnBack = async () => {
-    const shouldSave = window.confirm('Save changes before going back?');
+  const handleOnBack = (nodes, edges) => {
+    // set the skilltree nodes and edges
+    setSkillTree(prev => ({
+      ...prev,
+      skillNodes: nodes,
+      skillEdges: edges
+    }));
 
-    if (shouldSave) {
-      try {
-        await handleSaveSkillTree(skillTree);
-        alert('Changes saved!');
-      } catch (error) {
-        console.error('Save failed:', error);
-        alert('Could not save changes.');
-      }
-    }
     setShowAddSkillsForm(false);
     setShowAddDetailsForm(true);
     console.log('back button clicked');
@@ -109,11 +105,26 @@ export const CreateSkillTree = () => {
             }}
           />
         )}
-        {/* Conditionally render add skills form */}
+        {/* Conditionally render add skills form, Only pass nodes and edges if they exist*/}
+        {/* {showAddSkillsForm && skillTree.skillNodes.length > 0 && (
+          <>
+            <SkillTreeEdit
+              isAdmin={true}
+              onSave={updateNodesAndEdges}
+              savedNodes={skillTree.skillNodes}
+              savedEdges={skillTree.skillEdges}
+              onBack={handleOnBack}
+            ></SkillTreeEdit>
+          </>
+        )} */}
+        {/* {showAddSkillsForm && skillTree.skillNodes.length == 0 && ( */}
         {showAddSkillsForm && (
           <>
-            <SkillTreeEdit isAdmin={true} onSave={updateNodesAndEdges} />
-            <button onClick={handleOnBack}> Back</button>
+            <SkillTreeEdit
+              isAdmin={true}
+              onSave={updateNodesAndEdges}
+              onBack={handleOnBack}
+            ></SkillTreeEdit>
           </>
         )}
       </div>
