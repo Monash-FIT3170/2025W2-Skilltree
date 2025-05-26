@@ -28,7 +28,20 @@ export function ViewNode({ data, isUnlocked }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        type="target"
+        position={Position.Top}
+        style={{
+          width: '12px',
+          height: '12px',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundColor: '#D9D9D9',
+          border: '#D9D9D9',
+          boxShadow: '0 4px 3px rgba(0, 0, 0, 0.1)'
+        }}
+      />
       <div className="flex flex-col items-center z-10">
         <strong className="text-white text-center">
           {data.label || 'Untitled'}
@@ -58,7 +71,21 @@ export function ViewNode({ data, isUnlocked }) {
           </div>
         )}
       </div>
-      <Handle type="source" position={Position.Bottom} />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        style={{
+          width: '12px',
+          height: '12px',
+          backgroundImage: `url('/images/AddIcon.png')`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundColor: '#D9D9D9',
+          border: '#D9D9D9',
+          boxShadow: '0 4px 4px rgba(29, 5, 5, 0.78)'
+        }}
+      />
     </div>
   );
 }
