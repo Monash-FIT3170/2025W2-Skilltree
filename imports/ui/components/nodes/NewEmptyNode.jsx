@@ -25,10 +25,12 @@ export function NewEmptyNode({ data, isEmpty }) {
         }}
       />
       <div className="flex flex-col items-center justify-center">
-        <strong>New Node</strong>
+        <strong className="text-white text-center">
+          {isEmpty ? 'New Node' : data.label}
+        </strong>
         <button
           onClick={data.onOpenEditor}
-          className="block mt-2 w-8 h-8 p-1 rounded hover:bg-gray-100"
+          className="block mt-2 w-8 h-8 p-1 rounded hover:bg-gray-600"
         >
           <img
             src="/images/EditIcon.png"
