@@ -163,6 +163,12 @@ export const NavBar = () => {
         >
           User
         </Link>
+          <Link
+          to="profiledashboard"
+          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+        >
+          Dashboard
+        </Link>
 
         <Link
           to="/create"
