@@ -1,12 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
 @import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
+@plugin 'flowbite-react/plugin/tailwindcss';
+@source '../.flowbite-react/class-list.json';
 
 .fallback {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 @keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
 }

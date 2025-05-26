@@ -2,21 +2,30 @@
   "name": "SkillTree",
   "private": true,
   "scripts": {
-    "setup": "meteor npm install && node -e \"require('fs').writeFileSync('settings.json', JSON.stringify({private:{AWSAccessKeyId:'',AWSSecretKey:''}}, null, 2))\"",
+    "setup": "meteor npm install && node -e \"require('fs').writeFileSync('settings.json', JSON.stringify({private:{AWSAccessKeyId:'',AWSSecretKey:'',google:{clientId:'',secret:''}}}, null, 2))\"",
     "start": "meteor run --settings settings.json --exclude-archs web.browser.legacy,web.cordova",
-    "test": "meteor test --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha",
-    "test-app": "TEST_WATCH=1 meteor test --exclude-archs web.browser.legacy,web.cordova --full-app --driver-package meteortesting:mocha",
+    "test": "meteor test --settings settings.json --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha",
+    "test-app": "TEST_WATCH=1 meteor test --settings settings.json --exclude-archs web.browser.legacy,web.cordova --full-app --driver-package meteortesting:mocha",
+    "test-start": "TEST_SERVER=0 TEST_CLIENT=0 meteor test --settings settings.json --exclude-archs web.browser.legacy,web.cordova --once --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer",
     "lint": "eslint --no-warn-ignored client/ imports/ server/",
     "lint:fix": "eslint --fix --no-warn-ignored client/ imports/ server/",
-    "format": "prettier --write client/ imports/ server/"
+    "format": "prettier --write client/ imports/ server/",
+    "postinstall": "flowbite-react patch && flowbite-react register"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.810.0",
+    "@aws-sdk/client-s3": "^3.812.0",
     "@babel/runtime": "^7.27.1",
+    "@emotion/is-prop-valid": "^1.3.1",
+    "@react-oauth/google": "^0.12.2",
     "@tailwindcss/postcss": "^4.1.6",
+    "@xyflow/react": "^12.6.4",
     "buffer": "^6.0.3",
     "chai": "^5.2.0",
+    "flowbite-react": "^0.11.7",
+    "framer-motion": "^12.12.1",
+    "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.511.0",
     "meteor-node-stubs": "^1.2.17",
@@ -25,8 +34,12 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.30.0",
-    "tailwindcss": "^4.1.4"
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^6.30.1",
+    "react-spinners": "^0.17.0",
+    "tailwindcss": "^4.1.7",
+    "use-immer": "^0.11.0"
   },
   "meteor": {
     "mainModule": {

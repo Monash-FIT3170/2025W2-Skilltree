@@ -1,22 +1,50 @@
 import { Meteor } from 'meteor/meteor';
-import { CommentsCollection } from '/imports/api/collections/Comments'; // SampleCollection
+import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
 
-// Basic methods for Comments
 Meteor.methods({
-  'comments.insert'(username, comment) {
-    check(username, String);
-    check(comment, String);
-
-    return CommentsCollection.insert({
-      username,
-      comment,
-      createdAt: new Date()
-    });
+  // add comment to collection
+  async addComment(comment) {
+    return await CommentsCollection.insertAsync(comment);
   },
 
-  'comments.remove'(commentId) {
+  // remove comment from collection
+  async removeComment(commentId) {
     check(commentId, String);
-    return CommentsCollection.remove(commentId);
+
+    const result = await CommentsCollection.removeAsync(commentId);
+    if (result === 0) {
+      throw new Meteor.Error(
+        'not-found',
+        'Comment not found or already removed'
+      );
+    }
+    return result;
+  },
+
+  // edit comment in collection
+  async editComment(commentId, newText) {
+    check(commentId, String);
+    check(newText, String);
+    return await CommentsCollection.updateAsync(
+      { _id: commentId },
+      {
+        $set: { comment: newText }
+      }
+    );
+  },
+
+  // retrieve comment from commentId
+  async getComment(commentId) {
+    return await CommentsCollection.findOneAsync({ _id: commentId });
+  },
+
+  // retrieve all comments associated with a proof
+  async getAllComments(proofId) {
+    const comment = await CommentsCollection.find({
+      proofId: proofId
+    }).fetchAsync();
+
+    return comment;
   }
 });
