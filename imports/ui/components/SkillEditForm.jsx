@@ -133,7 +133,7 @@
 // };
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   //retrive the data that was saved or empty
@@ -148,7 +148,7 @@ export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   });
 
   // Used to enforce non empty value
-  const [errors, setErrors] = useState({
+  const [setErrors] = useState({
     label: false,
     description: false,
     requirements: false
