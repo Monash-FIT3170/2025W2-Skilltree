@@ -49,13 +49,18 @@ const Step2 = () => {
     }
 
     try {
-      await Meteor.callAsync('validateStep2', formData);
+      const result = await Meteor.callAsync('validateStep2', formData);
+
+      if (!result.success) {
+        setErrors({
+          password: result.errors.password || ''
+        });
+        return;
+      }
+
       navigate('/signup/step3');
     } catch (error) {
-      setErrors(prev => ({
-        ...prev,
-        password: error.reason || 'An unexpected error occurred!'
-      }));
+      console.error(error.reason || 'An unexpected error occurred!');
     }
   };
 

@@ -6,7 +6,11 @@ import { motion } from 'framer-motion';
 const Step3 = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
-  const [errors, setErrors] = useState({ dateOfBirth: '' });
+  const [errors, setErrors] = useState({
+    givenName: '',
+    familyName: '',
+    dateOfBirth: ''
+  });
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -24,13 +28,21 @@ const Step3 = () => {
     e.preventDefault();
 
     try {
-      await Meteor.callAsync('validateStep3', formData);
+      const result = await Meteor.callAsync('validateStep3', formData);
+
+      if (!result.success) {
+        setErrors({
+          givenName: result.errors.givenName || '',
+          familyName: result.errors.familyName || '',
+          dateOfBirth: result.errors.dateOfBirth || ''
+        });
+
+        return;
+      }
+
       navigate('/signup/step4');
     } catch (error) {
-      setErrors(prev => ({
-        ...prev,
-        dateOfBirth: error.reason || 'An unexpected error occurred!'
-      }));
+      console.error(error.reason || 'An unexpected error occurred!');
     }
   };
 
@@ -91,8 +103,13 @@ const Step3 = () => {
                 onChange={handleChange}
                 placeholder="Given Name"
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white placeholder:text-gray-500"
+                className={`w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white ${errors.givenName ? 'border-red-500' : 'border-gray-300'}`}
               />
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.givenName && (
+                  <p className="text-sm text-red-500">{errors.givenName}</p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-1">
@@ -109,8 +126,13 @@ const Step3 = () => {
                 onChange={handleChange}
                 placeholder="Family Name"
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white placeholder:text-gray-500"
+                className={`w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white ${errors.familyName ? 'border-red-500' : 'border-gray-300'}`}
               />
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.familyName && (
+                  <p className="text-sm text-red-500">{errors.familyName}</p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-1">
