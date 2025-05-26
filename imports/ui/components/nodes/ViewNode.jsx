@@ -2,42 +2,61 @@ import React, { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 export function ViewNode({ data, isUnlocked }) {
-  //determine if node unlocked or locked - probably pass in another boolean parameter to ViewNode
   const [isHovering, setIsHovering] = useState(false);
-  var bgColour;
+
+  let bgColour;
+
   const progress = isUnlocked
     ? Math.floor((data.progressXp / data.xpPoints) * 100)
     : 0;
+
   bgColour = isUnlocked
     ? isHovering
-      ? '!bg-emerald-600'
-      : '!bg-emerald-300'
-    : isHovering
-      ? '!bg-gray-600'
-      : '!bg-gray-300';
+      ? '!bg-[#025940]'
+      : '!bg-[#328E6E]'
+    : '!bg-[#8C8C8C]';
+
+  const ringClasses = isUnlocked
+    ? 'focus:ring-2 focus:ring-[#328E6E] focus:ring-offset-2 hover:ring-2 hover:ring-[#328E6E] hover:ring-offset-2'
+    : '';
 
   return (
     <div
-      className={`react-flow__node-default ${bgColour} p-2.5 rounded`}
+      className={`react-flow__node-default ${bgColour} p-2.5 rounded 
+                  focus:outline-none ${ringClasses}`}
       onClick={isUnlocked ? data.onOpenEditor : null}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <Handle type="target" position={Position.Top} />
-      <div>
-        <strong>{data.label || 'Untitled'}</strong>
+      <div className="flex flex-col items-center z-10">
+        <strong className="text-white text-center">
+          {data.label || 'Untitled'}
+        </strong>
         <br />
         {isUnlocked && (
           <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
             <div
-              className="bg-yellow-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full"
+              className="bg-[#FBBC05] text-xs font-medium text-center p-1 leading-none rounded-full"
               style={{ width: `${progress}%` }}
-            >
-              {' '}
-            </div>
+            ></div>
           </div>
         )}
-        {!isUnlocked && isHovering && <div>Locked Node</div>}
+        {!isUnlocked && (
+          <div
+            className={`
+      absolute inset-0 flex items-center justify-center 
+      transition-opacity duration-300 ease-in-out
+      ${isHovering ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+    `}
+          >
+            <img
+              src="/images/LockIcon.png"
+              alt="Lock Icon"
+              className="w-6 h-6"
+            />
+          </div>
+        )}
       </div>
       <Handle type="source" position={Position.Bottom} />
     </div>
