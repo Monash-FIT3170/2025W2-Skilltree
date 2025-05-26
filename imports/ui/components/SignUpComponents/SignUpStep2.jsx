@@ -4,12 +4,12 @@ import React from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-import { toast, Toaster } from 'react-hot-toast';
 
 const Step2 = () => {
   const [repeatPass, setRepeatPass] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({ password: '', lengthPass: '' });
 
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
@@ -29,13 +29,22 @@ const Step2 = () => {
   const handleNext = async e => {
     e.preventDefault();
 
+    const newErrors = { password: '', lengthPass: '' };
+    let isErrors = false;
+
     if (formData.password !== repeatPass) {
-      toast.error('❌ Passwords must match');
-      return;
+      newErrors.password = 'Passwords must match!';
+      isErrors = true;
     }
 
     if (formData.password.length < 8) {
-      toast.error('❌ Weak password: Minimum 8 characters');
+      newErrors.lengthPass = 'Weak password: Minimum 8 characters';
+      isErrors = true;
+    }
+
+    setErrors(newErrors);
+
+    if (isErrors) {
       return;
     }
 
@@ -43,28 +52,15 @@ const Step2 = () => {
       await Meteor.callAsync('validateStep2', formData);
       navigate('/signup/step3');
     } catch (error) {
-      toast.error(error.reason || 'An unexpected error occurred!');
+      setErrors(prev => ({
+        ...prev,
+        password: error.reason || 'An unexpected error occurred!'
+      }));
     }
   };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontSize: '0.875rem',
-            padding: '12px 16px',
-            background: '#fff',
-            color: '#333',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line'
-          },
-          duration: 4000
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -123,15 +119,22 @@ const Step2 = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full text-black bg-white placeholder:text-gray-500"
+                  className={`pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full text-black bg-white placeholder:text-gray-500 ${errors.lengthPass ? 'border-red-500' : 'border-gray-300'}`}
                 />
                 <button
                   type="button"
+                  tabIndex={-1}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
+              </div>
+
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.lengthPass && (
+                  <p className="text-sm text-red-500">{errors.lengthPass}</p>
+                )}
               </div>
             </div>
 
@@ -153,15 +156,21 @@ const Step2 = () => {
                   onChange={e => setRepeatPass(e.target.value)}
                   placeholder="Re-enter your password"
                   required
-                  className="pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full text-black bg-white placeholder:text-gray-500"
+                  className={`pl-10 pr-10 py-3 w-full rounded-full text-black bg-white placeholder:text-gray-500 ${errors.password ? 'border-red-500' : 'border-gray-300'} border`}
                 />
                 <button
                   type="button"
+                  tabIndex={-1}
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
                 >
                   {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
+              </div>
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                )}
               </div>
             </div>
 

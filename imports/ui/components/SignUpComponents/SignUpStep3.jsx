@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { toast, Toaster } from 'react-hot-toast';
 
 const Step3 = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
+  const [errors, setErrors] = useState({ dateOfBirth: '' });
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -22,32 +22,20 @@ const Step3 = () => {
 
   const handleNext = async e => {
     e.preventDefault();
+
     try {
       await Meteor.callAsync('validateStep3', formData);
       navigate('/signup/step4');
     } catch (error) {
-      toast.error(error.reason || 'An unexpected error occurred!');
+      setErrors(prev => ({
+        ...prev,
+        dateOfBirth: error.reason || 'An unexpected error occurred!'
+      }));
     }
   };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontSize: '0.875rem',
-            padding: '12px 16px',
-            background: '#fff',
-            color: '#333',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line'
-          },
-          duration: 4000
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -139,8 +127,14 @@ const Step3 = () => {
                 value={formData.profile.dateOfBirth || ''}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
+                className={`w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
               />
+
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.dateOfBirth && (
+                  <p className="text-sm text-red-500">{errors.dateOfBirth}</p>
+                )}
+              </div>
             </div>
 
             {/* Navigation Arrows */}
