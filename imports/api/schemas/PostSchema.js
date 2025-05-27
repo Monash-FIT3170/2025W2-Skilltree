@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { PostCollection } from '/imports/api/collections/PostCollection';
+import { ProofCollection } from '/imports/api/collections/Proof';
 
 // Nested schema
 import '/imports/api/schemas/Comments'; // comments
@@ -49,4 +49,4 @@ Schemas.Post = new SimpleSchema({
   }
 });
 
-PostCollection.attachSchema(Schemas.Post);
+ProofCollection.attachSchema(Schemas.Post);

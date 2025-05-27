@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import { PostCollection } from '/imports/api/collections/PostCollection';
+import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { AddComment } from '/imports/ui/components/AddComment';
 
@@ -9,7 +9,7 @@ export const PostDetailPopup = ({ postId, onClose }) => {
   const { post, isLoading } = useTracker(() => {
     const handle = Meteor.subscribe('post');
     const post = handle.ready()
-      ? PostCollection.findOne({ _id: postId })
+      ? ProofCollection.findOne({ _id: postId })
       : null;
     return { post, isLoading: !handle.ready() };
   }, [postId]);
