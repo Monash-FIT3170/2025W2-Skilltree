@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { useNavigate, useOutletContext, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { toast, Toaster } from 'react-hot-toast';
 
 const Step4 = () => {
   const navigate = useNavigate();
@@ -27,28 +26,12 @@ const Step4 = () => {
 
       navigate('/');
     } catch (error) {
-      toast.error(error.reason || 'Something went wrong!');
+      console.error(error.reason || 'An unexpected error occurred!');
     }
   };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontSize: '0.875rem',
-            padding: '12px 16px',
-            background: '#fff',
-            color: '#333',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line'
-          },
-          duration: 4000
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
