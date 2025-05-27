@@ -6,6 +6,7 @@ import { SkillTreeEdit } from '../components/SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
+import { SubscribeButton } from '../components/SubscribeButton';
 
 export const SkillTreeCommunity = () => {
   // extract id from url params
@@ -36,6 +37,7 @@ export const SkillTreeCommunity = () => {
       </Helmet>
       <div className="p-2">
         <NavigationDropdown id={id} />
+        <SubscribeButton skillTreeId={id} className="p-2"/>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>
