@@ -11,10 +11,10 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
 
 /**
  * Component: ProofsList
- * 
+ *
  * Displays a list of uploaded proofs from the ProofCollection,
  * allowing users to upvote, downvote, and view additional details in a popup.
- * 
+ *
  * Features:
  * - Data fetching via Meteor subscriptions.
  * - Real-time reactive updates using `useTracker`.
@@ -52,7 +52,7 @@ export const ProofsList = () => {
    * Formats a given date into a human-readable string.
    * E.g., "28 May 2025, 03:15 PM"
    */
-  const formatDate = (date) => {
+  const formatDate = date => {
     if (!date) return '';
     const d = new Date(date);
     return d.toLocaleDateString(undefined, {
@@ -68,8 +68,8 @@ export const ProofsList = () => {
    * Calls the Meteor method to upvote a proof.
    * Errors are logged to console if the call fails.
    */
-  const handleUpvote = (proofId) => {
-    Meteor.call('proof.upvote', proofId, (error) => {
+  const handleUpvote = proofId => {
+    Meteor.call('proof.upvote', proofId, error => {
       if (error) console.error('Upvote failed:', error.reason);
     });
   };
@@ -78,8 +78,8 @@ export const ProofsList = () => {
    * Calls the Meteor method to downvote a proof.
    * Errors are logged to console if the call fails.
    */
-  const handleDownvote = (proofId) => {
-    Meteor.call('proof.downvote', proofId, (error) => {
+  const handleDownvote = proofId => {
+    Meteor.call('proof.downvote', proofId, error => {
       if (error) console.error('Downvote failed:', error.reason);
     });
   };
@@ -95,14 +95,15 @@ export const ProofsList = () => {
 
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
-                
                 {/* Header: User and Date */}
                 <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
                   <span className="flex items-center">
                     <span className="mr-1">👑</span>
                     <span>{proof.user}</span>
                   </span>
-                  <span className="text-xs italic">{formatDate(proof.date)}</span>
+                  <span className="text-xs italic">
+                    {formatDate(proof.date)}
+                  </span>
                 </div>
 
                 {/* Subskill Tag */}
@@ -113,7 +114,11 @@ export const ProofsList = () => {
                 {/* Evidence Image Preview */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
                   {proof.evidenceLink ? (
-                    <img src={proof.evidenceLink} alt="Evidence" className="max-h-full max-w-full" />
+                    <img
+                      src={proof.evidenceLink}
+                      alt="Evidence"
+                      className="max-h-full max-w-full"
+                    />
                   ) : (
                     <span>No Image</span>
                   )}
@@ -154,8 +159,12 @@ export const ProofsList = () => {
                     onClick={() => setSelectedProofId(proof._id)}
                     className="px-4 py-2 text-white font-semibold text-sm rounded-[22px] transition-colors duration-300"
                     style={{ backgroundColor: '#024059' }}
-                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#025940')}
-                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#024059')}
+                    onMouseOver={e =>
+                      (e.currentTarget.style.backgroundColor = '#025940')
+                    }
+                    onMouseOut={e =>
+                      (e.currentTarget.style.backgroundColor = '#024059')
+                    }
                   >
                     View Details
                   </button>
