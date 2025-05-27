@@ -54,6 +54,7 @@ const skillNodeSchema = new SimpleSchema({
     label: 'Skill type',
     optional: true,
     allowedValues: [
+      'root',
       'input',
       'output',
       'default',

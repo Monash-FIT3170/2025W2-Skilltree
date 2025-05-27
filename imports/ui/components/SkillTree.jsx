@@ -10,6 +10,7 @@ import {
   useReactFlow,
   ReactFlowProvider
 } from '@xyflow/react';
+import { RootNode } from './nodes/RootNote';
 import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { ViewNode } from './nodes/ViewNode';
 import { SkillEditForm } from './SkillEditForm';
@@ -25,6 +26,7 @@ const createViewNode = unlocked => props => (
 );
 
 const nodeTypes = {
+  root: RootNode,
   'new-empty': createNewEmptyNode(true),
   'new-populated': createNewEmptyNode(false),
   'view-node-unlocked': createViewNode(true),
@@ -53,35 +55,9 @@ export const SkillTreeLogic = ({
     initialNodes = [
       {
         id: '0',
-        type: 'input',
-        data: { label: 'test root' },
+        type: 'root',
+        data: { label: 'root' },
         position: { x: 0, y: 0 }
-      },
-      {
-        id: '1000',
-        type: 'view-node-locked',
-        data: {
-          label: `Example Locked`,
-          description: 'this is an example node of a normal user',
-          requirements: 'example reqs',
-          xpPoints: 20,
-          progressXp: 10, //example user is on 5 xp points
-          onOpenEditor: () => handleOpenEditor('1000')
-        },
-        position: { x: 0, y: 80 }
-      },
-      {
-        id: '1001',
-        type: 'view-node-unlocked',
-        data: {
-          label: `test view Node`,
-          description: 'this is an example node of a normal user',
-          requirements: 'example reqs',
-          xpPoints: 20,
-          progressXp: 10, //example user is on 5 xp points
-          onOpenEditor: () => handleOpenEditor('1001')
-        },
-        position: { x: 80, y: 80 }
       }
     ];
   }
