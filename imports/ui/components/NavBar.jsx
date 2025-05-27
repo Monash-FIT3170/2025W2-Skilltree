@@ -128,10 +128,10 @@ export const NavBar = () => {
         </div>
 
         <Link
-          to="/Home"
+          to="/dashboard"
           className="text-white hover:bg-gray-600 px-3 py-2 rounded"
         >
-          Home
+          Dashboard
         </Link>
         <Link
           to="/Sample"

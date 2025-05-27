@@ -55,7 +55,7 @@ export const GetMissingGoogleFields = () => {
       await Meteor.callAsync('updateFields', updateFields);
       setError('');
 
-      navigate('/home');
+      navigate('/Dashboard');
     } catch (error) {
       setError(
         error.reason || 'An unexpected error occurred with creating new user!'
