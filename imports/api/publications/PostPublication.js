@@ -22,7 +22,7 @@ Meteor.startup(async () => {
       evidence: '/images/pic1.jpg', // Updated evidence path
       subskill: 'Footwork',
       upvotes: 0,
-      downvotes: 0,
+      downvotes: 0
     },
     {
       title: 'Test Post 2',
@@ -33,7 +33,7 @@ Meteor.startup(async () => {
       evidence: '/images/pic3.png',
       subskill: 'Handholds',
       upvotes: 0,
-      downvotes: 0,
+      downvotes: 0
     },
     {
       title: 'Test Post 3',
@@ -45,7 +45,7 @@ Meteor.startup(async () => {
       evidence: '/images/pic4.png',
       subskill: 'Balance',
       upvotes: 0,
-      downvotes: 0,
+      downvotes: 0
     },
     {
       title: 'Test Post 4',
@@ -57,7 +57,7 @@ Meteor.startup(async () => {
       evidence: '/images/pic5.png',
       subskill: 'Dynamic Movement',
       upvotes: 0,
-      downvotes: 0,
+      downvotes: 0
     },
     {
       title: 'Test Post 5',
@@ -69,8 +69,7 @@ Meteor.startup(async () => {
       evidence: '/images/pic6.png',
       subskill: 'Resting',
       upvotes: 0,
-      downvotes: 0,
-
+      downvotes: 0
     }
   ];
 

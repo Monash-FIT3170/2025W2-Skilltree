@@ -8,7 +8,9 @@ import { AddComment } from '/imports/ui/components/AddComment';
 export const PostDetailPopup = ({ postId, onClose }) => {
   const { post, isLoading } = useTracker(() => {
     const handle = Meteor.subscribe('post');
-    const post = handle.ready() ? PostCollection.findOne({ _id: postId }) : null;
+    const post = handle.ready()
+      ? PostCollection.findOne({ _id: postId })
+      : null;
     return { post, isLoading: !handle.ready() };
   }, [postId]);
 
@@ -48,19 +50,19 @@ export const PostDetailPopup = ({ postId, onClose }) => {
             </p>
 
             {post.evidence ? (
-                <img
-                    src={post.evidence}
-                    alt="Evidence"
-                    className="w-full max-h-96 object-cover rounded mt-4 mb-4"
-                />
-                ) : (
-                <div
-                    className="w-full h-48 flex items-center justify-center bg-gray-300 text-gray-600 rounded mt-4 mb-4"
-                    style={{ fontStyle: 'italic' ,  height: '450px'}}
-                >
-                    No Photo
-                </div>
-                )}
+              <img
+                src={post.evidence}
+                alt="Evidence"
+                className="w-full max-h-96 object-cover rounded mt-4 mb-4"
+              />
+            ) : (
+              <div
+                className="w-full h-48 flex items-center justify-center bg-gray-300 text-gray-600 rounded mt-4 mb-4"
+                style={{ fontStyle: 'italic', height: '450px' }}
+              >
+                No Photo
+              </div>
+            )}
 
             <p className="text-gray-700 mb-4">
               {post.description || 'No description provided.'}

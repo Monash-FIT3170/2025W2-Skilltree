@@ -24,7 +24,7 @@ export const ProofsPostList = () => {
 
   if (posts.length === 0) return <div>No posts found.</div>;
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     if (!date) return '';
     const d = new Date(date);
     return d.toLocaleDateString(undefined, {
@@ -36,14 +36,14 @@ export const ProofsPostList = () => {
     });
   };
 
-  const handleUpvote = (postId) => {
-    Meteor.call('post.upvote', postId, (error) => {
+  const handleUpvote = postId => {
+    Meteor.call('post.upvote', postId, error => {
       if (error) console.error('Upvote failed:', error.reason);
     });
   };
 
-  const handleDownvote = (postId) => {
-    Meteor.call('post.downvote', postId, (error) => {
+  const handleDownvote = postId => {
+    Meteor.call('post.downvote', postId, error => {
       if (error) console.error('Downvote failed:', error.reason);
     });
   };
@@ -64,7 +64,9 @@ export const ProofsPostList = () => {
                     <span className="mr-1">👑</span>
                     <span>{post.user}</span>
                   </span>
-                  <span className="text-xs italic">{formatDate(post.date)}</span>
+                  <span className="text-xs italic">
+                    {formatDate(post.date)}
+                  </span>
                 </div>
 
                 {/* Subskill */}
@@ -140,7 +142,6 @@ export const ProofsPostList = () => {
                     />
                   </div>
                   <CommentSection postId={post._id} maxHeight={300} />
-
                 </div>
               </div>
             );
@@ -156,5 +157,6 @@ export const ProofsPostList = () => {
         />
       )}
     </div>
-  );d
+  );
+  d;
 };

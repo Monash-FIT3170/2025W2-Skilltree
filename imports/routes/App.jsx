@@ -12,7 +12,6 @@ import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { HelloViewRoutes } from '/imports/routes/components/HelloView';
 
-
 // Define Routes for App JSX layout
 export const AppRoutes = [
   {
@@ -25,7 +24,7 @@ export const AppRoutes = [
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
       ...HelloViewRoutes,
-      ...NotFoundRoutes,
+      ...NotFoundRoutes
     ]
   }
 ];

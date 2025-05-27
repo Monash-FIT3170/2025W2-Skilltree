@@ -40,12 +40,12 @@ Schemas.Post = new SimpleSchema({
   upvotes: {
     type: SimpleSchema.Integer,
     defaultValue: 0,
-    optional: true,
+    optional: true
   },
   downvotes: {
     type: SimpleSchema.Integer,
     defaultValue: 0,
-    optional: true,
+    optional: true
   }
 });
 
