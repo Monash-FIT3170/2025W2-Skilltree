@@ -31,7 +31,7 @@ Meteor.methods({
     return skilltree;
   },
 
-  async 'skilltrees.subscribeUser'(skilltreeId,userId) {
+  async 'skilltrees.subscribeUser'(skilltreeId, userId) {
     const skilltree = SkillTreeCollection.findOneAsync(skilltreeId);
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
@@ -39,14 +39,16 @@ Meteor.methods({
 
     // set async if needed
     return await SkillTreeCollection.updateAsync(
-      {_id: skilltreeId},
-      {$addToSet: {
-        subscribers: userId
-      }}
-    )
+      { _id: skilltreeId },
+      {
+        $addToSet: {
+          subscribers: userId
+        }
+      }
+    );
   },
 
-  async 'skilltrees.unsubscribeUser'(skilltreeId,userId) {
+  async 'skilltrees.unsubscribeUser'(skilltreeId, userId) {
     const skilltree = await SkillTreeCollection.findOneAsync(skilltreeId);
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
@@ -54,11 +56,13 @@ Meteor.methods({
 
     // set async if needed
     return await SkillTreeCollection.updateAsync(
-      {_id: skilltreeId},
-      {$pull: {
-        subscribers: userId
-      }}
-    )
+      { _id: skilltreeId },
+      {
+        $pull: {
+          subscribers: userId
+        }
+      }
+    );
   },
 
   async 'skilltrees.findUser'(skilltreeId, userId) {
@@ -69,8 +73,8 @@ Meteor.methods({
 
     // select all documents where subscribers contains desired user
     return await SkillTreeCollection.findOneAsync(
-      {_id: skilltreeId},
-      {subscribers: { $in: [userId]}}
-    )
+      { _id: skilltreeId },
+      { subscribers: { $in: [userId] } }
+    );
   }
 });

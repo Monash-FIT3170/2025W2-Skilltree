@@ -26,7 +26,7 @@ Meteor.methods({
       { _id: this.userId },
       { $set: updateFields }
     );
-  }, 
+  },
 
   // append to subscribedCommunity
   async updateSubscribedCommunities(updateCommunities) {
@@ -35,8 +35,8 @@ Meteor.methods({
     }
 
     return await Meteor.users.updateAsync(
-      {_id: this.userId},
-      { $push: {'profile.subscribedCommunities': updateCommunities}}
+      { _id: this.userId },
+      { $push: { 'profile.subscribedCommunities': updateCommunities } }
     );
   }
 });
