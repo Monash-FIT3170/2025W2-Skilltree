@@ -3,10 +3,9 @@ import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
 
 export const GetMissingGoogleFields = () => {
-  const [, setError] = useState(''); //This is to store any error messages when validating the account
+  const [errors, setErrors] = useState({ username: '', dateOfBirth: '' }); //This is to store any error messages when validating the account
 
   const navigate = useNavigate();
 
@@ -41,8 +40,20 @@ export const GetMissingGoogleFields = () => {
     e.preventDefault();
 
     try {
-      await Meteor.callAsync('validateMissingGoogleFields', formData);
-      setError('');
+      const result = await Meteor.callAsync(
+        'validateMissingGoogleFields',
+        formData
+      );
+
+      if (!result.success) {
+        setErrors({
+          username: result.errors.username || '',
+          dateOfBirth: result.errors.dateOfBirth || ''
+        });
+        return;
+      }
+
+      setErrors({ username: '', dateOfBirth: '' });
 
       //Meteor Doc Update: need to use dot notation
       const updateFields = {
@@ -53,33 +64,14 @@ export const GetMissingGoogleFields = () => {
       };
 
       await Meteor.callAsync('updateFields', updateFields);
-      setError('');
 
       navigate('/home');
     } catch (error) {
-      setError(
-        error.reason || 'An unexpected error occurred with creating new user!'
-      );
+      console.error(error.reason || 'Something went wrong here!');
     }
   };
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontSize: '0.875rem',
-            padding: '12px 16px',
-            background: '#fff',
-            color: '#333',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line'
-          },
-          duration: 4000
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -131,8 +123,11 @@ export const GetMissingGoogleFields = () => {
                 onChange={handleChange}
                 placeholder="Username"
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white placeholder:text-gray-500"
+                className={`w-full px-4 py-3 rounded-full border ${errors.username ? 'border-red-500' : 'border-gray-300'} outline-none text-black bg-white placeholder:text-gray-500`}
               />
+              <p className="text-sm text-red-500 whitespace-pre-line min-h-[1.25rem]">
+                {errors.username}
+              </p>
             </div>
 
             <div className="space-y-1">
@@ -149,8 +144,11 @@ export const GetMissingGoogleFields = () => {
                 value={formData.profile.dateOfBirth || ''}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white"
+                className={`w-full px-4 py-3 rounded-full border ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'} outline-none text-black bg-white`}
               />
+              <p className="text-sm text-red-500 whitespace-pre-line min-h-[1.25rem]">
+                {errors.dateOfBirth}
+              </p>
             </div>
 
             {/* Navigation Arrows */}

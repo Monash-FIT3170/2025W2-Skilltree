@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { toast, Toaster } from 'react-hot-toast';
 
 const Step1 = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
+  const [errors, setErrors] = useState({ email: '', username: '' });
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -23,39 +23,40 @@ const Step1 = () => {
   const handleNext = async e => {
     e.preventDefault();
     const usernamePattern = /^[a-zA-Z0-9_-]{3,20}$/;
+
+    const newErrors = { email: '', username: '' };
+    let isError = false;
+
     if (!usernamePattern.test(formData.username)) {
-      toast.error(
-        `Username is invalid:\n• Minimum 3 characters\n• Maximum 20 characters\n• Can only contain letters, digits, hyphens, underscores`
-      );
+      newErrors.username =
+        'Username must be 3–20 characters. Use letters, numbers, - or _.';
+      isError = true;
+    }
+
+    setErrors(newErrors);
+    if (isError) {
       return;
     }
 
     try {
-      await Meteor.callAsync('validateStep1', formData);
+      const result = await Meteor.callAsync('validateStep1', formData);
+
+      if (!result.success) {
+        setErrors({
+          email: result.errors.email || '',
+          username: result.errors.username || ''
+        });
+        return;
+      }
+      setErrors({ email: '', username: '' });
       navigate('/signup/step2');
     } catch (error) {
-      toast.error(error.reason || 'An unexpected error occurred!');
+      console.error(error.reason || 'An unexpected error occurred!');
     }
   };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            fontSize: '0.875rem',
-            padding: '12px 16px',
-            background: '#fff',
-            color: '#333',
-            border: '1px solid #e0e0e0',
-            boxShadow: '0px 4px 14px rgba(0, 0, 0, 0.1)',
-            whiteSpace: 'pre-line'
-          },
-          duration: 4000
-        }}
-      />
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -112,8 +113,16 @@ const Step1 = () => {
                 onChange={handleChange}
                 required
                 placeholder="jane@example.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
+                className={`w-full px-4 py-3 border ${
+                  errors.email ? 'border-red-500' : 'border-gray-300'
+                } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none`}
               />
+
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email}</p>
+                )}
+              </div>
             </div>
 
             {/* Username */}
@@ -130,8 +139,15 @@ const Step1 = () => {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none"
+                className={`w-full px-4 py-3 border ${
+                  errors.username ? 'border-red-500' : 'border-gray-300'
+                } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none`}
               />
+              <div className="min-h-[1.25rem] pl-2">
+                {errors.username && (
+                  <p className="text-sm text-red-500">{errors.username}</p>
+                )}
+              </div>
             </div>
 
             {/* Navigation Button */}

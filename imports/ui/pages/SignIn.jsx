@@ -6,12 +6,11 @@ import { Regex } from '/imports/utils/Regex.js';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
-import { toast, Toaster } from 'react-hot-toast';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [, setError] = useState('');
+  const [errors, setError] = useState({ email: '', password: '' });
   const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -62,27 +61,35 @@ export const SignIn = () => {
 
   const handleLogin = async e => {
     e.preventDefault();
+
+    const newErrors = { email: '', password: '' };
+    let isError = false;
+
     if (!Regex.email.test(email)) {
-      setError('Invalid email format.');
-      toast.error('Please enter a valid email');
-      return;
+      newErrors.email = 'Please enter a valid email address.';
+      isError = true;
     }
+
     if (!Regex.password.test(password)) {
-      setError('Password format is invalid.');
-      toast.error('Password must include upper, lower, number, special char');
+      newErrors.password =
+        'Password must include upper, lower, number, and special char.';
+      isError = true;
+    }
+
+    setError(newErrors);
+
+    if (isError) {
       return;
     }
 
     setLoggingIn(true);
-    setError('');
+    setError({ email: '', password: '' });
 
     Meteor.loginWithPassword(email, password, error => {
       setLoggingIn(false);
       if (error) {
-        setError(error.reason || 'Login failed.');
-        toast.error(error.reason || 'Login failed');
+        setError({ email: '', password: error.reason || 'Login failed.' });
       } else {
-        toast.success('Welcome back!');
         navigate('/home');
       }
     });
@@ -91,7 +98,6 @@ export const SignIn = () => {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-white px-4 py-12 sm:py-20">
-        <Toaster position="top-right" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -126,10 +132,15 @@ export const SignIn = () => {
                   placeholder="Email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                  className={`w-full pl-10 pr-4 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border ${errors.email ? 'border-red-500' : 'border-gray-500'}`}
                   required
                 />
                 <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                {errors.email && (
+                  <p className="absolute left-0 top-full text-sm text-red-500 mt-1 pl-2">
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
               {/* Password input with icon and eye toggle */}
@@ -139,20 +150,26 @@ export const SignIn = () => {
                   placeholder="Password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border border-gray-300"
+                  className={`w-full pl-10 pr-10 py-2 rounded-full bg-[#EEF2FF] text-sm outline-none border ${errors.password ? 'border-red-500' : 'border-gray-500'}`}
                   required
                 />
                 <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                 <button
                   type="button"
+                  tabIndex={-1}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
+                {errors.password && (
+                  <p className="absolute left-0 top-full text-sm text-red-500 mt-1 pl-2">
+                    {errors.password}
+                  </p>
+                )}
               </div>
 
-              <p className="text-xs text-blue-600 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
+              <p className="text-xs text-blue-600 mt-6 hover:text-blue-800 hover:underline cursor-pointer transition duration-200 pt-2">
                 Forgot my password?
               </p>
 
