@@ -15,7 +15,10 @@ import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const UserDropdownMenu = () => {
   const { username, emails } = useContext(UserContext);
-  const email = emails[0].address;
+  //Add a guard clause to avoid rendering if user data is missing
+  if (!username || !emails?.length) return null;
+
+  const email = emails?.[0]?.address || 'example123@example.com';
 
   return (
     <div className="flex md:order-2">
