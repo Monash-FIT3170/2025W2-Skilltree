@@ -6,15 +6,11 @@ import {
   NavbarBrand,
   NavbarToggle,
   NavbarCollapse,
-  NavbarLink,
-  Dropdown,
-  DropdownHeader,
-  DropdownItem,
-  DropdownDivider,
-  Avatar
+  NavbarLink
 } from 'flowbite-react';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { UserContext } from '/imports/utils/contexts/UserContext';
+
+// JSX UI
+import { UserDropdownMenu } from '/imports/ui/components/UserDropdownMenu';
 
 export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,9 +50,6 @@ export const NavBar = () => {
     setShowDropdown(false);
     navigate(`/skilltree/${id}`);
   };
-
-  const { username, emails } = useContext(UserContext);
-  const email = emails[0].address;
 
   return (
     <div className="sticky top-0 z-50">
@@ -164,42 +157,7 @@ export const NavBar = () => {
               Create SkillTree
             </div>
           </NavbarLink>
-          <div className="flex md:order-2">
-            <Dropdown
-              className="shadow-lg"
-              arrowIcon={false}
-              inline
-              label={
-                <Avatar
-                  className="hover:brightness-90 transition duration-200"
-                  alt="User Profile Picture"
-                  icon={
-                    <svg>
-                      <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 16a6 6 0 1112 0H2z" />
-                    </svg>
-                  }
-                  rounded
-                />
-              }
-            >
-              <DropdownHeader className="rounded-lg p-4">
-                <span className="block text-sm font-semibold">@{username}</span>
-                <span className="block truncate text-sm text-gray-500">
-                  {email}
-                </span>
-              </DropdownHeader>
-              <DropdownDivider />
-              <NavbarLink as={Link} to="/dashboard">
-                <DropdownItem>Dashboard</DropdownItem>
-              </NavbarLink>
-              <DropdownDivider />
-              <DropdownItem onClick={() => Meteor.logout()}>
-                Logout
-                <FaSignOutAlt className="text-gray-400 ml-2" />
-              </DropdownItem>
-            </Dropdown>
-            <NavbarToggle />
-          </div>
+          <UserDropdownMenu />
         </NavbarCollapse>
       </Navbar>
     </div>
