@@ -11,8 +11,9 @@ const Step4 = () => {
     const file = e.target.files?.[0];
     if (file) {
       setFormData(draft => {
-        draft.profile.avatarUrl = URL.createObjectURL(file);
-        draft.profile.avatarFile = file;
+        //draft.profile.avatarUrl = URL.createObjectURL(file);
+        //draft.profile.avatarFile = file;
+        draft.profile.avatarUrl = 'https://example.com/avatar.jpg';
       });
     }
   };
@@ -24,7 +25,7 @@ const Step4 = () => {
 
       await Meteor.callAsync('createNewUser', formData);
 
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.error(error.reason || 'An unexpected error occurred!');
     }

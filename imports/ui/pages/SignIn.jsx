@@ -41,9 +41,9 @@ export const SignIn = () => {
               validation.status === 'alreadyMerged' ||
               validation.status === 'googleOnlyAccount'
             ) {
-              navigate('/home');
+              navigate('/');
             } else if (validation.status === 'justMerged') {
-              navigate('/home');
+              navigate('/');
             } else if (validation.status === 'noManualAccount') {
               await Meteor.callAsync('addGoogleAccount');
 
@@ -90,7 +90,7 @@ export const SignIn = () => {
       if (error) {
         setError({ email: '', password: error.reason || 'Login failed.' });
       } else {
-        navigate('/home');
+        navigate('/');
       }
     });
   };

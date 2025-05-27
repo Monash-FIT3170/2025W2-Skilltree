@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import { ThemeConfig } from 'flowbite-react';
 
 // Provider
 import { UserProvider } from '/imports/utils/providers/UserProvider';
@@ -8,10 +9,14 @@ import { UserProvider } from '/imports/utils/providers/UserProvider';
 import { Fallback } from '/imports/ui/components/Fallback';
 
 export const Root = () => (
-  <UserProvider>
-    {/* Provides user to any nested child via useContext instead of props */}
-    <Suspense fallback={<Fallback msg={''} />}>
-      <Outlet /> {/* Renders the matched child (App/Login/Signup) route here */}
-    </Suspense>
-  </UserProvider>
+  <>
+    <ThemeConfig dark={false} />
+    <UserProvider>
+      {/* Provides user to any nested child via useContext instead of props */}
+      <Suspense fallback={<Fallback msg={''} />}>
+        {/* Renders the matched child (App/Login/Signup) route here */}
+        <Outlet />
+      </Suspense>
+    </UserProvider>
+  </>
 );

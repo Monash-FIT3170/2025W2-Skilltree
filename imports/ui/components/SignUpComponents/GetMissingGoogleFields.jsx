@@ -65,7 +65,7 @@ export const GetMissingGoogleFields = () => {
 
       await Meteor.callAsync('updateFields', updateFields);
 
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.error(error.reason || 'Something went wrong here!');
     }
