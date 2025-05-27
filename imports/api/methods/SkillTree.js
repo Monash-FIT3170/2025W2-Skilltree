@@ -23,8 +23,8 @@ Meteor.methods({
     return SkillTreeCollection.remove(skilltreeId);
   },
 
-  'skilltrees.get'(skilltreeId) {
-    const skilltree = SkillTreeCollection.findOne(skilltreeId);
+  async 'skilltrees.get'(skilltreeId) {
+    const skilltree = await SkillTreeCollection.findOneAsync(skilltreeId);
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
