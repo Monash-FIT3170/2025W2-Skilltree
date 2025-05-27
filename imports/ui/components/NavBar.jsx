@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import {
@@ -6,8 +6,15 @@ import {
   NavbarBrand,
   NavbarToggle,
   NavbarCollapse,
-  NavbarLink
+  NavbarLink,
+  Dropdown,
+  DropdownHeader,
+  DropdownItem,
+  DropdownDivider,
+  Avatar
 } from 'flowbite-react';
+import { FaSignOutAlt } from 'react-icons/fa';
+import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,9 +55,12 @@ export const NavBar = () => {
     navigate(`/skilltree/${id}`);
   };
 
+  const { username, emails } = useContext(UserContext);
+  const email = emails[0].address;
+
   return (
     <div className="sticky top-0 z-50">
-      <Navbar className="bg-[#328E6E] dark:bg-[#328E6E] shadow-lg" fluid>
+      <Navbar className="bg-[#328E6E] shadow-lg" fluid>
         <NavbarBrand as={Link} href="/">
           <div className="flex items-center mr-5">
             <img
@@ -154,11 +164,42 @@ export const NavBar = () => {
               Create SkillTree
             </div>
           </NavbarLink>
-          <NavbarLink as={Link} to="#">
-            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
-              User
-            </div>
-          </NavbarLink>
+          <div className="flex md:order-2">
+            <Dropdown
+              className="shadow-lg"
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar
+                  className="hover:brightness-90 transition duration-200"
+                  alt="User Profile Picture"
+                  icon={
+                    <svg>
+                      <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 16a6 6 0 1112 0H2z" />
+                    </svg>
+                  }
+                  rounded
+                />
+              }
+            >
+              <DropdownHeader className="rounded-lg p-4">
+                <span className="block text-sm font-semibold">@{username}</span>
+                <span className="block truncate text-sm text-gray-500">
+                  {email}
+                </span>
+              </DropdownHeader>
+              <DropdownDivider />
+              <NavbarLink as={Link} to="/dashboard">
+                <DropdownItem>Dashboard</DropdownItem>
+              </NavbarLink>
+              <DropdownDivider />
+              <DropdownItem onClick={() => Meteor.logout()}>
+                Logout
+                <FaSignOutAlt className="text-gray-400 ml-2" />
+              </DropdownItem>
+            </Dropdown>
+            <NavbarToggle />
+          </div>
         </NavbarCollapse>
       </Navbar>
     </div>
