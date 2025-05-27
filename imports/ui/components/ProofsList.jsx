@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { PostDetailPopup } from '/imports/ui/pages/PostDetailPopup';
 
-export const ProofsPostList = () => {
+export const ProofsList = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
 
   const { posts, isLoading } = useTracker(() => {
