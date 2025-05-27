@@ -15,6 +15,7 @@ import { NewEmptyNode } from './nodes/NewEmptyNode';
 import { ViewNode } from './nodes/ViewNode';
 import { SkillEditForm } from './SkillEditForm';
 import { SkillViewForm } from './SkillViewForm';
+import { Button } from 'flowbite-react';
 // This is the logic and page for creating/editing a skilltree
 
 const createNewEmptyNode = isEmpty => props => (
@@ -156,12 +157,28 @@ export const SkillTreeLogic = ({
 
   return (
     <>
-      <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
-        Add Skills
-      </h2>
-      {isAdmin && <button onClick={handleOnSave}>Save</button>}
+      {isAdmin ? (
+        <>
+          <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
+            Add Skills
+          </h2>
 
-      <div style={{ width: '100vw', height: '60vh' }} ref={reactFlowWrapper}>
+          <Button
+            pill
+            color="green"
+            className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+            onClick={handleOnSave}
+          >
+            Save
+          </Button>
+        </>
+      ) : (
+        <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
+          Skills
+        </h2>
+      )}
+
+      <div style={{ width: '100vw', height: '65vh' }} ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           nodeTypes={nodeTypes}
@@ -178,13 +195,18 @@ export const SkillTreeLogic = ({
           <Controls />
         </ReactFlow>
       </div>
-      <button
-        onClick={() => {
-          onBack(nodes, edges);
-        }}
-      >
-        Back
-      </button>
+      {isAdmin && (
+        <Button
+          pill
+          color="green"
+          className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+          onClick={() => {
+            onBack(nodes, edges);
+          }}
+        >
+          Back
+        </Button>
+      )}
       {/* Modal rendered outside ReactFlow */}
       {editingNode &&
         (isAdmin ? (
