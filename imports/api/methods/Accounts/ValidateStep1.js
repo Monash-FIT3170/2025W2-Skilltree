@@ -3,43 +3,37 @@ import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
   async validateStep1(userOptions) {
-    //Validate the email:
+    const errors = {};
+
+    // Validate the email
     if (!Regex.email.test(userOptions.email)) {
-      throw new Meteor.Error(
-        'invalid-email',
-        'The input email format is invalid!'
-      );
+      errors.email = 'The input email format is invalid!';
+    } else {
+      const existingEmail = await Meteor.users.findOneAsync({
+        'emails.address': userOptions.email
+      });
+      if (existingEmail) {
+        errors.email = 'This email has already been used!';
+      }
     }
 
-    //Check if the email has already been in use:
-    const existingEmail = await Meteor.users.findOneAsync({
-      'emails.address': userOptions.email
-    });
-
-    if (existingEmail) {
-      throw new Meteor.Error(
-        'already-in-use-email',
-        'This email has already been used!'
-      );
-    }
-
-    //Validate the username:
+    // Validate the username
     if (!Regex.username.test(userOptions.username)) {
-      throw new Meteor.Error(
-        'invalid-username',
-        `Username is invalid
-        -Minimum 3 characters
-        -Maximum 20 characters
-        -Can only contain lowercase, uppercase, digits, hyphens, underscores`
-      );
+      errors.username = `Username is invalid
+                        - Minimum 3 characters
+                        - Maximum 20 characters
+                        - Can only contain lowercase, uppercase, digits, hyphens, underscores`;
+    } else {
+      const existingUsername = await Meteor.users.findOneAsync({
+        username: userOptions.username
+      });
+      if (existingUsername) {
+        errors.username = 'Username is already in use';
+      }
     }
 
-    const existingUsername = await Meteor.users.findOneAsync({
-      username: userOptions.username
-    });
-
-    if (existingUsername) {
-      throw new Meteor.Error('username-taken', 'Username is already in use');
+    if (Object.keys(errors).length > 0) {
+      return { success: false, errors };
     }
 
     return { success: true };
