@@ -10,12 +10,14 @@ import {
 } from 'flowbite-react';
 
 export const NavBar = () => {
+  //Search Bar Queries:
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
 
+  //useEffect for Search Query/Search Bar
   useEffect(() => {
     if (!searchQuery.trim()) {
       setResults([]);
@@ -47,6 +49,28 @@ export const NavBar = () => {
     setShowDropdown(false);
     navigate(`/skilltree/${id}`);
   };
+
+  //useEffect for User drop down: Profile, Settings, Sign Out
+  const [userDropDown, setUserDropDown] = useState(false);
+  const userDropDownRef = useRef(); //{current: undefined} and do ref={myref} for the DOM element <div>
+
+  useEffect(() => {
+    const handleClickOutsideUser = e => {
+      if (
+        userDropDownRef.current &&
+        !userDropDownRef.current.contains(e.target)
+      ) {
+        //Dont show the drop down
+        setUserDropDown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutsideUser);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideUser);
+    };
+  }, []);
 
   return (
     <div className="sticky top-0 z-50">
@@ -155,8 +179,38 @@ export const NavBar = () => {
             </div>
           </NavbarLink>
           <NavbarLink as={Link} to="#">
-            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
-              User
+            <div className="relative" ref={userDropDownRef}>
+              <button
+                onClick={() => setUserDropDown(!userDropDown)}
+                className="text-white hover:bg-gray-600 px-3 py-2 rounded"
+              >
+                User
+              </button>
+
+              {userDropDown && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                  <Link
+                    to="/profile"
+                    className="block w-full text-left text-gray-700 text-base px-4 py-2 hover: bg-gray-100"
+                    onClick={() => setUserDropDown(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/preferences"
+                    className="block w-full text-left text-gray-700 text-base px-4 py-2 hover: bg-gray-100"
+                    onClick={() => setUserDropDown(false)}
+                  >
+                    Preferences
+                  </Link>
+                  <button
+                    onClick={() => Meteor.logout()}
+                    className="block w-full text-left text-gray-700 text-base px-4 py-2 hover: bg-gray-100"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           </NavbarLink>
         </NavbarCollapse>
