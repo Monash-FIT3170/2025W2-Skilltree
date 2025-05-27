@@ -52,34 +52,34 @@ export const ProofsPostList = () => {
     <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-screen-2xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {posts.map(post => {
-            const verification = post.verification || 0;
+          {proofs.map(proof => {
+            const verification = proof.verification || 0;
             const progressPercent = Math.min((verification / 10) * 100, 100);
 
             return (
-              <div key={post._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
+              <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl ">
                 {/* User & Date */}
                 <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2 ">
                   <span className="flex items-center">
                     <span className="mr-1">👑</span>
-                    <span>{post.user}</span>
+                    <span>{proof.user}</span>
                   </span>
                   <span className="text-xs italic">
-                    {formatDate(post.date)}
+                    {formatDate(proof.date)}
                   </span>
                 </div>
 
                 {/* Subskill */}
                 <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
-                  {post.subskill || 'Subskill Placeholder'}
+                  {proof.subskill || 'Subskill Placeholder'}
                 </div>
 
-                {/* Evidence Image */}
+                {/* EvidenceLink Image */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
-                  {post.evidence ? (
+                  {proof.evidenceLink ? (
                     <img
-                      src={post.evidence}
-                      alt="Evidence"
+                      src={proof.evidenceLink}
+                      alt="EvidenceLink"
                       className="max-h-full max-w-full"
                     />
                   ) : (
@@ -89,7 +89,7 @@ export const ProofsPostList = () => {
 
                 {/* Description */}
                 <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
-                  {post.description || 'No caption'}
+                  {proof.description || 'No caption'}
                 </div>
 
                 {/* Upvotes, Downvotes, Status, View Details */}
@@ -111,13 +111,13 @@ export const ProofsPostList = () => {
 
                   <div className="text-center mx-2">
                     <span>
-                      {post.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
+                      {proof.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
                     </span>
-                    {post.verification} / 10 Upvotes
+                    {proof.verification} / 10 Upvotes
                   </div>
 
-                  <button
-                    onClick={() => setSelectedPostId(post._id)}
+                  <Link
+                    to={`/proof/${proof._id}`}
                     className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
                   >
                     View Details
@@ -131,17 +131,6 @@ export const ProofsPostList = () => {
                     style={{ width: `${progressPercent}%` }}
                     aria-label={`Verification progress: ${verification} out of 10`}
                   ></div>
-                </div>
-
-                {/* Comment Section */}
-                <div className="p-3 border-t border-gray-300 mt-12">
-                  <div className="mb-2">
-                    <AddComment
-                      username="Username Placeholder"
-                      postid={post._id}
-                    />
-                  </div>
-                  <CommentSection postId={post._id} maxHeight={300} />
                 </div>
               </div>
             );

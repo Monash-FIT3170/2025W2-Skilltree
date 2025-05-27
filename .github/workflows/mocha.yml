@@ -1,27 +1,30 @@
 name: Mocha tests
 
 on:
-    push: {} #all
-    pull_request: {} #all
+  push: {} #all
+  pull_request: {} #all
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-        - name: Set up Node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-        - name: Install Meteor
-          run: curl https://install.meteor.com/ | sh
+      - name: Install Meteor
+        run: curl https://install.meteor.com/ | sh
 
-        - name: Install dependencies
-          run: npm install
+      - name: Install dependencies
+        run: meteor npm run setup
 
-        - name: Run Meteor tests
-          run: npm test
+      - name: Run Meteor tests
+        run: meteor npm run test
+        
+      - name: Run Meteor test-start
+        run: meteor npm run test-start

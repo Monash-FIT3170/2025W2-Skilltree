@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 
-import { ProofsPostList } from '/imports/ui/components/ProofsPostList';
+// JSX UI
+import { ProofsList } from '/imports/ui/components/ProofsList';
+import { Fallback } from '/imports/ui/components/Fallback';
 
 export const PendingProofs = () => (
   <>
@@ -16,8 +18,10 @@ export const PendingProofs = () => (
           </b>
         </h1>
       </button>
-      {/* Responsive container for ProofsPostList */}
-      <ProofsPostList />
+      {/* Responsive container for ProofsList */}
+      <Suspense fallback={<Fallback msg={'Loading proofs...'} />}>
+        <ProofsList />
+      </Suspense>
     </div>
   </>
 );

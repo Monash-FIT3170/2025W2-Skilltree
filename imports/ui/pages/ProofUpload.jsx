@@ -2,12 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
-import { ProofUploadForm } from '../components/ProofUploadForm';
+import { ProofUploadButton } from '../components/ProofUploadButton';
 
 export const ProofUpload = () => (
   <>
     <Helmet>
-      <title>SkillTree - 404: Upload Proof</title>
+      <title>SkillTree - Upload Proof</title>
     </Helmet>
     <div className="">
       <div>
@@ -15,7 +15,10 @@ export const ProofUpload = () => (
       </div>
 
       <div className="grid grid-flow-col grid-rows-3 gap-4 border-2 border-indigo-500">
-        <ProofUploadForm />
+        <ProofUploadButton
+          skill="C Major Scale"
+          requirements="Upload a video of yourself playing 2 octaves of the C Major scale."
+        />
       </div>
     </div>
   </>
