@@ -6,7 +6,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
     const [isSubscribed, setIsSubscribed] = useState(false)
     const userId = Meteor.userId();
 
-    
+    // check if user is subscribed
     const checkSubscription = async () => {
         try{
             const user = await Meteor.call('skilltrees.findUser',skillTreeId,userId);
@@ -14,32 +14,6 @@ export const SubscribeButton = ({ skillTreeId }) => {
         } catch (error) {
             console.log('Error finding user');
         }
-    }
-
-    const handleUpload = async e => {
-        e.preventDefault();
-
-        console.log(setIsSubscribed(checkSubscription()))
-
-        // 
-        try {
-            const user = await Meteor.call('skilltrees.subscribeUser',skillTreeId,userId);
-            console.log("Brk1")
-            console.log(user)
-        } catch (error) {
-            console.log(error)
-        }
-
-        // 
-        try{
-            const user = await Meteor.call("updateSubscribedCommunities", skillTreeId);
-            console.log("Brk2")
-            console.log(user)
-        } catch (error) {
-            console.log('Error subscribing')
-        }
-
-        console.log(setIsSubscribed(checkSubscription()))
     }
 
     // call meteor method skilltrees.subscribeUser
@@ -75,8 +49,6 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
         // subscribe user to skilltree
         await subscribeUser();
-        console.log(Meteor.user())
-        console.log(skillTreeId)
         
         // add user to skilltree
         try{
@@ -87,9 +59,6 @@ export const SubscribeButton = ({ skillTreeId }) => {
         }
 
         setIsSubscribed(checkSubscription())
-        
-
-        console.log(Meteor.user())
     };
 
     // unsubscribe a user from a skilltree
@@ -127,6 +96,8 @@ export const SubscribeButton = ({ skillTreeId }) => {
             pill
             type="submit"
             onClick={subscribeUserToSkilltree}
+            className="position-relative bg-[#328E6E] text-xl font-bold mt-2"
+            disabled={isSubscribed}
             >
                 {"Subscribe"}
             </Button>
