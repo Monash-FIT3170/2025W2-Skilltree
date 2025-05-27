@@ -22,7 +22,7 @@ Meteor.startup(async () => {
       verification: 1,
       skillTreeId: 'Climbing', // should eventually be a community/skillTree ID
       subskill: 'Footwork',
-      upvotes: 0,
+      upvotes: 1,
       downvotes: 0
     },
     {
@@ -34,7 +34,7 @@ Meteor.startup(async () => {
       verification: 5,
       skillTreeId: 'Climbing',
       subskill: 'Handholds',
-      upvotes: 0,
+      upvotes: 5,
       downvotes: 0
     },
     {
@@ -47,7 +47,7 @@ Meteor.startup(async () => {
       verification: 3,
       skillTreeId: 'Climbing',
       subskill: 'Balance',
-      upvotes: 0,
+      upvotes: 3,
       downvotes: 0
     },
     {
@@ -60,7 +60,7 @@ Meteor.startup(async () => {
       verification: 10,
       skillTreeId: 'Climbing',
       subskill: 'Dynamic Movement',
-      upvotes: 0,
+      upvotes: 10,
       downvotes: 0
     },
     {

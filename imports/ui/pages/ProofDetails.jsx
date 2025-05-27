@@ -81,7 +81,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
             </p>
 
             {/* Evidence Image or Placeholder */}
-            {proof.evidence ? (
+            {proof.evidenceLink ? (
               <img
                 src={proof.evidenceLink}
                 alt="Evidence"
