@@ -90,7 +90,7 @@ export const SignIn = () => {
       if (error) {
         setError({ email: '', password: error.reason || 'Login failed.' });
       } else {
-        navigate('/home');
+        navigate('/');
       }
     });
   };
