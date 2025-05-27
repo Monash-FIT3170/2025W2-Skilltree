@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 // JSX UI
 import { CreateTreeForm } from '/imports/ui/components/CreateTreeForm';
 import { SkillTreeEdit } from '../components/SkillTree';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 export const CreateSkillTree = () => {
   const [showAddDetailsForm, setShowAddDetailsForm] = useState(true);
@@ -85,6 +86,8 @@ export const CreateSkillTree = () => {
     } catch (error) {
       console.error('Error saving skill tree:', error);
     }
+    // Show confirmation popup
+    toast.success('Successfully created SkillTree!');
   };
 
   return (
@@ -127,6 +130,20 @@ export const CreateSkillTree = () => {
           </>
         )}
       </div>
+      {/* For pop up notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Flip}
+      />
     </>
   );
 };
