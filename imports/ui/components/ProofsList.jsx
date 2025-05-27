@@ -1,19 +1,27 @@
-import React from 'react';
-
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import React, { useState } from 'react';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { Link } from 'react-router-dom';
+import { ProofDetails } from '/imports/ui/pages/ProofDetails'; 
 
 export const ProofsList = () => {
-  useSubscribeSuspense('proof');
-  const proofs = useFind(ProofCollection, [{}, { sort: { date: -1 } }]) || [];
+  const [selectedProofId, setSelectedProofId] = useState(null);
 
-  if (proofs.length === 0) {
-    return <div>No proofs found.</div>;
-  }
+  const { proofs, isLoading } = useTracker(() => {
+    const handle = Meteor.subscribe('proof');
+    const data = ProofCollection.find({}, { sort: { date: -1 } }).fetch();
 
-  const formatDate = date => {
+    return {
+      proofs: Array.isArray(data) ? data : [],
+      isLoading: !handle.ready()
+    };
+  }, []);
+
+  if (isLoading) return <div>Loading proofs...</div>;
+
+  if (proofs.length === 0) return <div>No proofs found.</div>;
+
+  const formatDate = (date) => {
     if (!date) return '';
     const d = new Date(date);
     return d.toLocaleDateString(undefined, {
@@ -22,6 +30,18 @@ export const ProofsList = () => {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
+    });
+  };
+
+  const handleUpvote = (proofId) => {
+    Meteor.call('proof.upvote', proofId, (error) => {
+      if (error) console.error('Upvote failed:', error.reason);
+    });
+  };
+
+  const handleDownvote = (proofId) => {
+    Meteor.call('proof.downvote', proofId, (error) => {
+      if (error) console.error('Downvote failed:', error.reason);
     });
   };
 
@@ -41,9 +61,7 @@ export const ProofsList = () => {
                     <span className="mr-1">👑</span>
                     <span>{proof.user}</span>
                   </span>
-                  <span className="text-xs italic">
-                    {formatDate(proof.date)}
-                  </span>
+                  <span className="text-xs italic">{formatDate(proof.date)}</span>
                 </div>
 
                 {/* Subskill */}
@@ -51,14 +69,11 @@ export const ProofsList = () => {
                   {proof.subskill || 'Subskill Placeholder'}
                 </div>
 
-                {/* EvidenceLink Image */}
+                {/* Evidence Image */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
                   {proof.evidenceLink ? (
-                    <img
-                      src={proof.evidenceLink}
-                      alt="EvidenceLink"
-                      className="max-h-full max-w-full"
-                    />
+                    <img src={proof.evidenceLink} alt="Evidence" className="max-h-full max-w-full" />
+
                   ) : (
                     <span>No Image</span>
                   )}
@@ -71,9 +86,19 @@ export const ProofsList = () => {
 
                 {/* Upvotes, Downvotes, Status, View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
-                  <div className="flex gap-4">
-                    <div>👍 {proof.upvotes}</div>
-                    <div>👎 {proof.downvotes}</div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleUpvote(proof._id)}
+                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                      👍 Upvote ({proof.upvotes || 0})
+                    </button>
+                    <button
+                      onClick={() => handleDownvote(proof._id)}
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    >
+                      👎 Downvote ({proof.downvotes || 0})
+                    </button>
                   </div>
 
                   <div className="text-center mx-2">
@@ -83,12 +108,18 @@ export const ProofsList = () => {
                     {proof.verification} / 10 Upvotes
                   </div>
 
-                  <Link
-                    to={`/proof/${proof._id}`}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+                  <button
+                    onClick={() => setSelectedProofId(proof._id)}
+                    className="px-4 py-2 text-white font-semibold text-sm rounded-[22px] transition-colors duration-300"
+                    style={{
+                      backgroundColor: '#024059'
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#025940')}
+                    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#024059')}
                   >
                     View Details
-                  </Link>
+                  </button>
+
                 </div>
 
                 {/* Verification Progress Bar */}
@@ -104,6 +135,14 @@ export const ProofsList = () => {
           })}
         </div>
       </div>
+
+      {/* Proof Detail Popup */}
+      {selectedProofId && (
+        <ProofDetails
+          proofId={selectedProofId}
+          onClose={() => setSelectedProofId(null)}
+        />
+      )}
     </div>
   );
 };

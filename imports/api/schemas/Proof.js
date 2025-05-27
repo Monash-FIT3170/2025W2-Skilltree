@@ -44,6 +44,30 @@ Schemas.Proof = new SimpleSchema({
     label: 'Sub-Skill',
     max: 1000,
     optional: true
+  },
+  upvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true
+  },
+  downvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true
+  },
+  upvoters: {
+    type: Array,
+    defaultValue: []
+  },
+  'upvoters.$': {
+    type: String
+  },
+  downvoters: {
+    type: Array,
+    defaultValue: []
+  },
+  'downvoters.$': {
+    type: String
   }
 });
 

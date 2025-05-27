@@ -46,5 +46,9 @@ Meteor.methods({
     }).fetchAsync();
 
     return comment;
+  },
+
+  async getCommentsForProof(proofId) {
+    return await CommentsCollection.find({ proofId }).fetchAsync();
   }
 });

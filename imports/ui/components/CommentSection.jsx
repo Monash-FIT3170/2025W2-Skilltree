@@ -76,7 +76,7 @@ export const CommentSection = () => {
     // Comment Section
     <div
       style={{
-        maxHeight: '300px',
+        maxHeight: '600px',
         overflowY: 'scroll',
         padding: '10px',
         borderRadius: '5px'
