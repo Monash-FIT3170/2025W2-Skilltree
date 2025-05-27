@@ -10,7 +10,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
     const checkSubscription = async () => {
         try{
             const user = await Meteor.call('skilltrees.findUser',skillTreeId,userId);
-            console.log(user)
+            return !!user
         } catch (error) {
             console.log('Error finding user');
         }
