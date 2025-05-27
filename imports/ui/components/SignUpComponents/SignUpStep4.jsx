@@ -25,7 +25,7 @@ const Step4 = () => {
 
       await Meteor.callAsync('createNewUser', formData);
 
-      navigate('/Dashboard');
+      navigate('/');
     } catch (error) {
       toast.error(error.reason || 'Something went wrong!');
     }

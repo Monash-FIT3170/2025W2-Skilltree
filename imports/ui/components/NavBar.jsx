@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarToggle,
+  NavbarCollapse,
+  NavbarLink
+} from 'flowbite-react';
 
 export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,16 +50,19 @@ export const NavBar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <nav className="bg-[#328E6E] h-15 flex items-center justify-between px-5 py-2 relative">
-        <div className="flex items-center mr-5">
-          <img
-            src="/images/logo.png"
-            alt="SkillTree Logo"
-            className="h-8 w-8 mr-2"
-          />
-          <div className="text-white text-[24px] font-bold">SKILLTREE</div>
-        </div>
+      <Navbar className="bg-[#328E6E] dark:bg-[#328E6E] shadow-lg" fluid>
+        <NavbarBrand as={Link} href="/">
+          <div className="flex items-center mr-5">
+            <img
+              src="/images/logo.png"
+              alt="SkillTree Logo"
+              className="h-8 w-8 mr-2"
+            />
+            <div className="text-white text-[24px] font-bold">SKILLTREE</div>
+          </div>
+        </NavbarBrand>
 
+        {/* ! Searchbar should be moved to a component file */}
         <div className="flex-1 max-w-2xl relative w-full">
           <form onSubmit={handleSearch}>
             <div className="relative">
@@ -127,51 +137,30 @@ export const NavBar = () => {
           )}
         </div>
 
-        <Link
-          to="/dashboard"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/Sample"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Sample
-        </Link>
-        <Link
-          to="/404"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          404
-        </Link>
-        <Link
-          to="/pendingproofs"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Pending Proofs
-        </Link>
-        <Link
-          to="/upload"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Upload Proof
-        </Link>
-
-        <Link
-          to="/create"
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          Create SkillTree
-        </Link>
-
-        <Link
-          to="#" // Placeholder
-          className="text-white hover:bg-gray-600 px-3 py-2 rounded"
-        >
-          User
-        </Link>
-      </nav>
+        <NavbarToggle />
+        <NavbarCollapse>
+          <NavbarLink as={Link} to="/pendingproofs">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              Pending Proofs
+            </div>
+          </NavbarLink>
+          <NavbarLink as={Link} to="/upload">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              Upload Proof
+            </div>
+          </NavbarLink>
+          <NavbarLink as={Link} to="/create">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              Create SkillTree
+            </div>
+          </NavbarLink>
+          <NavbarLink as={Link} to="#">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              User
+            </div>
+          </NavbarLink>
+        </NavbarCollapse>
+      </Navbar>
     </div>
   );
 };
