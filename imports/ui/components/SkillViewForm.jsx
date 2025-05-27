@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { ProofUploadButton } from './ProofUploadButton';
 
 export const SkillViewForm = ({ editingNode, onCancel }) => {
   const progress = Math.floor(
@@ -69,12 +69,10 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
             <button type="button" onClick={onCancel} className="ml-2.5">
               Cancel
             </button>
-            <Link
-              to="/upload"
-              className="relative left-1 mr-0.5 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              Upload Proof
-            </Link>
+            <ProofUploadButton
+              skill={editingNode.label}
+              requirements={editingNode.requirements}
+            />
           </div>
         </form>
       </div>
