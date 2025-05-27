@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 
-export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
+export const CreateTreeForm = ({ initialValues = {} }) => {
   const [formData, setFormData] = useState({
     title: initialValues.title || '',
     description: initialValues.description || '',
-    tag: '', 
+    tag: '',
     tags: [],
     newTag: '',
     tsandcs: initialValues.tsandcs || '',
