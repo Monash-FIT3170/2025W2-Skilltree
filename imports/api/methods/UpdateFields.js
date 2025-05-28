@@ -26,5 +26,13 @@ Meteor.methods({
       { _id: this.userId },
       { $set: updateFields }
     );
+  },
+
+  async getUsers(userId) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorised', 'User must be logged in first!');
+    }
+
+    return await Meteor.users.findOneAsync({_id: userId});
   }
 });
