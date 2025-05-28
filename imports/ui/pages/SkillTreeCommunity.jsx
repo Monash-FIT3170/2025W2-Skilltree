@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
 import { SkillTreeEdit } from '../components/SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
+import { Tracker } from 'meteor/tracker';
 
 export const SkillTreeCommunity = () => {
   // extract id from url params
   const { id } = useParams();
 
-  // load skilltree data
-  const { skilltree, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('skilltreeById', id);
-    const isLoading = !handle.ready();
-    const skilltree = SkillTreeCollection.findOne({ _id: id });
+  const [skilltree, setSkilltree] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    return {
-      skilltree,
-      isLoading: isLoading
+  useEffect(() => {
+    const handle = Meteor.subscribe('skilltreeById', id);
+
+    const fetchData = async () => {
+      if (handle.ready()) {
+        const result = await SkillTreeCollection.findOneAsync({ _id: id });
+        setSkilltree(result);
+        setIsLoading(false);
+      }
     };
+
+    const computation = Tracker.autorun(() => {
+      fetchData();
+    });
+
+    return () => computation.stop();
   }, [id]);
 
   if (isLoading) return <div>Loading...</div>;
