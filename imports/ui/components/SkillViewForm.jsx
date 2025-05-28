@@ -13,7 +13,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
         <h3 className="block mb-2 text-xl font-bold text-emerald-700">
           {editingNode.label}
         </h3>
-        <form>
+        <div>
           <label
             htmlFor="description"
             className="block mb-2 text-sm font-medium text-emerald-700"
@@ -74,7 +74,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
               requirements={editingNode.requirements}
             />
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
