@@ -21,7 +21,9 @@ Meteor.startup(async () => {
       evidenceLink: '/images/pic1.jpg',
       verification: 1,
       skillTreeId: 'Climbing', // should eventually be a community/skillTree ID
-      subskill: 'Footwork'
+      subskill: 'Footwork',
+      upvotes: 1,
+      downvotes: 0
     },
     {
       title: 'Test Proof 2',
@@ -31,7 +33,9 @@ Meteor.startup(async () => {
       evidenceLink: '/images/pic3.png',
       verification: 5,
       skillTreeId: 'Climbing',
-      subskill: 'Handholds'
+      subskill: 'Handholds',
+      upvotes: 5,
+      downvotes: 0
     },
     {
       title: 'Test Proof 3',
@@ -42,7 +46,9 @@ Meteor.startup(async () => {
       evidenceLink: '/images/pic4.png',
       verification: 3,
       skillTreeId: 'Climbing',
-      subskill: 'Balance'
+      subskill: 'Balance',
+      upvotes: 3,
+      downvotes: 0
     },
     {
       title: 'Test Proof 4',
@@ -53,7 +59,9 @@ Meteor.startup(async () => {
       evidenceLink: '/images/pic5.png',
       verification: 10,
       skillTreeId: 'Climbing',
-      subskill: 'Dynamic Movement'
+      subskill: 'Dynamic Movement',
+      upvotes: 10,
+      downvotes: 0
     },
     {
       title: 'Test Proof 5',
@@ -64,7 +72,9 @@ Meteor.startup(async () => {
       evidenceLink: '/images/pic6.png',
       verification: 4,
       skillTreeId: 'Climbing',
-      subskill: 'Resting'
+      subskill: 'Resting',
+      upvotes: 0,
+      downvotes: 0
     }
   ];
 
