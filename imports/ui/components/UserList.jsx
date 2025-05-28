@@ -14,13 +14,13 @@ export const UserList = ({ skillTreeId }) => {
 
   // call meteor method skilltrees.get
   const getSkillTree = async () => {
-    const skillTree = await Meteor.call('skilltrees.get', skillTreeId);
+    const skillTree = await Meteor.callAsync('skilltrees.get', skillTreeId);
     return skillTree.subscribers;
   };
 
   // call meteor method user
   const getUserInfo = async userId => {
-    const user = await Meteor.call('getUsers', userId);
+    const user = await Meteor.callAsync('getUsers', userId);
     return user;
   };
 
