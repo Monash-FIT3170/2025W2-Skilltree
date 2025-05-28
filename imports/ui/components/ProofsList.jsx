@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 
 // Meteor-specific imports
-import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -17,7 +18,7 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  *
  * Features:
  * - Data fetching via Meteor subscriptions.
- * - Real-time reactive updates using `useTracker`.
+ * - Real-time reactive updates using `useFind`.
  * - Interactive upvote/downvote functionality.
  * - Conditional rendering for loading and empty states.
  * - Detail popup shown on 'View Details' click.
@@ -27,23 +28,12 @@ export const ProofsList = () => {
   const [selectedProofId, setSelectedProofId] = useState(null);
 
   /**
-   * useTracker hook:
+   * useFind hook:
    * - Subscribes to the 'proof' publication.
    * - Fetches all proofs, sorted by date (latest first).
-   * - Tracks loading state until subscription is ready.
    */
-  const { proofs, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('proof');
-    const data = ProofCollection.find({}, { sort: { date: -1 } }).fetch();
-
-    return {
-      proofs: Array.isArray(data) ? data : [],
-      isLoading: !handle.ready()
-    };
-  }, []);
-
-  // Loading state UI
-  if (isLoading) return <div>Loading proofs...</div>;
+  useSubscribeSuspense('proof');
+  const proofs = useFind(ProofCollection, [{}, { sort: { date: -1 } }]) ?? [];
 
   // Empty state UI
   if (proofs.length === 0) return <div>No proofs found.</div>;

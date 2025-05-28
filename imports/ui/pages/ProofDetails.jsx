@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '/imports/ui/components/CommentSection';
@@ -23,13 +24,8 @@ export const ProofDetails = ({ proofId, onClose }) => {
   /**
    * Fetches the selected proof document from the Meteor data layer.
    */
-  const { proof, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('proof');
-    const proof = handle.ready()
-      ? ProofCollection.findOne({ _id: proofId })
-      : null;
-    return { proof, isLoading: !handle.ready() };
-  }, [proofId]);
+  useSubscribeSuspense('proof');
+  const proof = useFind(ProofCollection, [{ _id: { $eq: proofId } }])[0];
 
   /**
    * Handles upvote action by calling the 'proof.upvote' Meteor method.
@@ -55,8 +51,8 @@ export const ProofDetails = ({ proofId, onClose }) => {
       minute: '2-digit'
     });
 
-  // Return nothing if data is still loading or proof doesn't exist
-  if (isLoading || !proof) return null;
+  // Return nothing if data proof doesn't exist
+  if (!proof) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">

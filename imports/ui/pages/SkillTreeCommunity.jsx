@@ -1,38 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { Meteor } from 'meteor/meteor';
 import { SkillTreeEdit } from '../components/SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
-import { Tracker } from 'meteor/tracker';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+
+// JSX UI
+import { Fallback } from '/imports/ui/components/Fallback';
 
 export const SkillTreeCommunity = () => {
   // extract id from url params
   const { id } = useParams();
 
-  const [skilltree, setSkilltree] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  useSubscribeSuspense('skilltrees');
+  const skilltree = useFind(SkillTreeCollection, [{ _id: { $eq: id } }])[0];
 
-  useEffect(() => {
-    const handle = Meteor.subscribe('skilltreeById', id);
-
-    const fetchData = async () => {
-      if (handle.ready()) {
-        const result = await SkillTreeCollection.findOneAsync({ _id: id });
-        setSkilltree(result);
-        setIsLoading(false);
-      }
-    };
-
-    const computation = Tracker.autorun(() => {
-      fetchData();
-    });
-
-    return () => computation.stop();
-  }, [id]);
-
-  if (isLoading) return <div>Loading...</div>;
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   console.log('Nodes:', skilltree.skillNodes);
@@ -44,7 +28,9 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
-        <NavigationDropdown id={id} />
+        <Suspense fallback={<Fallback />}>
+          <NavigationDropdown id={id} />
+        </Suspense>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>
