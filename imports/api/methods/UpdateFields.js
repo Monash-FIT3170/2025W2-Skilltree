@@ -33,6 +33,6 @@ Meteor.methods({
       throw new Meteor.Error('not-authorised', 'User must be logged in first!');
     }
 
-    return await Meteor.users.findOneAsync({_id: userId});
+    return await Meteor.users.findOneAsync({ _id: userId });
   }
 });
