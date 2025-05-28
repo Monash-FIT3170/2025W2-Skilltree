@@ -42,8 +42,8 @@ export const NavBar = () => {
 
   const handleSearch = e => {
     e.preventDefault();
-    setShowDropdown(false);
-    navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    setShowDropdown(true);
+    // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
   const handleResultClick = id => {
