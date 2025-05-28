@@ -140,7 +140,7 @@ export const ProofsList = () => {
                     </button>
                     <button
                       onClick={() => handleDownvote(proof._id)}
-                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                      className="px-3 py-1 bg-[#024059] text-white rounded hover:bg-[#032E3F]"
                     >
                       👎 Downvote ({proof.downvotes || 0})
                     </button>
