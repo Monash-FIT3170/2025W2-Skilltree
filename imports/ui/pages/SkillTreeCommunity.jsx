@@ -6,6 +6,7 @@ import { SkillTreeEdit } from '../components/SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
+import { SubscribeButton } from '../components/SubscribeButton';
 import { UserList } from '../components/UserList';
 
 export const SkillTreeCommunity = () => {
@@ -37,6 +38,7 @@ export const SkillTreeCommunity = () => {
       </Helmet>
       <div className="p-2">
         <NavigationDropdown id={id} />
+        <SubscribeButton skillTreeId={id} className="p-2" />
         <div className="p-2"></div>
         <UserList skillTreeId={id}></UserList>
 

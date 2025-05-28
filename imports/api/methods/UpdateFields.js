@@ -28,6 +28,18 @@ Meteor.methods({
     );
   },
 
+  // append to subscribedCommunity
+  async updateSubscribedCommunities(updateCommunities) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorised', 'User must be logged in first!');
+    }
+
+    return await Meteor.users.updateAsync(
+      { _id: this.userId },
+      { $push: { 'profile.subscribedCommunities': updateCommunities } }
+    );
+  },
+
   async getUsers(userId) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorised', 'User must be logged in first!');
