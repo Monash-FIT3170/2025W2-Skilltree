@@ -9,7 +9,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // check if user is subscribed
   const checkSubscription = async () => {
     try {
-      const user = await Meteor.call(
+      const user = await Meteor.callAsync(
         'skilltrees.findUser',
         skillTreeId,
         userId
@@ -24,7 +24,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
     try {
-      await Meteor.call('skilltrees.subscribeUser', skillTreeId, userId);
+      await Meteor.callAsync('skilltrees.subscribeUser', skillTreeId, userId);
     } catch (error) {
       console.log('Subscription error');
       console.log(error);
@@ -58,7 +58,10 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     // add user to skilltree
     try {
-      const res = await Meteor.call('updateSubscribedCommunities', skillTreeId);
+      const res = await Meteor.callAsync(
+        'updateSubscribedCommunities',
+        skillTreeId
+      );
       console.log(res);
     } catch (error) {
       console.log('Error subscribing');
@@ -102,7 +105,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
       pill
       type="submit"
       onClick={subscribeUserToSkilltree}
-      className="position-relative bg-[#328E6E] text-xl font-bold mt-2"
+      className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
       disabled={isSubscribed}
     >
       {'Subscribe'}
