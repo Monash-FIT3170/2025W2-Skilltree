@@ -4,13 +4,13 @@
  * and an embedded comment section.
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { AddComment } from '/imports/ui/components/AddComment';
-import { UserContext } from '/imports/utils/contexts/UserContext';
+import { User } from '/imports/utils/User';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -59,7 +59,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
   // Return nothing if data is still loading or proof doesn't exist
   if (isLoading || !proof) return null;
 
-  const { username } = useContext(UserContext);
+  const { username } = User(['username']);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">

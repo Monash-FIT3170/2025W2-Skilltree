@@ -1,20 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { User } from '/imports/utils/User';
+import { FaSignOutAlt } from 'react-icons/fa';
 import {
   NavbarToggle,
-  NavbarLink,
   Dropdown,
   DropdownHeader,
   DropdownItem,
   DropdownDivider,
   Avatar
 } from 'flowbite-react';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const UserDropdownMenu = () => {
-  const user = useContext(UserContext);
+  const user = User(['username', 'emails.address']);
   const username = user?.username ?? '';
   const email = user?.emails?.[0].address ?? '';
 
