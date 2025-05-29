@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
+import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const CommentSection = () => {
   // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
   // Should be replaced by a reference to the current user's id (not username) once accounts are integrated.
-  const DUMMY_USERNAME = 'user1';
+  // const DUMMY_USERNAME = 'user1';
+  const { username } = useContext(UserContext);
 
   // Subscribe to comments and get real-time data
   useSubscribeSuspense('comments');
@@ -123,7 +125,7 @@ export const CommentSection = () => {
           ) : (
             <>
               <p style={{ margin: '5px 0' }}>{item.comment}</p>
-              {item.username === DUMMY_USERNAME && (
+              {item.username === username && (
                 <div id="user-actions-container" className="flex gap-2">
                   <button
                     id="edit-btn"
