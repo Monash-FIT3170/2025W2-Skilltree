@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button } from 'flowbite-react';
+import { Button, Spinner } from 'flowbite-react';
+import { type } from 'os';
 
 export const SubscribeButton = ({ skillTreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const userId = Meteor.userId();
 
+  useEffect(() => {
+    setIsLoading(true);
+    const checkSubscription = async () => {
+      const subscriptionStatus = await checkSubscription(skillTreeId)(userId);
+      setIsSubscribed(subscriptionStatus);
+    };
+    checkSubscription()
+    setIsLoading(false);
+  }, []);
+
   // check if user is subscribed
-  const checkSubscription = async () => {
+  const checkSubscription = skillTreeId => async userId => {
+    // find user in skilltree
     try {
       const user = await Meteor.callAsync(
         'skilltrees.findUser',
@@ -24,7 +37,11 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
     try {
-      await Meteor.callAsync('skilltrees.subscribeUser', skillTreeId, userId);
+      return await Meteor.callAsync(
+        'skilltrees.subscribeUser',
+        skillTreeId,
+        userId
+      );
     } catch (error) {
       console.log('Subscription error');
       console.log(error);
@@ -32,26 +49,25 @@ export const SubscribeButton = ({ skillTreeId }) => {
   };
 
   // call meteor method skilltrees.unsubscribeUser
-  // const unsubscribeUser = async () => {
-  //     try{
-  //         return await Meteor.call('skilltrees.unsubscribeUser',skillTreeId,userId);
-  //     } catch (error) {
-  //         console.log('Unsubscription error')
-  //     }
-  // }
-
-  // call meteor method skilltrees.findUser
-  //   const findUser = async () => {
-  //     try {
-  //       return await Meteor.call('skilltrees.findUser', skillTreeId, userId);
-  //     } catch (error) {
-  //       console.log('Error finding user');
-  //     }
-  //   };
+  const unsubscribeUser = async () => {
+    try {
+      return await Meteor.callAsync(
+        'skilltrees.unsubscribeUser',
+        skillTreeId,
+        userId
+      );
+    } catch (error) {
+      console.log(error);
+      console.log('Unsubscription error');
+    }
+  };
 
   // subscribe a user to a skilltree
   const subscribeUserToSkilltree = async e => {
     e.preventDefault();
+
+    setIsLoading(true)
+
 
     // subscribe user to skilltree
     await subscribeUser();
@@ -62,53 +78,75 @@ export const SubscribeButton = ({ skillTreeId }) => {
         'updateSubscribedCommunities',
         skillTreeId
       );
-      console.log(res);
     } catch (error) {
       console.log('Error subscribing');
       console.log(error);
     }
 
-    setIsSubscribed(checkSubscription());
+    const subscribeStatus = await checkSubscription(skillTreeId)(userId)
+    console.log(subscribeStatus)
+    setIsSubscribed(subscribeStatus);
+    setIsLoading(false)
   };
 
   // unsubscribe a user from a skilltree
-  // const unsubscribeUserFromSkilltree = async () => {
-  //     setLoading(true)
+  const unsubscribeUserFromSkilltree = async e => {
+    e.preventDefault();
 
-  //     // remove user from skilltree
-  //     unsubscribeUser();
+    setIsLoading(true)
 
-  //     try{
-  //         await Meteor.call("updateFieldAbstract", { $pull: { "profile.subscribedCommunities": skillTreeId }})
-  //     } catch (error) {
-  //         console.log('Error unsubscribing')
-  //         console.log(error)
-  //     }
-  //     console.log(Meteor.user())
+    await unsubscribeUser();
 
-  //     setIsSubscribed(checkSubscription())
+    // remove skill tree from user profile
+    try {
+      const res = await Meteor.callAsync('removeSubscribedCommunities',skillTreeId);
+    } catch (error) {
+      console.log('Error unsubscribing');
+      console.log(error);
+    }
+    
+    const subscribeStatus = await checkSubscription(skillTreeId)(userId)
+    console.log(subscribeStatus)
+    setIsSubscribed(subscribeStatus);
 
-  //     setLoading(false)
+    setIsLoading(false)
+  };
 
-  // };
-
-  // useEffect(() => {
-  //     console.log(isSubscribed)
-  //     console.log(userId)
-  //     const res = checkSubscription()
-  //     console.log(res)
-  // }, [])
+  if (isLoading) {
+    return(
+      <div className="flex flex-wrap items-start gap-2">
+        <Button>
+          <Spinner size="sm" aria-label="Info spinner example" className="me-3">
+          </Spinner>
+          Loading ...
+        </Button>
+      </div>
+    )
+  }
 
   return (
-    <Button
-      color="green"
-      pill
-      type="submit"
-      onClick={subscribeUserToSkilltree}
-      className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
-      disabled={isSubscribed}
-    >
-      {'Subscribe'}
-    </Button>
+    <div>
+      {isSubscribed ? (
+        <Button
+          color="green"
+          pill
+          type="submit"
+          onClick={unsubscribeUserFromSkilltree}
+          className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
+        >
+          Unsubscribe
+        </Button>
+      ) : (
+        <Button
+          color="green"
+          pill
+          type="submit"
+          onClick={subscribeUserToSkilltree}
+          className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
+        >
+          Subscribe
+        </Button>
+      )}
+    </div>
   );
 };
