@@ -41,20 +41,6 @@ export const SkillTreeLogic = ({
   savedEdges,
   onBack
 }) => {
-  // Update nodes when props change after new search
-  useEffect(() => {
-    if (savedNodes?.length) {
-      setNodes(savedNodes);
-    }
-  }, [savedNodes]);
-
-  // Update edges when props change after new search
-  useEffect(() => {
-    if (savedEdges?.length) {
-      setEdges(savedEdges);
-    }
-  }, [savedEdges]);
-
   // Reattach OpenEditor handlers to nodes. They are lost when saved to DB
   const attachOpenEditorHandlers = (savedNodes = []) =>
     savedNodes.map(node => ({
