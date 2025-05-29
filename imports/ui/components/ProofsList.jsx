@@ -33,7 +33,23 @@ export const ProofsList = () => {
    * - Fetches all proofs, sorted by date (latest first).
    */
   useSubscribeSuspense('proof');
-  const proofs = useFind(ProofCollection, [{}, { sort: { date: -1 } }]) ?? [];
+  const proofs =
+    useFind(ProofCollection, [
+      {},
+      {
+        fields: {
+          description: 1,
+          user: 1,
+          date: 1,
+          evidenceLink: 1,
+          verification: 1,
+          subskill: 1,
+          upvotes: 1,
+          downvotes: 1
+        },
+        sort: { date: -1 }
+      }
+    ]) ?? [];
 
   // Empty state UI
   if (proofs.length === 0) return <div>No proofs found.</div>;

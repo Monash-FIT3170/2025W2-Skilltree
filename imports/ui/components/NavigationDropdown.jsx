@@ -11,7 +11,10 @@ export const NavigationDropdown = ({ id }) => {
   const navigate = useNavigate();
   // load skilltree data
   useSubscribeSuspense('skilltrees');
-  const skilltree = useFind(SkillTreeCollection, [{ _id: { $eq: id } }])[0];
+  const skilltree = useFind(SkillTreeCollection, [
+    { _id: { $eq: id } },
+    { fields: { title: 1, image: 1 } }
+  ])[0];
 
   const menuItems = [
     {

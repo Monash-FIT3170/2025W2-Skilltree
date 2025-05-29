@@ -26,7 +26,20 @@ export const ProofDetails = ({ proofId, onClose }) => {
    * Fetches the selected proof document from the Meteor data layer.
    */
   useSubscribeSuspense('proof');
-  const proof = useFind(ProofCollection, [{ _id: { $eq: proofId } }])[0];
+  const proof = useFind(ProofCollection, [
+    { _id: { $eq: proofId } },
+    {
+      fields: {
+        description: 1,
+        user: 1,
+        date: 1,
+        evidenceLink: 1,
+        subskill: 1,
+        upvotes: 1,
+        downvotes: 1
+      }
+    }
+  ])[0];
 
   /**
    * Handles upvote action by calling the 'proof.upvote' Meteor method.
