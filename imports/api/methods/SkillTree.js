@@ -9,6 +9,10 @@ Meteor.methods({
     return SkillTreeCollection.insertAsync(skilltree);
   },
 
+  async 'skilltrees.insertAsync'(skillTree) {
+    return await SkillTreeCollection.insertAsync(skillTree);
+  },
+
   'skilltrees.update'(skilltreeId, skilltree) {
     // Schemas.SkillTree.validate(skilltree);
 
@@ -24,15 +28,21 @@ Meteor.methods({
   },
 
   async 'skilltrees.get'(skilltreeId) {
-    const skilltree = await SkillTreeCollection.findOneAsync(skilltreeId);
+    const skilltree = await SkillTreeCollection.findOneAsync({
+      _id: skilltreeId
+    });
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
     return skilltree;
   },
 
+  // add user to skill tree user field
   async 'skilltrees.subscribeUser'(skilltreeId, userId) {
-    const skilltree = SkillTreeCollection.findOneAsync(skilltreeId);
+    const skilltree = await SkillTreeCollection.findOneAsync({
+      _id: skilltreeId
+    });
+    
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
@@ -49,12 +59,14 @@ Meteor.methods({
   },
 
   async 'skilltrees.unsubscribeUser'(skilltreeId, userId) {
-    const skilltree = await SkillTreeCollection.findOneAsync(skilltreeId);
+    const skilltree = await SkillTreeCollection.findOneAsync({
+      _id: skilltreeId
+    });
+
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
 
-    // set async if needed
     return await SkillTreeCollection.updateAsync(
       { _id: skilltreeId },
       {
@@ -66,15 +78,19 @@ Meteor.methods({
   },
 
   async 'skilltrees.findUser'(skilltreeId, userId) {
-    const skilltree = await SkillTreeCollection.findOneAsync(skilltreeId);
+    const skilltree = await SkillTreeCollection.findOneAsync({
+      _id: skilltreeId
+    });
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
 
-    // select all documents where subscribers contains desired user
+    const userList = skilltree.subscribers
+
+    // select the document where subscribers contains desired user OR null if none are found
     return await SkillTreeCollection.findOneAsync(
-      { _id: skilltreeId },
-      { subscribers: { $in: [userId] } }
+      { _id: skilltreeId ,
+       subscribers: { $in: [userId] } }
     );
   }
 });
