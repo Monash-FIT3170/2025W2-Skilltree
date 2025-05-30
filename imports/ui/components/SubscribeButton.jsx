@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Button, Spinner } from 'flowbite-react';
-import { type } from 'os';
 
 export const SubscribeButton = ({ skillTreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -73,10 +72,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     // add user to skilltree
     try {
-      const res = await Meteor.callAsync(
-        'updateSubscribedCommunities',
-        skillTreeId
-      );
+      await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
     } catch (error) {
       console.log('Error subscribing');
       console.log(error);
@@ -98,10 +94,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     // remove skill tree from user profile
     try {
-      const res = await Meteor.callAsync(
-        'removeSubscribedCommunities',
-        skillTreeId
-      );
+      await Meteor.callAsync('removeSubscribedCommunities', skillTreeId);
     } catch (error) {
       console.log('Error unsubscribing');
       console.log(error);
