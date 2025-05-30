@@ -12,35 +12,14 @@ export const UserList = ({ skillTreeId }) => {
   const skillTrees = useFind(SkillTreeCollection,[{_id: {$eq: skillTreeId}}])
   const targetSkillTree = skillTrees[0]
   const [openModal, setOpenModal] = useState(false);
-  
 
-  // useEffect(() => {
-  //   const fetchSubscribers = async () => {
-  //     const skillTree = await getSkillTree();
-  //     setSubscribers(skillTree?.subscribers || []);
-  //   };
-  //   fetchSubscribers();
-  // }, []);
-
-  // call meteor method skilltrees.get
-  const getSkillTree = async () => {
-    const skillTree = await Meteor.callAsync('skilltrees.get', skillTreeId);
-    return skillTree.subscribers;
-  };
-
-  // call meteor method user
-  const getUserInfo = async userId => {
-    const user = await Meteor.callAsync('getUsers', userId);
-    return user;
-  };
-
-  // NOT FORMATTED
+  // Formatted as button, change if necessary
   return (
-    <>
-      <Button onClick={() => setOpenModal(true)}>User list</Button>
+    <div className='flex flex-wrap items-start gap-2 w-15/100'>
+      <Button color="green" pill className="w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0" onClick={() => setOpenModal(true)}>User List</Button>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <ModalHeader>List of users for {targetSkillTree.title}</ModalHeader>
-        <ModalBody>
+        <ModalHeader className="text-xl font-bold mt-2">List of users for {targetSkillTree.title}</ModalHeader>
+        <ModalBody className="text-lg mt-2">
           <div>
             <ul>
               {targetSkillTree.subscribers.map(user => (
@@ -52,10 +31,10 @@ export const UserList = ({ skillTreeId }) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => setOpenModal(false)}>Exit</Button>
+          <Button color="green" pill className="position-relative text-lg font-bold mt-2 text-white font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0" onClick={() => setOpenModal(false)}>Exit</Button>
         </ModalFooter>
       </Modal>
-    </>
+    </div>
 
     // <div className="relative inline-block">
     //   <button
