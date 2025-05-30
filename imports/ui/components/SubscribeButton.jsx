@@ -10,11 +10,11 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
   useEffect(() => {
     setIsLoading(true);
-    const checkSubscription = async () => {
+    const loadingCheck = async () => {
       const subscriptionStatus = await checkSubscription(skillTreeId)(userId);
       setIsSubscribed(subscriptionStatus);
     };
-    checkSubscription()
+    loadingCheck()
     setIsLoading(false);
   }, []);
 
@@ -114,8 +114,8 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
   if (isLoading) {
     return(
-      <div className="flex flex-wrap items-start gap-2">
-        <Button>
+      <div className="flex flex-wrap items-start gap-2 w-15/100">
+        <Button className='w-full position-relative text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0'>
           <Spinner size="sm" aria-label="Info spinner example" className="me-3">
           </Spinner>
           Loading ...
@@ -125,14 +125,14 @@ export const SubscribeButton = ({ skillTreeId }) => {
   }
 
   return (
-    <div>
+    <div className='flex flex-wrap items-start gap-2 w-15/100'>
       {isSubscribed ? (
         <Button
           color="green"
           pill
           type="submit"
           onClick={unsubscribeUserFromSkilltree}
-          className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
+          className="w-full position-relative text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
         >
           Unsubscribe
         </Button>
@@ -142,7 +142,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
           pill
           type="submit"
           onClick={subscribeUserToSkilltree}
-          className="position-relative bg-[#328E6E] text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e]"
+          className="w-full position-relative text-xl font-bold mt-2text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
         >
           Subscribe
         </Button>
