@@ -42,7 +42,7 @@ Meteor.methods({
     const skilltree = await SkillTreeCollection.findOneAsync({
       _id: skilltreeId
     });
-    
+
     if (!skilltree) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
@@ -85,12 +85,12 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
 
-    const userList = skilltree.subscribers
+    const userList = skilltree.subscribers;
 
     // select the document where subscribers contains desired user OR null if none are found
-    return await SkillTreeCollection.findOneAsync(
-      { _id: skilltreeId ,
-       subscribers: { $in: [userId] } }
-    );
+    return await SkillTreeCollection.findOneAsync({
+      _id: skilltreeId,
+        subscribers: { $in: [userId] } }
+    });
   }
 });

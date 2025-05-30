@@ -14,7 +14,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
       const subscriptionStatus = await checkSubscription(skillTreeId)(userId);
       setIsSubscribed(subscriptionStatus);
     };
-    loadingCheck()
+    loadingCheck();
     setIsLoading(false);
   }, []);
 
@@ -66,8 +66,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
   const subscribeUserToSkilltree = async e => {
     e.preventDefault();
 
-    setIsLoading(true)
-
+    setIsLoading(true);
 
     // subscribe user to skilltree
     await subscribeUser();
@@ -83,49 +82,55 @@ export const SubscribeButton = ({ skillTreeId }) => {
       console.log(error);
     }
 
-    const subscribeStatus = await checkSubscription(skillTreeId)(userId)
-    console.log(subscribeStatus)
+    const subscribeStatus = await checkSubscription(skillTreeId)(userId);
+    console.log(subscribeStatus);
     setIsSubscribed(subscribeStatus);
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   // unsubscribe a user from a skilltree
   const unsubscribeUserFromSkilltree = async e => {
     e.preventDefault();
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     await unsubscribeUser();
 
     // remove skill tree from user profile
     try {
-      const res = await Meteor.callAsync('removeSubscribedCommunities',skillTreeId);
+      const res = await Meteor.callAsync(
+        'removeSubscribedCommunities',
+        skillTreeId
+      );
     } catch (error) {
       console.log('Error unsubscribing');
       console.log(error);
     }
-    
-    const subscribeStatus = await checkSubscription(skillTreeId)(userId)
-    console.log(subscribeStatus)
+
+    const subscribeStatus = await checkSubscription(skillTreeId)(userId);
+    console.log(subscribeStatus);
     setIsSubscribed(subscribeStatus);
 
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   if (isLoading) {
-    return(
+    return (
       <div className="flex flex-wrap items-start gap-2 w-15/100">
-        <Button className='w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0'>
-          <Spinner size="sm" aria-label="Info spinner example" className="me-3">
-          </Spinner>
+        <Button className="w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0">
+          <Spinner
+            size="sm"
+            aria-label="Info spinner example"
+            className="me-3"
+          ></Spinner>
           Loading ...
         </Button>
       </div>
-    )
+    );
   }
 
   return (
-    <div className='flex flex-wrap items-start gap-2 w-15/100'>
+    <div className="flex flex-wrap items-start gap-2 w-15/100">
       {isSubscribed ? (
         <Button
           color="green"
