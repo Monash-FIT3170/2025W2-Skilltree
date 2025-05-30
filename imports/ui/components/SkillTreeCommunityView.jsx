@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { SubscribeButton } from './SubscribeButton';
+import { UserList } from './UserList';
 
 export const SkillTreeCommunityView = () => {
   // extract id from url params
@@ -32,6 +34,10 @@ export const SkillTreeCommunityView = () => {
     <div key={id}>
       <div className="p-2">
         <NavigationDropdown id={id} />
+        <div className="p-2"></div>
+        <SubscribeButton skillTreeId={id}/>
+        <div className="p-2"></div>
+        <UserList skillTreeId={id}></UserList>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>
