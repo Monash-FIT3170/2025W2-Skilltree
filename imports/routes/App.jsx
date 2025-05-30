@@ -1,32 +1,37 @@
 import React from 'react';
+import { PrivateRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
 
 // Nested/Children Routes
-import { HomeRoutes } from '/imports/routes/pages/Home';
+import { DashboardRoutes } from '/imports/routes/pages/Dashboard';
 import { SampleRoutes } from '/imports/routes/pages/Sample';
 import { NotFoundRoutes } from '/imports/routes/pages/NotFound';
-
 import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
-import { HelloViewRoutes } from '/imports/routes/components/HelloView';
-import { PostDetailsRoute } from '/imports/routes/pages/ViewPost';
+import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
+import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
   {
-    path: '/',
-    element: <App />,
+    // PrivateRoute requires loggedIn otherwise redirects to /login
+    path: '',
+    element: (
+      <PrivateRoute redirect="/login">
+        <App />
+      </PrivateRoute>
+    ),
     children: [
       // Extends children array with nested routes via spread operator (...)
-      ...HomeRoutes,
+      ...DashboardRoutes,
       ...SampleRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
-      ...HelloViewRoutes,
-      ...PostDetailsRoute,
-      ...NotFoundRoutes // * Keep last for Page not found
+      ...SkillTreeCommunityRoutes,
+      ...CreateSkillTreeRoutes,
+      ...NotFoundRoutes // * Last for Page not found
     ]
   }
 ];

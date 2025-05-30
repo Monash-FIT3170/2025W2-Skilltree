@@ -9,29 +9,65 @@ Schemas.Proof = new SimpleSchema({
   title: {
     type: String,
     label: 'Title',
+    min: 1,
     max: 50
   },
-  author: {
+  description: {
     type: String,
-    label: 'Author'
+    label: 'Proof description',
+    max: 1000,
+    optional: true
   },
-  communityId: {
-    type: String,
-    label: 'Community'
+  user: {
+    type: String, // placeholder
+    label: 'User who submitted proof'
   },
-  caption: {
-    type: String,
-    label: 'Caption',
-    max: 200
+  date: {
+    type: Date,
+    label: 'Date proof was made'
   },
-  link: {
+  evidenceLink: {
     type: String,
     label: 'Link',
     max: 200
   },
-  uploadedAt: {
-    type: Date,
-    label: 'Date uploaded'
+  verification: {
+    type: SimpleSchema.Integer,
+    label: 'Verification points'
+  },
+  skillTreeId: {
+    type: String,
+    label: 'Skilltree'
+  },
+  subskill: {
+    type: String,
+    label: 'Sub-Skill',
+    max: 1000,
+    optional: true
+  },
+  upvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true
+  },
+  downvotes: {
+    type: SimpleSchema.Integer,
+    defaultValue: 0,
+    optional: true
+  },
+  upvoters: {
+    type: Array,
+    defaultValue: []
+  },
+  'upvoters.$': {
+    type: String
+  },
+  downvoters: {
+    type: Array,
+    defaultValue: []
+  },
+  'downvoters.$': {
+    type: String
   }
 });
 

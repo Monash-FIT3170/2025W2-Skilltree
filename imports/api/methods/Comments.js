@@ -3,20 +3,13 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  async commentInsert(username, comment, postid) {
-    check(username, String);
-    check(comment, String);
-    check(postid, String);
-
-    await CommentsCollection.insertAsync({
-      username: username,
-      comment: comment,
-      postId: postid,
-      createdAt: new Date()
-    });
+  // add comment to collection
+  async addComment(comment) {
+    return await CommentsCollection.insertAsync(comment);
   },
 
-  async deleteComment(commentId) {
+  // remove comment from collection
+  async removeComment(commentId) {
     check(commentId, String);
 
     const result = await CommentsCollection.removeAsync(commentId);
@@ -29,12 +22,33 @@ Meteor.methods({
     return result;
   },
 
+  // edit comment in collection
   async editComment(commentId, newText) {
     check(commentId, String);
     check(newText, String);
+    return await CommentsCollection.updateAsync(
+      { _id: commentId },
+      {
+        $set: { comment: newText }
+      }
+    );
+  },
 
-    await CommentsCollection.updateAsync(commentId, {
-      $set: { comment: newText }
-    });
+  // retrieve comment from commentId
+  async getComment(commentId) {
+    return await CommentsCollection.findOneAsync({ _id: commentId });
+  },
+
+  // retrieve all comments associated with a proof
+  async getAllComments(proofId) {
+    const comment = await CommentsCollection.find({
+      proofId: proofId
+    }).fetchAsync();
+
+    return comment;
+  },
+
+  async getCommentsForProof(proofId) {
+    return await CommentsCollection.find({ proofId }).fetchAsync();
   }
 });
