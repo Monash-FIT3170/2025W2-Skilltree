@@ -37,9 +37,9 @@ export const SkillTreeCommunity = () => {
         <title>SkillTree - Community Page</title>
       </Helmet>
       <div className="p-2">
-        <NavigationDropdown id={id} />
+        <NavigationDropdown id={id}/>
         <div className="p-2"></div>
-        <SubscribeButton skillTreeId={id} />
+        <SubscribeButton skillTreeId={id}/>
         <div className="p-2"></div>
         <UserList skillTreeId={id}></UserList>
         <h1 className="text-3xl font-bold mt-2">
