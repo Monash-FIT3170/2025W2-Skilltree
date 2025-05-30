@@ -42,8 +42,8 @@ export const NavBar = () => {
 
   const handleSearch = e => {
     e.preventDefault();
-    setShowDropdown(false);
-    navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    setShowDropdown(true);
+    // navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
   };
 
   const handleResultClick = id => {
@@ -145,11 +145,6 @@ export const NavBar = () => {
           <NavbarLink as={Link} to="/pendingproofs">
             <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
               Pending Proofs
-            </div>
-          </NavbarLink>
-          <NavbarLink as={Link} to="/upload">
-            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
-              Upload Proof
             </div>
           </NavbarLink>
           <NavbarLink as={Link} to="/create">

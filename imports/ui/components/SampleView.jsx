@@ -9,7 +9,12 @@ import { SampleCollection } from '/imports/api/collections/Sample';
 
 export const SampleView = () => {
   useSubscribeSuspense('sample'); // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering
-  const samples = useFind(SampleCollection, []); // Fetch documents from SampleCollection using Meteor's useFind method for real-time updates from the database
+  const samples = useFind(SampleCollection, [
+    {}, // selector - query to find
+    {
+      fields: { title: 1, author: 1, copies: 1 } // options: fields = Dictionary of fields to return or exclude, sort = order etc
+    }
+  ]); // Fetch documents from SampleCollection using Meteor's useFind method for real-time updates from the database
   const SampleCopiesInc = sampleId => async amount => {
     await Meteor.callAsync('sampleCopiesInc', sampleId, amount); // Call Meteor method to increase copies by amount on SampleCollection by the sampleId
   };

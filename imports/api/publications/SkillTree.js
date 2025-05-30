@@ -2,10 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import '/imports/api/schemas/SkillTree';
 
-Meteor.publish('skilltreeById', function (id) {
-  return SkillTreeCollection.find({ _id: id });
-});
-
 Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 Meteor.startup(async () => {

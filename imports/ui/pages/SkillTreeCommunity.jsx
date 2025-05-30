@@ -1,61 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { SkillTreeEdit } from '../components/SkillTree';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { useParams } from 'react-router-dom';
-import { NavigationDropdown } from '../components/NavigationDropdown';
-import { SubscribeButton } from '../components/SubscribeButton';
-import { UserList } from '../components/UserList';
+import { Outlet } from 'react-router-dom';
 
-export const SkillTreeCommunity = () => {
-  // extract id from url params
-  const { id } = useParams();
+// JSX UI
+import { Fallback } from '/imports/ui/components/Fallback';
 
-  // load skilltree data
-  const { skilltree, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('skilltreeById', id);
-    const isLoading = !handle.ready();
-    const skilltree = SkillTreeCollection.findOne({ _id: id });
-
-    return {
-      skilltree,
-      isLoading: isLoading
-    };
-  }, [id]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (!skilltree) return <div>Skill Tree not found</div>;
-
-  console.log('Nodes:', skilltree.skillNodes);
-  console.log('Edges:', skilltree.skillEdges);
-
-  return (
-    <>
-      <Helmet>
-        <title>SkillTree - Community Page</title>
-      </Helmet>
-      <div className="p-2">
-        <NavigationDropdown id={id}/>
-        <div className="p-2"></div>
-        <SubscribeButton skillTreeId={id}/>
-        <div className="p-2"></div>
-        <UserList skillTreeId={id}></UserList>
-        <h1 className="text-3xl font-bold mt-2">
-          Welcome to {skilltree.title}!
-        </h1>
-        <div className="text-lg mt-2">
-          <p>Description: {skilltree.description}</p>
-          <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
-        </div>
-      </div>
-      <SkillTreeEdit
-        isAdmin={false}
-        onSave={() => {}}
-        savedNodes={skilltree.skillNodes}
-        savedEdges={skilltree.skillEdges}
-      />
-    </>
-  );
-};
+export const SkillTreeCommunity = () => (
+  <>
+    <Helmet>
+      <title>SkillTree - Community Page</title>
+    </Helmet>
+    <Suspense fallback={<Fallback />}>
+      <Outlet />
+    </Suspense>
+  </>
+);

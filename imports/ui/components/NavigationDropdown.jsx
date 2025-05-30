@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { useTracker } from 'meteor/react-meteor-data';
-import { Meteor } from 'meteor/meteor';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 //NavigationDropdown component
@@ -10,16 +10,11 @@ export const NavigationDropdown = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   // load skilltree data
-  const { skilltree, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('skilltreeById', id);
-    const isLoading = !handle.ready();
-    const skilltree = SkillTreeCollection.findOne({ _id: id });
-
-    return {
-      skilltree,
-      isLoading: isLoading
-    };
-  }, [id]);
+  useSubscribeSuspense('skilltrees');
+  const skilltree = useFind(SkillTreeCollection, [
+    { _id: { $eq: id } },
+    { fields: { title: 1, image: 1 } }
+  ])[0];
 
   const menuItems = [
     {
@@ -84,7 +79,6 @@ export const NavigationDropdown = ({ id }) => {
     setIsOpen(false);
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   return (

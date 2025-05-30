@@ -1,21 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
-import { UserContext } from '/imports/utils/contexts/UserContext';
+import { User } from '/imports/utils/User';
 
 export const CommentSection = () => {
-  // TEMPORARY: Pretend we are user1, so we can edit/delete comments made by user1.
-  // Should be replaced by a reference to the current user's id (not username) once accounts are integrated.
-  // const DUMMY_USERNAME = 'user1';
-  const { username } = useContext(UserContext);
+  // loggedIn username
+  const { username } = User(['username']);
 
   // Subscribe to comments and get real-time data
   useSubscribeSuspense('comments');
   const comments = useFind(CommentsCollection, [
     {},
-    { sort: { createdAt: -1 } }
+    {
+      fields: { username: 1, comment: 1, createdAt: 1 },
+      sort: { createdAt: -1 }
+    }
   ]);
 
   // The id of the comment being edited. Empty string if nothing is being edited.
