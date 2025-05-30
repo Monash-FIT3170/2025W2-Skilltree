@@ -1,24 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { User } from '/imports/utils/User';
+import { FaSignOutAlt } from 'react-icons/fa';
 import {
   NavbarToggle,
-  NavbarLink,
   Dropdown,
   DropdownHeader,
   DropdownItem,
   DropdownDivider,
   Avatar
 } from 'flowbite-react';
-import { FaSignOutAlt } from 'react-icons/fa';
-import { UserContext } from '/imports/utils/contexts/UserContext';
 
 export const UserDropdownMenu = () => {
-  const { username, emails } = useContext(UserContext);
-  //Add a guard clause to avoid rendering if user data is missing
-  if (!username || !emails?.length) return null;
-
-  const email = emails?.[0]?.address || 'example123@example.com';
+  const user = User(['username', 'emails.address']);
+  const username = user?.username ?? '';
+  const email = user?.emails?.[0].address ?? '';
 
   return (
     <div className="flex md:order-2">
@@ -44,9 +41,9 @@ export const UserDropdownMenu = () => {
           <span className="block truncate text-sm text-gray-500">{email}</span>
         </DropdownHeader>
         <DropdownDivider />
-        <NavbarLink as={Link} to="/dashboard">
-          <DropdownItem>Dashboard</DropdownItem>
-        </NavbarLink>
+        <DropdownItem as={Link} to="/dashboard">
+          Dashboard
+        </DropdownItem>
         <DropdownDivider />
         <DropdownItem onClick={() => Meteor.logout()}>
           Logout

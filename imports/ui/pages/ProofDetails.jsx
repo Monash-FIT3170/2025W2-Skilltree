@@ -5,11 +5,13 @@
  */
 
 import React from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '/imports/ui/components/CommentSection';
 import { AddComment } from '/imports/ui/components/AddComment';
+import { User } from '/imports/utils/User';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -23,13 +25,21 @@ export const ProofDetails = ({ proofId, onClose }) => {
   /**
    * Fetches the selected proof document from the Meteor data layer.
    */
-  const { proof, isLoading } = useTracker(() => {
-    const handle = Meteor.subscribe('proof');
-    const proof = handle.ready()
-      ? ProofCollection.findOne({ _id: proofId })
-      : null;
-    return { proof, isLoading: !handle.ready() };
-  }, [proofId]);
+  useSubscribeSuspense('proof');
+  const proof = useFind(ProofCollection, [
+    { _id: { $eq: proofId } },
+    {
+      fields: {
+        description: 1,
+        user: 1,
+        date: 1,
+        evidenceLink: 1,
+        subskill: 1,
+        upvotes: 1,
+        downvotes: 1
+      }
+    }
+  ])[0];
 
   /**
    * Handles upvote action by calling the 'proof.upvote' Meteor method.
@@ -55,8 +65,10 @@ export const ProofDetails = ({ proofId, onClose }) => {
       minute: '2-digit'
     });
 
-  // Return nothing if data is still loading or proof doesn't exist
-  if (isLoading || !proof) return null;
+  // Return nothing if data proof doesn't exist
+  if (!proof) return null;
+
+  const { username } = User(['username']);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
@@ -121,7 +133,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
           {/* Comment Section */}
           <div className="w-1/2 border-l border-gray-300 pl-4 overflow-y-auto">
             <h3 className="text-lg font-semibold mb-2">Comments</h3>
-            <AddComment username="Username Placeholder" proofid={proof._id} />
+            <AddComment username={username} proofid={proof._id} />
             <CommentSection proofId={proof._id} />
           </div>
         </div>

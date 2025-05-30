@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { ThemeConfig } from 'flowbite-react';
 
 // Provider
-import { UserProvider } from '/imports/utils/providers/UserProvider';
+import { AuthProvider } from '/imports/utils/providers/AuthProvider';
 
 // JSX UI
 import { Fallback } from '/imports/ui/components/Fallback';
@@ -11,12 +11,12 @@ import { Fallback } from '/imports/ui/components/Fallback';
 export const Root = () => (
   <>
     <ThemeConfig dark={false} />
-    <UserProvider>
-      {/* Provides user to any nested child via useContext instead of props */}
+    {/* Provides loggedIn to any nested child via useContext instead of props */}
+    <AuthProvider>
       <Suspense fallback={<Fallback msg={''} />}>
         {/* Renders the matched child (App/Login/Signup) route here */}
         <Outlet />
       </Suspense>
-    </UserProvider>
+    </AuthProvider>
   </>
 );
