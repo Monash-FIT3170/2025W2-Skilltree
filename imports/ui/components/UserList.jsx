@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Button,
   Modal,
@@ -18,6 +19,35 @@ export const UserList = ({ skillTreeId }) => {
   ]);
   const targetSkillTree = skillTrees[0];
   const [openModal, setOpenModal] = useState(false);
+  const [usernameList, setUsernameList] = useState([]);
+
+  useEffect(() => {
+    const processUserIdList = async userIdList => {
+      console.log(userIdList);
+      console.log(userIdList.length);
+      const usernameList = [];
+      for (var i = 0; i < userIdList.length; i++) {
+        const username = await getUserName(userIdList[i]);
+        usernameList.push(username);
+      }
+      setUsernameList(usernameList);
+    };
+
+    processUserIdList(targetSkillTree.subscribers);
+  }, [targetSkillTree]);
+
+  const getUserName = async userId => {
+    const user = await Meteor.callAsync('getUsers', userId);
+
+    console.log(user);
+
+    // solely for filtering dummy data
+    if (!user) {
+      return userId;
+    }
+
+    return user.username;
+  };
 
   // Formatted as button, change if necessary
   return (
@@ -37,9 +67,9 @@ export const UserList = ({ skillTreeId }) => {
         <ModalBody className="text-lg mt-2">
           <div>
             <ul>
-              {targetSkillTree.subscribers.map(user => (
-                <li>{user}</li>
-              ))}
+              {usernameList.map(username => {
+                return <li key={username}>{String(username)}</li>;
+              })}
             </ul>
           </div>
         </ModalBody>
