@@ -154,6 +154,11 @@ Schemas.UsersProfile = new SimpleSchema({
     type: String,
     label: 'Skill Forest (_id)',
     regEx: Regex._id // Validates mongodb _id
+  },
+  isProfileComplete: {
+    type: Boolean,
+    label: 'IsProfileComplete',
+    optional: true
   }
 });
 

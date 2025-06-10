@@ -10,12 +10,20 @@ export const PublicRoute = ({
   hideForLoggedIn = false, // If logged in, hide route by redirecting
   redirect = '/' // Redirect url can be specified otherwise goes to /
 }) => {
-  const loggedIn = useContext(AuthContext); // Computed once from top level
-  return hideForLoggedIn && loggedIn ? <Navigate to={redirect} /> : children;
+  const value = useContext(AuthContext); // Computed once from top level
+
+
+  return hideForLoggedIn && value.userId && value.completedProfile ? <Navigate to={redirect} /> : children;
 };
 
 // PrivateRoute Helper JSX
 export const PrivateRoute = ({ children, redirect = '/login' }) => {
-  const loggedIn = useContext(AuthContext); // Reactive when value changes
+  const value = useContext(AuthContext); // Reactive when value changes
+
+  const loggedIn = value.userId && true;
+
+  console.log(value)
+
+
   return loggedIn ? children : <Navigate to={redirect} />;
 };
