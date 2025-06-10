@@ -1,18 +1,19 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
-import { FaCheckCircle } from "react-icons/fa";
-import { GoXCircleFill } from "react-icons/go";
+import { FaCheckCircle } from 'react-icons/fa';
+import { GoXCircleFill } from 'react-icons/go';
 import { motion } from 'framer-motion';
+
+import { Regex } from '/imports/utils/Regex';
 
 const Step2 = () => {
   const [repeatPass, setRepeatPass] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({ password: '', lengthPass: '' });
-
 
   //Password checks
   const [passMinMaxChar, setPassMinMaxChar] = useState(false);
@@ -24,40 +25,37 @@ const Step2 = () => {
   const navigate = useNavigate();
   const { formData, setFormData } = useOutletContext();
 
-
-  const passwordChecks = (password) =>{
-
+  const passwordChecks = password => {
     // Check minimum 8 and max of 64 characters
-    setPassMinMaxChar(password.length >= 8 && password.length <=64);
-    
+    setPassMinMaxChar(password.length >= 8 && password.length <= 64);
+
     // Check for uppercase letter
-    setPassUpperCase(/[A-Z]/.test(password));
-    
+    setPassUpperCase(Regex.uppercase.test(password));
+
     // Check for lowercase letter
-    setPassLowerCase(/[a-z]/.test(password));
-    
+    setPassLowerCase(Regex.lowercase.test(password));
+
     // Check for special character
-    setPassSpecialChar(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password));
-    
+    setPassSpecialChar(Regex.special.test(password));
+
     // Check for number
-    setPassNumber(/\d/.test(password));
-  }
+    setPassNumber(Regex.number.test(password));
+  };
 
   //We utilise useEffect hook that runs the password validation whenever the component mounts or formData.password changes
   //Mounts: for example, when we navigate back to the password page, the component mounts with the existing password value and useEffect immediately runs
-  useEffect(() =>{
-    if (formData.password){
+  useEffect(() => {
+    if (formData.password) {
       passwordChecks(formData.password);
-    };
-  }, [formData.password])
+    }
+  }, [formData.password]);
 
   const handleChange = e => {
     const { name, value } = e.target;
 
-    if (name === 'password'){
+    if (name === 'password') {
       passwordChecks(value);
     }
-
 
     setFormData(draft => {
       const keys = name.split('.');
@@ -74,7 +72,6 @@ const Step2 = () => {
 
     const newErrors = { password: '', lengthPass: '' };
     let isErrors = false;
-
 
     if (formData.password !== repeatPass) {
       newErrors.password = 'Passwords must match!';
@@ -181,13 +178,47 @@ const Step2 = () => {
               </div>
 
               <div className="text-xs space-y-1">
-                <div className="flex gap-2">{passMinMaxChar ? <FaCheckCircle className='text-green-500' />: <GoXCircleFill className='text-red-500' /> } <span>Must be 8-64 characters long </span></div>
-                <div className="flex gap-2">{passUpperCase ?  <FaCheckCircle className='text-green-500' />: <GoXCircleFill className='text-red-500' />  } <span> At least 1 uppercase letter </span></div>
-                <div className="flex gap-2">{passLowerCase ?  <FaCheckCircle className='text-green-500' />: <GoXCircleFill className='text-red-500' />  } <span>At least 1 lowercase letter </span></div>
-                <div className="flex gap-2">{passSpecialChar ?  <FaCheckCircle className='text-green-500' />: <GoXCircleFill className='text-red-500' />  } <span>At least 1 special character</span></div>
-                <div className="flex gap-2">{passNumber ?  <FaCheckCircle className='text-green-500' />: <GoXCircleFill className='text-red-500' /> } <span>At least 1 number</span></div>
+                <div className="flex gap-2">
+                  {passMinMaxChar ? (
+                    <FaCheckCircle className="text-green-500" />
+                  ) : (
+                    <GoXCircleFill className="text-red-500" />
+                  )}{' '}
+                  <span>Must be 8-64 characters long </span>
+                </div>
+                <div className="flex gap-2">
+                  {passUpperCase ? (
+                    <FaCheckCircle className="text-green-500" />
+                  ) : (
+                    <GoXCircleFill className="text-red-500" />
+                  )}{' '}
+                  <span> At least 1 uppercase letter </span>
+                </div>
+                <div className="flex gap-2">
+                  {passLowerCase ? (
+                    <FaCheckCircle className="text-green-500" />
+                  ) : (
+                    <GoXCircleFill className="text-red-500" />
+                  )}{' '}
+                  <span>At least 1 lowercase letter </span>
+                </div>
+                <div className="flex gap-2">
+                  {passSpecialChar ? (
+                    <FaCheckCircle className="text-green-500" />
+                  ) : (
+                    <GoXCircleFill className="text-red-500" />
+                  )}{' '}
+                  <span>At least 1 special character</span>
+                </div>
+                <div className="flex gap-2">
+                  {passNumber ? (
+                    <FaCheckCircle className="text-green-500" />
+                  ) : (
+                    <GoXCircleFill className="text-red-500" />
+                  )}{' '}
+                  <span>At least 1 number</span>
+                </div>
               </div>
-
 
               <div className="min-h-[1.25rem] pl-2">
                 {errors.lengthPass && (
