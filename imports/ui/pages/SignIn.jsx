@@ -36,23 +36,22 @@ export const SignIn = () => {
           try {
             //Attempt to merge the google account with existing account
             const validation = await Meteor.callAsync('mergeGoogleAccount');
-
-            console.log(validation)
+            console.log(validation);
 
             if (
               validation.status === 'alreadyMerged' ||
               validation.status === 'googleOnlyAccount'
             ) {
               navigate('/');
-              
             } else if (validation.status === 'justMerged') {
               navigate('/');
-              
-            } else if (validation.status === 'noManualAccount' || validation.status === 'incompleteProfile') {
+            } else if (
+              validation.status === 'noManualAccount' ||
+              validation.status === 'incompleteProfile'
+            ) {
               await Meteor.callAsync('addGoogleAccount');
 
               navigate('/login/extraStep1');
-              
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
             }

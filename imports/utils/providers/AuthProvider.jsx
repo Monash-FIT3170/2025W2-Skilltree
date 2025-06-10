@@ -7,7 +7,7 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 // Create Provider
 export const AuthProvider = ({ children }) => {
-  const {userId, completedProfile} = useTracker(() => {
+  const { userId, completedProfile } = useTracker(() => {
     return {
       userId: Meteor.userId(),
       completedProfile: false
@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     completedProfile
   };
 
-
-  console.log(value)
+  console.log(value);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

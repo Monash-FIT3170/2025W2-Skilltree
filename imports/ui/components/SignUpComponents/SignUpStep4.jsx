@@ -21,12 +21,14 @@ const Step4 = () => {
   const handleNext = async e => {
     e.preventDefault();
     try {
-      
       //Validate the profile picture
       await Meteor.callAsync('validateStep4', formData);
 
       //Set profile statuis as completed
-      const completedFormData = {...formData, profile: {...formData.profile, isProfileComplete: true}};
+      const completedFormData = {
+        ...formData,
+        profile: { ...formData.profile, isProfileComplete: true }
+      };
 
       //Create new user
       await Meteor.callAsync('createNewUser', completedFormData);

@@ -1,5 +1,5 @@
-import {Meteor} from 'meteor/meteor';
-import React, { useContext, useEffect, useState} from 'react';
+import { Meteor } from 'meteor/meteor';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 
@@ -15,17 +15,19 @@ export const PublicRoute = ({
   const value = useContext(AuthContext); // Computed once from top level
   const [user, setUser] = useState(null);
 
-  const subscriptionReady = useTracker(() =>{
-    const handle = Meteor.subscribe("userData", value.userId);
+  const subscriptionReady = useTracker(() => {
+    const handle = Meteor.subscribe('userData', value.userId);
     return handle.ready();
   }, [value.userId]);
 
-  console.log(subscriptionReady)
+  console.log(subscriptionReady);
 
-  useEffect(() =>{
-    if (subscriptionReady){
-      console.log(value.userId)
-      Meteor.users.findOneAsync({_id: value.userId}).then(res => setUser(res));
+  useEffect(() => {
+    if (subscriptionReady) {
+      console.log(value.userId);
+      Meteor.users
+        .findOneAsync({ _id: value.userId })
+        .then(res => setUser(res));
     }
   }, [subscriptionReady, value.userId]);
 
@@ -40,15 +42,19 @@ export const PublicRoute = ({
   // if would prematurely redirect to the "/", then navigate(login/extraStep1) from SignIn would execute, navigating to the extraStep1
   // if u click the backpage button, we could access the "/" even though we have an incomplete account
 
-  if (user){
+  if (user) {
     loggedIn = value.userId && user.profile?.isProfileComplete;
   }
 
-  return hideForLoggedIn && user && loggedIn ? <Navigate to={redirect} /> : children;
+  return hideForLoggedIn && user && loggedIn ? (
+    <Navigate to={redirect} />
+  ) : (
+    children
+  );
 };
 
 // PrivateRoute Helper JSX
-export const PrivateRoute =  ({ children=null, redirect = '/login' }) => {
+export const PrivateRoute = ({ children = null, redirect = '/login' }) => {
   const value = useContext(AuthContext); // Reactive when value changes
   const loggedIn = value.userId;
   return loggedIn ? children : <Navigate to={redirect} />;
