@@ -44,15 +44,15 @@ export const SignIn = () => {
               validation.status === 'googleOnlyAccount'
             ) {
               navigate('/');
-              alert("1")
+              
             } else if (validation.status === 'justMerged') {
               navigate('/');
-              alert("2")
+              
             } else if (validation.status === 'noManualAccount' || validation.status === 'incompleteProfile') {
               await Meteor.callAsync('addGoogleAccount');
 
               navigate('/login/extraStep1');
-              alert("3")
+              
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
             }
