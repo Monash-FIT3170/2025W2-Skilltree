@@ -1,3 +1,5 @@
+NOTE: In the event of having to make quick fixes or under limited time, just provide a quick summary. Delete the rest.
+
 # Summary
 
 Please include a summary of the changes (dot points)
