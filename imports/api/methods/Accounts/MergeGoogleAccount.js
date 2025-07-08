@@ -40,16 +40,7 @@ Meteor.methods({
         status: 'googleOnlyAccount'
       };
     }
-    //EDGE CASE: If the user presses the back button after signing in with google but not completing the other questions,
-    //then the profile status is still incomplete. THis means when they attempt to sign in with google again, they are redirected to the extra step
-    if (!googleUser.profile?.isProfileComplete) {
-      return {
-        success: false,
-        alreadyMerged: false,
-        status: 'incompleteProfile'
-      };
-    }
-
+   
     //CASE 3: If we reach here, that means the user has either:
     // 1. Set up a manual skill tree account but hasnt logged with the google account (same email)
     //2. Has not logged in with google and has not set up a manual account
