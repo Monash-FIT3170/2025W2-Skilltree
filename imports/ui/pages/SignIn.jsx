@@ -3,7 +3,14 @@ import { useState } from 'react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
-import { FiEye, FiEyeOff, FiMail, FiLock, FiAlertCircle, FiCheck } from 'react-icons/fi';
+import {
+  FiEye,
+  FiEyeOff,
+  FiMail,
+  FiLock,
+  FiAlertCircle,
+  FiCheck
+} from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { AnimatePresence } from 'framer-motion';
@@ -11,21 +18,27 @@ import { AnimatePresence } from 'framer-motion';
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setError] = useState({ email: '', password: '', credentials: '' });
+  const [errors, setError] = useState({
+    email: '',
+    password: '',
+    credentials: ''
+  });
   const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
-  const validateEmailRealTime = (value) => {
+  const validateEmailRealTime = value => {
     setEmail(value);
     if (value && !Regex.email.test(value)) {
-      setError(prev => ({ ...prev, email: 'Please enter a valid email address' }));
+      setError(prev => ({
+        ...prev,
+        email: 'Please enter a valid email address'
+      }));
     } else {
       setError(prev => ({ ...prev, email: '' }));
     }
   };
-
 
   /*
   Logging in with google, does not let us have access to their dateofbirth and other sensitive data.
@@ -53,17 +66,12 @@ export const SignIn = () => {
               validation.status === 'alreadyMerged' ||
               validation.status === 'googleOnlyAccount'
             ) {
-
               navigate('/');
             } else if (validation.status === 'justMerged') {
-
               navigate('/');
-            } else if (
-              validation.status === 'noManualAccount'
-            ) {
-
+            } else if (validation.status === 'noManualAccount') {
               await Meteor.callAsync('addGoogleAccount');
-              
+
               navigate('/login/extraStep1');
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
@@ -94,12 +102,17 @@ export const SignIn = () => {
     }
 
     setLoggingIn(true);
-    setError({ email: '', password: '', credentials: ''});
+    setError({ email: '', password: '', credentials: '' });
 
     Meteor.loginWithPassword(email, password, error => {
       setLoggingIn(false);
       if (error) {
-        setError({ email: '', password: '', credentials: error.reason +" Try logging in with Google." || 'Login failed.' });
+        setError({
+          email: '',
+          password: '',
+          credentials:
+            error.reason + ' Try logging in with Google.' || 'Login failed.'
+        });
       } else {
         navigate('/');
       }
@@ -123,9 +136,7 @@ export const SignIn = () => {
                 alt="SkillTree Logo"
                 className="w-100 h-100 object-contain shrink-0"
               />
-              <h2 className="text-5xl font-bold text-[#025940]">
-                SKILLTREE
-              </h2>
+              <h2 className="text-5xl font-bold text-[#025940]">SKILLTREE</h2>
             </div>
           </div>
 
@@ -156,12 +167,13 @@ export const SignIn = () => {
                 )}
               </AnimatePresence>
 
-
-
               <form onSubmit={handleLogin} className="space-y-6 mt-4">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Email address
                   </label>
                   <div className="relative">
@@ -172,11 +184,11 @@ export const SignIn = () => {
                       value={email}
                       onChange={e => validateEmailRealTime(e.target.value)}
                       className={`w-full pl-12 pr-10 py-3.5 rounded-xl bg-gray-50 border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#04BF8A]/20 focus:border-[#04BF8A] focus:bg-white ${
-                        errors.email 
-                          ? 'border-red-300 bg-red-50/50 focus:ring-red-100' 
-                          : email && !errors.email 
-                          ? 'border-emerald-300 bg-emerald-50/50 focus:ring-emerald-100' 
-                          : 'border-gray-200 hover:border-gray-300'
+                        errors.email
+                          ? 'border-red-300 bg-red-50/50 focus:ring-red-100'
+                          : email && !errors.email
+                            ? 'border-emerald-300 bg-emerald-50/50 focus:ring-emerald-100'
+                            : 'border-gray-200 hover:border-gray-300'
                       }`}
                       required
                     />
@@ -208,7 +220,10 @@ export const SignIn = () => {
 
                 {/* Password Field */}
                 <div className="space-y-2 mt-6">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Password
                   </label>
                   <div className="relative">
@@ -219,8 +234,7 @@ export const SignIn = () => {
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       className={`w-full pl-12 pr-12 py-3.5 rounded-xl bg-gray-50 border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#04BF8A]/20 focus:border-[#04BF8A] focus:bg-white
-                        ${'border-gray-200 hover:border-gray-300'
-                      }`}
+                        ${'border-gray-200 hover:border-gray-300'}`}
                       required
                     />
                     <FiLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -228,9 +242,15 @@ export const SignIn = () => {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      aria-label={
+                        showPassword ? 'Hide password' : 'Show password'
+                      }
                     >
-                      {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+                      {showPassword ? (
+                        <FiEyeOff className="w-4 h-4" />
+                      ) : (
+                        <FiEye className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -242,7 +262,9 @@ export const SignIn = () => {
                       type="checkbox"
                       className="w-4 h-4 text-[#04BF8A] bg-gray-100 border-gray-300 rounded focus:ring-[#04BF8A] focus:ring-2"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Remember me</span>
+                    <span className="ml-2 text-sm text-gray-700">
+                      Remember me
+                    </span>
                   </label>
                   <Link
                     to="/forgot-password"
@@ -281,7 +303,9 @@ export const SignIn = () => {
                   <div className="w-full border-t border-gray-200" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">Or continue with</span>
+                  <span className="px-4 bg-white text-gray-500">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
@@ -292,8 +316,8 @@ export const SignIn = () => {
                 whileHover={{ scale: loggingIn ? 1 : 1.02 }}
                 whileTap={{ scale: loggingIn ? 1 : 0.98 }}
                 className={`w-full flex items-center justify-center gap-3 px-4 py-3.5 border border-gray-200 rounded-xl bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer ${
-                  loggingIn 
-                    ? 'opacity-50 cursor-not-allowed' 
+                  loggingIn
+                    ? 'opacity-50 cursor-not-allowed'
                     : 'hover:bg-gray-50 hover:border-gray-300 shadow-sm hover:shadow-md'
                 }`}
               >
@@ -320,15 +344,15 @@ export const SignIn = () => {
 
               {/* Footer Links */}
               <div className="mt-8 flex justify-center items-center gap-4 text-sm text-gray-500">
-                <Link 
-                  to="/terms" 
+                <Link
+                  to="/terms"
                   className="hover:text-gray-700 transition-colors"
                 >
                   Terms of Service
                 </Link>
                 <span className="text-gray-300">•</span>
-                <Link 
-                  to="/privacy" 
+                <Link
+                  to="/privacy"
                   className="hover:text-gray-700 transition-colors"
                 >
                   Privacy Policy
@@ -336,9 +360,6 @@ export const SignIn = () => {
               </div>
             </div>
           </div>
-
-
-          
         </motion.div>
       </div>
     </>

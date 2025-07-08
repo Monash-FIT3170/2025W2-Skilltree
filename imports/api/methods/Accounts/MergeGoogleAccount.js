@@ -40,7 +40,7 @@ Meteor.methods({
         status: 'googleOnlyAccount'
       };
     }
-   
+
     //CASE 3: If we reach here, that means the user has either:
     // 1. Set up a manual skill tree account but hasnt logged with the google account (same email)
     //2. Has not logged in with google and has not set up a manual account
