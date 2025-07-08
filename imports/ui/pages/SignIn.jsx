@@ -108,12 +108,12 @@ export const SignIn = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-white px-4 py-12 sm:py-20">
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-12 sm:py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex max-w-6xl w-full rounded-xl shadow-xl overflow-hidden"
+          className="flex max-w-6xl w-full rounded-xl shadow-2xl overflow-hidden"
         >
           {/* LEFT SECTION: Logo + Text */}
           <div className="w-1/2 bg-gradient-to-br from-[#025940]/40 to-[#04BF8A]/40 flex items-center justify-center px-8 py-12">
