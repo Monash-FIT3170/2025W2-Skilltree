@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor'; // Accounts is globally available in Meteor
+import { Accounts } from 'meteor/accounts-base';
 
 //Customise the reset password URL sent in the email
 Accounts.urls.resetPassword = function (token) {
@@ -6,7 +7,8 @@ Accounts.urls.resetPassword = function (token) {
 };
 
 //Email sender and site details
-Accounts.emailTemplates.from = 'Skilltree Support <support@skilltreeplatform.com>';
+Accounts.emailTemplates.from =
+  'Skilltree Support <support@skilltreeplatform.com>';
 Accounts.emailTemplates.siteName = 'Skilltree';
 
 //Reset Password Email Template

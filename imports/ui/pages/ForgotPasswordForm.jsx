@@ -55,66 +55,71 @@ export const ForgotPasswordForm = () => {
     //Meteor call:
     Accounts.forgotPassword({ email }, error => {
       setLoading(false);
+
       if (error) {
-        console.log(error.reason);
+        setErrors(prev => ({
+          ...prev,
+          email: error.reason || 'Invalid email'
+        }));
       } else {
         setEmailIsSent(true);
       }
     });
-
-    if (emailIsSent) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-6 sm:py-12 md:py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-md w-full bg-white rounded-xl shadow-2xl p-6 sm:p-8"
-          >
-            <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiCheck className="w-8 h-8 text-emerald-600" />
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                Check your email
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-6">
-                We've sent a password reset link to{' '}
-                <strong className="break-words">{email}</strong>
-              </p>
-              <p className="text-xs sm:text-sm text-gray-500 mb-8">
-                Didn't receive the email? Check your spam folder or try again.
-              </p>
-              <div className="space-y-3">
-                <button
-                  onClick={() => {
-                    setEmailIsSent(false);
-                    setEmail('');
-                  }}
-                  className="w-full py-3 px-4 bg-[#04BF8A] text-white rounded-xl font-semibold hover:bg-[#025940] transition-colors active:scale-95"
-                >
-                  Try another email
-                </button>
-                <Link
-                  to="/signin"
-                  className="w-full py-3 px-4 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 active:scale-95"
-                >
-                  <FiArrowLeft className="w-4 h-4" />
-                  Back to sign in
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      );
-    }
   };
 
-  return (
+  return emailIsSent ? (
+    <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-6 sm:py-12 md:py-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-md w-full bg-white rounded-xl shadow-2xl p-6 sm:p-8"
+      >
+        <div className="text-center">
+          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <FiCheck className="w-8 h-8 text-emerald-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+            Check your email
+          </h2>
+          <p className="text-sm sm:text-base text-gray-600 mb-6">
+            We've sent a password reset link to{' '}
+            <strong className="break-words">{email}</strong>
+          </p>
+          <p className="text-xs sm:text-sm text-gray-500 mb-8">
+            Didn't receive the email? Check your spam folder or try again.
+          </p>
+          <div className="space-y-3">
+            <button
+              onClick={() => {
+                setEmailIsSent(false);
+                setEmail('');
+              }}
+              className="w-full py-3 px-4 bg-[#04BF8A] text-white rounded-xl font-semibold hover:bg-[#025940] transition-colors active:scale-95"
+            >
+              Try another email
+            </button>
+            <Link
+              to="/signin"
+              className="w-full py-3 px-4 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 active:scale-95"
+            >
+              <FiArrowLeft className="w-4 h-4" />
+              Back to sign in
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  ) : (
     <div className="min-h-screen flex items-center justify-center">
-      {/*Mobile Screen Layout */}
-      <div className="">
-        <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-white rounded-xl shadow-2xl p-6 sm:p-8"
+      >
+        {/*Mobile Screen Layout */}
+        <div className="">
           <div className="text-center mb-8">
             <img
               src="/images/colouredLogo.png"
@@ -222,10 +227,7 @@ export const ForgotPasswordForm = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/*Desktop view */}
-      <div></div>
+      </motion.div>
     </div>
   );
 };

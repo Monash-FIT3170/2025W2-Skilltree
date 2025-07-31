@@ -5,7 +5,7 @@ import { PublicRoute, PrivateRoute } from '/imports/utils/RouteGuard';
 import { SignIn } from '/imports/ui/pages/SignIn';
 import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
 import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
-import { ResetPasswordForm} from '../../ui/pages/ResetPasswordForm';
+import { ResetPasswordForm } from '../../ui/pages/ResetPasswordForm';
 
 export const SignInRoutes = [
   {
