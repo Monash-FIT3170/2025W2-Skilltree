@@ -121,7 +121,7 @@ export const SignIn = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-12 sm:py-20">
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4 py-12 sm:py-20 overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -267,7 +267,7 @@ export const SignIn = () => {
                     </span>
                   </label>
                   <Link
-                    to="/forgot-password"
+                    to="/login/password-recovery"
                     className="text-sm text-[#04BF8A] hover:text-[#025940] font-medium transition-colors"
                   >
                     Forgot password?

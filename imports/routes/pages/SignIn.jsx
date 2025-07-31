@@ -4,6 +4,7 @@ import { PublicRoute, PrivateRoute } from '/imports/utils/RouteGuard';
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
 import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
 
 export const SignInRoutes = [
   {
@@ -22,5 +23,13 @@ export const SignInRoutes = [
         <GetMissingGoogleFields />
       </PrivateRoute>
     )
-  }
+  },
+  {
+    path: 'login/password-recovery',
+    element: (
+      <PublicRoute hideForLoggedIn={true} redirect="/">
+        <ForgotPasswordForm />
+      </PublicRoute>
+    )
+  },
 ];
