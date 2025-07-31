@@ -31,5 +31,5 @@ export const SignInRoutes = [
         <ForgotPasswordForm />
       </PublicRoute>
     )
-  },
+  }
 ];

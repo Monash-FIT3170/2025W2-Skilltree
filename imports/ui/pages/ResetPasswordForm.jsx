@@ -1,13 +1,3 @@
 export const ResetPasswordForm = () => {
-
-
-    return (
-        <div>
-            reset password form;
-        </div>
-
-
-    )
-
-
-}
+  return <div>reset password form</div>;
+};

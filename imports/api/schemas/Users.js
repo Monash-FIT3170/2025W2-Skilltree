@@ -220,7 +220,7 @@ Schemas.User = new SimpleSchema({
     type: Schemas.UsersServices,
     label: 'User Services Data',
     optional: true,
-    blackbox: true, // Uncomment this to debug generated service fields, then add missing ones to Schemas.UsersServices
+    blackbox: true // Uncomment this to debug generated service fields, then add missing ones to Schemas.UsersServices
   }
 });
 

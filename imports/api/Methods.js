@@ -15,4 +15,3 @@ import '/imports/api/methods/Proof';
 import '/imports/api/methods/Upload';
 import '/imports/api/methods/skillTreeMethods';
 import '/imports/api/methods/Comments';
-
