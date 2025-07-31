@@ -113,7 +113,7 @@ export const ForgotPasswordForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       {/*Mobile Screen Layout */}
-      <div className="lg:hidden">
+      <div className="">
         <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8">
           <div className="text-center mb-8">
             <img
@@ -184,13 +184,13 @@ export const ForgotPasswordForm = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* */}
+                {/*Send reset password url button*/}
                 <motion.button
                   type="submit"
                   disabled={loading}
                   whileHover={{ scale: loading ? 1 : 1.02 }}
                   whileTap={{ scale: loading ? 1 : 0.95 }}
-                  className={`w-full py-4 rounded-xl font-semibold text-base text-white transition-all duration-200 ${
+                  className={`w-full py-4 rounded-xl font-semibold text-base text-white transition-all mt-8 duration-200 ${
                     loading
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-[#04BF8A] hover:bg-[#025940] shadow-lg hover:shadow-xl active:shadow-md'
