@@ -234,6 +234,7 @@ export const ResetPasswordForm = () => {
 
                   <button
                     type="button"
+                    tabIndex={-1}
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
@@ -300,6 +301,7 @@ export const ResetPasswordForm = () => {
 
                   <button
                     type="button"
+                    tabIndex={-1}
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >

@@ -240,6 +240,7 @@ export const SignIn = () => {
                     <FiLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <button
                       type="button"
+                      tabIndex={-1}
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
                       aria-label={
@@ -268,7 +269,7 @@ export const SignIn = () => {
                   </label>
                   <Link
                     to="/login/password-recovery"
-                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-medium transition-colors"
+                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold font-medium transition-colors"
                   >
                     Forgot password?
                   </Link>
