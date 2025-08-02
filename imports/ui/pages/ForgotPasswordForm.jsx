@@ -56,14 +56,15 @@ export const ForgotPasswordForm = () => {
     Accounts.forgotPassword({ email }, error => {
       setLoading(false);
 
+      //Console the error, but do not display it to UI
       if (error) {
-        setErrors(prev => ({
-          ...prev,
-          email: error.reason || 'Invalid email'
-        }));
-      } else {
-        setEmailIsSent(true);
+        console.log(error.reason);
       }
+
+      //For security reasons, we should not reveal whether the email was registered or not.
+      //The message should be CONSISTENT across both success and unsuccessful attempts.
+      //Protect user privacy
+      setEmailIsSent(true);
     });
   };
 
@@ -83,8 +84,8 @@ export const ForgotPasswordForm = () => {
             Check your email
           </h2>
           <p className="text-sm sm:text-base text-gray-600 mb-6">
-            We've sent a password reset link to{' '}
-            <strong className="break-words">{email}</strong>
+            If an account with that email exists, we've sent a password reset
+            link to <strong className="break-words">{email}</strong>
           </p>
           <p className="text-xs sm:text-sm text-gray-500 mb-8">
             Didn't receive the email? Check your spam folder or try again.
