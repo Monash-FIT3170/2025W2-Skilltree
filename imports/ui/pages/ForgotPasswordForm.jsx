@@ -136,7 +136,7 @@ export const ForgotPasswordForm = () => {
               </p>
             </div>
 
-            {/*Email Submit Form */}
+            {/*Email Submit*/}
             <form
               onSubmit={handleForgotPasswordForm}
               className="space-y-6 mt-12"

@@ -59,3 +59,15 @@ Thanks, and keep learning!
     `;
   }
 };
+
+Meteor.startup(() => {
+  // Configure SMTP settings
+  const smtp = Meteor.settings.private?.smtp;
+  
+  if (smtp) {
+    process.env.MAIL_URL = `smtps://${encodeURIComponent(smtp.username)}:${encodeURIComponent(smtp.password)}@${smtp.server}:${smtp.port}`;
+    console.log('MAIL_URL configured successfully');
+  } else {
+    console.warn('SMTP settings not found in Meteor.settings.private.smtp');
+  }
+})
