@@ -315,14 +315,14 @@ export const ResetPasswordForm = () => {
                   {confirmNewPassword &&
                     !errors.confirm &&
                     newPassword === confirmNewPassword && (
-                    <motion.div
+                      <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         className="absolute right-12 top-1/2 transform -translate-y-1/2"
                       >
                         <FiCheck className="w-5 h-5 text-emerald-500" />
                       </motion.div>
-                  )}
+                    )}
                 </div>
                 <AnimatePresence>
                   {errors.confirm && (
