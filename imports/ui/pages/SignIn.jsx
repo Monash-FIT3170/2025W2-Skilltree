@@ -252,7 +252,7 @@ export const SignIn = () => {
                 </div>
 
                 {/* Password Field */}
-                <div className="space-y-2 mt-6">
+                <div className="space-y-2 mt-12">
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium text-gray-700"
