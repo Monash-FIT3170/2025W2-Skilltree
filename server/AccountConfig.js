@@ -2,6 +2,11 @@
 import { Meteor } from 'meteor/meteor'; // Accounts is globally available in Meteor
 import { Accounts } from 'meteor/accounts-base';
 
+//Modify the login token expiration date
+Accounts.config({
+  loginExpirationInDays: 30,
+});
+
 // Customise the reset password URL sent in the email
 Accounts.urls.resetPassword = function (token) {
   return Meteor.absoluteUrl(`login/reset-password/${token}`);

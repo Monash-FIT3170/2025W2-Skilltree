@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
+import { Tracker } from 'meteor/tracker';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
@@ -18,6 +19,7 @@ import { AnimatePresence } from 'framer-motion';
 export const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [errors, setError] = useState({
     email: '',
     password: '',
@@ -83,6 +85,21 @@ export const SignIn = () => {
       }
     );
   };
+  const waitForUser = () => {
+    return new Promise(resolve => {
+      const handle = Tracker.autorun(comp => {
+        if (Meteor.userId()) {
+          comp.stop();
+          resolve(Meteor.userId());
+        }
+      });
+
+      setTimeout(() => {
+        handle.stop();
+        resolve(null);
+      }, 2000);
+    });
+  };
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -104,16 +121,32 @@ export const SignIn = () => {
     setLoggingIn(true);
     setError({ email: '', password: '', credentials: '' });
 
-    Meteor.loginWithPassword(email, password, error => {
+    Meteor.loginWithPassword(email, password, async error => {
       setLoggingIn(false);
       if (error) {
         setError({
           email: '',
           password: '',
-          credentials:
-            error.reason + ' Try logging in with Google.' || 'Login failed.'
+          credentials: 'Invalid email or password. Please try again.'
         });
       } else {
+        //if the user checked the RememberMe
+        if (rememberMe) {
+          try {
+            const userId = await waitForUser();
+
+            if (userId) {
+              const result = await Meteor.callAsync('extendLoginExpiration');
+              localStorage.setItem('rememberMe', 'true');
+              console.log(result.message);
+            }
+          } catch (err) {
+            console.error('Failed to extend your session', err);
+          }
+        } else {
+          localStorage.removeItem('rememberMe');
+        }
+
         navigate('/');
       }
     });
@@ -261,6 +294,8 @@ export const SignIn = () => {
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
+                      checked={rememberMe}
+                      onChange={e => setRememberMe(e.target.checked)}
                       className="w-4 h-4 text-[#04BF8A] bg-gray-100 border-gray-300 rounded focus:ring-[#04BF8A] focus:ring-2"
                     />
                     <span className="ml-2 text-sm text-gray-700">
