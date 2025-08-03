@@ -1,7 +1,6 @@
 import assert from 'assert';
 import { Meteor } from 'meteor/meteor';
 import '/imports/api/methods/SkillTree';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree'; // Comment collection
 
 const skillTreeId1 = "dfasdfasdfdsf";
 
