@@ -1,15 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { SkillForestCollection } from '/imports/api/collections/SkillForest';
-import { Schemas } from '/imports/api/Schemas';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  async 'skillforests.insert'(skillforest) {
-    Schemas.SkillForest.validate(skillforest);
+  async insertSkillforest(skillforest) {
+    check(skillforest, {
+      title: String,
+      description: String,
+      skilltreeIds: [String]
+    });
     return await SkillForestCollection.insertAsync(skillforest);
   },
 
-  async 'skillforests.get'(skillforestId) {
+  async getSkillforest(skillforestId) {
     const skillforest = await SkillForestCollection.findOneAsync({
       _id: skillforestId
     });
@@ -22,7 +25,7 @@ Meteor.methods({
     return skillforest;
   },
 
-  async 'skillforests.updateTitle'(skillforestId, newTitle) {
+  async updateSkillforestTitle(skillforestId, newTitle) {
     check(skillforestId, String);
     check(newTitle, String);
     return await SkillForestCollection.updateAsync(
@@ -31,7 +34,7 @@ Meteor.methods({
     );
   },
 
-  async 'skillforests.updateDescription'(skillforestId, newDescription) {
+  async updateSkillforestDescription(skillforestId, newDescription) {
     check(skillforestId, String);
     check(newDescription, String);
     return await SkillForestCollection.updateAsync(
@@ -40,9 +43,9 @@ Meteor.methods({
     );
   },
 
-  async 'skillforests.updateSkilltreeIds'(skillforestId, newSkilltreeIds) {
+  async updateSkillforestSkilltreeIds(skillforestId, newSkilltreeIds) {
     check(skillforestId, String);
-    check(newSkilltreeIds, Array[String]);
+    check(newSkilltreeIds, [String]);
     return await SkillForestCollection.updateAsync(
       { _id: skillforestId },
       { $set: { skilltreeIds: newSkilltreeIds } }

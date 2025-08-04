@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SkillForestCollection } from '../collections/SkillForest';
+import { SkillForestCollection } from '/imports/api/collections/SkillForest';
 
 Schemas.SkillForest = new SimpleSchema({
   title: {
