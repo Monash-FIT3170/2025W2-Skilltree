@@ -71,7 +71,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
   const { username } = User(['username']);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] overflow-hidden relative">
         {/* Close Button */}
         <button
