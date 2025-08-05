@@ -22,7 +22,7 @@ Meteor.methods({
     if (tagFilters && tagFilters.length > 0) {
       // Create regex patterns for each tag filter (case insensitive)
       const tagRegexArray = tagFilters.map(tag => new RegExp(tag, 'i'));
-      
+
       // OR logic across multiple tags
       conditions.push({ tags: { $in: tagRegexArray } });
     }

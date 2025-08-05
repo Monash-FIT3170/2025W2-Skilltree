@@ -46,7 +46,7 @@ export const NavBar = () => {
 
   // Clse dropdowns when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
@@ -69,7 +69,7 @@ export const NavBar = () => {
     navigate(`/skilltree/${id}`);
   };
 
-  const handleTagInputKeyPress = (e) => {
+  const handleTagInputKeyPress = e => {
     if (e.key === 'Enter' && tagInput.trim()) {
       e.preventDefault();
       const newTag = tagInput.trim().toLowerCase();
@@ -80,7 +80,7 @@ export const NavBar = () => {
     }
   };
 
-  const removeTagFilter = (tagToRemove) => {
+  const removeTagFilter = tagToRemove => {
     setTagFilters(tagFilters.filter(tag => tag !== tagToRemove));
   };
 
@@ -132,7 +132,7 @@ export const NavBar = () => {
                   className="w-full ps-10 pe-4 py-2 bg-white text-black rounded-l-full shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200"
                 />
               </div>
-              
+
               {/* Filters Button */}
               <div className="relative" ref={filtersRef}>
                 <button
@@ -167,7 +167,9 @@ export const NavBar = () => {
                 {showFilters && (
                   <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-sm font-medium text-gray-900">Filter by Tags</h3>
+                      <h3 className="text-sm font-medium text-gray-900">
+                        Filter by Tags
+                      </h3>
                       {tagFilters.length > 0 && (
                         <button
                           onClick={clearAllFilters}
@@ -177,16 +179,16 @@ export const NavBar = () => {
                         </button>
                       )}
                     </div>
-                    
+
                     <input
                       type="text"
                       placeholder="Type a tag and press Enter"
                       value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
+                      onChange={e => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     />
-                    
+
                     {tagFilters.length > 0 && (
                       <div className="mt-3">
                         <div className="flex flex-wrap gap-2">
@@ -200,7 +202,11 @@ export const NavBar = () => {
                                 onClick={() => removeTagFilter(tag)}
                                 className="hover:text-blue-600"
                               >
-                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                <svg
+                                  className="w-3 h-3"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
                                   <path
                                     fillRule="evenodd"
                                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
