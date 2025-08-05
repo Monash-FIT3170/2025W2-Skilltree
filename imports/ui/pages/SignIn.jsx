@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { useState } from 'react';
 import { Tracker } from 'meteor/tracker';
 import React from 'react';
@@ -137,6 +138,9 @@ export const SignIn = () => {
 
             if (userId) {
               const result = await Meteor.callAsync('extendLoginExpiration');
+
+              await Accounts.loginWithToken(result.token);
+
               localStorage.setItem('rememberMe', 'true');
               console.log(result.message);
             }

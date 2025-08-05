@@ -41,6 +41,10 @@ Meteor.methods({
       }
     });
 
+    //The new token is the latest. So we need to update the current session
+    Accounts._setLoginToken(this.userId, this.connection, hashedToken);
+    this.connection._loginToken = stampedToken.token;
+
     //Notice how there were old/expired token versions? We need to remove tokens < recent token
     const currDate = new Date();
     await Meteor.users.updateAsync(this.userId, {
@@ -55,11 +59,12 @@ Meteor.methods({
     const updatedUser = await Meteor.users.findOneAsync(this.userId);
     const tokenCount = updatedUser.services?.resume?.loginTokens?.length || 0;
 
-    if (tokenCount > 5) {
-      // Sort by creation date and keep only the 5 most recent
+    console.log(tokenCount);
+    if (tokenCount > 3) {
+      // Sort by creation date and keep only the 3 most recent
       const sortedTokens = updatedUser.services.resume.loginTokens
         .sort((a, b) => b.when - a.when)
-        .slice(0, 5);
+        .slice(0, 3);
 
       await Meteor.users.updateAsync(this.userId, {
         $set: {
