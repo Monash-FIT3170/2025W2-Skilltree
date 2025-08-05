@@ -12,6 +12,7 @@ import '/imports/api/methods/Accounts/ValidateStep4';
 import '/imports/api/methods/Accounts/ForgotPassword';
 import '/imports/api/methods/Accounts/ExtendLoginExpiration';
 import '/imports/api/methods/SkillTree';
+import '/imports/api/methods/SkillForest';
 import '/imports/api/methods/Proof';
 import '/imports/api/methods/Upload';
 import '/imports/api/methods/skillTreeMethods';
