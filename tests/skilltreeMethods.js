@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Meteor } from 'meteor/meteor';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import '/imports/api/methods/SkillTree';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree'; // Comment collection
 
 const skillTreeId1 = "dfasdfasdfdsf";
 
@@ -152,6 +152,7 @@ const SkillTreeInsert = async skillTree => {
 describe('SkillTree Methods', function () {
     describe('#skilltrees.insertAsync', function () {
         it('should insert the skilltree', async function (){
+            await SkillTreeCollection.removeAsync({});
             const res = await SkillTreeInsert(skillTree1)
             assert.strictEqual(res, skillTreeId1)
         })
