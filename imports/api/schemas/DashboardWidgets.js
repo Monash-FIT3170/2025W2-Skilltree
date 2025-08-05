@@ -43,7 +43,23 @@ Schemas.DashboardWidgets = new SimpleSchema({
         return new Date();
       }
     }
-  }
+  },
+  dummySkillTreeNames: {
+    type: Array,
+    label: 'Skill Tree Names',
+    defaultValue: []
+  },
+  'dummySkillTreeNames.$': {
+    type: String
+  },
+  dummySkillTreeIcons: {
+    type: Array,
+    label: 'Skill Tree Icons',
+    defaultValue: []
+  },
+  'dummySkillTreeIcons.$': {
+    type: String
+  },
 });
 
 // Attach the schema to DashboardWidgetsCollection

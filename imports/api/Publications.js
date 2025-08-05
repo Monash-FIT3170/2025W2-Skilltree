@@ -6,3 +6,4 @@ import '/imports/api/publications/Proof';
 import '/imports/api/publications/Comments';
 import '/imports/api/publications/Users'; // Load Users Publication
 import '/imports/api/publications/Comments';
+import '/imports/api/publications/DashboardWidgets'; // Load Dashboard Widgets Publication
