@@ -24,9 +24,11 @@ Meteor.methods({
       throw new Meteor.Error('invalid-connection', 'Invalid Connection State');
     }
 
-    //Create a new token and modify the set token expiration to 30 days; convert to ms
+    //Create a new token
     const stampedToken = Accounts._generateStampedLoginToken();
-    stampedToken.when = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+    //Since Meteor uses stampedToken.when in its calculation of the exp date (i.e. stampedToken.when + Accounts.loginExpirationTime), we can manipualte the expiration
+    stampedToken.when = new Date(Date.now() + 29 * 24 * 60 * 60 * 1000);
 
     //Store the hashedToken
     const hashedToken = Accounts._hashLoginToken(stampedToken.token);
@@ -77,7 +79,6 @@ Meteor.methods({
 
     return {
       success: true,
-      expiresAt: stampedToken.when,
       message: 'Session Extended Successfully!',
       token: stampedToken.token
     };

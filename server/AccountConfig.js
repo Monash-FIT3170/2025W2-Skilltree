@@ -4,7 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 //Modify the login token expiration date
 Accounts.config({
-  loginExpirationInDays: 30,
+  loginExpirationInDays: 1,
 });
 
 // Customise the reset password URL sent in the email
