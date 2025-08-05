@@ -138,7 +138,13 @@ export const SignIn = () => {
 
             if (userId) {
               const result = await Meteor.callAsync('extendLoginExpiration');
+              
+              /*
+                Meteor automatically tries to resume a session by reading the token stored in localStorage.
+                If that token is no longer in the user's services.resume.loginTokens on the server, login will fail.
 
+                So when we change token sessions on the server, we must update it on the client storage
+              */
               await Accounts.loginWithToken(result.token);
 
               localStorage.setItem('rememberMe', 'true');
