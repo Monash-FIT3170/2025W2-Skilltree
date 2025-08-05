@@ -26,6 +26,7 @@ Meteor.methods({
 
     //Create a new token and modify the set token expiration to 30 days; convert to ms
     const stampedToken = Accounts._generateStampedLoginToken();
+    stampedToken.when = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
     //Store the hashedToken
     const hashedToken = Accounts._hashLoginToken(stampedToken.token);
@@ -35,8 +36,7 @@ Meteor.methods({
       $push: {
         'services.resume.loginTokens': {
           hashedToken,
-          when: stampedToken.when,
-          expiration: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+          when: stampedToken.when
         }
       }
     });
@@ -59,7 +59,7 @@ Meteor.methods({
     const updatedUser = await Meteor.users.findOneAsync(this.userId);
     const tokenCount = updatedUser.services?.resume?.loginTokens?.length || 0;
 
-    console.log(tokenCount)
+    console.log(tokenCount);
     if (tokenCount > 3) {
       // Sort by creation date and keep only the 3 most recent
       const sortedTokens = updatedUser.services.resume.loginTokens
