@@ -20,11 +20,8 @@ export const PublicRoute = ({
     return handle.ready();
   }, [value.userId]);
 
-  console.log(subscriptionReady);
-
   useEffect(() => {
     if (subscriptionReady) {
-      console.log(value.userId);
       Meteor.users
         .findOneAsync({ _id: value.userId })
         .then(res => setUser(res));

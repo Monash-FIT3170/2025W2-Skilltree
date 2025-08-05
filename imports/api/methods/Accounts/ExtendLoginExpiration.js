@@ -11,8 +11,6 @@ Meteor.methods({
       );
     }
 
-    console.log('User attempting to extend session:', this.userId);
-
     //Check if the user is in the mongoDB
     const user = await Meteor.users.findOneAsync(this.userId);
     if (!user) {
@@ -61,7 +59,6 @@ Meteor.methods({
     const updatedUser = await Meteor.users.findOneAsync(this.userId);
     const tokenCount = updatedUser.services?.resume?.loginTokens?.length || 0;
 
-    console.log(tokenCount);
     if (tokenCount > 3) {
       // Sort by creation date and keep only the 3 most recent
       const sortedTokens = updatedUser.services.resume.loginTokens
@@ -74,8 +71,6 @@ Meteor.methods({
         }
       });
     }
-
-    console.log('Session extended successfully for user:', this.userId);
 
     return {
       success: true,

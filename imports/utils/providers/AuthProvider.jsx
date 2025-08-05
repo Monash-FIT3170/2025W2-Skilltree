@@ -19,6 +19,5 @@ export const AuthProvider = ({ children }) => {
     completedProfile
   };
 
-  console.log(value);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
