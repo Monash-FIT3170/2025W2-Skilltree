@@ -101,7 +101,7 @@ Meteor.methods({
       'emails.address': googleEmail
     });
     const finalUserId = finalUser._id;
-    console.log(googleUser);
+
     const safeUpdates = {
       'services.google': googleUser.services.google,
       'services.resume': googleUser.services.resume
