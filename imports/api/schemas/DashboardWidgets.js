@@ -11,7 +11,7 @@ Schemas.DashboardWidgets = new SimpleSchema({
   widgetType: {
     type: String,
     label: 'Type of Widget',
-    allowedValues: ['stats', 'notifications', 'chart', 'tasks', 'calendar'] // Extendable list
+    allowedValues: ['stats', 'notifications', 'chart', 'tasks', 'calendar', 'skilltree'] // Extendable list
   },
   position: {
     type: SimpleSchema.Integer,
@@ -44,22 +44,16 @@ Schemas.DashboardWidgets = new SimpleSchema({
       }
     }
   },
-  dummySkillTreeNames: {
-    type: Array,
-    label: 'Skill Tree Names',
-    defaultValue: []
+  title: {
+    type: String,
+    label: 'Title',
+    defaultValue: ''
   },
-  'dummySkillTreeNames.$': {
-    type: String
-  },
-  dummySkillTreeIcons: {
-    type: Array,
-    label: 'Skill Tree Icons',
-    defaultValue: []
-  },
-  'dummySkillTreeIcons.$': {
-    type: String
-  },
+  icon: {
+    type: String,
+    label: 'Icon',
+    defaultValue: ''
+  }
 });
 
 // Attach the schema to DashboardWidgetsCollection
