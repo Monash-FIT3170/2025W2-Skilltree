@@ -16,8 +16,8 @@ export const UserSkillTreeGrid = () => {
         {},
         {
           fields: {
-            dummyskillTreeNames: 1,
-            dummyskillTreeIcons: 1
+            title: 1,
+            icon: 1
           }
         }
       ]) ?? [];
@@ -45,15 +45,14 @@ export const UserSkillTreeGrid = () => {
   return (
     <div className="flex justify-center">
       <div className="grid grid-cols-3 gap-x-16 gap-y-10 p-1">
-         {/* {skillNames.map((skill, index) => (
-          <div key={index} className="flex flex-col items-center"> */}
-            {/* Display the icon and name */}
-            {/* <span className="text-xl leading-none">{skillIcons[index] || '⭐'}</span>
-            <span className="text-xs text-center">{skill}</span> */}
-          {/* </div> */}
-        {/* ))} */}
-        {Array.from({ length: 25 }).map((_, i) => (
+        {/* {Array.from({ length: dWidgets.length }).map((_, i) => (
           <UserSkillTree key={i} onClick={() => handleCardClick(i)} />
+        ))} */}
+        {dWidgets.map((widget, i) => (
+          <><UserSkillTree key={i} onClick={() => handleCardClick(i)} /><div>
+            <h3>{widget.title}</h3>
+            <p>{widget.icon}</p>
+          </div></>
         ))}
       </div>
     </div>
