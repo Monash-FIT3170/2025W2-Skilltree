@@ -11,13 +11,19 @@ import { DashboardWidgetsCollection } from '/imports/api/collections/DashboardWi
 
 export const UserSkillTreeGrid = () => {
   useSubscribeSuspense('dashboardWidgets');
-//   const dashboardWidgets =
-//     useFind(() => DashboardWidgetsCollection.find({ widgetType: 'SkillTreeWidget' }, {
-//       fields: {
-//         dummyskillTreeNames: 1,
-//         dummyskillTreeIcons: 1
-//       },
-//     }))[0];
+    const dWidgets =
+      useFind(DashboardWidgetsCollection, [
+        {},
+        {
+          fields: {
+            dummyskillTreeNames: 1,
+            dummyskillTreeIcons: 1
+          }
+        }
+      ]) ?? [];
+
+  // Empty state UI
+  if (dWidgets.length === 0) return <div>No dashboard widgets found.</div>;
 
 
   // if (!skillTreeWidget) {

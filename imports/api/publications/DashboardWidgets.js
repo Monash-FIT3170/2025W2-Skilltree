@@ -5,10 +5,5 @@ import { DashboardWidgetsCollection } from '/imports/api/collections/DashboardWi
 import '/imports/api/schemas/DashboardWidgets'; // Enable DashboardWidgets Schema Validation
 
 // Publish the publication named as "dashboardWidgets" from the backend, lets clients (front-end JSX) subscribe to the data for real time changes
-Meteor.publish('dashboardWidgets', () => {
-  if (!this.userId) {
-    return this.ready(); // No user logged in, don't publish anything
-  }
+Meteor.publish('dashboardWidgets', () => DashboardWidgetsCollection.find());
 
-  return DashboardWidgetsCollection.find({ userId: this.userId });
-});
