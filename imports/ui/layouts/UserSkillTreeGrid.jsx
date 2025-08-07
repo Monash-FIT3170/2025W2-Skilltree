@@ -16,6 +16,7 @@ export const UserSkillTreeGrid = () => {
         {},
         {
           fields: {
+            userId: 1,
             title: 1,
             icon: 1
           }
@@ -36,7 +37,7 @@ export const UserSkillTreeGrid = () => {
     <div>
       <div className="grid grid-cols-3 gap-5 w-full auto-rows-auto">
         {dWidgets.map((widget, i) => (
-          <><UserSkillTree key={i} onClick={() => handleCardClick(i)} title={widget.title} icon={widget.icon} />
+          <><UserSkillTree key={widget.userId} onClick={() => handleCardClick(i)} title={widget.title} icon={widget.icon}/>
           </>
         ))}
       </div>
