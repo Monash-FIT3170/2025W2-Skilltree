@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer'; //
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
@@ -13,7 +13,11 @@ import { AiOutlineClose } from 'react-icons/ai';
  *
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
-export const ProofUploadButton = ({ skill, requirements }) => {
+export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
+  useEffect(() => {
+    console.log('skilltreeId', skilltreeId);
+  }, [skilltreeId]);
+
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
@@ -159,7 +163,7 @@ export const ProofUploadButton = ({ skill, requirements }) => {
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
-      skillTreeId: 'my skilltree', // should eventually be a community/skillTree ID
+      skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
       subskill: skill
     };
     await insertProof(proof);
