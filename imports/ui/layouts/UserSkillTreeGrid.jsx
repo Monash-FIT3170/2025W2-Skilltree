@@ -30,8 +30,8 @@ export const UserSkillTreeGrid = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="grid grid-cols-3 gap-x-16 gap-y-10 p-1">
+    <div className="flex justify-center px-4 sm:px-8 md:px-12 lg:px-20" >
+      <div className="flex flex-wrap gap-5 justify-center ">
         {/* {Array.from({ length: dWidgets.length }).map((_, i) => (
           <UserSkillTree key={i} onClick={() => handleCardClick(i)} />
         ))} */}
