@@ -35,7 +35,7 @@ export const ProofsList = () => {
   useSubscribeSuspense('proof');
   const proofs =
     useFind(ProofCollection, [
-      {},
+      { skillTreeId: 'Climbing' },
       {
         fields: {
           description: 1,
