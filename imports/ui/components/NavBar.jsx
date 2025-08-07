@@ -129,7 +129,7 @@ export const NavBar = () => {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   onFocus={() => setShowDropdown(results.length > 0)}
-                  className="w-full ps-10 pe-4 py-2 bg-white text-black rounded-l-full shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200"
+                  className="w-full ps-10 pe-4 py-2 bg-white text-black rounded-l-[8px] shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200"
                 />
               </div>
 
@@ -138,7 +138,7 @@ export const NavBar = () => {
                 <button
                   type="button"
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`px-4 py-2 bg-white border-l border-gray-300 rounded-r-full shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200 flex items-center gap-2 ${
+                  className={`px-4 py-2 bg-white border-l border-gray-300 rounded-r-[8px] shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200 flex items-center gap-2 ${
                     tagFilters.length > 0 ? 'text-blue-600' : 'text-gray-700'
                   }`}
                 >
@@ -195,7 +195,7 @@ export const NavBar = () => {
                           {tagFilters.map((tag, index) => (
                             <span
                               key={index}
-                              className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
+                              className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-[8px]"
                             >
                               {tag}
                               <button
