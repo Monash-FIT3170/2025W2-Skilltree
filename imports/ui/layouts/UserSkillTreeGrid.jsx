@@ -25,19 +25,6 @@ export const UserSkillTreeGrid = () => {
   // Empty state UI
   if (dWidgets.length === 0) return <div>No dashboard widgets found.</div>;
 
-
-  // if (!skillTreeWidget) {
-  //   return (
-  //     <div className="w-100 h-40 bg-gray-200 border-2 border-gray-300 rounded-lg flex items-center justify-center text-gray-500">
-  //       <div>No Skill Tree Widget Found.</div>
-  //     </div>
-  //   );
-  // }
-
-  // // Optional chaining to safely access the arrays
-  // const skillNames = skillTreeWidget.dummyskillTreeNames ?? [];
-  // const skillIcons = skillTreeWidget.dummyskillTreeIcons ?? [];
-
   const handleCardClick = index => {
     alert(`Clicked card ${index + 1}`);
   };
@@ -49,9 +36,8 @@ export const UserSkillTreeGrid = () => {
           <UserSkillTree key={i} onClick={() => handleCardClick(i)} />
         ))} */}
         {dWidgets.map((widget, i) => (
-          <><UserSkillTree key={i} onClick={() => handleCardClick(i)} /><div>
-            <h3>{widget.title}</h3>
-            <p>{widget.icon}</p>
+          <><UserSkillTree key={i} onClick={() => handleCardClick(i)} title={widget.title} icon={widget.icon} /><div>
+
           </div></>
         ))}
       </div>
