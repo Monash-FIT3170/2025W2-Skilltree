@@ -119,10 +119,6 @@ Schemas.SkillTreeProgress = new SimpleSchema({
     type: Number,
     label: 'Unique User ID'
   },
-  communityId: {
-    type: Number,
-    label: 'Unique Community ID'
-  },
   skillNodes: {
     type: Array,
     label: 'List of skill nodes'
