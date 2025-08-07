@@ -147,9 +147,14 @@ export const NavBar = () => {
               Pending Proofs
             </div>
           </NavbarLink>
-          <NavbarLink as={Link} to="/create">
+          <NavbarLink as={Link} to="/createskilltree">
             <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
               Create SkillTree
+            </div>
+          </NavbarLink>
+          <NavbarLink as={Link} to="/createskillforest">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              Create SkillForest
             </div>
           </NavbarLink>
           <UserDropdownMenu />
