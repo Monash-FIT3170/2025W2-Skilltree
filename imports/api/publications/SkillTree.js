@@ -352,7 +352,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Jedi Meditation 🧘‍♂️',
             description: 'Develop mental clarity and connection to the Force.',
-            progressXp: 20,
+            progressXp: 10,
             requirements: 'Record a 2-minute meditation log.',
             xpPoints: 10
           },

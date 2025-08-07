@@ -125,7 +125,7 @@ export const NavBar = () => {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search SkillTree titles... (try 'sport')"
+                  placeholder="Search SkillTree titles... (try 'Jedi')"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   onFocus={() => setShowDropdown(results.length > 0)}
