@@ -14,10 +14,6 @@ import { AiOutlineClose } from 'react-icons/ai';
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
 export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
-  useEffect(() => {
-    console.log('skilltreeId', skilltreeId);
-  }, [skilltreeId]);
-
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
