@@ -24,19 +24,7 @@ Meteor.methods({
     return await ProofCollection.find({}).fetchAsync();
   },
 
-  // add verification points to a proof
-  async addVerification(proofId, points) {
-    const proof = await ProofCollection.findOneAsync({ _id: proofId });
-
-    if (proof) {
-      return await ProofCollection.updateAsync(
-        { _id: proofId },
-        {
-          $inc: { verification: points }
-        }
-      );
-    }
-  },
+  // Removed verification logic
 
   // remove specific proof
   async removeProof(proofId) {
@@ -86,7 +74,7 @@ Meteor.methods({
     const isUpvoted = proof.upvoters?.includes(userId);
     const isDownvoted = proof.downvoters?.includes(userId);
 
-    // Remove vote
+    // Remove upvote if already upvoted
     if (isUpvoted) {
       return await ProofCollection.updateAsync(
         { _id: proofId },
@@ -97,16 +85,15 @@ Meteor.methods({
       );
     }
 
+    // Add upvote, remove downvote if present
     const update = {
       $addToSet: { upvoters: userId },
       $inc: { upvotes: 1 }
     };
-
     if (isDownvoted) {
       update.$pull = { downvoters: userId };
       update.$inc.downvotes = -1;
     }
-
     return await ProofCollection.updateAsync({ _id: proofId }, update);
   },
 
@@ -121,6 +108,7 @@ Meteor.methods({
     const isDownvoted = proof.downvoters?.includes(userId);
     const isUpvoted = proof.upvoters?.includes(userId);
 
+    // Remove downvote if already downvoted
     if (isDownvoted) {
       return await ProofCollection.updateAsync(
         { _id: proofId },
@@ -131,16 +119,15 @@ Meteor.methods({
       );
     }
 
+    // Add downvote, remove upvote if present
     const update = {
       $addToSet: { downvoters: userId },
       $inc: { downvotes: 1 }
     };
-
     if (isUpvoted) {
       update.$pull = { upvoters: userId };
       update.$inc.upvotes = -1;
     }
-
     return await ProofCollection.updateAsync({ _id: proofId }, update);
   }
 });
