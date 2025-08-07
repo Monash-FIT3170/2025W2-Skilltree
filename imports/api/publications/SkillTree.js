@@ -298,6 +298,102 @@ Meteor.startup(async () => {
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']
+    },
+    {
+      title: 'Jedi Training',
+      image:
+        'https://upload.wikimedia.org/wikipedia/en/8/8e/Jedi_Order_symbol.svg',
+      description:
+        'Train to become a Jedi Master, from mastering the Force to wielding a lightsaber.',
+      termsAndConditions:
+        'This SkillTree is for entertainment and fan-based learning purposes only.',
+      tags: ['star wars', 'jedi', 'force', 'fiction'],
+      skillNodes: [
+        {
+          id: 'root',
+          type: 'root',
+          data: {
+            label: 'Youngling Initiation 🌟',
+            description: 'Begin your Jedi journey.',
+            progressXp: null,
+            requirements: 'None',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: 'force-sense',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Force Sensitivity ✨',
+            description: 'Learn how to sense the Force.',
+            progressXp: 5,
+            requirements:
+              'Watch a video about the Force and answer 3 quiz questions.',
+            xpPoints: 10
+          },
+          position: { x: 150, y: 100 }
+        },
+        {
+          id: 'lightsaber-basics',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Lightsaber Basics ⚔️',
+            description: 'Understand the basic lightsaber forms.',
+            progressXp: 10,
+            requirements: 'Upload a video of you mimicking Form I (Shii-Cho).',
+            xpPoints: 15
+          },
+          position: { x: -150, y: 100 }
+        },
+        {
+          id: 'meditation',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Jedi Meditation 🧘‍♂️',
+            description: 'Develop mental clarity and connection to the Force.',
+            progressXp: 20,
+            requirements: 'Record a 2-minute meditation log.',
+            xpPoints: 10
+          },
+          position: { x: 0, y: 200 }
+        },
+        {
+          id: 'telekinesis',
+          type: 'view-node-locked',
+          data: {
+            label: 'Force Telekinesis 🌀',
+            description: 'Master the art of moving objects with your mind.',
+            progressXp: 0,
+            requirements:
+              'Upload a short creative video simulating telekinesis.',
+            xpPoints: 20
+          },
+          position: { x: 200, y: 300 }
+        },
+        {
+          id: 'duel',
+          type: 'view-node-locked',
+          data: {
+            label: 'Lightsaber Duel 🥷',
+            description: 'Engage in your first training duel.',
+            progressXp: 0,
+            requirements:
+              'Upload a video of a lightsaber duel (with a friend or animation).',
+            xpPoints: 30
+          },
+          position: { x: -200, y: 300 }
+        }
+      ],
+      skillEdges: [
+        { id: 'e1', source: 'root', target: 'force-sense' },
+        { id: 'e2', source: 'root', target: 'lightsaber-basics' },
+        { id: 'e3', source: 'root', target: 'meditation' },
+        { id: 'e4', source: 'force-sense', target: 'telekinesis' },
+        { id: 'e5', source: 'lightsaber-basics', target: 'duel' }
+      ],
+      admins: ['masterYoda'],
+      subscribers: ['padawan1', 'padawan2']
     }
   ];
 
