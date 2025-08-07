@@ -6,14 +6,12 @@ export const Account = () => {
 
   const user = Meteor.isClient ? Meteor.user() : null;
 
-
-  if ( !user) {
+  if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-gray-500">Loading...</div>
       </div>
-
-    )
+    );
   }
 
   return (
@@ -61,7 +59,11 @@ export const Account = () => {
             </label>
             <input
               type="email"
-              value={user.emails && user.emails.length >0 ? user.emails[0].address: ""}
+              value={
+                user.emails && user.emails.length > 0
+                  ? user.emails[0].address
+                  : ''
+              }
               className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-[#328E6E] focus:ring-1 focus:ring-[#328E6E]"
               readOnly
             />

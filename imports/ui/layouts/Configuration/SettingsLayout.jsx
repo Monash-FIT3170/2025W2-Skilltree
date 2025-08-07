@@ -1,49 +1,45 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RouteContent } from './SettingsLayoutOutlet';
 
 export const SettingsLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  
   // Extract current tab from URL path
   const pathSegments = location.pathname.split('/');
   const activeTab = pathSegments[pathSegments.length - 1] || 'account';
 
   const tabs = [
-    { 
-      key: 'account', 
-      label: 'Account', 
-      path: '/settings/account',
+    {
+      key: 'account',
+      label: 'Account',
+      path: '/settings/account'
     },
-    { 
-      key: 'profile', 
-      label: 'Profile', 
-      path: '/settings/profile',
+    {
+      key: 'profile',
+      label: 'Profile',
+      path: '/settings/profile'
     },
-    { 
-      key: 'privacy', 
-      label: 'Privacy', 
-      path: '/settings/privacy',
+    {
+      key: 'privacy',
+      label: 'Privacy',
+      path: '/settings/privacy'
     },
-    { 
-      key: 'subscription', 
-      label: 'Subscription', 
-      path: '/settings/subscription',
+    {
+      key: 'subscription',
+      label: 'Subscription',
+      path: '/settings/subscription'
     },
-    { 
-      key: 'notification', 
-      label: 'Notification', 
-      path: '/settings/notification',
+    {
+      key: 'notification',
+      label: 'Notification',
+      path: '/settings/notification'
     }
   ];
 
-
-  const handleTabClick = (tabPath) => {
+  const handleTabClick = tabPath => {
     navigate(tabPath);
-
   };
 
   return (
@@ -75,8 +71,7 @@ export const SettingsLayout = () => {
         </div>
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
-        <RouteContent/>
-
+        <RouteContent />
       </div>
     </div>
   );

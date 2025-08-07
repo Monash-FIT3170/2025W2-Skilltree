@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { Account } from '/imports/ui/pages/Configuration/Settings/Account';
 import { Profile } from '/imports/ui/pages/Configuration/Settings/Profile';
@@ -13,27 +13,27 @@ export const SettingRoutes = [
     element: <SettingsLayout />,
     children: [
       {
-        index:true,
-        element: <Navigate to={"/settings/account"} replace/>
+        index: true,
+        element: <Navigate to={'/settings/account'} replace />
       },
       {
-        path: "account",
+        path: 'account',
         element: <Account />
       },
       {
-        path: "profile",
+        path: 'profile',
         element: <Profile />
       },
       {
-        path: "privacy",
+        path: 'privacy',
         element: <Password />
       },
       {
-        path: "notification",
+        path: 'notification',
         element: <Notification />
       },
       {
-        path: "subscription",
+        path: 'subscription',
         element: <Subscription />
       },
       {

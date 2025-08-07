@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
 
 export const Notification = () => {

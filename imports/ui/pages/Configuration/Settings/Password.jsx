@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React, { useState, useEffect } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -6,9 +5,9 @@ import { GoXCircleFill } from 'react-icons/go';
 import { Regex } from '/imports/utils/Regex';
 
 export const Password = () => {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -43,9 +42,11 @@ export const Password = () => {
   const additionalChecks = () => {
     // Check if passwords match
     setPasswordsMatch(newPassword === confirmPassword && newPassword !== '');
-    
+
     // Check if new password is different from current
-    setPasswordsDifferent(currentPassword !== newPassword && newPassword !== '');
+    setPasswordsDifferent(
+      currentPassword !== newPassword && newPassword !== ''
+    );
   };
 
   // useEffect to run password validation whenever newPassword changes
@@ -68,8 +69,14 @@ export const Password = () => {
   }, [newPassword, confirmPassword, currentPassword]);
 
   // Check if all validations pass
-  const isValidPassword = passMinMaxChar && passUpperCase && passLowerCase && 
-                         passSpecialChar && passNumber && passwordsMatch && passwordsDifferent;
+  const isValidPassword =
+    passMinMaxChar &&
+    passUpperCase &&
+    passLowerCase &&
+    passSpecialChar &&
+    passNumber &&
+    passwordsMatch &&
+    passwordsDifferent;
 
   const handlePasswordChange = () => {
     // Clear previous messages
@@ -77,7 +84,10 @@ export const Password = () => {
 
     // Validation checks
     if (!currentPassword.trim()) {
-      setMessage({ type: 'error', text: 'Please enter your current password.' });
+      setMessage({
+        type: 'error',
+        text: 'Please enter your current password.'
+      });
       return;
     }
 
@@ -92,30 +102,32 @@ export const Password = () => {
     }
 
     if (!isValidPassword) {
-      setMessage({ type: 'error', text: 'Please ensure all password requirements are met.' });
+      setMessage({
+        type: 'error',
+        text: 'Please ensure all password requirements are met.'
+      });
       return;
     }
 
     setIsLoading(true);
 
-    Accounts.changePassword(
-      currentPassword,
-      newPassword,
-      (error) => {
-        setIsLoading(false);
-        if (error) {
-          console.log("Error:", error.reason);
-          setMessage({ type: 'error', text: error.reason || 'Failed to change password.' });
-        } else {
-          console.log("Password changed successfully!");
-          setMessage({ type: 'success', text: 'Password changed successfully!' });
-          // Clear form
-          setCurrentPassword("");
-          setNewPassword("");
-          setConfirmPassword("");
-        }
+    Accounts.changePassword(currentPassword, newPassword, error => {
+      setIsLoading(false);
+      if (error) {
+        console.log('Error:', error.reason);
+        setMessage({
+          type: 'error',
+          text: error.reason || 'Failed to change password.'
+        });
+      } else {
+        console.log('Password changed successfully!');
+        setMessage({ type: 'success', text: 'Password changed successfully!' });
+        // Clear form
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
       }
-    );
+    });
   };
 
   return (
@@ -131,11 +143,13 @@ export const Password = () => {
 
       {/* Message Display */}
       {message.text && (
-        <div className={`p-4 rounded-lg ${
-          message.type === 'success' 
-            ? 'bg-green-100 text-green-700 border border-green-200' 
-            : 'bg-red-100 text-red-700 border border-red-200'
-        }`}>
+        <div
+          className={`p-4 rounded-lg ${
+            message.type === 'success'
+              ? 'bg-green-100 text-green-700 border border-green-200'
+              : 'bg-red-100 text-red-700 border border-red-200'
+          }`}
+        >
           {message.text}
         </div>
       )}
@@ -148,7 +162,7 @@ export const Password = () => {
           <input
             type="password"
             value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            onChange={e => setCurrentPassword(e.target.value)}
             className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-[#328E6E] focus:ring-1 focus:ring-[#328E6E]"
             placeholder="Enter your current password"
           />
@@ -161,11 +175,11 @@ export const Password = () => {
           <input
             type="password"
             value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={e => setNewPassword(e.target.value)}
             className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-[#328E6E] focus:ring-1 focus:ring-[#328E6E]"
             placeholder="Enter your new password"
           />
-          
+
           {/* Password Requirements*/}
 
           <div className="mt-3 text-xs space-y-1">
@@ -227,11 +241,11 @@ export const Password = () => {
           <input
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={e => setConfirmPassword(e.target.value)}
             className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-[#328E6E] focus:ring-1 focus:ring-[#328E6E]"
             placeholder="Confirm your new password"
           />
-          
+
           {/* Password Match Validation */}
           <div className="mt-2 text-xs">
             <div className="flex items-center gap-2">
@@ -245,8 +259,8 @@ export const Password = () => {
           </div>
         </div>
 
-        <button 
-          onClick={handlePasswordChange} 
+        <button
+          onClick={handlePasswordChange}
           disabled={!isValidPassword || isLoading}
           className={`px-6 py-2 rounded-lg transition-colors ${
             isValidPassword && !isLoading
