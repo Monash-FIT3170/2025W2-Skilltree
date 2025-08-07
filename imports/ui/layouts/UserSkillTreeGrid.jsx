@@ -26,7 +26,7 @@ export const UserSkillTreeGrid = () => {
   if (dWidgets.length === 0) return <div>No dashboard widgets found.</div>;
 
   const handleCardClick = index => {
-    alert(`Clicked card ${index + 1}`);
+    alert(`Insert Link ${index + 1}`);
   };
 
   return (
