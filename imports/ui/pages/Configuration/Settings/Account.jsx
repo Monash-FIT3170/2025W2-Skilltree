@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { useNavigate } from 'react-router-dom';
 
 export const Account = () => {
+  const navigate = useNavigate();
   const [soundEffects, setSoundEffects] = useState(true);
 
   const user = Meteor.isClient ? Meteor.user() : null;
@@ -13,6 +15,17 @@ export const Account = () => {
       </div>
     );
   }
+
+  const handleDeleteAccount = async () => {
+    if (!Meteor.user() && !Meteor.userId()) {
+      console.log('user id does not exist');
+      return;
+    }
+
+    await Meteor.callAsync('deleteUserAccount');
+    Meteor.logout();
+    navigate('/');
+  };
 
   return (
     <div className="space-y-8">
@@ -128,7 +141,10 @@ export const Account = () => {
               anytime. Just remember, once you delete it, it's gone forever.
             </p>
           </div>
-          <button className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
+          <button
+            onClick={handleDeleteAccount}
+            className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors cursor-pointer"
+          >
             Delete Account
           </button>
         </div>
