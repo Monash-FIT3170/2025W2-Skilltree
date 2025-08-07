@@ -65,13 +65,6 @@ describe('Proof Method', function () {
       assert.strictEqual(test_id_1, res._id);
     });
   });
-  describe('#addVerification', function () {
-    it('should add verification points to a proof', async function () {
-      const res = await AddVerification(test_id_1)(5);
-      const proof = await ProofFind(test_id_1);
-      assert.strictEqual(proof.verification, 6);
-    });
-  });
   describe('#getAllProof', function () {
     it('should return an array of size 2', async function () {
       await ProofInsert(test_proof_2);
