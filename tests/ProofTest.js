@@ -19,9 +19,6 @@ const ProofGet = async () => {
   return res;
 };
 
-const AddVerification = proof_id => async points => {
-  const res = await Meteor.callAsync('addVerification', proof_id, points);
-};
 
 const ProofRemove = async proof_id => {
   const res = await Meteor.callAsync('removeProof', proof_id);
