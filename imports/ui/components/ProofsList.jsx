@@ -104,10 +104,12 @@ export const ProofsList = () => {
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
                 {/* Header: User and Date */}
                 <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
-               <span className="flex items-center">
-                 {proof.user === currentUserId && <span className="mr-1">👑</span>}
-                 <span>{proof.user}</span>
-                 </span>
+                  <span className="flex items-center">
+                    {proof.user === currentUserId && (
+                      <span className="mr-1">👑</span>
+                    )}
+                    <span>{proof.user}</span>
+                  </span>
                   <span className="text-xs italic">
                     {formatDate(proof.date)}
                   </span>
