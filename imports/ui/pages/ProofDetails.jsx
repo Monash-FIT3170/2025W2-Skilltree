@@ -32,6 +32,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
       fields: {
         description: 1,
         user: 1,
+        username: 1,
         date: 1,
         evidenceLink: 1,
         subskill: 1,
@@ -92,7 +93,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
           <div className="w-1/2 overflow-y-auto pr-4">
             <h2 className="text-xl font-semibold mb-1">{proof.title}</h2>
             <p className="text-sm text-gray-500">
-              by {proof.user} | {formatDate(proof.date)}
+              by {proof.username} | {formatDate(proof.date)}
             </p>
             <p className="text-gray-600 mt-2">
               Subskill: <strong>{proof.subskill}</strong>

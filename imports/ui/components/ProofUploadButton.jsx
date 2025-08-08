@@ -16,6 +16,7 @@ import { User } from '/imports/utils/User';
  * */
 export const ProofUploadButton = ({ skill, requirements }) => {
   // loggedIn username
+  const currentUserId = Meteor.userId();
   const { username } = User(['username']);
 
   /** CREDITS */
@@ -159,7 +160,8 @@ export const ProofUploadButton = ({ skill, requirements }) => {
     const proof = {
       title: skill, // TODO proof schema needs to be updated to reflect the fact that we dont have posts/descs, only subskills and requirements
       description: requirements, // TODO schema updates will affect proof display stuff as well
-      user: username, // TODO dummy data. need to be integrated
+      user: currentUserId,
+      username: username,
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,

@@ -41,6 +41,7 @@ export const ProofsList = () => {
         fields: {
           description: 1,
           user: 1,
+          username: 1,
           date: 1,
           evidenceLink: 1,
           verification: 1,
@@ -108,7 +109,7 @@ export const ProofsList = () => {
                     {proof.user === currentUserId && (
                       <span className="mr-1">👑</span>
                     )}
-                    <span>{proof.user}</span>
+                    <span>{proof.username}</span>
                   </span>
                   <span className="text-xs italic">
                     {formatDate(proof.date)}
