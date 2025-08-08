@@ -12,7 +12,7 @@ export const SignInRoutes = [
     // PublicRoute redirects to / if hideForLoggedIn
     path: 'login/',
     element: (
-      <PublicRoute hideForLoggedIn={true} redirect="/">
+      <PublicRoute hideForLoggedIn={true}>
         <SignIn />
       </PublicRoute>
     )
