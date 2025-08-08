@@ -3,3 +3,5 @@ node_modules/
 .idea/
 settings.json
 .env
+
+jsconfig.json
