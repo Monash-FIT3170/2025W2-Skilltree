@@ -11,7 +11,14 @@ Schemas.DashboardWidgets = new SimpleSchema({
   widgetType: {
     type: String,
     label: 'Type of Widget',
-    allowedValues: ['stats', 'notifications', 'chart', 'tasks', 'calendar', 'skilltree'] // Extendable list
+    allowedValues: [
+      'stats',
+      'notifications',
+      'chart',
+      'tasks',
+      'calendar',
+      'skilltree'
+    ] // Extendable list
   },
   position: {
     type: SimpleSchema.Integer,
