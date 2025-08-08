@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import { useState } from 'react';
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
+import { FromUrlContext } from '/imports/utils/contexts/FromUrlContext';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -13,9 +13,9 @@ export const SignIn = () => {
   const [errors, setError] = useState({ email: '', password: '' });
   const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
-
+  const [fromUrl, setfromURL] = useContext(FromUrlContext);
+  const prevURL = fromUrl;
   /*
   Logging in with google, does not let us have access to their dateofbirth and other sensitive data.
   The user also misses out on creating a username.
@@ -23,6 +23,7 @@ export const SignIn = () => {
   Thus, we must ask for extra information.
   */
   const handleGoogleLogin = async e => {
+    //setfromURL('/login/extraStep1');
     e.preventDefault();
 
     Meteor.loginWithGoogle(
@@ -37,16 +38,9 @@ export const SignIn = () => {
             //Attempt to merge the google account with existing account
             const validation = await Meteor.callAsync('mergeGoogleAccount');
 
-            if (
-              validation.status === 'alreadyMerged' ||
-              validation.status === 'googleOnlyAccount'
-            ) {
-              //navigate('/');
-            } else if (validation.status === 'justMerged') {
-              //navigate('/');
-            } else if (validation.status === 'noManualAccount') {
+            if (validation.status === 'noManualAccount') {
+              //setfromURL('/login/extraStep1');
               await Meteor.callAsync('addGoogleAccount');
-
               navigate('/login/extraStep1');
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
@@ -60,6 +54,7 @@ export const SignIn = () => {
   };
 
   const handleLogin = async e => {
+    setfromURL(prevURL); // In case google login fails or cancels, use prevURL instead of /login/extraStep1
     e.preventDefault();
 
     const newErrors = { email: '', password: '' };
@@ -89,8 +84,6 @@ export const SignIn = () => {
       setLoggingIn(false);
       if (error) {
         setError({ email: '', password: error.reason || 'Login failed.' });
-      } else {
-        //navigate('/');
       }
     });
   };
