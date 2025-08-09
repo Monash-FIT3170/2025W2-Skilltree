@@ -31,7 +31,8 @@ Meteor.methods({
     if (
       googleUser.emails?.[0]?.address === googleEmail &&
       googleUser.emails?.[0]?.verified === true &&
-      !googleUser.services?.password?.bcrypt
+      !googleUser.services?.password?.bcrypt &&
+      googleUser.profile?.isProfileComplete
     ) {
       return {
         success: true,

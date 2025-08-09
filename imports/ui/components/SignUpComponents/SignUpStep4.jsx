@@ -23,7 +23,13 @@ const Step4 = () => {
     try {
       await Meteor.callAsync('validateStep4', formData);
 
-      await Meteor.callAsync('createNewUser', formData);
+      // Set profile status as completed
+      const completedFormData = {
+        ...formData,
+        profile: { ...formData.profile, isProfileComplete: true }
+      };
+
+      await Meteor.callAsync('createNewUser', completedFormData);
 
       navigate('/');
     } catch (error) {

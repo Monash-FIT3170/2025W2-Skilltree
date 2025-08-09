@@ -41,7 +41,8 @@ Meteor.startup(async () => {
         '65a8b11f3d93c27b3c1b9de2'
       ],
       expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
-      membership_tier: 'pro'
+      membership_tier: 'pro',
+      isProfileComplete: true
     }
   });
 
@@ -65,7 +66,8 @@ Meteor.startup(async () => {
         '65a8b11f3d93c27b3c1b9de2'
       ],
       expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
-      membership_tier: 'pro'
+      membership_tier: 'pro',
+      isProfileComplete: true
     }
   });
 });

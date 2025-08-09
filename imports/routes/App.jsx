@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrivateRoute } from '/imports/utils/RouteGuard';
+import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
@@ -20,7 +20,9 @@ export const AppRoutes = [
     path: '',
     element: (
       <PrivateRoute redirect="/login">
-        <App />
+        <ProfileCompleteRoute>
+          <App />
+        </ProfileCompleteRoute>
       </PrivateRoute>
     ),
     children: [
