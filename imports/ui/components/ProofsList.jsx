@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 
 // Meteor-specific imports
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -23,7 +23,7 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  * - Conditional rendering for loading and empty states.
  * - Detail popup shown on 'View Details' click.
  */
-export const ProofsList = () => {
+export const ProofsList = ({ skilltreeId }) => {
   // Track selected proof to open its detail modal
   const [selectedProofId, setSelectedProofId] = useState(null);
 
@@ -35,7 +35,7 @@ export const ProofsList = () => {
   useSubscribeSuspense('proof');
   const proofs =
     useFind(ProofCollection, [
-      {},
+      { skillTreeId: { $eq: skilltreeId } },
       {
         fields: {
           description: 1,
