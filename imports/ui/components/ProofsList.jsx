@@ -25,6 +25,7 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  */
 export const ProofsList = ({ skilltreeId }) => {
   // Track selected proof to open its detail modal
+  const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
 
   /**
@@ -42,7 +43,6 @@ export const ProofsList = ({ skilltreeId }) => {
           user: 1,
           date: 1,
           evidenceLink: 1,
-          verification: 1,
           subskill: 1,
           upvotes: 1,
           downvotes: 1
@@ -96,8 +96,13 @@ export const ProofsList = ({ skilltreeId }) => {
         {/* Grid Layout for Proof Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {proofs.map(proof => {
-            const verification = proof.verification || 0;
-            const progressPercent = Math.min((verification / 10) * 100, 100);
+            // Calculate net votes and progress bar, ensure non-negative
+            const netVotesRaw = (proof.upvotes || 0) - (proof.downvotes || 0);
+            const netVotes = Math.max(Math.min(netVotesRaw, proofMaxVotes), 0);
+            const progressPercent = Math.min(
+              (netVotes / proofMaxVotes) * 100,
+              100
+            );
 
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
@@ -152,12 +157,13 @@ export const ProofsList = ({ skilltreeId }) => {
                     </button>
                   </div>
 
-                  {/* Verification Status */}
+                  {/* Net Upvotes Status */}
                   <div className="text-center mx-2">
                     <span>
-                      {proof.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
+                      {netVotesRaw < proofMaxVotes ? 'Pending' : 'Approved'}{' '}
+                      &nbsp;
                     </span>
-                    {proof.verification} / 10 Upvotes
+                    {netVotes < 0 ? 0 : netVotes} / {proofMaxVotes} Net Upvotes
                   </div>
 
                   {/* Show Proof Details Button */}
@@ -176,12 +182,12 @@ export const ProofsList = ({ skilltreeId }) => {
                   </button>
                 </div>
 
-                {/* Visual Progress Bar for Verification */}
+                {/* Visual Progress Bar for Net Upvotes */}
                 <div className="mt-2 w-full bg-gray-300 rounded-full h-4 overflow-hidden">
                   <div
                     className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
-                    aria-label={`Verification progress: ${verification} out of 10`}
+                    aria-label={`Net upvotes progress: ${netVotes} out of ${proofMaxVotes}`}
                   ></div>
                 </div>
               </div>
