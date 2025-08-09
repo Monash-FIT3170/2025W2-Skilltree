@@ -25,6 +25,7 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  */
 export const ProofsList = () => {
   // Track selected proof to open its detail modal
+  const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
 
   /**
@@ -97,8 +98,8 @@ export const ProofsList = () => {
           {proofs.map(proof => {
             // Calculate net votes and progress bar, ensure non-negative
             const netVotesRaw = (proof.upvotes || 0) - (proof.downvotes || 0);
-            const netVotes = Math.max(Math.min(netVotesRaw, 10), 0);
-            const progressPercent = Math.min((netVotes / 10) * 100, 100);
+            const netVotes = Math.max(Math.min(netVotesRaw, proofMaxVotes), 0);
+            const progressPercent = Math.min((netVotes / proofMaxVotes) * 100, 100);
 
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
@@ -156,9 +157,9 @@ export const ProofsList = () => {
                   {/* Net Upvotes Status */}
                   <div className="text-center mx-2">
                     <span>
-                      {netVotesRaw < 10 ? 'Pending' : 'Approved'} &nbsp;
+                      {netVotesRaw < proofMaxVotes ? 'Pending' : 'Approved'} &nbsp;
                     </span>
-                    {netVotes < 0 ? 0 : netVotes} / 10 Net Upvotes
+                    {netVotes < 0 ? 0 : netVotes} / {proofMaxVotes} Net Upvotes
                   </div>
 
                   {/* Show Proof Details Button */}
@@ -182,7 +183,7 @@ export const ProofsList = () => {
                   <div
                     className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
-                    aria-label={`Net upvotes progress: ${netVotes} out of 10`}
+                    aria-label={`Net upvotes progress: ${netVotes} out of ${proofMaxVotes}`}
                   ></div>
                 </div>
               </div>
