@@ -99,7 +99,10 @@ export const ProofsList = () => {
             // Calculate net votes and progress bar, ensure non-negative
             const netVotesRaw = (proof.upvotes || 0) - (proof.downvotes || 0);
             const netVotes = Math.max(Math.min(netVotesRaw, proofMaxVotes), 0);
-            const progressPercent = Math.min((netVotes / proofMaxVotes) * 100, 100);
+            const progressPercent = Math.min(
+              (netVotes / proofMaxVotes) * 100,
+              100
+            );
 
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
@@ -157,7 +160,8 @@ export const ProofsList = () => {
                   {/* Net Upvotes Status */}
                   <div className="text-center mx-2">
                     <span>
-                      {netVotesRaw < proofMaxVotes ? 'Pending' : 'Approved'} &nbsp;
+                      {netVotesRaw < proofMaxVotes ? 'Pending' : 'Approved'}{' '}
+                      &nbsp;
                     </span>
                     {netVotes < 0 ? 0 : netVotes} / {proofMaxVotes} Net Upvotes
                   </div>
