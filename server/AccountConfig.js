@@ -2,6 +2,23 @@
 import { Meteor } from 'meteor/meteor'; // Accounts is globally available in Meteor
 import { Accounts } from 'meteor/accounts-base';
 
+/*
+To set up the SMTP gmail server (allows Skilltree to send emails):
+1. Click your google account profile -> Manage google account
+NOTE: Instead of using your personal google account, maybe create another gmail account such as "skilltreeXXX@gmail.com"
+
+2. Got to Security -> make sure 2 step verification is ON
+3. Go to Search bar and type "App Password" -> click on App passwords
+4. Create an App-password.
+5. Go to settings.json and fill in the fields with the created App password and email as the username. Keep server and port the same.
+    "smtp": {
+      "username": "the-gmail-account-you-used@gmail.com",
+      "password": "App-passowrd",
+      "server": "smtp.gmail.com",
+      "port": 465
+    }
+*/
+
 //Modify the login token expiration date
 Accounts.config({
   loginExpirationInDays: 1,

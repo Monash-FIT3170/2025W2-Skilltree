@@ -51,7 +51,6 @@ This is a dummy `settings.json`, to allow the program to run without errors:
       "server": "smtp.gmail.com",
       "port": 465
     }
-
   }
 }
 ```
