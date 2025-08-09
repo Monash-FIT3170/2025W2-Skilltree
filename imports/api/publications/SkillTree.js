@@ -298,6 +298,59 @@ Meteor.startup(async () => {
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']
+    },
+    {
+      _id: 'Climbing',
+      title: 'Climbing',
+      image: 'https://example.com/image1.png',
+      description: 'Learn how to climb effectively.',
+      termsAndConditions: 'For use by climbing enthusiasts and trainers.',
+      tags: ['climbing', 'outdoor', 'sports'],
+      skillNodes: [
+        {
+          id: 'bouldering',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Bouldering',
+            description: 'Learn how to boulder effectively.',
+            progressXp: 20,
+            requirements: 'Upload a video of yourself bouldering for 5 minutes',
+            xpPoints: 20
+          },
+          position: { x: 300, y: 100 }
+        },
+        {
+          id: 'climbing-techniques',
+          type: 'view-node-locked',
+          data: {
+            label: 'Climbing Techniques',
+            description: 'Learn how to climb with a partner.',
+            progressXp: 30,
+            requirements:
+              'Upload a video of yourself making a climb with at least 10 holds',
+            xpPoints: 30
+          },
+          position: { x: 300, y: 200 }
+        },
+        {
+          id: 'turn',
+          type: 'view-node-locked',
+          data: {
+            label: 'Turning Techniques',
+            description: 'Learn how to turn effectively while climbing.',
+            progressXp: 75,
+            requirements: 'Upload a video of yourself turning while climbing',
+            xpPoints: 75
+          },
+          position: { x: 300, y: 300 }
+        }
+      ],
+      skillEdges: [
+        { id: 'e1', source: 'bouldering', target: 'climbing-techniques' },
+        { id: 'e2', source: 'climbing-techniques', target: 'turn' }
+      ],
+      admins: ['tennispro'],
+      subscribers: ['playerZ', 'coachY']
     }
   ];
 

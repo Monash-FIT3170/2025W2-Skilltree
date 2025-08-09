@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
 import { Buffer } from 'buffer'; //
+import { Button } from 'flowbite-react';
+import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
-import { Button } from 'flowbite-react';
-import { Dropzone } from './Dropzone';
+import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Dropzone } from './Dropzone';
+import { User } from '/imports/utils/User';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket
@@ -13,7 +14,10 @@ import { AiOutlineClose } from 'react-icons/ai';
  *
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
-export const ProofUploadButton = ({ skill, requirements }) => {
+export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
+  // loggedIn username
+  const { username } = User(['username']);
+
   /** CREDITS */
   // AWS s3 upload logic is from https://www.youtube.com/watch?v=SQWJ_goOxGs
 
@@ -155,11 +159,11 @@ export const ProofUploadButton = ({ skill, requirements }) => {
     const proof = {
       title: skill, // TODO proof schema needs to be updated to reflect the fact that we dont have posts/descs, only subskills and requirements
       description: requirements, // TODO schema updates will affect proof display stuff as well
-      user: 'my user', // TODO dummy data. need to be integrated
+      user: username, // TODO dummy data. need to be integrated
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
-      skillTreeId: 'my skilltree', // should eventually be a community/skillTree ID
+      skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
       subskill: skill
     };
     await insertProof(proof);
