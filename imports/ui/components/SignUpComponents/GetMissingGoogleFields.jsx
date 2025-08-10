@@ -60,7 +60,8 @@ export const GetMissingGoogleFields = () => {
         username: formData.username,
         'profile.dateOfBirth': formData.profile.dateOfBirth,
         'profile.updatedAt': formData.profile.updatedAt,
-        'profile.lastLogin': formData.profile.lastLogin
+        'profile.lastLogin': formData.profile.lastLogin,
+        'profile.isProfileComplete': true
       };
 
       await Meteor.callAsync('updateFields', updateFields);
