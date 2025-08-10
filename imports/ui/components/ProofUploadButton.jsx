@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
 import { Buffer } from 'buffer'; //
+import { Button } from 'flowbite-react';
+import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import _ from 'lodash';
-import { Button } from 'flowbite-react';
-import { Dropzone } from './Dropzone';
+import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Dropzone } from './Dropzone';
 import { User } from '/imports/utils/User';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
@@ -14,7 +14,7 @@ import { User } from '/imports/utils/User';
  *
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
-export const ProofUploadButton = ({ skill, requirements }) => {
+export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
   // loggedIn username
   const currentUserId = Meteor.userId();
   const { username } = User(['username']);
@@ -165,7 +165,7 @@ export const ProofUploadButton = ({ skill, requirements }) => {
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
-      skillTreeId: 'my skilltree', // should eventually be a community/skillTree ID
+      skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
       subskill: skill
     };
     await insertProof(proof);
