@@ -4,15 +4,23 @@ export const Profile = () => {
   const user = Meteor.isClient ? Meteor.user() : null;
   const [givenName, setGivenName] = useState(user?.profile?.givenName || '');
   const [familyName, setFamilyName] = useState(user?.profile?.familyName || '');
-  const [dateOfBirth, setDateOfBirth] = useState(
-    user?.profile?.dateOfBirth || ''
-  );
   const [bio, setBio] = useState(user?.profile?.bio || '');
-
   const [isSaving, setIsSaving] = useState(false);
+
+  const formatDate = (date) => {
+    if (!date) return '';
+    const dateObj = new Date(date);
+    return dateObj.toISOString().split('T')[0];
+  }
+
+  const [dateOfBirth, setDateOfBirth] = useState(
+    formatDate(user?.profile?.dateOfBirth) || ''
+  );
 
   const handleSave = async () => {
     setIsSaving(true);
+
+    console.log(dateOfBirth)
 
     if (Meteor.isClient) {
       const updateFields = {
