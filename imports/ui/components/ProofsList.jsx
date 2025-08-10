@@ -23,10 +23,12 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  * - Conditional rendering for loading and empty states.
  * - Detail popup shown on 'View Details' click.
  */
+
 export const ProofsList = ({ skilltreeId }) => {
   // Track selected proof to open its detail modal
   const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
+  const currentUserId = Meteor.userId();
 
   /**
    * useFind hook:
@@ -41,6 +43,7 @@ export const ProofsList = ({ skilltreeId }) => {
         fields: {
           description: 1,
           user: 1,
+          username: 1,
           date: 1,
           evidenceLink: 1,
           subskill: 1,
@@ -109,8 +112,10 @@ export const ProofsList = ({ skilltreeId }) => {
                 {/* Header: User and Date */}
                 <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
                   <span className="flex items-center">
-                    <span className="mr-1">👑</span>
-                    <span>{proof.user}</span>
+                    {proof.user === currentUserId && (
+                      <span className="mr-1">👑</span>
+                    )}
+                    <span>{proof.username}</span>
                   </span>
                   <span className="text-xs italic">
                     {formatDate(proof.date)}

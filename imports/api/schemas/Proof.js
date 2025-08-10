@@ -22,6 +22,10 @@ Schemas.Proof = new SimpleSchema({
     type: String, // placeholder
     label: 'User who submitted proof'
   },
+  username: {
+    type: String,
+    label: 'Username of the user who submitted proof'
+  },
   date: {
     type: Date,
     label: 'Date proof was made'
