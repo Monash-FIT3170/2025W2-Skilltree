@@ -96,7 +96,7 @@ export const Dashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
         {/*intro message*/}
-        <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E]">
+        <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
           <div className="flex items-center gap-3 mb-2">
             <span className="text-3xl">{greetingIcon}</span>
             <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
