@@ -1,8 +1,8 @@
-import React from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
-import { SkillTreeLogic } from './SkillTree';
-import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import React from 'react';
+import { SkillTreeLogic } from './SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SkillTreeView = ({ id, isAdmin, onBack }) => {
@@ -21,6 +21,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
   return (
     <ReactFlowProvider>
       <SkillTreeLogic
+        id={id}
         isAdmin={isAdmin}
         onSave={() => {}}
         savedNodes={skilltree.skillNodes}

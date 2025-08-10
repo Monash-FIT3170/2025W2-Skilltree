@@ -5,3 +5,4 @@ import '/tests/ProofTest';
 import '/tests/commentsMethods';
 // import '/tests/regexSearchSkillTree';
 import '/tests/skilltreeMethods';
+import '/tests/SkillForestMethods';

@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Meteor } from 'meteor/meteor';
 import {
   Navbar,
   NavbarBrand,
-  NavbarToggle,
   NavbarCollapse,
-  NavbarLink
+  NavbarLink,
+  NavbarToggle
 } from 'flowbite-react';
+import { Meteor } from 'meteor/meteor';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // JSX UI
 import { UserDropdownMenu } from '/imports/ui/components/UserDropdownMenu';
@@ -142,11 +142,6 @@ export const NavBar = () => {
 
         <NavbarToggle />
         <NavbarCollapse>
-          <NavbarLink as={Link} to="/pendingproofs">
-            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
-              Pending Proofs
-            </div>
-          </NavbarLink>
           <NavbarLink as={Link} to="/create">
             <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
               Create SkillTree

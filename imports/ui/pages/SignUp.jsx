@@ -21,7 +21,8 @@ export const SignUp = () => {
       updatedAt: new Date(),
       proof_of_practice_uploads: [],
       expertise_areas: [],
-      membership_tier: 'Community'
+      membership_tier: 'Community',
+      isProfileComplete: false
     }
   };
 

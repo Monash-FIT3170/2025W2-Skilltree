@@ -29,7 +29,8 @@ Meteor.methods({
         dateOfBirth: dob,
         lastLogin: new Date(),
         updatedAt: new Date(),
-        membership_tier: 'Community'
+        membership_tier: 'Community',
+        isProfileComplete: false
       }
     };
 
