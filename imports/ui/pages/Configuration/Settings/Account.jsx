@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 export const Account = () => {
   const navigate = useNavigate();
   const [soundEffects, setSoundEffects] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
   const user = Meteor.isClient ? Meteor.user() : null;
 
@@ -25,6 +27,18 @@ export const Account = () => {
     await Meteor.callAsync('deleteUserAccount');
     Meteor.logout();
     navigate('/');
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteConfirmText.toLowerCase() === 'delete') {
+      handleDeleteAccount();
+      setShowDeleteModal(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setDeleteConfirmText('');
   };
 
   return (
@@ -142,13 +156,58 @@ export const Account = () => {
             </p>
           </div>
           <button
-            onClick={handleDeleteAccount}
+            onClick={() => setShowDeleteModal(true)}
             className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors cursor-pointer"
           >
             Delete Account
           </button>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex items-center justify-center z-50">
+          <div className="bg-gray-100 rounded-lg p-6 max-w-md w-full mx-4 border border-black">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Delete Account
+            </h3>
+            <p className="text-gray-600 mb-4">
+              This action cannot be undone. This will permanently delete your
+              account and all associated data.
+            </p>
+            <p className="text-gray-700 font-medium mb-2">
+              Please type "delete" to confirm:
+            </p>
+            <input
+              type="text"
+              value={deleteConfirmText}
+              onChange={e => setDeleteConfirmText(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 mb-4"
+              placeholder="Type 'delete' here"
+              autoFocus
+            />
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={handleCancelDelete}
+                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                disabled={deleteConfirmText.toLowerCase() !== 'delete'}
+                className={`px-4 py-2 text-white rounded-lg transition-colors ${
+                  deleteConfirmText.toLowerCase() === 'delete'
+                    ? 'bg-red-600 hover:bg-red-700 cursor-pointer'
+                    : 'bg-gray-400 cursor-not-allowed'
+                }`}
+              >
+                Delete Account
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
