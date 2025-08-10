@@ -20,18 +20,15 @@ export const Dashboard = () => {
   const [joinedSkillTrees, setJoinedSkillTrees] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const displayedCreated = createdSkillTrees.slice(0, 6);
   const displayedJoined = joinedSkillTrees.slice(0, 6);
   const hasMoreCreated = createdSkillTrees.length > 6;
   const hasMoreJoined = joinedSkillTrees.length > 6;
 
-
   useEffect(() => {
-
     setTimeout(() => {
       if (!user) {
-        return
+        return;
       }
 
       let cancelled = false;
@@ -76,11 +73,8 @@ export const Dashboard = () => {
     }, 1000);
   }, [user?.profile?.createdCommunities, user?.profile?.subscribedCommunities]);
 
-
   if (loading) {
-    return (
-      <DashboardLoadingState />
-    )
+    return <DashboardLoadingState />;
   }
 
   return (
