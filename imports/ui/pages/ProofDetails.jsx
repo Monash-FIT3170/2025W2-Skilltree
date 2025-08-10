@@ -71,11 +71,17 @@ export const ProofDetails = ({ proofId, onClose }) => {
   const { username } = User(['username']);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] overflow-hidden relative">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      onClick={() => onClose()}
+    >
+      <div
+        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] overflow-hidden relative"
+        onClick={e => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => onClose()}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl"
         >
           ✕

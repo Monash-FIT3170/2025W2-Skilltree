@@ -35,6 +35,7 @@ const nodeTypes = {
 };
 
 export const SkillTreeLogic = ({
+  id,
   isAdmin,
   onSave,
   savedNodes,
@@ -220,6 +221,7 @@ export const SkillTreeLogic = ({
           />
         ) : (
           <SkillViewForm
+            skilltreeId={id}
             editingNode={editingNode}
             onCancel={() => setEditingNode(null)}
           />

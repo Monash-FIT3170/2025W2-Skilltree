@@ -37,7 +37,7 @@ Schemas.Proof = new SimpleSchema({
   },
   skillTreeId: {
     type: String,
-    label: 'Skilltree'
+    label: 'Skilltree' // PROBABLY THE EDIT THING IS NOT INCLUDING THIS AND SO IT'S CRASHING BC 'Skilltree is required in proof insertAsync',
   },
   subskill: {
     type: String,
