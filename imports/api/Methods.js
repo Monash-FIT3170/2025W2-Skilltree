@@ -8,7 +8,6 @@ import '/imports/api/methods/Accounts/ValidateMissingGoogle';
 import '/imports/api/methods/Accounts/ValidateStep1';
 import '/imports/api/methods/Accounts/ValidateStep2';
 import '/imports/api/methods/Accounts/ValidateStep3';
-import '/imports/api/methods/Accounts/ValidateStep4';
 import '/imports/api/methods/Accounts/ForgotPassword';
 import '/imports/api/methods/Accounts/ExtendLoginExpiration';
 import '/imports/api/methods/Accounts/DeleteUserAccount';
