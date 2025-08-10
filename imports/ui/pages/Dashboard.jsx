@@ -6,6 +6,10 @@ import { Users, Settings, ChevronRight } from 'lucide-react';
 import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
 import { EmptyState } from '../components/Dashboard/EmptyState';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
+import {
+  getGreetingIcon,
+  getGreetingMessage
+} from '../components/Dashboard/Greeting';
 
 export const Dashboard = () => {
   const user = useTracker(() => {
@@ -16,6 +20,8 @@ export const Dashboard = () => {
     return null;
   }, []);
 
+  const [greeting, setGreeting] = useState(getGreetingMessage());
+  const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
   const [createdSkillTrees, setCreatedSkillTrees] = useState([]);
   const [joinedSkillTrees, setJoinedSkillTrees] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +30,15 @@ export const Dashboard = () => {
   const displayedJoined = joinedSkillTrees.slice(0, 6);
   const hasMoreCreated = createdSkillTrees.length > 6;
   const hasMoreJoined = joinedSkillTrees.length > 6;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGreeting(getGreetingMessage());
+      setGreetingIcon(getGreetingIcon);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -80,6 +95,19 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
+        {/*intro message*/}
+        <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E]">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-3xl">{greetingIcon}</span>
+            <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
+              {greeting}, {user?.profile?.givenName}!
+            </h1>
+          </div>
+          <p className="text-gray-600 ml-12">
+            Ready to continue your learning journey?
+          </p>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl lg:text-3xl font-bold text-[#025940] mb-2">
