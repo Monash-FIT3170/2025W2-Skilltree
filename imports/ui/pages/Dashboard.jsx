@@ -5,6 +5,7 @@ import { Users, Settings, ChevronRight } from 'lucide-react';
 
 import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
 import { EmptyState } from '../components/Dashboard/EmptyState';
+import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 
 export const Dashboard = () => {
   const user = useTracker(() => {
@@ -19,85 +20,67 @@ export const Dashboard = () => {
   const [joinedSkillTrees, setJoinedSkillTrees] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const displayedCreated = createdSkillTrees.slice(0, 6);
   const displayedJoined = joinedSkillTrees.slice(0, 6);
   const hasMoreCreated = createdSkillTrees.length > 6;
   const hasMoreJoined = joinedSkillTrees.length > 6;
 
+
   useEffect(() => {
-    if (!user) {
-      setTimeout(() => {
-        setLoading(false);
-        return;
-      });
-    }
 
-    let cancelled = false;
-
-    const fetchSkillTrees = async () => {
-      try {
-        setLoading(true);
-
-        const [createdTemp, joinedTemp] = await Promise.all([
-          Promise.all(
-            (user?.profile?.createdCommunities ?? []).map(id =>
-              Meteor.callAsync('skilltrees.get', id)
-            )
-          ),
-          Promise.all(
-            (user?.profile?.subscribedCommunities ?? []).map(id =>
-              Meteor.callAsync('skilltrees.get', id)
-            )
-          )
-        ]);
-
-        if (!cancelled) {
-          console.log(createdTemp);
-          console.log(joinedTemp);
-          setCreatedSkillTrees(createdTemp);
-          setJoinedSkillTrees(joinedTemp);
-        }
-      } catch (err) {
-        console.error('Error:', err.message);
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-          console.log(createdSkillTrees);
-          console.log(joinedSkillTrees);
-        }
+    setTimeout(() => {
+      if (!user) {
+        return
       }
-    };
 
-    fetchSkillTrees();
+      let cancelled = false;
 
-    return () => {
-      cancelled = true;
-    };
+      const fetchSkillTrees = async () => {
+        try {
+          setLoading(true);
+
+          const [createdTemp, joinedTemp] = await Promise.all([
+            Promise.all(
+              (user?.profile?.createdCommunities ?? []).map(id =>
+                Meteor.callAsync('skilltrees.get', id)
+              )
+            ),
+            Promise.all(
+              (user?.profile?.subscribedCommunities ?? []).map(id =>
+                Meteor.callAsync('skilltrees.get', id)
+              )
+            )
+          ]);
+
+          if (!cancelled) {
+            console.log(createdTemp);
+            console.log(joinedTemp);
+            setCreatedSkillTrees(createdTemp);
+            setJoinedSkillTrees(joinedTemp);
+          }
+        } catch (err) {
+          console.error('Error:', err.message);
+        } finally {
+          if (!cancelled) {
+            setLoading(false);
+          }
+        }
+      };
+
+      fetchSkillTrees();
+
+      return () => {
+        cancelled = true;
+      };
+    }, 1000);
   }, [user?.profile?.createdCommunities, user?.profile?.subscribedCommunities]);
+
 
   if (loading) {
     return (
-      <div className="p-4 lg:p-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-64 mb-6"></div>
-          <div className="space-y-8">
-            {[1, 2].map(section => (
-              <div key={section}>
-                <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {[1, 2, 3].map(item => (
-                    <div
-                      key={item}
-                      className="bg-gray-200 rounded-xl h-48"
-                    ></div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+      <DashboardLoadingState />
+    )
   }
 
   return (
