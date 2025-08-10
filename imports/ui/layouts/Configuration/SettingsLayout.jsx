@@ -43,28 +43,28 @@ export const SettingsLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#328E6E] mb-4">Settings</h1>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-[#328E6E] mb-4">Settings</h1>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex justify-center mb-8">
-          <nav className="flex space-x-1 bg-white border border-gray-200 p-1 rounded-lg shadow-sm">
+        <div className="flex justify-center mb-6 sm:mb-8">
+          <nav className="flex flex-wrap justify-center sm:space-x-1 bg-white border border-gray-200 p-1 rounded-lg shadow-sm w-full sm:w-auto">
             {tabs.map(tab => (
               <button
                 key={tab.key}
                 onClick={() => handleTabClick(tab.path)}
-                className={`px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer ${
+                className={`px-3 sm:px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer text-xs sm:text-sm flex-1 sm:flex-none min-w-0 ${
                   activeTab === tab.key
                     ? 'bg-[#328E6E] text-white shadow-sm'
                     : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
                 }`}
                 aria-current={activeTab === tab.key ? 'page' : undefined}
               >
-                {tab.label}
+                <span className="truncate">{tab.label}</span>
               </button>
             ))}
           </nav>

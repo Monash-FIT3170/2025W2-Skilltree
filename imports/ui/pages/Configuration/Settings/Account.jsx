@@ -145,7 +145,7 @@ export const Account = () => {
 
       {/* Delete Account Section */}
       <div className="border-t border-gray-200 pt-8">
-        <div className="flex justify-between items-start">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start space-y-4 md:space-y-0">
           <div>
             <h2 className="text-2xl font-semibold text-gray-700 mb-2">
               Delete Account
@@ -157,7 +157,7 @@ export const Account = () => {
           </div>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors cursor-pointer"
+            className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors cursor-pointer w-full md:w-auto md:flex-shrink-0"
           >
             Delete Account
           </button>
