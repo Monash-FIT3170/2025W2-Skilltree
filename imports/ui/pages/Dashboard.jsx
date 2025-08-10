@@ -1,84 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Plus, Users, Search, Settings, ChevronRight } from 'lucide-react';
+import { Users, Settings, ChevronRight } from 'lucide-react';
 
-const SkillTreeCard = ({ skillTree, showSubscribers = false }) => {
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer">
-      <div
-        className={`relative h-32 
-        ${
-          !skillTree.image
-            ? 'bg-gradient-to-br from-[#025940] to-[#04BF8A]'
-            : ''
-        }`}
-      >
-        {skillTree.image && (
-          <img
-            src={skillTree.image}
-            alt={skillTree.title}
-            className="w-full h-full object-cover opacity-65"
-            onError={e => {
-              e.target.style.display = 'none';
-            }}
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-        <h3 className="absolute bottom-3 left-3 text-white font-semibold text-lg">
-          {skillTree.title}
-        </h3>
-      </div>
-
-      <div className="p-4">
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-          {skillTree.description}
-        </p>
-
-        <div className="flex items-center justify-between">
-          {showSubscribers && (
-            <div className="flex items-center gap-1 text-gray-500">
-              <Users size={14} />
-              <span className="text-xs">
-                {skillTree.subscribers.length} members
-              </span>
-            </div>
-          )}
-          <button className="text-[#04BF8A] hover:text-[#025940] transition-colors">
-            <ChevronRight size={16} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const EmptyState = ({ type }) => {
-  return (
-    <div className="col-span-full flex flex-col items-center justify-center py-12 px-4">
-      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-        {type === 'created' ? (
-          <Plus className="text-gray-400" size={24} />
-        ) : (
-          <Search className="text-gray-400" size={24} />
-        )}
-      </div>
-      <h3 className="text-lg font-semibold text-gray-700 mb-2">
-        {type === 'created'
-          ? 'No Skill Trees Created'
-          : 'No Communities Joined'}
-      </h3>
-      <p className="text-gray-500 text-center text-sm max-w-md leading-relaxed">
-        {type === 'created'
-          ? 'Start building your first skill tree and help others learn new skills.'
-          : "Looks like you don't have any skill trees. Head to the search bar and join one!"}
-      </p>
-      <button className="mt-4 bg-[#04BF8A] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#025940] transition-colors">
-        {type === 'created' ? 'Create Skill Tree' : 'Explore Communities'}
-      </button>
-    </div>
-  );
-};
+import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
+import { EmptyState } from '../components/Dashboard/EmptyState';
 
 export const Dashboard = () => {
   const user = useTracker(() => {
