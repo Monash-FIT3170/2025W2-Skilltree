@@ -25,7 +25,6 @@ export default [
       'no-multi-spaces': 'error',
       'no-trailing-spaces': 'error',
       'eol-last': ['error', 'always'],
-      indent: ['error', 2],
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off'
     }

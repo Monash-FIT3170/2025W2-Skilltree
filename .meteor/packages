@@ -23,7 +23,7 @@ aldeed:simple-schema
 aldeed:collection2
 communitypackages:react-router-ssr
 accounts-base
-accounts-password@3.0.3
+accounts-password
 meteortesting:browser-tests
 meteortesting:mocha
 meteortesting:mocha-core

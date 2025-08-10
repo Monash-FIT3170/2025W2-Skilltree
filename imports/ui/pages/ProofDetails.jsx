@@ -32,6 +32,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
       fields: {
         description: 1,
         user: 1,
+        username: 1,
         date: 1,
         evidenceLink: 1,
         subskill: 1,
@@ -71,11 +72,17 @@ export const ProofDetails = ({ proofId, onClose }) => {
   const { username } = User(['username']);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] overflow-hidden relative">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      onClick={() => onClose()}
+    >
+      <div
+        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl h-[90vh] overflow-hidden relative"
+        onClick={e => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => onClose()}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl"
         >
           ✕
@@ -86,7 +93,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
           <div className="w-1/2 overflow-y-auto pr-4">
             <h2 className="text-xl font-semibold mb-1">{proof.title}</h2>
             <p className="text-sm text-gray-500">
-              by {proof.user} | {formatDate(proof.date)}
+              by {proof.username} | {formatDate(proof.date)}
             </p>
             <p className="text-gray-600 mt-2">
               Subskill: <strong>{proof.subskill}</strong>

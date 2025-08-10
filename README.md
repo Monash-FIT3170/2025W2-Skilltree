@@ -54,6 +54,12 @@ This is a dummy `settings.json`, to allow the program to run without errors:
     "google": {
       "clientId": "",
       "secret": ""
+    },
+    "smtp": {
+      "username": "your@gmail.com",
+      "password": "app-password",
+      "server": "smtp.gmail.com",
+      "port": 465
     }
   }
 }

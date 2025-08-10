@@ -9,7 +9,7 @@ import { SampleViewRoutes } from '/imports/routes/components/SampleView';
 
 export const PendingProofsRoutes = [
   {
-    path: 'pendingproofs',
+    path: 'pendingproofs/:skilltreeId',
     element: <PendingProofs />,
     children: [...SampleViewRoutes, ...HelloContainerRoutes]
   }
