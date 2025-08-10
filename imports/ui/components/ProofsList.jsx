@@ -110,11 +110,9 @@ export const ProofsList = ({ skilltreeId }) => {
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
                 {/* Header: User and Date */}
-                <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
+                <div className="text-sm text-black h-6 mb-1 flex items-center justify-between px-2">
                   <span className="flex items-center">
-                    {proof.user === currentUserId && (
-                      <span className="mr-1">👑</span>
-                    )}
+                    <span className="mr-1">👑</span>
                     <span>{proof.username}</span>
                   </span>
                   <span className="text-xs italic">
@@ -123,7 +121,7 @@ export const ProofsList = ({ skilltreeId }) => {
                 </div>
 
                 {/* Subskill Tag */}
-                <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
+                <div className="text-sm font-bold text-black h-6 mb-2 px-2">
                   {proof.subskill || 'Subskill Placeholder'}
                 </div>
 
@@ -141,10 +139,9 @@ export const ProofsList = ({ skilltreeId }) => {
                 </div>
 
                 {/* Description Caption */}
-                <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
+                <div className="text-sm text-black mb-4 px-2 py-1 rounded">
                   {proof.description || 'No caption'}
                 </div>
-
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
                   <div className="flex gap-2">
