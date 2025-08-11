@@ -7,8 +7,18 @@ export const GeneralForum = () => {
   // Mock messages for now, you can later filter by skilltreeId or fetch real data
   const [messages, setMessages] = useState([
     { id: 1, username: 'user1', text: 'Hey everyone!', createdAt: new Date() },
-    { id: 2, username: 'user2', text: 'Hi! How are you?', createdAt: new Date() },
-    { id: 3, username: 'user3', text: 'Welcome to the community forum', createdAt: new Date() }
+    {
+      id: 2,
+      username: 'user2',
+      text: 'Hi! How are you?',
+      createdAt: new Date()
+    },
+    {
+      id: 3,
+      username: 'user3',
+      text: 'Welcome to the community forum',
+      createdAt: new Date()
+    }
   ]);
 
   const [message, setMessage] = useState('');
@@ -18,7 +28,7 @@ export const GeneralForum = () => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = (e) => {
+  const sendMessage = e => {
     e.preventDefault();
     if (!message.trim()) return;
 
