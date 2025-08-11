@@ -18,8 +18,7 @@ Schemas.Comments = new SimpleSchema({
   },
   proofId: {
     type: String,
-    label: 'Associated Proof ID',
-    optional: true // If you want to associate comments with specific proofs
+    label: 'Associated Proof ID'
   },
   createdAt: {
     type: Date,
