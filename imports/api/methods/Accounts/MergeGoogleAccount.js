@@ -31,7 +31,8 @@ Meteor.methods({
     if (
       googleUser.emails?.[0]?.address === googleEmail &&
       googleUser.emails?.[0]?.verified === true &&
-      !googleUser.services?.password?.bcrypt
+      !googleUser.services?.password?.bcrypt &&
+      googleUser.profile?.isProfileComplete
     ) {
       return {
         success: true,
@@ -39,6 +40,7 @@ Meteor.methods({
         status: 'googleOnlyAccount'
       };
     }
+
     //CASE 3: If we reach here, that means the user has either:
     // 1. Set up a manual skill tree account but hasnt logged with the google account (same email)
     //2. Has not logged in with google and has not set up a manual account
@@ -99,7 +101,7 @@ Meteor.methods({
       'emails.address': googleEmail
     });
     const finalUserId = finalUser._id;
-    console.log(googleUser);
+
     const safeUpdates = {
       'services.google': googleUser.services.google,
       'services.resume': googleUser.services.resume
