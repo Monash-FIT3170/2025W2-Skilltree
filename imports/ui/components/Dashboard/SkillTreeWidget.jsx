@@ -1,7 +1,13 @@
 import React from 'react';
-import { ChevronRight, Users } from 'lucide-react';
+import { ChevronRight, Users, Crown } from 'lucide-react';
 
-export const SkillTreeCard = ({ skillTree, showSubscribers = false }) => {
+export const SkillTreeCard = ({
+  skillTree,
+  showSubscribers = false,
+  currentUserId
+}) => {
+  const isOwner = skillTree.owner === currentUserId;
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer">
       <div
@@ -23,6 +29,14 @@ export const SkillTreeCard = ({ skillTree, showSubscribers = false }) => {
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+
+        {/* Owner Crown */}
+        {isOwner && (
+          <div className="absolute top-2 right-2 bg-yellow-500 rounded-full p-1.5 shadow-lg">
+            <Crown size={14} className="text-white" />
+          </div>
+        )}
+
         <h3 className="absolute bottom-3 left-3 text-white font-semibold text-lg">
           {skillTree.title}
         </h3>

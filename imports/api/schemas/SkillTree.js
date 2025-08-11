@@ -110,6 +110,10 @@ Schemas.SkillTree = new SimpleSchema({
     max: 200,
     min: 1
   },
+  owner: {
+    type: String,
+    label: 'Owner User ID'
+  },
   image: {
     type: String,
     label: 'Image (Base64 or URL)',

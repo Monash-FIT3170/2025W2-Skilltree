@@ -2,7 +2,6 @@ import React from 'react';
 
 export const getGreetingMessage = () => {
   const currHour = new Date().getHours();
-  console.log(currHour);
 
   if (currHour >= 5 && currHour < 12) {
     return 'Good morning';

@@ -10,6 +10,7 @@ Meteor.startup(async () => {
   const dummySkillTrees = [
     {
       title: 'Basketball',
+      owner: 'owner',
       image:
         'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
       description: 'Learn dribbling to shooting.',
@@ -144,6 +145,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Soccer',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
@@ -197,6 +199,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Cricket',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
@@ -248,6 +251,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Tennis',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
@@ -302,6 +306,7 @@ Meteor.startup(async () => {
     {
       _id: 'Climbing',
       title: 'Climbing',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn how to climb effectively.',
       termsAndConditions: 'For use by climbing enthusiasts and trainers.',
@@ -354,6 +359,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Jedi Training',
+      owner: 'owner',
       image:
         'https://upload.wikimedia.org/wikipedia/en/8/8e/Jedi_Order_symbol.svg',
       description:

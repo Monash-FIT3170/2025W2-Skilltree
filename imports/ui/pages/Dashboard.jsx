@@ -66,8 +66,6 @@ export const Dashboard = () => {
           ]);
 
           if (!cancelled) {
-            console.log(createdTemp);
-            console.log(joinedTemp);
             setCreatedSkillTrees(createdTemp);
             setJoinedSkillTrees(joinedTemp);
           }
@@ -146,6 +144,7 @@ export const Dashboard = () => {
                     key={skillTree._id}
                     skillTree={skillTree}
                     showSubscribers={true}
+                    currentUserId={user._id}
                   />
                 ))}
               </div>
@@ -183,6 +182,7 @@ export const Dashboard = () => {
                     key={skillTree._id}
                     skillTree={skillTree}
                     showSubscribers={true}
+                    currentUserId={user._id}
                   />
                 ))}
               </div>
