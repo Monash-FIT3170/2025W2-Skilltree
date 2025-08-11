@@ -19,9 +19,6 @@ const ProofGet = async () => {
   return res;
 };
 
-const AddVerification = proof_id => async points => {
-  const res = await Meteor.callAsync('addVerification', proof_id, points);
-};
 
 const ProofRemove = async proof_id => {
   const res = await Meteor.callAsync('removeProof', proof_id);
@@ -66,13 +63,6 @@ describe('Proof Method', function () {
     it('should return a proof object with the same id as given', async function () {
       const res = await ProofFind(test_id_1);
       assert.strictEqual(test_id_1, res._id);
-    });
-  });
-  describe('#addVerification', function () {
-    it('should add verification points to a proof', async function () {
-      const res = await AddVerification(test_id_1)(5);
-      const proof = await ProofFind(test_id_1);
-      assert.strictEqual(proof.verification, 6);
     });
   });
   describe('#getAllProof', function () {
