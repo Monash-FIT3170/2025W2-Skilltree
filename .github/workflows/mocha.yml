@@ -25,6 +25,6 @@ jobs:
 
       - name: Run Meteor tests
         run: meteor npm run test
-        
+
       - name: Run Meteor test-start
         run: meteor npm run test-start

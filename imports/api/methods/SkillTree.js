@@ -6,7 +6,30 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 Meteor.methods({
   'skilltrees.insert'(skilltree) {
     // Schemas.SkillTree.validate(skilltree); // TO DO: fix validate errors, seems to be issue with Schema handling and importing
-    return SkillTreeCollection.insertAsync(skilltree);
+    const {
+      title,
+      description,
+      termsAndConditions,
+      tags = [],
+      image,
+      skillNodes = [],
+      skillEdges = []
+    } = skilltree || {};
+
+    const doc = {
+      title,
+      description,
+      termsAndConditions,
+      tags,
+      image,
+      skillNodes,
+      skillEdges,
+      owner: this.userId,
+      admins: [this.userId],
+      subscribers: [this.userId]
+    };
+
+    return SkillTreeCollection.insertAsync(doc);
   },
 
   async 'skilltrees.insertAsync'(skillTree) {

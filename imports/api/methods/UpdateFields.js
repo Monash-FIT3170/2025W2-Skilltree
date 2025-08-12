@@ -29,14 +29,28 @@ Meteor.methods({
   },
 
   // append to subscribedCommunity
-  async updateSubscribedCommunities(updateCommunities) {
+  async updateSubscribedCommunities(skillTreeId) {
     if (!this.userId) {
       throw new Meteor.Error('not-authorised', 'User must be logged in first!');
     }
 
     return await Meteor.users.updateAsync(
       { _id: this.userId },
-      { $addToSet: { 'profile.subscribedCommunities': updateCommunities } }
+      { $addToSet: { 'profile.subscribedCommunities': skillTreeId } },
+      { validate: false }
+    );
+  },
+
+  // append to createdCommunity
+  async updateCreatedCommunities(skillTreeId) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorised', 'User must be logged in first!');
+    }
+
+    return await Meteor.users.updateAsync(
+      { _id: this.userId },
+      { $addToSet: { 'profile.createdCommunities': skillTreeId } },
+      { validate: false }
     );
   },
 

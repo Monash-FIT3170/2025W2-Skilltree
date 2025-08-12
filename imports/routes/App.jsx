@@ -12,6 +12,7 @@ import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
+import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -26,6 +27,7 @@ export const AppRoutes = [
     children: [
       // Extends children array with nested routes via spread operator (...)
       ...DashboardRoutes,
+      ...SettingRoutes,
       ...SampleRoutes,
       ...PendingProofsRoutes,
       ...ProofUploadRoutes,
