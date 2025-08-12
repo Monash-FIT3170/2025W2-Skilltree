@@ -10,6 +10,7 @@ import {
   getGreetingIcon,
   getGreetingMessage
 } from '../components/Dashboard/Greeting';
+import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
   const user = useTracker(() => {
@@ -19,6 +20,7 @@ export const Dashboard = () => {
     return null;
   }, []);
 
+  const navigate = useNavigate();
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
   const [allSkillTrees, setAllSkillTrees] = useState([]);
@@ -93,6 +95,10 @@ export const Dashboard = () => {
     }, 1000);
   }, [user?.profile?.createdCommunities, user?.profile?.subscribedCommunities]);
 
+  const handleManageCommNav = () => {
+    navigate('/manage-communities');
+  };
+
   if (loading) {
     return <DashboardLoadingState />;
   }
@@ -136,7 +142,10 @@ export const Dashboard = () => {
               </p>
             </div>
 
-            <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+            <button
+              onClick={handleManageCommNav}
+              className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer"
+            >
               Manage Communities ({skillTreesWithRoles.length})
               <ChevronRight size={16} />
             </button>
@@ -155,7 +164,7 @@ export const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <EmptyState type="general" />
+              <EmptyState />
             )}
           </div>
         </div>
