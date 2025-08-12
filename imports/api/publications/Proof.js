@@ -13,6 +13,7 @@ Meteor.startup(async () => {
 
   const mockProofs = [
     {
+      _id: 'testProof1',
       title: 'Test Proof 1',
       description:
         'Placing feet precisely, applying the right pressure, and adjusting body weight to maintain balance and efficient movement.',
@@ -27,6 +28,7 @@ Meteor.startup(async () => {
       downvotes: 0
     },
     {
+      _id: 'testProof2',
       title: 'Test Proof 2',
       description: 'Recognising and utilising different types of handholds',
       user: 'adamid',
@@ -40,6 +42,7 @@ Meteor.startup(async () => {
       downvotes: 0
     },
     {
+      _id: 'testProof3',
       title: 'Test Proof 3',
       description:
         'Controlling body weight and shifting the centre of gravity to maintain stability on the wall',
@@ -54,6 +57,7 @@ Meteor.startup(async () => {
       downvotes: 0
     },
     {
+      _id: 'testProof4',
       title: 'Test Proof 4',
       description:
         'Using momentum and power to propel oneself up the wall, requiring core engagement and coordination.',
@@ -68,6 +72,7 @@ Meteor.startup(async () => {
       downvotes: 0
     },
     {
+      _id: 'testProof5',
       title: 'Test Proof 5',
       description:
         'Recognising and using rest points to recover and conserve energy.',
