@@ -8,6 +8,8 @@ import {
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
 import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
+import { ResetPasswordForm } from '../../ui/pages/ResetPasswordForm';
 
 export const SignInRoutes = [
   {
@@ -28,6 +30,22 @@ export const SignInRoutes = [
           <GetMissingGoogleFields />
         </ProfileCompleteRoute>
       </PrivateRoute>
+    )
+  },
+  {
+    path: 'login/password-recovery',
+    element: (
+      <PublicRoute hideForLoggedIn={true} redirect="/">
+        <ForgotPasswordForm />
+      </PublicRoute>
+    )
+  },
+  {
+    path: 'login/reset-password/:token',
+    element: (
+      <PublicRoute hideForLoggedIn={true} redirect="/">
+        <ResetPasswordForm />
+      </PublicRoute>
     )
   }
 ];
