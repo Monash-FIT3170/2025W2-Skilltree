@@ -7,11 +7,11 @@ export const Profile = () => {
   const [bio, setBio] = useState(user?.profile?.bio || '');
   const [isSaving, setIsSaving] = useState(false);
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     if (!date) return '';
     const dateObj = new Date(date);
     return dateObj.toISOString().split('T')[0];
-  }
+  };
 
   const [dateOfBirth, setDateOfBirth] = useState(
     formatDate(user?.profile?.dateOfBirth) || ''
@@ -20,7 +20,7 @@ export const Profile = () => {
   const handleSave = async () => {
     setIsSaving(true);
 
-    console.log(dateOfBirth)
+    console.log(dateOfBirth);
 
     if (Meteor.isClient) {
       const updateFields = {

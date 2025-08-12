@@ -47,7 +47,9 @@ export const SettingsLayout = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-[#328E6E] mb-4">Settings</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-[#328E6E] mb-4">
+            Settings
+          </h1>
         </div>
 
         {/* Navigation Tabs */}
