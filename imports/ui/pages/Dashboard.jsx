@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Users, Settings, ChevronRight } from 'lucide-react';
+import { Users, ChevronRight } from 'lucide-react';
 
 import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
 import { EmptyState } from '../components/Dashboard/EmptyState';
@@ -16,25 +16,35 @@ export const Dashboard = () => {
     if (Meteor.isClient) {
       return Meteor.user();
     }
-
     return null;
   }, []);
 
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
-  const [createdSkillTrees, setCreatedSkillTrees] = useState([]);
-  const [joinedSkillTrees, setJoinedSkillTrees] = useState([]);
+  const [allSkillTrees, setAllSkillTrees] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const displayedCreated = createdSkillTrees.slice(0, 6);
-  const displayedJoined = joinedSkillTrees.slice(0, 6);
-  const hasMoreCreated = createdSkillTrees.length > 6;
-  const hasMoreJoined = joinedSkillTrees.length > 6;
+  // Filter and categorise skill trees
+  const skillTreesWithRoles = allSkillTrees.map(skillTree => ({
+    ...skillTree,
+    isOwner: skillTree.owner === user?._id,
+    isMember:
+      user?.profile?.subscribedCommunities?.includes(skillTree._id) || false
+  }));
+
+  const displayedSkillTrees = skillTreesWithRoles.slice(0, 6);
+
+  // Sort by ownership first, then by join date or creation date
+  const sortedSkillTrees = [...skillTreesWithRoles].sort((a, b) => {
+    if (a.isOwner && !b.isOwner) return -1;
+    if (!a.isOwner && b.isOwner) return 1;
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
       setGreeting(getGreetingMessage());
-      setGreetingIcon(getGreetingIcon);
+      setGreetingIcon(getGreetingIcon());
     }, 60000);
 
     return () => clearInterval(interval);
@@ -52,22 +62,19 @@ export const Dashboard = () => {
         try {
           setLoading(true);
 
-          const [createdTemp, joinedTemp] = await Promise.all([
-            Promise.all(
-              (user?.profile?.createdCommunities ?? []).map(id =>
-                Meteor.callAsync('skilltrees.get', id)
-              )
-            ),
-            Promise.all(
-              (user?.profile?.subscribedCommunities ?? []).map(id =>
-                Meteor.callAsync('skilltrees.get', id)
-              )
-            )
-          ]);
+          // Get all unique skill tree IDs (created + subscribed)
+          const createdIds = user?.profile?.createdCommunities ?? [];
+          const subscribedIds = user?.profile?.subscribedCommunities ?? [];
+          //Using Set will make all elements unique
+          const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
+
+          const skillTrees = await Promise.all(
+            allUniqueIds.map(id => Meteor.callAsync('skilltrees.get', id))
+          );
 
           if (!cancelled) {
-            setCreatedSkillTrees(createdTemp);
-            setJoinedSkillTrees(joinedTemp);
+            //Some elements were null, so we filter out any null results
+            setAllSkillTrees(skillTrees.filter(Boolean));
           }
         } catch (err) {
           console.error('Error:', err.message);
@@ -93,7 +100,7 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
-        {/*intro message*/}
+        {/* Intro message */}
         <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
           <div className="flex items-center gap-3 mb-2">
             <span className="text-3xl">{greetingIcon}</span>
@@ -116,68 +123,29 @@ export const Dashboard = () => {
           </p>
         </div>
 
-        {/* My Created Skill Trees Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Settings size={20} className="text-[#04BF8A]" />
-                My Created Skill Trees
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Skill trees you've created and manage
-              </p>
-            </div>
-            {hasMoreCreated && (
-              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors">
-                Manage All
-                <ChevronRight size={16} />
-              </button>
-            )}
-          </div>
-
-          <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
-            {displayedCreated.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayedCreated.map(skillTree => (
-                  <SkillTreeCard
-                    key={skillTree._id}
-                    skillTree={skillTree}
-                    showSubscribers={true}
-                    currentUserId={user._id}
-                  />
-                ))}
-              </div>
-            ) : (
-              <EmptyState type="created" />
-            )}
-          </div>
-        </div>
-
-        {/* Communities I've Joined Section */}
+        {/* My Skill Trees Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                 <Users size={20} className="text-[#04BF8A]" />
-                Communities I've Joined
+                My Skill Trees
               </h2>
               <p className="text-sm text-gray-500 mt-1">
-                Skill tree communities you're part of
+                Skill trees you own and communities you've joined
               </p>
             </div>
-            {hasMoreJoined && (
-              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors">
-                Manage Communities
-                <ChevronRight size={16} />
-              </button>
-            )}
+
+            <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+              Manage Communities ({skillTreesWithRoles.length})
+              <ChevronRight size={16} />
+            </button>
           </div>
 
           <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
-            {displayedJoined.length > 0 ? (
+            {sortedSkillTrees.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayedJoined.map(skillTree => (
+                {displayedSkillTrees.map(skillTree => (
                   <SkillTreeCard
                     key={skillTree._id}
                     skillTree={skillTree}
@@ -187,7 +155,7 @@ export const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <EmptyState type="joined" />
+              <EmptyState type="general" />
             )}
           </div>
         </div>
