@@ -1,7 +1,8 @@
+import { Meteor } from 'meteor/meteor';
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { User } from '/imports/utils/User';
-import { useTracker } from 'meteor/react-meteor-data';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useFind } from 'meteor/react-meteor-data/suspense';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -40,16 +41,19 @@ export const ProfileCompleteRoute = ({
   children,
   redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
   requireComplete = true // Whether route requires isProfileComplete to be true or false
-}) =>
-  useTracker(() => {
-    const user = User(['profile.isProfileComplete']);
-    const isProfileComplete = user?.profile?.isProfileComplete;
+}) => {
+  const userId = useContext(AuthContext); // Reactive when value changes
+  useSubscribeSuspense('users'); // Needed to workaround SSR
+  const user = useFind(Meteor.users, [
+    { _id: { $eq: userId } },
+    { fields: { 'profile.isProfileComplete': 1 } }
+  ])[0]; // Suspense waits until data is ready to avoid undefined data
+  const isProfileComplete = user?.profile?.isProfileComplete;
 
-    if (isProfileComplete == undefined) return <></>; // When user data is not ready (undefined), render blank to avoid premature loading/redirect.
-    // Either render children or redirect when isProfileComplete changes from undefined (after signin)
-    return isProfileComplete == requireComplete ? (
-      children
-    ) : (
-      <Navigate to={redirectUrl} />
-    );
-  });
+  // Either render children or redirect based on isProfileComplete and requireComplete
+  return isProfileComplete == requireComplete ? (
+    children
+  ) : (
+    <Navigate to={redirectUrl} />
+  );
+};

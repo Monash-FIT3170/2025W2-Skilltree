@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
+import { Fallback } from '/imports/ui/components/Fallback';
 
 // Nested/Children Routes
 import { DashboardRoutes } from '/imports/routes/pages/Dashboard';
@@ -20,9 +21,11 @@ export const AppRoutes = [
     path: '',
     element: (
       <PrivateRoute redirect="/login">
-        <ProfileCompleteRoute>
-          <App />
-        </ProfileCompleteRoute>
+        <Suspense fallback={<Fallback />}>
+          <ProfileCompleteRoute>
+            <App />
+          </ProfileCompleteRoute>
+        </Suspense>
       </PrivateRoute>
     ),
     children: [
