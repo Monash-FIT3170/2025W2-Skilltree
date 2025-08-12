@@ -38,13 +38,18 @@ export const PrivateRoute = ({ children, redirectUrl = '/login' }) => {
 // ProfileCompleteRoute Helper JSX
 export const ProfileCompleteRoute = ({
   children,
-  redirectUrl = '/login/extraStep1'
+  redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
+  requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) =>
   useTracker(() => {
     const user = User(['profile.isProfileComplete']);
     const isProfileComplete = user?.profile?.isProfileComplete;
+
+    if (isProfileComplete == undefined) return <></>; // When user data is not ready (undefined), render blank to avoid premature loading/redirect.
     // Either render children or redirect when isProfileComplete changes from undefined (after signin)
-    if (isProfileComplete != undefined)
-      return isProfileComplete ? children : <Navigate to={redirectUrl} />;
-    return <></>; // When user data is not ready (undefined), render blank to avoid premature loading/redirect.
+    return isProfileComplete == requireComplete ? (
+      children
+    ) : (
+      <Navigate to={redirectUrl} />
+    );
   });
