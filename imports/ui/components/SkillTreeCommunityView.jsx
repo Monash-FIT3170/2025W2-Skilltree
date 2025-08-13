@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Meteor } from 'meteor/meteor';
 import { SkillTreeView } from '../components/SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
 
 // AuthContext
-import { AuthContext } from '/imports/utils/contexts/AuthContext';2841820
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 export const SkillTreeCommunityView = () => {
   // extract id from url params

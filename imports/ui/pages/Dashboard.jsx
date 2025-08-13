@@ -1,48 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { Users, ChevronRight } from 'lucide-react';
 import { User } from '/imports/utils/User';
 
-import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
-import { EmptyState } from '../components/Dashboard/EmptyState';
+// JSX UI
+import { DashboardSkillTrees } from '/imports/ui/layouts/DashboardSkillTrees';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import {
   getGreetingIcon,
   getGreetingMessage
 } from '../components/Dashboard/Greeting';
-import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
-  const user = User([
-    '_id',
-    'profile.subscribedCommunities',
-    'profile.createdCommunities',
-    'profile.givenName'
-  ]);
+  const user = User(['profile.givenName']);
 
-  const navigate = useNavigate();
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
-  const [allSkillTrees, setAllSkillTrees] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Filter and categorise skill trees
-  const skillTreesWithRoles = allSkillTrees.map(skillTree => ({
-    ...skillTree,
-    isOwner: skillTree.owner === user?._id,
-    isMember:
-      user?.profile?.subscribedCommunities?.includes(skillTree._id) || false
-  }));
-
-  const displayedSkillTrees = skillTreesWithRoles.slice(0, 6);
-
-  // Sort by ownership first, then by join date or creation date
-  const sortedSkillTrees = [...skillTreesWithRoles].sort((a, b) => {
-    if (a.isOwner && !b.isOwner) return -1;
-    if (!a.isOwner && b.isOwner) return 1;
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
+  const [communitiesCount, setCommunitiesCount] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,57 +26,6 @@ export const Dashboard = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (!user) {
-        return;
-      }
-
-      let cancelled = false;
-
-      const fetchSkillTrees = async () => {
-        try {
-          setLoading(true);
-
-          // Get all unique skill tree IDs (created + subscribed)
-          const createdIds = user?.profile?.createdCommunities ?? [];
-          const subscribedIds = user?.profile?.subscribedCommunities ?? [];
-          //Using Set will make all elements unique
-          const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
-
-          const skillTrees = await Promise.all(
-            allUniqueIds.map(id => Meteor.callAsync('skilltrees.get', id))
-          );
-
-          if (!cancelled) {
-            //Some elements were null, so we filter out any null results
-            setAllSkillTrees(skillTrees.filter(Boolean));
-          }
-        } catch (err) {
-          console.error('Error:', err.message);
-        } finally {
-          if (!cancelled) {
-            setLoading(false);
-          }
-        }
-      };
-
-      fetchSkillTrees();
-
-      return () => {
-        cancelled = true;
-      };
-    }, 1000);
-  }, [user?.profile?.createdCommunities, user?.profile?.subscribedCommunities]);
-
-  const handleManageCommNav = () => {
-    navigate('/manage-communities');
-  };
-
-  if (loading) {
-    return <DashboardLoadingState />;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -142,32 +65,19 @@ export const Dashboard = () => {
                 Skill trees you own and communities you've joined
               </p>
             </div>
-
-            <button
-              onClick={handleManageCommNav}
-              className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer"
-            >
-              Manage Communities ({skillTreesWithRoles.length})
-              <ChevronRight size={16} />
-            </button>
+            <Link to={'/manage-communities'}>
+              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                Manage Communities ({communitiesCount})
+                <ChevronRight size={16} />
+              </button>
+            </Link>
           </div>
-
-          <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
-            {sortedSkillTrees.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {displayedSkillTrees.map(skillTree => (
-                  <SkillTreeCard
-                    key={skillTree._id}
-                    skillTree={skillTree}
-                    showSubscribers={true}
-                    currentUserId={user._id}
-                  />
-                ))}
-              </div>
-            ) : (
-              <EmptyState />
-            )}
-          </div>
+          <Suspense fallback={<DashboardLoadingState />}>
+            <DashboardSkillTrees
+              key={user._id}
+              setCommunitiesCount={setCommunitiesCount}
+            />
+          </Suspense>
         </div>
       </div>
     </div>
