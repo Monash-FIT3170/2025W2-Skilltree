@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Forum page component
-import { GeneralForum } from '/imports/ui/components/GeneralForum';
+import { GeneralForum } from '/imports/ui/pages/GeneralForum';
 
 export const GeneralForumRoutes = [
   {
