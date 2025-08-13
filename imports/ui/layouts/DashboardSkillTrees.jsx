@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
@@ -55,14 +55,12 @@ export const DashboardSkillTrees = ({ setCommunitiesCount = null }) => {
         {sortedSkillTrees.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {displayedSkillTrees.map(skillTree => (
-              <Suspense>
-                <SkillTreeCard
-                  key={skillTree._id}
-                  skillTreeId={skillTree._id}
-                  showSubscribers={true}
-                  currentUserId={user._id}
-                />
-              </Suspense>
+              <SkillTreeCard
+                key={skillTree._id}
+                skillTreeId={skillTree._id}
+                showSubscribers={true}
+                currentUserId={user._id}
+              />
             ))}
           </div>
         ) : (
