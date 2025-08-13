@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
+import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
+
+// AuthContext
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 // JSX UI
 import { CreateTreeForm } from '/imports/ui/components/CreateTreeForm';
@@ -10,7 +12,7 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 
 export const CreateSkillTree = () => {
   //Current user id logged in
-  const userId = useTracker(() => Meteor.userId(), []);
+  const userId = useContext(AuthContext); // Reactive when value changes
 
   const [showAddDetailsForm, setShowAddDetailsForm] = useState(true);
   const [showAddSkillsForm, setShowAddSkillsForm] = useState(false);

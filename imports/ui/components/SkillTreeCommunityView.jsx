@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { SkillTreeView } from '../components/SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -8,12 +8,14 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
-import { useTracker } from 'meteor/react-meteor-data';
+
+// AuthContext
+import { AuthContext } from '/imports/utils/contexts/AuthContext';2841820
 
 export const SkillTreeCommunityView = () => {
   // extract id from url params
   const { id } = useParams();
-  const userId = useTracker(() => Meteor.userId(), []);
+  const userId = useContext(AuthContext); // Reactive when value changes
 
   useSubscribeSuspense('skilltrees');
   const skilltree = useFind(

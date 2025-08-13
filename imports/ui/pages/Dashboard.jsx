@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Users, ChevronRight } from 'lucide-react';
+import { User } from '/imports/utils/User';
 
 import { SkillTreeCard } from '../components/Dashboard/SkillTreeWidget';
 import { EmptyState } from '../components/Dashboard/EmptyState';
@@ -13,12 +14,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
-  const user = useTracker(() => {
-    if (Meteor.isClient) {
-      return Meteor.user();
-    }
-    return null;
-  }, []);
+  const user = User([
+    '_id',
+    'profile.subscribedCommunities',
+    'profile.createdCommunities',
+    'profile.givenName'
+  ]);
 
   const navigate = useNavigate();
   const [greeting, setGreeting] = useState(getGreetingMessage());
