@@ -1,12 +1,31 @@
 import React from 'react';
 import { ChevronRight, Users, Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+
+// Mongo Collections
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SkillTreeCard = ({
-  skillTree,
+  skillTreeId, // SkillTreeId
   showSubscribers = false,
   currentUserId
 }) => {
+  useSubscribeSuspense('skilltrees');
+  const skillTree = useFind(SkillTreeCollection, [
+    { _id: { $eq: skillTreeId } }, // SkillTreeId
+    {
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+        description: 1,
+        subscribers: 1
+      }
+    }
+  ])[0];
   const isOwner = skillTree.owner === currentUserId;
 
   return (

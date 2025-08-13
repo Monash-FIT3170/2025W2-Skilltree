@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor';
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { User } from '/imports/utils/User';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -42,12 +41,8 @@ export const ProfileCompleteRoute = ({
   redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
   requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) => {
-  const userId = useContext(AuthContext); // Reactive when value changes
   useSubscribeSuspense('users'); // Needed to workaround SSR
-  const user = useFind(Meteor.users, [
-    { _id: { $eq: userId } },
-    { fields: { 'profile.isProfileComplete': 1 } }
-  ])[0]; // Suspense waits until data is ready to avoid undefined data
+  const user = User(['profile.isProfileComplete']); // Suspense waits until data is ready to avoid undefined data
   const isProfileComplete = user?.profile?.isProfileComplete;
 
   // Either render children or redirect based on isProfileComplete and requireComplete
