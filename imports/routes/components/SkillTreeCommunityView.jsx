@@ -2,15 +2,14 @@ import React from 'react';
 
 // Element JSX Component/Layout
 import { SkillTreeCommunityView } from '/imports/ui/components/SkillTreeCommunityView';
-
-import { CommunityLeaderboardRoutes } from '/imports/routes/pages/CommunityLeaderboard';
+import { CommunityLeaderboardModal } from '/imports/ui/components/CommunityLeaderboardModal.jsx';
 
 export const SkillTreeCommunityViewRoutes = [
   {
-    path: ':id',
+    path: ':id/',
     element: <SkillTreeCommunityView />,
     children: [
-      ...CommunityLeaderboardRoutes
+      {path: 'leaderboard', element: <CommunityLeaderboardModal />}
     ]
   }
 ];
