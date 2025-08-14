@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Button, Spinner } from 'flowbite-react';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SubscribeButton = ({ skillTreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
