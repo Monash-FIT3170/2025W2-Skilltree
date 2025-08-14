@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { check } from 'meteor/check';
 
 Meteor.methods({
@@ -19,12 +20,21 @@ Meteor.methods({
 
   async saveSkillTreeProgress(
     skillTreeId,
-    progressTreeNodes,
-    progressTreeEdges
+    progressTreeNodes = null,
+    progressTreeEdges = null
   ) {
     check(skillTreeId, String);
-    check(progressTreeNodes, [Object]);
-    check(progressTreeEdges, [Object]);
+    if (progressTreeNodes !== null) check(progressTreeNodes, [Object]);
+    if (progressTreeEdges !== null) check(progressTreeEdges, [Object]);
+
+    //Get template tree for unsubscribed user
+    const baseTree = await SkillTreeCollection.findOneAsync({
+      _id: skillTreeId
+    });
+    if (progressTreeNodes == null && progressTreeEdges == null) {
+      progressTreeNodes = baseTree.skillNodes;
+      progressTreeEdges = baseTree.skillEdges;
+    }
 
     const existing = await SkillTreeProgressCollection.findOneAsync({
       userId: this.userId,
@@ -33,7 +43,7 @@ Meteor.methods({
 
     if (existing) {
       return await SkillTreeProgressCollection.updateAsync(
-        { userId: this.userId, communityId: skillTreeId },
+        { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
             skillNodes: progressTreeNodes,
@@ -59,7 +69,11 @@ Meteor.methods({
     });
 
     if (existing) {
-      return SkillTreeProgressCollection.remove(skillTreeId);
+      // Corrected remove query: remove by userId and skillTreeId
+      return await SkillTreeProgressCollection.removeAsync({
+        userId: this.userId,
+        skillTreeId: skillTreeId
+      });
     } else {
       return null;
     }
