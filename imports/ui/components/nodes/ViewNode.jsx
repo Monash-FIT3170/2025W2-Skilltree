@@ -4,27 +4,26 @@ import { Handle, Position } from '@xyflow/react';
 export function ViewNode({ data, isUnlocked }) {
   const [isHovering, setIsHovering] = useState(false);
 
-  let bgColour;
+  let displayColour;
+  let bgColour = isUnlocked ? '#328E6E' : '#8C8C8C';
+  let hoverBg = isUnlocked ? '#025940' : '#5a5b5a';
+
+
+
 
   const progress = isUnlocked
     ? Math.floor((data.progressXp / data.xpPoints) * 100)
     : 0;
 
-  bgColour = isUnlocked
-    ? isHovering
-      ? '!bg-[#025940]'
-      : '!bg-[#328E6E]'
-    : '!bg-[#8C8C8C]';
+  displayColour = isHovering ? hoverBg : bgColour;
 
-  const ringClasses = isUnlocked
-    ? 'focus:ring-2 focus:ring-[#328E6E] focus:ring-offset-2 hover:ring-2 hover:ring-[#328E6E] hover:ring-offset-2'
-    : '';
+  const ringClasses = `focus:ring-2 focus:ring[#328E6E]] focus:ring-offset-2 hover:ring-2 hover:ring-[#328E6E] hover:ring-offset-2`;
 
   return (
     <div
-      className={`react-flow__node-default ${bgColour} p-2.5 rounded 
-                  focus:outline-none ${ringClasses}`}
-      onClick={isUnlocked ? data.onOpenEditor : null}
+      className={`react-flow__node-default p-2.5 rounded focus:outline-none ${ringClasses}`}
+      style={{ backgroundColor: displayColour }}
+      onClick={data.onOpenEditor}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -53,21 +52,6 @@ export function ViewNode({ data, isUnlocked }) {
               className="bg-[#FBBC05] text-xs font-medium text-center p-1 leading-none rounded-full"
               style={{ width: `${progress}%` }}
             ></div>
-          </div>
-        )}
-        {!isUnlocked && (
-          <div
-            className={`
-      absolute inset-0 flex items-center justify-center 
-      transition-opacity duration-300 ease-in-out
-      ${isHovering ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-    `}
-          >
-            <img
-              src="/images/LockIcon.png"
-              alt="Lock Icon"
-              className="w-6 h-6"
-            />
           </div>
         )}
       </div>
