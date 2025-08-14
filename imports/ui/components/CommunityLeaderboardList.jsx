@@ -6,6 +6,8 @@ import { Avatar, List, ListItem, Badge } from "flowbite-react";
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+
 export const CommunityLeaderboardList = ({skillTreeId}) => {
     // Code to extract skilltree from database using id
     useSubscribeSuspense('skilltrees', skillTreeId);
