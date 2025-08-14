@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { SkillTreeView } from '../components/SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { useParams } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
@@ -37,6 +37,7 @@ export const SkillTreeCommunityView = () => {
 
   return (
     <div key={id}>
+      <Outlet></Outlet>
       <div className="p-2">
         <NavigationDropdown id={id} />
 
