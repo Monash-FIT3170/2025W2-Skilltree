@@ -12,6 +12,63 @@ import { Background } from '@xyflow/react';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
+import { Button } from 'flowbite-react';
+import { Meteor } from 'meteor/meteor';
+
+function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
+  Meteor.callAsync(
+    'saveSkillTreeProgress',
+    skillTreeId,
+    progressNodes,
+    progressEdges
+  );
+  console.log('saved tree progress');
+  return;
+}
+
+let progresNodes = [
+  {
+    id: '0',
+    type: 'root',
+    data: {
+      label: 'root',
+      description: 'root',
+      progressXp: null,
+      requirements: 'root',
+      xpPoints: null
+    },
+    position: { x: 0, y: 0 }
+  },
+  {
+    id: 'bat',
+    type: 'view-node-locked',
+    data: {
+      label: 'Batting',
+      description: 'Learn how to bat effectively.',
+      progressXp: 0,
+      requirements: 'Upload a video of yourself batting for 10 balls',
+      xpPoints: 15
+    },
+    position: { x: 100, y: 75 }
+  },
+  {
+    id: 'bowl',
+    type: 'view-node-locked',
+    data: {
+      label: 'Bowling',
+      description: 'Learn how to bowl effectively.',
+      progressXp: 0,
+      requirements: 'Upload a video of yourself bowling 10 balls',
+      xpPoints: 25
+    },
+    position: { x: 300, y: 175 }
+  }
+];
+
+let progressEdges = [
+  { id: 'e1', source: '0', target: 'bat' },
+  { id: 'e2', source: 'bat', target: 'bowl' }
+];
 
 export const SkillTreeCommunityView = () => {
   // extract id from url params
@@ -71,7 +128,9 @@ export const SkillTreeCommunityView = () => {
         </div>
       </div>
       <SkillTreeView id={id} isAdmin={false} />
-      <Outlet/>
+      <Button
+        onClick={() => testSaveTreeProgress(id, progresNodes, progressEdges)}
+      ></Button>
     </div>
   );
 };
