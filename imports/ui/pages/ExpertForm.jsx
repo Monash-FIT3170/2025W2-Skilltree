@@ -23,7 +23,7 @@ export const ModeratorForm = ({ skillTreeId }) => {
   return (
     <>
       <Helmet>
-        <title>Moderator Application</title>
+        <title>Expert Application</title>
       </Helmet>
 
       <form
