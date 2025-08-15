@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Meteor } from "meteor/meteor";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -9,13 +9,13 @@ function useQuery() {
 export const SearchResults = () => {
   const navigate = useNavigate();
   const query = useQuery();
-  const searchQuery = query.get("query") || "";
-  const tagFilters = JSON.parse(query.get("tags") || "[]");
+  const searchQuery = query.get('query') || '';
+  const tagFilters = JSON.parse(query.get('tags') || '[]');
 
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    Meteor.call("searchSkillTrees", searchQuery, tagFilters, (err, res) => {
+    Meteor.call('searchSkillTrees', searchQuery, tagFilters, (err, res) => {
       if (err) {
         console.error(err);
       } else {
@@ -31,7 +31,7 @@ export const SearchResults = () => {
         <p>No results found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {results.map((item) => (
+          {results.map(item => (
             <div
               key={item._id}
               onClick={() => navigate(`/skilltree/${item._id}`)}
@@ -52,7 +52,9 @@ export const SearchResults = () => {
               </div>
               <div className="p-3">
                 <h2 className="font-semibold text-lg">{item.title}</h2>
-                <p className="text-sm text-gray-200 line-clamp-2">{item.description}</p>
+                <p className="text-sm text-gray-200 line-clamp-2">
+                  {item.description}
+                </p>
               </div>
             </div>
           ))}
