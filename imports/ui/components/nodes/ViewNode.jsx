@@ -8,9 +8,6 @@ export function ViewNode({ data, isUnlocked }) {
   let bgColour = isUnlocked ? '#328E6E' : '#8C8C8C';
   let hoverBg = isUnlocked ? '#025940' : '#5a5b5a';
 
-
-
-
   const progress = isUnlocked
     ? Math.floor((data.progressXp / data.xpPoints) * 100)
     : 0;
