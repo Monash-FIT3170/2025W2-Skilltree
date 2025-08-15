@@ -30,7 +30,7 @@ export const ExpertForm = ({ skillTreeId }) => {
         onSubmit={handleSubmit}
         className="space-y-4 max-w-lg mx-auto p-4 border rounded-lg shadow"
       >
-        <h2 className="text-2xl font-bold mb-4">Moderator Application</h2>
+        <h2 className="text-2xl font-bold mb-4">Expert Application</h2>
 
         {/* Name */}
         <div>
