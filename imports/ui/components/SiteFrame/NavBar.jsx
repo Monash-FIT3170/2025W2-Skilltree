@@ -29,7 +29,7 @@ export const NavBar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     e.preventDefault();
 
     // If empty search, trigger shake animation
@@ -57,8 +57,8 @@ export const NavBar = () => {
     }
   };
 
-  const removeTagFilter = (tagToRemove) => {
-    setTagFilters(tagFilters.filter((tag) => tag !== tagToRemove));
+  const removeTagFilter = tagToRemove => {
+    setTagFilters(tagFilters.filter(tag => tag !== tagToRemove));
   };
 
   const clearAllFilters = () => {
@@ -164,7 +164,7 @@ export const NavBar = () => {
                       type="text"
                       placeholder="Type a tag and press Enter"
                       value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
+                      onChange={e => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     />
