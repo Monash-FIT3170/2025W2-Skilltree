@@ -10,6 +10,7 @@ import { UserList } from './UserList';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
+import { ExpertFormButton } from './ExpertFormButton';
 
 export const SkillTreeCommunityView = () => {
   // extract id from url params
@@ -53,6 +54,10 @@ export const SkillTreeCommunityView = () => {
           <p>Description: {skilltree.description}</p>
           <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
         </div>
+      </div>
+
+      <div className="p-2">
+        <ExpertFormButton skillTreeId={id} />
       </div>
       <SkillTreeView id={id} isAdmin={false} />
     </div>

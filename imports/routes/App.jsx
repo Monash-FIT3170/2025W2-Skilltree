@@ -14,6 +14,7 @@ import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
+import { ExpertFormRoutes } from '/imports/routes/pages/ExpertForm';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -38,6 +39,7 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
+      ...ExpertFormRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

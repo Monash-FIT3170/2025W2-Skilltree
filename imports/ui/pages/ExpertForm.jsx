@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 
-export const ModeratorForm = ({ skillTreeId }) => {
+export const ExpertForm = ({ skillTreeId }) => {
   const [formData, setFormData] = useState({
     name: '',
     qualifications: '',
@@ -80,7 +80,7 @@ export const ModeratorForm = ({ skillTreeId }) => {
         {/* Reason for being a moderator */}
         <div>
           <label htmlFor="reason" className="block font-medium">
-            Why Do You Want to Be a Moderator?
+            Why Do You Want to Be a Expert for this SkillTree?
           </label>
           <textarea
             id="reason"
