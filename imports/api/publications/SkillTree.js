@@ -142,13 +142,10 @@ Meteor.startup(async () => {
       ],
       admins: ['basketballpro'],
       subscribers: [
-        "playerA", "playerB", "playerC", "playerD", "playerE",
-        "playerF", "playerG", "playerH", "playerI", "playerJ",
-        "playerK", "playerL", "playerM", "playerN", "playerO",
-        "playerP", "playerQ", "playerR", "playerS", "playerT",
-        "playerU", "playerV", "playerW", "playerX", "playerY",
-        "playerZ"
-      ]
+        "playerA",
+        "playerB",
+        "a1S2A2A933jf",
+      ],
     },
     {
       title: 'Soccer',
