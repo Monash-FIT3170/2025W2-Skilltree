@@ -18,6 +18,19 @@ Meteor.publish('users', () => {
   }
 });
 
+Meteor.publish('usernames', function (userIds) {
+  if (!userIds){
+    return this.ready()
+  }
+
+  return Meteor.users.find(
+    {_id: {$in: userIds}},
+    {fields: {
+      username: 1,
+    }}
+  )
+})
+
 // [Mock Data] via Meteor Startup
 Meteor.startup(async () => {
   // Remove existing users to avoid duplicates (debug only)
@@ -55,6 +68,7 @@ Meteor.startup(async () => {
 
   // Create second sample user
   await Accounts.createUser({
+    _id: "a1S2A2A933jf",
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
