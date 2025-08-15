@@ -1,9 +1,9 @@
-import React from 'react';
-import { SearchResults } from '/imports/ui/pages/SearchResults';
+import React from "react";
+import { SearchResults } from "/imports/ui/pages/SearchResults";
 
 export const SearchResultsRoutes = [
   {
-    path: '/search',
+    path: "/search",
     element: <SearchResults />
   }
 ];
