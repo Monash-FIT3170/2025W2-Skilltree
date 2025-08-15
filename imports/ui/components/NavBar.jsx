@@ -5,71 +5,48 @@ import {
   NavbarLink,
   NavbarToggle
 } from 'flowbite-react';
-import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// JSX UI
 import { UserDropdownMenu } from '/imports/ui/components/UserDropdownMenu';
 
 export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [tagFilters, setTagFilters] = useState([]);
   const [tagInput, setTagInput] = useState('');
-  const navigate = useNavigate();
-  const dropdownRef = useRef();
+  const [showFilters, setShowFilters] = useState(false);
+  const [shake, setShake] = useState(false);
   const filtersRef = useRef();
+  const navigate = useNavigate();
 
+  // Close filter dropdown when clicking outside
   useEffect(() => {
-    if (!searchQuery.trim() && tagFilters.length === 0) {
-      setResults([]);
-      setShowDropdown(false);
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      Meteor.call('searchSkillTrees', searchQuery, tagFilters, (err, res) => {
-        if (err) {
-          console.error('Search error:', err);
-        } else {
-          setResults(res);
-          setShowDropdown(true);
-        }
-      });
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [searchQuery, tagFilters]);
-
-  // Clse dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
+    const handleClickOutside = (event) => {
       if (filtersRef.current && !filtersRef.current.contains(event.target)) {
         setShowFilters(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    setShowDropdown(true);
+
+    // If empty search, trigger shake animation
+    if (!searchQuery.trim() && tagFilters.length === 0) {
+      setShake(true);
+      setTimeout(() => setShake(false), 300);
+      return;
+    }
+
+    navigate(
+      `/search?query=${encodeURIComponent(searchQuery)}&tags=${encodeURIComponent(
+        JSON.stringify(tagFilters)
+      )}`
+    );
   };
 
-  const handleResultClick = id => {
-    setShowDropdown(false);
-    navigate(`/skilltree/${id}`);
-  };
-
-  const handleTagInputKeyPress = e => {
+  const handleTagInputKeyPress = (e) => {
     if (e.key === 'Enter' && tagInput.trim()) {
       e.preventDefault();
       const newTag = tagInput.trim().toLowerCase();
@@ -80,8 +57,8 @@ export const NavBar = () => {
     }
   };
 
-  const removeTagFilter = tagToRemove => {
-    setTagFilters(tagFilters.filter(tag => tag !== tagToRemove));
+  const removeTagFilter = (tagToRemove) => {
+    setTagFilters(tagFilters.filter((tag) => tag !== tagToRemove));
   };
 
   const clearAllFilters = () => {
@@ -106,7 +83,11 @@ export const NavBar = () => {
         <div className="flex-1 max-w-2xl relative w-full">
           <form onSubmit={handleSearch}>
             <div className="relative flex items-center">
-              <div className="flex-1 relative">
+              <div
+                className={`flex-1 relative transition-transform duration-300 ${
+                  shake ? 'animate-shake' : ''
+                }`}
+              >
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
                     className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -127,8 +108,7 @@ export const NavBar = () => {
                   type="text"
                   placeholder="Search SkillTree titles... (try 'Jedi')"
                   value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onFocus={() => setShowDropdown(results.length > 0)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full ps-10 pe-4 py-2 bg-white text-black rounded-l-[8px] shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200"
                 />
               </div>
@@ -184,7 +164,7 @@ export const NavBar = () => {
                       type="text"
                       placeholder="Type a tag and press Enter"
                       value={tagInput}
-                      onChange={e => setTagInput(e.target.value)}
+                      onChange={(e) => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     />
@@ -224,50 +204,6 @@ export const NavBar = () => {
               </div>
             </div>
           </form>
-
-          {/* Search Results Dropdown */}
-          {showDropdown && results.length > 0 && (
-            <ul
-              ref={dropdownRef}
-              className="absolute w-full bg-white shadow-md border border-gray-200 rounded-xl mt-2 z-40 max-h-60 overflow-y-auto"
-            >
-              {results.map(item => (
-                <li
-                  key={item._id}
-                  className="px-4 py-3 hover:bg-gray-100 cursor-pointer flex items-center gap-3"
-                  onClick={() => handleResultClick(item._id)}
-                >
-                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                        onError={e => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                    ) : null}
-                    <div
-                      className="w-full h-full bg-gradient-to-br from-green-300 to-green-700 flex items-center justify-center text-white font-semibold text-lg"
-                      style={{ display: item.image ? 'none' : 'flex' }}
-                    >
-                      {item.title.charAt(0).toUpperCase()}
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-gray-800 truncate">
-                      {item.title}
-                    </div>
-                    <div className="text-sm text-gray-500 truncate">
-                      {item.description}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
 
         <NavbarToggle />
@@ -280,6 +216,20 @@ export const NavBar = () => {
           <UserDropdownMenu />
         </NavbarCollapse>
       </Navbar>
+
+      {/* Tailwind keyframes for shake animation */}
+      <style>
+        {`
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+          }
+          .animate-shake {
+            animation: shake 0.3s ease-in-out;
+          }
+        `}
+      </style>
     </div>
   );
 };
