@@ -14,7 +14,6 @@ import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommuni
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
 
-
 // Define Routes for App JSX layout
 export const AppRoutes = [
   {

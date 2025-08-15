@@ -20,7 +20,7 @@ export const NavBar = () => {
 
   // Close filter dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (filtersRef.current && !filtersRef.current.contains(event.target)) {
         setShowFilters(false);
       }
@@ -29,7 +29,7 @@ export const NavBar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     e.preventDefault();
 
     // If empty search, trigger shake animation
@@ -46,7 +46,7 @@ export const NavBar = () => {
     );
   };
 
-  const handleTagInputKeyPress = (e) => {
+  const handleTagInputKeyPress = e => {
     if (e.key === 'Enter' && tagInput.trim()) {
       e.preventDefault();
       const newTag = tagInput.trim().toLowerCase();
@@ -57,8 +57,8 @@ export const NavBar = () => {
     }
   };
 
-  const removeTagFilter = (tagToRemove) => {
-    setTagFilters(tagFilters.filter((tag) => tag !== tagToRemove));
+  const removeTagFilter = tagToRemove => {
+    setTagFilters(tagFilters.filter(tag => tag !== tagToRemove));
   };
 
   const clearAllFilters = () => {
@@ -108,7 +108,7 @@ export const NavBar = () => {
                   type="text"
                   placeholder="Search SkillTree titles... (try 'Jedi')"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full ps-10 pe-4 py-2 bg-white text-black rounded-l-[8px] shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200"
                 />
               </div>
@@ -164,7 +164,7 @@ export const NavBar = () => {
                       type="text"
                       placeholder="Type a tag and press Enter"
                       value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
+                      onChange={e => setTagInput(e.target.value)}
                       onKeyPress={handleTagInputKeyPress}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     />
