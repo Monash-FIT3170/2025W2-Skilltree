@@ -206,12 +206,24 @@ Meteor.startup(async () => {
       tags: ['cricket', 'bat', 'sports'],
       skillNodes: [
         {
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            progressXp: null,
+            requirements: 'root',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
           id: 'bat',
-          type: 'view-node-unlocked',
+          type: 'view-node-locked',
           data: {
             label: 'Batting',
             description: 'Learn how to bat effectively.',
-            progressXp: 15,
+            progressXp: 0,
             requirements: 'Upload a video of yourself batting for 10 balls',
             xpPoints: 15
           },
@@ -223,7 +235,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Bowling',
             description: 'Learn how to bowl effectively.',
-            progressXp: 25,
+            progressXp: 0,
             requirements: 'Upload a video of yourself bowling 10 balls',
             xpPoints: 25
           },
@@ -235,7 +247,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Fielding',
             description: 'Learn how to field effectively.',
-            progressXp: 35,
+            progressXp: 10,
             requirements: 'Upload a video of yourself fielding and catching',
             xpPoints: 35
           },
@@ -243,8 +255,9 @@ Meteor.startup(async () => {
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'bat', target: 'bowl' },
-        { id: 'e2', source: 'bowl', target: 'field' }
+        { id: 'e1', source: '0', target: 'bat' },
+        { id: 'e2', source: 'bat', target: 'bowl' },
+        { id: 'e3', source: 'bowl', target: 'field' }
       ],
       admins: ['cricketpro'],
       subscribers: ['user1', 'user2']
