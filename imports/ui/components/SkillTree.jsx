@@ -49,7 +49,8 @@ export const SkillTreeLogic = ({
       data: {
         ...node.data,
         onOpenEditor: () => handleOpenEditor(node.id)
-      }
+      },
+      draggable: isAdmin
     }));
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
