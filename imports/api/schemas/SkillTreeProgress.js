@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SkillTreeCollection } from '../collections/SkillTree';
+import { SkillTreeProgressCollection } from '../collections/SkillTreeProgress';
 
 const skillDataSchema = new SimpleSchema({
   label: {
@@ -103,41 +103,15 @@ const skillEdgeSchema = new SimpleSchema({
 });
 
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
-Schemas.SkillTree = new SimpleSchema({
-  title: {
-    type: String,
-    label: 'Title',
-    max: 200,
-    min: 1
+Schemas.SkillTreeProgress = new SimpleSchema({
+  userId: {
+    type: Number,
+    label: 'Unique User ID'
   },
-  owner: {
-    type: String,
-    label: 'Owner User ID'
+  communityId: {
+    type: Number,
+    label: 'Unique Community ID'
   },
-  image: {
-    type: String,
-    label: 'Image (Base64 or URL)',
-    regEx: SimpleSchema.RegEx.Url,
-    optional: true
-  },
-  description: {
-    type: String,
-    label: 'Description',
-    max: 1000,
-    min: 1
-  },
-  termsAndConditions: {
-    type: String,
-    label: 'SkillTree terms and conditions',
-    max: 1000,
-    min: 1
-  },
-  tags: {
-    type: Array,
-    label: 'Tags for this SkillTree',
-    optional: true
-  },
-  'tags.$': String,
   skillNodes: {
     type: Array,
     label: 'List of skill nodes'
@@ -147,18 +121,7 @@ Schemas.SkillTree = new SimpleSchema({
     type: Array,
     label: 'List of skill edges'
   },
-  'skillEdges.$': skillEdgeSchema,
-  admins: {
-    type: Array,
-    label: 'User IDs of admins'
-  },
-  'admins.$': String,
-  subscribers: {
-    type: Array,
-    label: 'User IDs of subscribers'
-  },
-  'subscribers.$': String
+  'skillEdges.$': skillEdgeSchema
 });
 
-// Attach the defined schema (from Schemas) to the SkillTreeCollection
-SkillTreeCollection.attachSchema(Schemas.SkillTree);
+SkillTreeProgressCollection.attachSchema(Schemas.SkillTreeProgress);

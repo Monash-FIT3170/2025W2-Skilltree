@@ -28,7 +28,7 @@ export const ProofsList = ({ skilltreeId }) => {
   // Track selected proof to open its detail modal
   const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
-  const currentUserId = Meteor.userId();
+  //const currentUserId = Meteor.userId();
 
   /**
    * useFind hook:
