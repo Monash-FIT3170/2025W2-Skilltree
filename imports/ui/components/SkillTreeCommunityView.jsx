@@ -8,7 +8,6 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
-import { Background } from '@xyflow/react';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -99,7 +98,6 @@ export const SkillTreeCommunityView = () => {
 
   return (
     <div key={id}>
-
       <div className="p-2">
         <NavigationDropdown id={id} />
 
@@ -109,7 +107,7 @@ export const SkillTreeCommunityView = () => {
         <div className="p-2"></div>
         <div className="flex gap-4">
           <UserList skillTreeId={id}></UserList>
-          <Link to="leaderboard" state={{ background: location}}>
+          <Link to="leaderboard" state={{ background: location }}>
             <Button
               color="green"
               pill
@@ -128,6 +126,7 @@ export const SkillTreeCommunityView = () => {
         </div>
       </div>
       <SkillTreeView id={id} isAdmin={false} />
+      <Outlet />
       <Button
         onClick={() => testSaveTreeProgress(id, progresNodes, progressEdges)}
       ></Button>
