@@ -1,14 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Avatar, List, ListItem, Badge } from "flowbite-react";
+import { List, ListItem, Badge } from "flowbite-react";
 
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
+/**
+ * CommunityLeaderboardList.jsx
+ * 
+ * Renders a list component that displays users in a SkillTree
+ * 
+ * @component 
+ * @example
+ * // Example usage
+ * <CommunityLeaderboardList skillTreeId = {id}></CommunityLeaderboardList>
+ * 
+ * @param {skillTreeId} _id of SkillTree to exctract users from
+ * 
+ * @returns List of users inside skilltree
+ */
 export const CommunityLeaderboardList = ({skillTreeId}) => {
+  // useFind to query user data
   useSubscribeSuspense('skilltrees');
   const targetSkillTree = useFind(SkillTreeCollection,
     [
@@ -22,8 +37,6 @@ export const CommunityLeaderboardList = ({skillTreeId}) => {
     ],
     [skillTreeId]
   )[0];
-
-  console.log(targetSkillTree)
 
   useSubscribeSuspense('usernames',targetSkillTree?.subscribers ?? []);
   const users = useFind(
