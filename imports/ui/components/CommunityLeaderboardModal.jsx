@@ -1,10 +1,23 @@
-import React , {Suspense} from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'flowbite-react';
 import { CommunityLeaderboardList } from '/imports/ui/components/CommunityLeaderboardList';
-import { Fallback } from '/imports/ui/components/Fallback';
 
+/**
+ * CommunityLeaderboardModal.jsx
+ * 
+ * Renders a modal containing a leaderboard for a SkillTree
+ * Child route of SkillTreeCommunityView.jsx
+ * 
+ * @component
+ * @example
+ * // Example usage
+ * <Link to="leaderboard" state={{ background: location}}> A link </Link>
+ * <Outlet/>
+ * 
+ * @returns Modal object which displays leaderboard
+ */
 export const CommunityLeaderboardModal = () => {
     // id from url
     const { id } = useParams();
@@ -15,8 +28,8 @@ export const CommunityLeaderboardModal = () => {
         navigate(-1)
     }
 
+
   return (
-    <div>
       <Modal 
         show={true} 
         onClose={closeModal} 
@@ -24,8 +37,14 @@ export const CommunityLeaderboardModal = () => {
         size="7xl"
       >
         <ModalHeader>Community Leaderboard</ModalHeader>
-        <ModalBody>
+        <ModalBody
+          className="w-full h-full min-h-[70vh]" 
+        >
+          <div
+            className='space-y-6'
+          >
             <CommunityLeaderboardList skillTreeId = {id}></CommunityLeaderboardList>
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button 
@@ -38,6 +57,5 @@ export const CommunityLeaderboardModal = () => {
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
   )
 }
