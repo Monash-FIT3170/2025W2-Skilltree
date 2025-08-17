@@ -8,8 +8,6 @@ export const SkillTreeCommunityViewRoutes = [
   {
     path: ':id/',
     element: <SkillTreeCommunityView />,
-    children: [
-      {path: 'leaderboard', element: <CommunityLeaderboardModal />}
-    ]
+    children: [{ path: 'leaderboard', element: <CommunityLeaderboardModal /> }]
   }
 ];
