@@ -73,7 +73,7 @@ Meteor.startup(async () => {
 
   // Create second sample user
   await Accounts.createUser({
-    _id: "a1S2A2A933jf",
+    _id: 'a1S2A2A933jf',
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
