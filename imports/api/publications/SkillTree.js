@@ -141,11 +141,7 @@ Meteor.startup(async () => {
         { id: 'e9', source: '8', target: '5' }
       ],
       admins: ['basketballpro'],
-      subscribers: [
-        "playerA",
-        "playerB",
-        "a1S2A2A933jf",
-      ],
+      subscribers: ['playerA', 'playerB', 'a1S2A2A933jf']
     },
     {
       title: 'Soccer',

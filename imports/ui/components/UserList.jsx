@@ -19,7 +19,7 @@ export const UserList = ({ skillTreeId }) => {
     { _id: { $eq: skillTreeId } }
   ]);
   const targetSkillTree = skillTrees[0];
-  
+
   const [openModal, setOpenModal] = useState(false);
   const [usernameList, setUsernameList] = useState([]);
 
