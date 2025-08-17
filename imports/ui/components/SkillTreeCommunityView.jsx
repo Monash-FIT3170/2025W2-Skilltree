@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { SkillTreeView } from '../components/SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { Button } from 'flowbite-react';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
