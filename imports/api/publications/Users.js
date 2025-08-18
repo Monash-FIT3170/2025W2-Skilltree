@@ -134,13 +134,19 @@ Meteor.startup(async () => {
     }
   });
 
-  await Meteor.callAsync('skilltrees.subscribeUser','basketball',communityMemberA);
+  await Meteor.callAsync(
+    'skilltrees.subscribeUser',
+    'basketball',
+    communityMemberA
+  );
 
-  for (let i=0;i<50;i++){
+  for (let i = 0; i < 50; i++) {
     const memberUsername = 'member' + String(i);
 
-    const memberId = await Accounts.createUserAsync({username: memberUsername});
+    const memberId = await Accounts.createUserAsync({
+      username: memberUsername
+    });
 
-    await Meteor.callAsync('skilltrees.subscribeUser','basketball',memberId);
+    await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', memberId);
   }
 });

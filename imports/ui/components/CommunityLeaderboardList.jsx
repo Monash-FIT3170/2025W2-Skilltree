@@ -59,9 +59,9 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
         return (
           <ListItem key={user._id} className="pb-3">
             <div className="flex items-center space-x-4">
-              <Badge 
-                color="green" 
-                size="sm" 
+              <Badge
+                color="green"
+                size="sm"
                 className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
               >
                 {String(index + 1)}
