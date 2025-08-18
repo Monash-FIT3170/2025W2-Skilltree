@@ -71,7 +71,6 @@ Meteor.startup(async () => {
 
   // Create second sample user
   await Accounts.createUser({
-    _id: 'a1S2A2A933jf',
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
@@ -102,4 +101,46 @@ Meteor.startup(async () => {
       password: 'example123!'
     }
   });
+
+  const communityMemberA = await Accounts.createUserAsync({
+    username: 'member A',
+    password: 'testpass4',
+    email: 'lebron@gmail.com',
+    profile: {
+      givenName: 'John',
+      familyName: 'Wall',
+      avatarUrl: 'https://example.com/avatar.jpg',
+      bio: 'idk what to put here lol',
+      dateOfBirth: new Date('2024-05-07'),
+      subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'ZmdXoqCGoWyixyqB5'],
+      roles: ['user', 'moderator'],
+      isActive: true,
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      proof_of_practice_uploads: [
+        '65a8b11f3d93c27b3c1b9de1',
+        '65a8b11f3d93c27b3c1b9de2'
+      ],
+      expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
+      membership_tier: 'pro',
+      createdCommunities: [],
+      friends: [],
+      skillForests: [],
+      isProfileComplete: true
+    },
+    services: {
+      password: 'example123!'
+    }
+  });
+
+  await Meteor.callAsync('skilltrees.subscribeUser','basketball',communityMemberA);
+
+  for (let i=0;i<50;i++){
+    const memberUsername = 'member' + String(i);
+
+    const memberId = await Accounts.createUserAsync({username: memberUsername});
+
+    await Meteor.callAsync('skilltrees.subscribeUser','basketball',memberId);
+  }
 });
