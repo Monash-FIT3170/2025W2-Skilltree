@@ -17,6 +17,10 @@ export const Dashboard = () => {
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
   const [communitiesCount, setCommunitiesCount] = useState(0);
+  const [currentView, setCurrentView] = useState('skillForest');
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,34 +56,70 @@ export const Dashboard = () => {
             Manage your skill trees and track your learning journey
           </p>
         </div>
+        {/* Skill Forest and Skill Trees Section buttons */}
+        <div className='mb-8'>
+          <nav className="flex gap-3 mb-4">
+            <button
+              onClick={() => handleViewChange('skillForest')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${currentView === 'skillForest'
+                  ? 'bg-green-600 text-white border-green-600'   // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'}`} // Inactive (grey)
+            >
+              Skill Forest
+            </button>
+
+            {/* Skill Trees Button */}
+            <button
+              onClick={() => handleViewChange('skillTrees')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${currentView === 'skillTrees'
+                  ? 'bg-green-600 text-white border-green-600'   // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'}`} // Inactive (grey)
+            >
+              Skill Trees
+            </button>
+          </nav>
+          {currentView === 'skillForest' && (
+            <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
+              <span>View your skill trees in a forest layout</span>
+              <Link to={'/manage-communities'}>
+                <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                  Manage Communities ({communitiesCount})
+                  <ChevronRight size={16} />
+                </button>
+              </Link>
+            </div>
+          )}
+          {currentView === 'skillTrees' && (
+            <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
+              <span>View your skill trees layout</span>
+              <Link to={'/manage-communities'}>
+                <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                  Manage Communities ({communitiesCount})
+                  <ChevronRight size={16} />
+                </button>
+              </Link>
+            </div>
+          )}
+
+        </div>
 
         {/* My Skill Trees Section */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Users size={20} className="text-[#04BF8A]" />
-                My Skill Trees
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Skill trees you own and communities you've joined
-              </p>
-            </div>
-            <Link to={'/manage-communities'}>
-              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
-                Manage Communities ({communitiesCount})
-                <ChevronRight size={16} />
-              </button>
-            </Link>
+          <div className="mb-8 w-full">
+            <Suspense fallback={<DashboardLoadingState />}>
+              <DashboardSkillTrees
+                key={user._id}
+                setCommunitiesCount={setCommunitiesCount} />
+            </Suspense>
           </div>
-          <Suspense fallback={<DashboardLoadingState />}>
-            <DashboardSkillTrees
-              key={user._id}
-              setCommunitiesCount={setCommunitiesCount}
-            />
-          </Suspense>
         </div>
       </div>
     </div>
+
+
   );
 };
+
+
