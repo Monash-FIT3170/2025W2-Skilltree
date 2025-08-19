@@ -4,11 +4,13 @@ import { Meteor } from 'meteor/meteor';
 
 // JSX UI
 import { CreateForestForm } from '/imports/ui/components/SkillForestComponents/CreateForestForm';
+import { SelectSkillTrees } from '../layouts/SelectSkillTrees';
 
 export const CreateSkillForest = () => {
   return (
     <>
       <CreateForestForm />
+      <SelectSkillTrees />
     </>
   );
 };
