@@ -73,7 +73,8 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
               >
                 {String(index + 1)}
               </Badge>
-              <div>{`${user.username}, ${user.profile ? user.profile[filter] : -1}`}</div>
+              <span>{`${user.username}`}</span>
+              <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
             </div>
           </ListItem>
         );
