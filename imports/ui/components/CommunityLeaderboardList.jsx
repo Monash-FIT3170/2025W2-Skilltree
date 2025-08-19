@@ -19,6 +19,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
  * <CommunityLeaderboardList skillTreeId = {id}></CommunityLeaderboardList>
  *
  * @param {skillTreeId} _id of SkillTree to exctract users from
+ * @param {filter} filter field from user.profile to sort by (String)
  *
  * @returns List of users inside skilltree
  */
