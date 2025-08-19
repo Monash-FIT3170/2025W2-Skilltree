@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { SkillTreeView } from '../components/SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { useParams } from 'react-router-dom';
+import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationDropdown } from '../components/NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
@@ -73,6 +73,9 @@ export const SkillTreeCommunityView = () => {
   const { id } = useParams();
   const userId = useContext(AuthContext); // Reactive when value changes
 
+  // extract location
+  const { location } = useLocation();
+
   useSubscribeSuspense('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
@@ -101,8 +104,18 @@ export const SkillTreeCommunityView = () => {
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}
         {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
         <div className="p-2"></div>
-
-        <UserList skillTreeId={id}></UserList>
+        <div className="flex gap-4">
+          <UserList skillTreeId={id}></UserList>
+          <Link to="leaderboard" state={{ background: location }}>
+            <Button
+              color="green"
+              pill
+              className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            >
+              Leaderboard
+            </Button>
+          </Link>
+        </div>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>
@@ -112,6 +125,7 @@ export const SkillTreeCommunityView = () => {
         </div>
       </div>
       <SkillTreeView id={id} isAdmin={false} />
+      <Outlet />
       <Button
         onClick={() => testSaveTreeProgress(id, progresNodes, progressEdges)}
       ></Button>
