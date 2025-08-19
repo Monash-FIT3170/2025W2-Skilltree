@@ -49,8 +49,8 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     [
       { _id: { $in: targetSkillTree?.subscribers ?? [] } },
       {
-        fields: { username: 1, [filter]: 1 },
-        sort: { [filter]: -1 }
+        fields: { username: 1, [`profile.${filter}`]: 1 },
+        sort: { [`profile.${filter}`]: -1 }
       }
     ],
     [targetSkillTree?.subscribers]
@@ -73,7 +73,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
               >
                 {String(index + 1)}
               </Badge>
-              <div>{`${user.username}, ${user.profile?.xpTEMP}`}</div>
+              <div>{`${user.username}, ${user.profile ? user.profile[filter] : -1}`}</div>
             </div>
           </ListItem>
         );
