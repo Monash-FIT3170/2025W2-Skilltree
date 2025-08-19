@@ -35,6 +35,7 @@ const nodeTypes = {
 };
 
 export const SkillTreeLogic = ({
+  id,
   isAdmin,
   onSave,
   savedNodes,
@@ -48,7 +49,8 @@ export const SkillTreeLogic = ({
       data: {
         ...node.data,
         onOpenEditor: () => handleOpenEditor(node.id)
-      }
+      },
+      draggable: isAdmin
     }));
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
@@ -220,6 +222,7 @@ export const SkillTreeLogic = ({
           />
         ) : (
           <SkillViewForm
+            skilltreeId={id}
             editingNode={editingNode}
             onCancel={() => setEditingNode(null)}
           />

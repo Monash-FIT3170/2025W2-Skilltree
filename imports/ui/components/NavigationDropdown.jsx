@@ -43,7 +43,7 @@ export const NavigationDropdown = ({ id }) => {
     },
     {
       id: 'pending-proof',
-      label: 'Pending Proof',
+      label: 'Pending Proofs',
       icon: (
         <img
           src="/images/PendingProof.png"
@@ -51,7 +51,7 @@ export const NavigationDropdown = ({ id }) => {
           className="w-8 h-8 rounded-lg object-contain"
         />
       ),
-      link: '/pendingproofs' // Eventually should go to specific skill tree pending proofs
+      link: `/pendingproofs/${id}`
     },
     {
       id: 'upload-evidence',

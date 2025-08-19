@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProofUploadButton } from './ProofUploadButton';
 
-export const SkillViewForm = ({ editingNode, onCancel }) => {
+export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
   const progress = Math.floor(
     (editingNode.progressXp / editingNode.xpPoints) * 100
   );
@@ -23,7 +23,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
           <textarea
             name="description"
             id="description"
-            rows="4"
+            rows={4}
             placeholder="Write your thoughts here..."
             defaultValue={editingNode.description}
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
@@ -59,7 +59,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
                 {remainder}XP to go!
               </div>
             </div>
-            <div stle={{ marginRight: 10 }}>
+            <div style={{ marginRight: 10 }}>
               {' '}
               {editingNode.progressXp}/{editingNode.xpPoints}{' '}
             </div>
@@ -70,6 +70,7 @@ export const SkillViewForm = ({ editingNode, onCancel }) => {
               Cancel
             </button>
             <ProofUploadButton
+              skilltreeId={skilltreeId}
               skill={editingNode.label}
               requirements={editingNode.requirements}
             />

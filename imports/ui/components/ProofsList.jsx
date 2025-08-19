@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 
 // Meteor-specific imports
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -23,9 +23,12 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  * - Conditional rendering for loading and empty states.
  * - Detail popup shown on 'View Details' click.
  */
-export const ProofsList = () => {
+
+export const ProofsList = ({ skilltreeId }) => {
   // Track selected proof to open its detail modal
+  const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
+  //const currentUserId = Meteor.userId();
 
   /**
    * useFind hook:
@@ -35,14 +38,14 @@ export const ProofsList = () => {
   useSubscribeSuspense('proof');
   const proofs =
     useFind(ProofCollection, [
-      {},
+      { skillTreeId: { $eq: skilltreeId } },
       {
         fields: {
           description: 1,
           user: 1,
+          username: 1,
           date: 1,
           evidenceLink: 1,
-          verification: 1,
           subskill: 1,
           upvotes: 1,
           downvotes: 1
@@ -96,16 +99,21 @@ export const ProofsList = () => {
         {/* Grid Layout for Proof Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {proofs.map(proof => {
-            const verification = proof.verification || 0;
-            const progressPercent = Math.min((verification / 10) * 100, 100);
+            // Calculate net votes and progress bar, ensure non-negative
+            const netVotesRaw = (proof.upvotes || 0) - (proof.downvotes || 0);
+            const netVotes = Math.max(Math.min(netVotesRaw, proofMaxVotes), 0);
+            const progressPercent = Math.min(
+              (netVotes / proofMaxVotes) * 100,
+              100
+            );
 
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
                 {/* Header: User and Date */}
-                <div className="text-sm text-white bg-[#328E6E] h-6 mb-1 flex items-center justify-between px-2">
+                <div className="text-sm text-black h-6 mb-1 flex items-center justify-between px-2">
                   <span className="flex items-center">
                     <span className="mr-1">👑</span>
-                    <span>{proof.user}</span>
+                    <span>{proof.username}</span>
                   </span>
                   <span className="text-xs italic">
                     {formatDate(proof.date)}
@@ -113,7 +121,7 @@ export const ProofsList = () => {
                 </div>
 
                 {/* Subskill Tag */}
-                <div className="text-sm text-white bg-gray-400 h-6 mb-2 px-2">
+                <div className="text-sm font-bold text-black h-6 mb-2 px-2">
                   {proof.subskill || 'Subskill Placeholder'}
                 </div>
 
@@ -131,10 +139,9 @@ export const ProofsList = () => {
                 </div>
 
                 {/* Description Caption */}
-                <div className="text-sm text-white bg-[#328E6E] mb-4 px-2 py-1 rounded">
+                <div className="text-sm text-black mb-4 px-2 py-1 rounded">
                   {proof.description || 'No caption'}
                 </div>
-
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
                   <div className="flex gap-2">
@@ -152,12 +159,13 @@ export const ProofsList = () => {
                     </button>
                   </div>
 
-                  {/* Verification Status */}
+                  {/* Net Upvotes Status */}
                   <div className="text-center mx-2">
                     <span>
-                      {proof.verification < 10 ? 'Pending' : 'Approved'} &nbsp;
+                      {netVotesRaw < proofMaxVotes ? 'Pending' : 'Approved'}{' '}
+                      &nbsp;
                     </span>
-                    {proof.verification} / 10 Upvotes
+                    {netVotes < 0 ? 0 : netVotes} / {proofMaxVotes} Net Upvotes
                   </div>
 
                   {/* Show Proof Details Button */}
@@ -176,12 +184,12 @@ export const ProofsList = () => {
                   </button>
                 </div>
 
-                {/* Visual Progress Bar for Verification */}
+                {/* Visual Progress Bar for Net Upvotes */}
                 <div className="mt-2 w-full bg-gray-300 rounded-full h-4 overflow-hidden">
                   <div
                     className="bg-[#03A64A] h-4 rounded-full transition-all duration-500"
                     style={{ width: `${progressPercent}%` }}
-                    aria-label={`Verification progress: ${verification} out of 10`}
+                    aria-label={`Net upvotes progress: ${netVotes} out of ${proofMaxVotes}`}
                   ></div>
                 </div>
               </div>

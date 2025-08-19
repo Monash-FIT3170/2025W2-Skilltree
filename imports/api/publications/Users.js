@@ -5,7 +5,8 @@ import { Accounts } from 'meteor/accounts-base';
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
 
 // Publish the publication named as "users" from the backend, lets clients (front-end JSX) subscribe to the data for real time changes
-Meteor.publish('users', () => {
+Meteor.publish('users', () => Meteor.users.find()); // Note: this is only intended for ProfileCompleteRoute, utils/User should be used instead.
+Meteor.publish('user', () => {
   if (this.userId) {
     return Meteor.users.find(
       { _id: this.userId },
@@ -20,13 +21,17 @@ Meteor.publish('users', () => {
 
 // [Mock Data] via Meteor Startup
 Meteor.startup(async () => {
-  Meteor.users.removeAsync({}); // Drop users content to update and avoid dupes (debug)
-  Accounts.createUser({
+  // Remove existing users to avoid duplicates (debug only)
+  await Meteor.users.removeAsync({});
+
+  // Create first sample user
+  await Accounts.createUser({
     username: 'sample',
-    email: 'sample@email.com',
     password: 'Sample123!',
+    email: 'sample@email.com',
     profile: {
-      fullName: 'Steven Kaing',
+      givenName: 'sample',
+      familyName: 'sampleLast',
       avatarUrl: 'https://example.com/avatar.jpg',
       bio: 'idk what to put here lol',
       dateOfBirth: new Date('2024-05-07'),
@@ -41,20 +46,26 @@ Meteor.startup(async () => {
         '65a8b11f3d93c27b3c1b9de2'
       ],
       expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
-      membership_tier: 'pro'
+      membership_tier: 'pro',
+      createdCommunities: [],
+      friends: [],
+      skillForests: [],
+      isProfileComplete: true
     }
   });
 
-  Accounts.createUser({
-    username: 'typeShii',
-    email: 'godDragonSlayer@example.com',
-    password: 'pass',
+  // Create second sample user
+  await Accounts.createUser({
+    username: 'example',
+    password: 'example123!',
+    email: 'example@gmail.com',
     profile: {
-      fullName: 'Steven Kaing',
+      givenName: 'John',
+      familyName: 'Doe',
       avatarUrl: 'https://example.com/avatar.jpg',
       bio: 'idk what to put here lol',
       dateOfBirth: new Date('2024-05-07'),
-      subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'iCZmdXWy5GyqoqBox'],
+      subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'ZmdXoqCGoWyixyqB5'],
       roles: ['user', 'moderator'],
       isActive: true,
       lastLogin: new Date(),
@@ -65,7 +76,14 @@ Meteor.startup(async () => {
         '65a8b11f3d93c27b3c1b9de2'
       ],
       expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
-      membership_tier: 'pro'
+      membership_tier: 'pro',
+      createdCommunities: [],
+      friends: [],
+      skillForests: [],
+      isProfileComplete: true
+    },
+    services: {
+      password: 'example123!'
     }
   });
 });

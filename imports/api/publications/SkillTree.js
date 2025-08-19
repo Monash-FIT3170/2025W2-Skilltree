@@ -10,6 +10,7 @@ Meteor.startup(async () => {
   const dummySkillTrees = [
     {
       title: 'Basketball',
+      owner: 'owner',
       image:
         'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
       description: 'Learn dribbling to shooting.',
@@ -144,6 +145,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Soccer',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
@@ -197,18 +199,31 @@ Meteor.startup(async () => {
     },
     {
       title: 'Cricket',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
       tags: ['cricket', 'bat', 'sports'],
       skillNodes: [
         {
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            progressXp: null,
+            requirements: 'root',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
           id: 'bat',
-          type: 'view-node-unlocked',
+          type: 'view-node-locked',
           data: {
             label: 'Batting',
             description: 'Learn how to bat effectively.',
-            progressXp: 15,
+            progressXp: 0,
             requirements: 'Upload a video of yourself batting for 10 balls',
             xpPoints: 15
           },
@@ -220,7 +235,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Bowling',
             description: 'Learn how to bowl effectively.',
-            progressXp: 25,
+            progressXp: 0,
             requirements: 'Upload a video of yourself bowling 10 balls',
             xpPoints: 25
           },
@@ -232,7 +247,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Fielding',
             description: 'Learn how to field effectively.',
-            progressXp: 35,
+            progressXp: 10,
             requirements: 'Upload a video of yourself fielding and catching',
             xpPoints: 35
           },
@@ -240,14 +255,16 @@ Meteor.startup(async () => {
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'bat', target: 'bowl' },
-        { id: 'e2', source: 'bowl', target: 'field' }
+        { id: 'e1', source: '0', target: 'bat' },
+        { id: 'e2', source: 'bat', target: 'bowl' },
+        { id: 'e3', source: 'bowl', target: 'field' }
       ],
       admins: ['cricketpro'],
       subscribers: ['user1', 'user2']
     },
     {
       title: 'Tennis',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
@@ -298,6 +315,157 @@ Meteor.startup(async () => {
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']
+    },
+    {
+      _id: 'Climbing',
+      title: 'Climbing',
+      owner: 'owner',
+      image: 'https://example.com/image1.png',
+      description: 'Learn how to climb effectively.',
+      termsAndConditions: 'For use by climbing enthusiasts and trainers.',
+      tags: ['climbing', 'outdoor', 'sports'],
+      skillNodes: [
+        {
+          id: 'bouldering',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Bouldering',
+            description: 'Learn how to boulder effectively.',
+            progressXp: 20,
+            requirements: 'Upload a video of yourself bouldering for 5 minutes',
+            xpPoints: 20
+          },
+          position: { x: 300, y: 100 }
+        },
+        {
+          id: 'climbing-techniques',
+          type: 'view-node-locked',
+          data: {
+            label: 'Climbing Techniques',
+            description: 'Learn how to climb with a partner.',
+            progressXp: 30,
+            requirements:
+              'Upload a video of yourself making a climb with at least 10 holds',
+            xpPoints: 30
+          },
+          position: { x: 300, y: 200 }
+        },
+        {
+          id: 'turn',
+          type: 'view-node-locked',
+          data: {
+            label: 'Turning Techniques',
+            description: 'Learn how to turn effectively while climbing.',
+            progressXp: 75,
+            requirements: 'Upload a video of yourself turning while climbing',
+            xpPoints: 75
+          },
+          position: { x: 300, y: 300 }
+        }
+      ],
+      skillEdges: [
+        { id: 'e1', source: 'bouldering', target: 'climbing-techniques' },
+        { id: 'e2', source: 'climbing-techniques', target: 'turn' }
+      ],
+      admins: ['tennispro'],
+      subscribers: ['playerZ', 'coachY']
+    },
+    {
+      title: 'Jedi Training',
+      owner: 'owner',
+      image:
+        'https://upload.wikimedia.org/wikipedia/en/8/8e/Jedi_Order_symbol.svg',
+      description:
+        'Train to become a Jedi Master, from mastering the Force to wielding a lightsaber.',
+      termsAndConditions:
+        'This SkillTree is for entertainment and fan-based learning purposes only.',
+      tags: ['star wars', 'jedi', 'force', 'fiction'],
+      skillNodes: [
+        {
+          id: 'root',
+          type: 'root',
+          data: {
+            label: 'Youngling Initiation 🌟',
+            description: 'Begin your Jedi journey.',
+            progressXp: null,
+            requirements: 'None',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: 'force-sense',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Force Sensitivity ✨',
+            description: 'Learn how to sense the Force.',
+            progressXp: 5,
+            requirements:
+              'Watch a video about the Force and answer 3 quiz questions.',
+            xpPoints: 10
+          },
+          position: { x: 150, y: 100 }
+        },
+        {
+          id: 'lightsaber-basics',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Lightsaber Basics ⚔️',
+            description: 'Understand the basic lightsaber forms.',
+            progressXp: 10,
+            requirements: 'Upload a video of you mimicking Form I (Shii-Cho).',
+            xpPoints: 15
+          },
+          position: { x: -150, y: 100 }
+        },
+        {
+          id: 'meditation',
+          type: 'view-node-unlocked',
+          data: {
+            label: 'Jedi Meditation 🧘‍♂️',
+            description: 'Develop mental clarity and connection to the Force.',
+            progressXp: 10,
+            requirements: 'Record a 2-minute meditation log.',
+            xpPoints: 10
+          },
+          position: { x: 0, y: 200 }
+        },
+        {
+          id: 'telekinesis',
+          type: 'view-node-locked',
+          data: {
+            label: 'Force Telekinesis 🌀',
+            description: 'Master the art of moving objects with your mind.',
+            progressXp: 0,
+            requirements:
+              'Upload a short creative video simulating telekinesis.',
+            xpPoints: 20
+          },
+          position: { x: 200, y: 300 }
+        },
+        {
+          id: 'duel',
+          type: 'view-node-locked',
+          data: {
+            label: 'Lightsaber Duel 🥷',
+            description: 'Engage in your first training duel.',
+            progressXp: 0,
+            requirements:
+              'Upload a video of a lightsaber duel (with a friend or animation).',
+            xpPoints: 30
+          },
+          position: { x: -200, y: 300 }
+        }
+      ],
+      skillEdges: [
+        { id: 'e1', source: 'root', target: 'force-sense' },
+        { id: 'e2', source: 'root', target: 'lightsaber-basics' },
+        { id: 'e3', source: 'root', target: 'meditation' },
+        { id: 'e4', source: 'force-sense', target: 'telekinesis' },
+        { id: 'e5', source: 'lightsaber-basics', target: 'duel' }
+      ],
+      admins: ['masterYoda'],
+      subscribers: ['padawan1', 'padawan2']
     }
   ];
 
