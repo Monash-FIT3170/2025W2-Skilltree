@@ -149,7 +149,10 @@ Meteor.startup(async () => {
     const memberUsername = 'member' + String(i);
 
     const memberId = await Accounts.createUserAsync({
-      username: memberUsername
+      username: memberUsername,
+      profile: {
+        xpTEMP: Math.floor(Math.random() * 100)
+      }
     });
 
     await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', memberId);
