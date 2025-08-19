@@ -151,7 +151,8 @@ Meteor.startup(async () => {
     const memberId = await Accounts.createUserAsync({
       username: memberUsername,
       profile: {
-        xpTEMP: Math.floor(Math.random() * 100)
+        xpTEMP: Math.floor(Math.random() * 100),
+        commentNumTEMP: Math.floor(Math.random() * 10)
       }
     });
 
