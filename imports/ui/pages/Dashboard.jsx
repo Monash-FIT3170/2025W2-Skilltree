@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { Users, ChevronRight } from 'lucide-react';
 import { User } from '/imports/utils/User';
 
 // JSX UI
