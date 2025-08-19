@@ -208,7 +208,7 @@ export const NavBar = () => {
 
         <NavbarToggle />
         <NavbarCollapse>
-          <NavbarLink as={Link} to="/create">
+          <NavbarLink as={Link} to="/createskilltree">
             <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
               Create SkillTree
             </div>
