@@ -22,7 +22,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
  *
  * @returns List of users inside skilltree
  */
-export const CommunityLeaderboardList = ({ skillTreeId }) => {
+export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   // useFind to query user data
   useSubscribeSuspense('skilltrees');
   const targetSkillTree = useFind(
@@ -48,7 +48,7 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
     Meteor.users,
     [
       { _id: { $in: targetSkillTree?.subscribers ?? [] } },
-      { fields: { username: 1 } }
+      { fields: { username: 1 }, sort: { [filter]: -1 } }
     ],
     [targetSkillTree?.subscribers]
   );
@@ -57,7 +57,7 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
     <List unstyled className="divide-y divide-gray-200">
       {users.map((user, index) => {
         return (
-          <ListItem key={user._id} className="pb-3">
+          <ListItem key={user.username} className="pb-3">
             <div className="flex items-center space-x-4">
               <Badge
                 color="green"

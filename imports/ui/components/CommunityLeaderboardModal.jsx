@@ -35,7 +35,7 @@ export const CommunityLeaderboardModal = () => {
   };
 
   // Manage swapping between different leaderboard ordering metrics
-  const [filter, setFilter] = useState('xp');
+  const [filter, setFilter] = useState('username');
 
   return (
     <Modal show={true} onClose={closeModal} dismissible size="7xl">
@@ -46,21 +46,21 @@ export const CommunityLeaderboardModal = () => {
           <div className="flex flex-row items-center justify-between px-4 gap-1">
             <Button
               color="green"
-              onClick={() => setFilter('xp')}
+              onClick={() => setFilter('username')}
               pill
               style={{
-                backgroundColor: filter === 'xp' ? '#328E6E' : '#7eaa9b'
+                backgroundColor: filter === 'username' ? '#328E6E' : '#7eaa9b'
               }}
               className={`cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0`}
             >
-              Top XP
+              Top username
             </Button>
             <Button
               color="green"
-              onClick={() => setFilter('comments')}
+              onClick={() => setFilter('_id')}
               pill
               style={{
-                backgroundColor: filter === 'comments' ? '#328E6E' : '#7eaa9b'
+                backgroundColor: filter === '_id' ? '#328E6E' : '#7eaa9b'
               }}
               className="cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
             >
@@ -71,7 +71,10 @@ export const CommunityLeaderboardModal = () => {
       </ModalHeader>
       <ModalBody className="w-full h-full min-h-[70vh]">
         <div className="space-y-6">
-          <CommunityLeaderboardList skillTreeId={id}></CommunityLeaderboardList>
+          <CommunityLeaderboardList
+            skillTreeId={id}
+            filter={filter}
+          ></CommunityLeaderboardList>
         </div>
       </ModalBody>
       <ModalFooter>
