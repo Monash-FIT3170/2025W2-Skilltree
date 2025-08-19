@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 
 // Schema
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
@@ -28,7 +28,8 @@ Meteor.publish('usernames', function (userIds) {
     { _id: { $in: userIds } },
     {
       fields: {
-        username: 1
+        username: 1,
+        profile: 1
       }
     }
   );
@@ -65,7 +66,8 @@ Meteor.startup(async () => {
       createdCommunities: [],
       friends: [],
       skillForests: [],
-      isProfileComplete: true
+      isProfileComplete: true,
+      xpTEMP: 20
     }
   });
 
@@ -74,6 +76,7 @@ Meteor.startup(async () => {
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
+
     profile: {
       givenName: 'John',
       familyName: 'Doe',
@@ -95,7 +98,8 @@ Meteor.startup(async () => {
       createdCommunities: [],
       friends: [],
       skillForests: [],
-      isProfileComplete: true
+      isProfileComplete: true,
+      xpTEMP: 0
     },
     services: {
       password: 'example123!'
@@ -127,7 +131,8 @@ Meteor.startup(async () => {
       createdCommunities: [],
       friends: [],
       skillForests: [],
-      isProfileComplete: true
+      isProfileComplete: true,
+      xpTEMP: 10
     },
     services: {
       password: 'example123!'
@@ -144,7 +149,10 @@ Meteor.startup(async () => {
     const memberUsername = 'member' + String(i);
 
     const memberId = await Accounts.createUserAsync({
-      username: memberUsername
+      username: memberUsername,
+      profile: {
+        xpTEMP: Math.floor(Math.random() * 100)
+      }
     });
 
     await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', memberId);

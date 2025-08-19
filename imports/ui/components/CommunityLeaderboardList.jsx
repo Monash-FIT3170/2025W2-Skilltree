@@ -48,7 +48,10 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     Meteor.users,
     [
       { _id: { $in: targetSkillTree?.subscribers ?? [] } },
-      { fields: { username: 1 }, sort: { [filter]: -1 } }
+      {
+        fields: { username: 1, [filter]: 1 },
+        sort: { [filter]: -1 }
+      }
     ],
     [targetSkillTree?.subscribers]
   );
@@ -57,7 +60,11 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     <List unstyled className="divide-y divide-gray-200">
       {users.map((user, index) => {
         return (
-          <ListItem key={user.username} className="pb-3">
+          <ListItem
+            key={user._id}
+            className="pb-3"
+            onClick={() => console.log(user)}
+          >
             <div className="flex items-center space-x-4">
               <Badge
                 color="green"
@@ -66,7 +73,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
               >
                 {String(index + 1)}
               </Badge>
-              <div>{String(user.username)}</div>
+              <div>{`${user.username}, ${user.profile?.xpTEMP}`}</div>
             </div>
           </ListItem>
         );
