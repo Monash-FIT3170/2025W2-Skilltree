@@ -19,10 +19,11 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
  * <CommunityLeaderboardList skillTreeId = {id}></CommunityLeaderboardList>
  *
  * @param {skillTreeId} _id of SkillTree to exctract users from
+ * @param {filter} filter field from user.profile to sort by (String)
  *
  * @returns List of users inside skilltree
  */
-export const CommunityLeaderboardList = ({ skillTreeId }) => {
+export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   // useFind to query user data
   useSubscribeSuspense('skilltrees');
   const targetSkillTree = useFind(
@@ -48,7 +49,10 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
     Meteor.users,
     [
       { _id: { $in: targetSkillTree?.subscribers ?? [] } },
-      { fields: { username: 1 } }
+      {
+        fields: { username: 1, [`profile.${filter}`]: 1 },
+        sort: { [`profile.${filter}`]: -1 }
+      }
     ],
     [targetSkillTree?.subscribers]
   );
@@ -57,7 +61,11 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
     <List unstyled className="divide-y divide-gray-200">
       {users.map((user, index) => {
         return (
-          <ListItem key={user._id} className="pb-3">
+          <ListItem
+            key={user._id}
+            className="pb-3"
+            onClick={() => console.log(user)}
+          >
             <div className="flex items-center space-x-4">
               <Badge
                 color="green"
@@ -66,7 +74,8 @@ export const CommunityLeaderboardList = ({ skillTreeId }) => {
               >
                 {String(index + 1)}
               </Badge>
-              <div>{String(user.username)}</div>
+              <span>{`${user.username}`}</span>
+              <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
             </div>
           </ListItem>
         );
