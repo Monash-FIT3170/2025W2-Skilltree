@@ -5,22 +5,27 @@ import { check } from 'meteor/check';
 Meteor.methods({
   async addComment(comment) {
     // Update comment author's comment count
-    const user = await Meteor.users.findOneAsync({
-      username: comment.username
-    });
-    if (user) {
-      Meteor.users.updateAsync(
-        { _id: user._id },
-        { $inc: { 'profile.commentNumTEMP': 1 } }
-      );
-    }
+    // This assumes usernames are unique.
+    Meteor.users.updateAsync(
+      { username: comment.username },
+      { $inc: { 'profile.commentNumTEMP': 1 } }
+    );
 
     return await CommentsCollection.insertAsync(comment);
   },
 
-  // remove comment from collection
   async removeComment(commentId) {
     check(commentId, String);
+
+    // Update comment author's comment count
+    // This assumes usernames are unique.
+    const comment = await CommentsCollection.findOneAsync({ _id: commentId });
+    if (comment) {
+      Meteor.users.updateAsync(
+        { username: comment.username },
+        { $inc: { 'profile.commentNumTEMP': -1 } }
+      );
+    }
 
     const result = await CommentsCollection.removeAsync(commentId);
     if (result === 0) {
