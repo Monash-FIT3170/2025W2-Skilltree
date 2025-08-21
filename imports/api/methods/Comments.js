@@ -3,8 +3,18 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  // add comment to collection
   async addComment(comment) {
+    // Update comment author's comment count
+    const user = await Meteor.users.findOneAsync({
+      username: comment.username
+    });
+    if (user) {
+      Meteor.users.updateAsync(
+        { _id: user._id },
+        { $inc: { 'profile.commentNumTEMP': 1 } }
+      );
+    }
+
     return await CommentsCollection.insertAsync(comment);
   },
 
