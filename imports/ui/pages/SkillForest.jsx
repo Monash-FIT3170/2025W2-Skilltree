@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
+import { Loader } from 'lucide-react';
 
 // Import Collections
 import { SkillForestCollection } from '../../api/collections/SkillForest';
@@ -25,12 +26,24 @@ export const SkillForest = () => {
     { _id: { $in: skillForest?.skilltreeIds || [] } }
   ]);
 
+  if (!skillForest) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1>Skill Forest Page</h1>
-      <p>Forest ID: {skillForestId}</p>
-      <p>Forest Title: {skillForest?.title || 'Loading...'}</p>
-      <p>Skill Trees Count: {skillTrees.length}</p>
-    </div>
+    <>
+      <Helmet>
+        <title>{`${skillForest.title}`} - SkillTree</title>
+      </Helmet>
+      <div className="p-4 md:p-8 font-sans">
+        <h1 className="text-4xl font-bold text-[#328E6E] mb-8">
+          {skillForest.title}
+        </h1>
+      </div>
+    </>
   );
 };
