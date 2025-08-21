@@ -8,16 +8,17 @@ Meteor.startup(async () => {
 
   const dummySkillForests = [
     {
+      _id: 'software',
       title: 'Software Development',
       description:
         'This skill forest covers the fundamentals of software development including programming languages, algorithms, and data structures.',
-      skilltreeIds: ['1', '2', '3']
+      skilltreeIds: ['basketball', 'soccer', 'cricket', 'tennis']
     },
     {
       title: 'Athletic Training',
       description:
         'Become an all-rounder athlete with skills in strength training, endurance, and flexibility.',
-      skilltreeIds: ['4', '5', '6']
+      skilltreeIds: ['tennis', 'Climbing', 'jeditraining']
     }
   ];
 
