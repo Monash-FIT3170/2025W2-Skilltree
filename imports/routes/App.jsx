@@ -15,6 +15,7 @@ import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommuni
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
 import { ManageCommunitiesRoutes } from '/imports/routes/pages/Community/ManageCommunities';
+import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -40,6 +41,7 @@ export const AppRoutes = [
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
       ...ManageCommunitiesRoutes,
+      ...SearchResultsRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

@@ -9,6 +9,7 @@ Meteor.startup(async () => {
   //generated dummy inputs
   const dummySkillTrees = [
     {
+      _id: 'basketball',
       title: 'Basketball',
       owner: 'owner',
       image:
@@ -141,7 +142,7 @@ Meteor.startup(async () => {
         { id: 'e9', source: '8', target: '5' }
       ],
       admins: ['basketballpro'],
-      subscribers: ['playerA', 'playerB']
+      subscribers: ['playerA', 'playerB', 'a1S2A2A933jf']
     },
     {
       title: 'Soccer',
