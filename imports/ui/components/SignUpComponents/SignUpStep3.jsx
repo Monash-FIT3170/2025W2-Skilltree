@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Step3 = () => {
   const navigate = useNavigate();
@@ -40,7 +41,16 @@ const Step3 = () => {
         return;
       }
 
-      navigate('/signup/step4');
+      //Set profile statuis as completed
+      const completedFormData = {
+        ...formData,
+        profile: { ...formData.profile, isProfileComplete: true }
+      };
+
+      //Create new user
+      await Meteor.callAsync('createNewUser', completedFormData);
+
+      navigate('/');
     } catch (error) {
       console.error(error.reason || 'An unexpected error occurred!');
     }
@@ -168,12 +178,32 @@ const Step3 = () => {
               >
                 ←
               </button>
+
               <button
                 type="submit"
-                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
+                className="px-5 py-2 rounded-full bg-[#04BF8A] text-white text-sm font-semibold hover:bg-[#03a57e] transition-all"
               >
-                →
+                Create
               </button>
+            </div>
+
+            <div>
+              <p className="text-xs text-center text-gray-700">
+                By creating an account, you agree to the{' '}
+                <Link
+                  to=""
+                  className="text-gray-600 underline hover:text-[#026873]"
+                >
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link
+                  to=""
+                  className="text-gray-600 underline hover:text-[#026873]"
+                >
+                  Privacy Policy.
+                </Link>
+              </p>
             </div>
           </div>
         </form>

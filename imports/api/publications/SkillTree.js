@@ -9,7 +9,9 @@ Meteor.startup(async () => {
   //generated dummy inputs
   const dummySkillTrees = [
     {
+      _id: 'basketball',
       title: 'Basketball',
+      owner: 'owner',
       image:
         'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
       description: 'Learn dribbling to shooting.',
@@ -140,10 +142,11 @@ Meteor.startup(async () => {
         { id: 'e9', source: '8', target: '5' }
       ],
       admins: ['basketballpro'],
-      subscribers: ['playerA', 'playerB']
+      subscribers: ['playerA', 'playerB', 'a1S2A2A933jf']
     },
     {
       title: 'Soccer',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
@@ -197,18 +200,31 @@ Meteor.startup(async () => {
     },
     {
       title: 'Cricket',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
       tags: ['cricket', 'bat', 'sports'],
       skillNodes: [
         {
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            progressXp: null,
+            requirements: 'root',
+            xpPoints: null
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
           id: 'bat',
-          type: 'view-node-unlocked',
+          type: 'view-node-locked',
           data: {
             label: 'Batting',
             description: 'Learn how to bat effectively.',
-            progressXp: 15,
+            progressXp: 0,
             requirements: 'Upload a video of yourself batting for 10 balls',
             xpPoints: 15
           },
@@ -220,7 +236,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Bowling',
             description: 'Learn how to bowl effectively.',
-            progressXp: 25,
+            progressXp: 0,
             requirements: 'Upload a video of yourself bowling 10 balls',
             xpPoints: 25
           },
@@ -232,7 +248,7 @@ Meteor.startup(async () => {
           data: {
             label: 'Fielding',
             description: 'Learn how to field effectively.',
-            progressXp: 35,
+            progressXp: 10,
             requirements: 'Upload a video of yourself fielding and catching',
             xpPoints: 35
           },
@@ -240,14 +256,16 @@ Meteor.startup(async () => {
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'bat', target: 'bowl' },
-        { id: 'e2', source: 'bowl', target: 'field' }
+        { id: 'e1', source: '0', target: 'bat' },
+        { id: 'e2', source: 'bat', target: 'bowl' },
+        { id: 'e3', source: 'bowl', target: 'field' }
       ],
       admins: ['cricketpro'],
       subscribers: ['user1', 'user2']
     },
     {
       title: 'Tennis',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
@@ -302,6 +320,7 @@ Meteor.startup(async () => {
     {
       _id: 'Climbing',
       title: 'Climbing',
+      owner: 'owner',
       image: 'https://example.com/image1.png',
       description: 'Learn how to climb effectively.',
       termsAndConditions: 'For use by climbing enthusiasts and trainers.',
@@ -354,6 +373,7 @@ Meteor.startup(async () => {
     },
     {
       title: 'Jedi Training',
+      owner: 'owner',
       image:
         'https://upload.wikimedia.org/wikipedia/en/8/8e/Jedi_Order_symbol.svg',
       description:
