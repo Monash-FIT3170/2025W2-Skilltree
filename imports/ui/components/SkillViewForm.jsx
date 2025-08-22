@@ -1,7 +1,12 @@
 import React from 'react';
 import { ProofUploadButton } from './ProofUploadButton';
 
-export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
+export const SkillViewForm = ({
+  skilltreeId,
+  editingNode,
+  onCancel,
+  onUploadProof
+}) => {
   const progress = Math.floor(
     (editingNode.currentNetUpvotes / editingNode.netUpvotesRequired) * 100
   );
@@ -75,6 +80,7 @@ export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
               skilltreeId={skilltreeId}
               skill={editingNode.label}
               requirements={editingNode.requirements}
+              onUploadProof={onUploadProof}
             />
           </div>
         </div>

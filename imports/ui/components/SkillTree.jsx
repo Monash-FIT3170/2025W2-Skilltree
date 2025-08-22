@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   ReactFlow,
   Background,
@@ -157,6 +158,17 @@ export const SkillTreeLogic = ({
     onSave({ nodes, edges });
   };
 
+  // stores proofId in node data, then syncs with DB
+  const handleLinkProofToNode = proofId => {
+    const updatedNodes = nodes.map(node =>
+      node.id === editingNode.id
+        ? { ...node, data: { ...node.data, proofId } }
+        : node
+    );
+    setNodes(updatedNodes);
+    Meteor.callAsync('saveSkillTreeProgress', id, updatedNodes, edges);
+  };
+
   return (
     <>
       {isAdmin ? (
@@ -225,6 +237,7 @@ export const SkillTreeLogic = ({
             skilltreeId={id}
             editingNode={editingNode}
             onCancel={() => setEditingNode(null)}
+            onUploadProof={proofId => handleLinkProofToNode(proofId)}
           />
         ))}
     </>
