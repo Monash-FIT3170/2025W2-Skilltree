@@ -3,9 +3,10 @@ import { ProofUploadButton } from './ProofUploadButton';
 
 export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
   const progress = Math.floor(
-    (editingNode.progressXp / editingNode.xpPoints) * 100
+    (editingNode.currentNetUpvotes / editingNode.netUpvotesRequired) * 100
   );
-  const remainder = editingNode.xpPoints - editingNode.progressXp;
+  const remainder =
+    editingNode.netUpvotesRequired - editingNode.currentNetUpvotes;
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-gray-600/40 flex justify-center items-center z-[1000]">
@@ -48,7 +49,7 @@ export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
             htmlFor="xpPoints"
             className="block mb-2 text-sm font-medium text-emerald-700"
           >
-            XP Required:
+            Upvotes Required:
           </label>
           <div className="flex items-center gap-4">
             <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
@@ -56,12 +57,13 @@ export const SkillViewForm = ({ skilltreeId, editingNode, onCancel }) => {
                 className="bg-yellow-600 text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full"
                 style={{ width: `${progress}%` }}
               >
-                {remainder}XP to go!
+                {remainder} upvotes to go!
               </div>
             </div>
             <div style={{ marginRight: 10 }}>
               {' '}
-              {editingNode.progressXp}/{editingNode.xpPoints}{' '}
+              {editingNode.currentNetUpvotes}/
+              {editingNode.netUpvotesRequired}{' '}
             </div>
           </div>
           <br />
