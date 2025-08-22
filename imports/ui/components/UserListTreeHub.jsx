@@ -6,6 +6,38 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
+const AssignRoleButton = ({ userId, skillTreeId, onRemoved }) => {
+  const [assigning, setAssigning] = useState(false);
+
+  const handleAssigning = async () => {
+    if (assigning) return;
+    setAssigning(true);
+    try {
+      await Meteor.callAsync('skilltrees.unsubscribeUser', skillTreeId, userId);
+      onRemoved?.(userId);
+    } catch (err) {
+      console.error(err);
+      console.log('Unable to remove the user.');
+    } finally {
+      setAssigning(false);
+    }
+  };
+
+  return (
+    <Button
+      color="failure"
+      pill
+      size="xs"
+      onClick={handleAssigning}
+      disabled={assigning}
+      className="!py-1 !px-2 ml-2"
+      title="Remove user"
+    >
+      {assigning ? 'Removing…' : 'Remove'}
+    </Button>
+  );
+};
+
 const RemoveUserButton = ({ userId, skillTreeId, onRemoved }) => {
   const [removing, setRemoving] = useState(false);
 

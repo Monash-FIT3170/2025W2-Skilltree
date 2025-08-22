@@ -114,4 +114,9 @@ Meteor.methods({
       subscribers: { $in: [userId] }
     });
   }
+
+  async 'skilltrees.updateUserRole'(skilltreeId, userId)
+  {
+    
+  }
 });
