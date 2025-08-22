@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Dropzone } from './Dropzone';
+import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
