@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
@@ -9,27 +9,30 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 // JSX UI
 import { SubscribedTrees } from '../components/SkillForestComponents/SubscribedTrees';
 import { EmptyState } from '../components/Dashboard/EmptyState';
+import { SidePanel } from '../components/SkillForestComponents/SidePanel';
 
 export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
+  // --- NEW STATE: track which skill tree is selected
+  const [selectedSkillTree, setSelectedSkillTree] = useState(null);
+
   const user = User([
     '_id',
     'profile.createdCommunities',
     'profile.subscribedCommunities'
   ]);
+
   const createdIds = user?.profile?.createdCommunities ?? [];
   const subscribedIds = user?.profile?.subscribedCommunities ?? [];
-  //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
-  // Get all unique skill tree IDs (created + subscribed)
+
   useSubscribeSuspense('skilltrees');
   const allSkillTrees = useFind(SkillTreeCollection, [
     { _id: { $in: allUniqueIds } },
     {
-      fields: { _id: 1, owner: 1 }
+      fields: { _id: 1, owner: 1, createdAt: 1 }
     }
-  ]).filter(Boolean); //Some elements were null, so we filter out any null results
+  ]).filter(Boolean);
 
-  // Filter and categorise skill trees
   const skillTreesWithRoles = allSkillTrees.map(skillTree => ({
     ...skillTree,
     isOwner: skillTree.owner === user?._id,
@@ -39,7 +42,6 @@ export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
 
   const displayedSkillTrees = skillTreesWithRoles.slice(0, 6);
 
-  // Sort by ownership first, then by join date or creation date
   const sortedSkillTrees = [...skillTreesWithRoles].sort((a, b) => {
     if (a.isOwner && !b.isOwner) return -1;
     if (!a.isOwner && b.isOwner) return 1;
@@ -57,6 +59,7 @@ export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
                 skillTreeId={skillTree._id}
                 showSubscribers={true}
                 currentUserId={user._id}
+                onSelect={() => setSelectedSkillTree(skillTree._id)} // ✅ click handler sets the selected ID
               />
             ))}
           </div>
@@ -64,6 +67,14 @@ export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
           <EmptyState />
         )}
       </div>
+
+      {/* --- NEW: SidePanel rendered when a skill tree is selected */}
+      {selectedSkillTree && (
+        <SidePanel
+          skillTreeId={selectedSkillTree}
+          onClose={() => setSelectedSkillTree(null)} // close resets selection
+        />
+      )}
     </>
   );
 };
