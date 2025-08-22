@@ -8,7 +8,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'flowbite-react';
-import { CommunityLeaderboardList } from '/imports/ui/components/CommunityLeaderboardList';
+import { CommunityLeaderboardList } from './CommunityLeaderboardList';
 
 /**
  * CommunityLeaderboardModal.jsx

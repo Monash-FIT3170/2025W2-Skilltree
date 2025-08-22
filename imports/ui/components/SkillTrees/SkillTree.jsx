@@ -10,11 +10,11 @@ import {
   useReactFlow,
   ReactFlowProvider
 } from '@xyflow/react';
-import { RootNode } from './nodes/RootNote';
-import { NewEmptyNode } from './nodes/NewEmptyNode';
-import { ViewNode } from './nodes/ViewNode';
-import { SkillEditForm } from './SkillEditForm';
-import { SkillViewForm } from './SkillViewForm';
+import { RootNode } from './Nodes/RootNote';
+import { NewEmptyNode } from './Nodes/NewEmptyNode';
+import { ViewNode } from './Nodes/ViewNode';
+import { SkillEditForm } from './Skill/SkillEditForm';
+import { SkillViewForm } from './Skill/SkillViewForm';
 import { Button } from 'flowbite-react';
 // This is the logic and page for creating/editing a skilltree
 
