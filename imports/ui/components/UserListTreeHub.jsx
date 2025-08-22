@@ -1,14 +1,42 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Meteor } from 'meteor/meteor';
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader
-} from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
+
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+
+const RemoveUserButton = ({ userId, skillTreeId, onRemoved }) => {
+  const [removing, setRemoving] = useState(false);
+
+  const handleRemove = async () => {
+    if (removing) return;
+    setRemoving(true);
+    try {
+      await Meteor.callAsync('skilltrees.unsubscribeUser', skillTreeId, userId);
+      onRemoved?.(userId);
+    } catch (err) {
+      console.error(err);
+      console.log('Unable to remove the user.');
+    } finally {
+      setRemoving(false);
+    }
+  };
+
+  return (
+    <Button
+      color="failure"
+      pill
+      size="xs"
+      onClick={handleRemove}
+      disabled={removing}
+      className="!py-1 !px-2 ml-2"
+      title="Remove user"
+    >
+      {removing ? 'Removing…' : 'Remove'}
+    </Button>
+  );
+};
 
 export const UserListTreeHub = ({ skillTreeId }) => {
   useSubscribeSuspense('skilltrees', skillTreeId);
@@ -16,10 +44,10 @@ export const UserListTreeHub = ({ skillTreeId }) => {
     { _id: { $eq: skillTreeId } }
   ]);
   const targetSkillTree = skillTrees?.[0];
+
   const [openModal, setOpenModal] = useState(false);
   const [users, setUsers] = useState([]); // [{ id, username }]
 
-  // Stable list of subscriber IDs to trigger effect only when they genuinely change
   const subscriberIds = useMemo(
     () =>
       targetSkillTree?.subscribers ? [...targetSkillTree.subscribers] : [],
@@ -32,7 +60,6 @@ export const UserListTreeHub = ({ skillTreeId }) => {
     const toUserEntry = async userId => {
       try {
         const user = await Meteor.callAsync('getUsers', userId);
-        // If no user (dummy data), fall back to showing the ID as the name
         return { id: userId, username: user?.username ?? userId };
       } catch (e) {
         console.error('getUsers failed for', userId, e);
@@ -59,6 +86,7 @@ export const UserListTreeHub = ({ skillTreeId }) => {
     setUsers(prev => prev.filter(u => u.id !== removedId));
   }, []);
 
+  // Don’t render anything until the doc is ready
   if (!targetSkillTree) return null;
 
   return (
@@ -73,44 +101,47 @@ export const UserListTreeHub = ({ skillTreeId }) => {
       </Button>
 
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <ModalHeader className="text-xl font-bold mt-2">
-          List of users for {targetSkillTree.title}
-        </ModalHeader>
+        {/* Header */}
+        <div className="px-6 pt-6">
+          <h3 className="text-xl font-bold mt-2">
+            List of users for {targetSkillTree.title}
+          </h3>
+        </div>
 
-        <ModalBody className="text-lg mt-2">
-          <div>
-            {users.length === 0 ? (
-              <p className="text-sm text-gray-500">No users subscribed.</p>
-            ) : (
-              <ul className="space-y-2">
-                {users.map(({ id, username }) => (
-                  <li
-                    key={id}
-                    className="flex items-center justify-between rounded-md border px-3 py-2"
-                  >
-                    <span className="truncate">{String(username)}</span>
-                    <RemoveUserButton
-                      userId={id}
-                      skillTreeId={skillTreeId}
-                      onRemoved={handleRemoved}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </ModalBody>
+        {/* Body */}
+        <div className="px-6 py-4 text-lg">
+          {users.length === 0 ? (
+            <p className="text-sm text-gray-500">No users subscribed.</p>
+          ) : (
+            <ul className="space-y-2">
+              {users.map(({ id, username }) => (
+                <li
+                  key={id}
+                  className="flex items-center justify-between rounded-md border px-3 py-2"
+                >
+                  <span className="truncate">{String(username)}</span>
+                  <RemoveUserButton
+                    userId={id}
+                    skillTreeId={skillTreeId}
+                    onRemoved={handleRemoved}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-        <ModalFooter>
+        {/* Footer */}
+        <div className="flex justify-end gap-2 px-6 pb-6 border-t">
           <Button
             color="green"
             pill
-            className="cursor-pointer position-relative text-lg font-bold mt-2 text-white font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            className="cursor-pointer text-lg font-bold mt-2 text-white !font-sans px-6 py-3 bg-[#328E6E] rounded-[22px] hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
             onClick={() => setOpenModal(false)}
           >
             Exit
           </Button>
-        </ModalFooter>
+        </div>
       </Modal>
     </div>
   );

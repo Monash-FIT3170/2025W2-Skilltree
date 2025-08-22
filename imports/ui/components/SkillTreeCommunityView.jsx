@@ -6,7 +6,6 @@ import { NavigationDropdown } from '../components/NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
-import { UserList } from './UserList';
 import { UserListTreeHub } from './UserListTreeHub';
 
 // AuthContext
