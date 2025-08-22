@@ -39,7 +39,7 @@ export const NavigationDropdown = ({ id }) => {
           className="w-8 h-8 rounded-lg object-contain"
         />
       ),
-      link: '/'
+      link: `/generalforum/${id}`
     },
     {
       id: 'pending-proof',
