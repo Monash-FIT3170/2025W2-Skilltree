@@ -50,7 +50,7 @@ This is a dummy `settings.json`, to allow the program to run without errors:
 {
   "private": {
     "AWSAccessKeyId": "",
-    "AWSSecretKey": "",
+    "AWSSecretAccessKey": "",
     "google": {
       "clientId": "",
       "secret": ""
