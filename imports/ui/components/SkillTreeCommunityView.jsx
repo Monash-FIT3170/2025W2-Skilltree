@@ -7,6 +7,7 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
+import { UserListTreeHub } from './UserListTreeHub';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -103,7 +104,7 @@ export const SkillTreeCommunityView = () => {
         {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
         <div className="p-2"></div>
 
-        <UserList skillTreeId={id}></UserList>
+        <UserListTreeHub skillTreeId={id}></UserListTreeHub>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>

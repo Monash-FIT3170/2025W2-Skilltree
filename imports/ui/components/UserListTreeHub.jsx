@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Meteor } from 'meteor/meteor';
 import {
   Button,
@@ -10,46 +10,57 @@ import {
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-
-export const UserList = ({ skillTreeId }) => {
+export const UserListTreeHub = ({ skillTreeId }) => {
   useSubscribeSuspense('skilltrees', skillTreeId);
   const skillTrees = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } }
   ]);
-  const targetSkillTree = skillTrees[0];
+  const targetSkillTree = skillTrees?.[0];
   const [openModal, setOpenModal] = useState(false);
-  const [usernameList, setUsernameList] = useState([]);
+  const [users, setUsers] = useState([]); // [{ id, username }]
+
+  // Stable list of subscriber IDs to trigger effect only when they genuinely change
+  const subscriberIds = useMemo(
+    () =>
+      targetSkillTree?.subscribers ? [...targetSkillTree.subscribers] : [],
+    [targetSkillTree?.subscribers]
+  );
 
   useEffect(() => {
-    const processUserIdList = async userIdList => {
-      console.log(userIdList);
-      console.log(userIdList.length);
-      const usernameList = [];
-      for (var i = 0; i < userIdList.length; i++) {
-        const username = await getUserName(userIdList[i]);
-        usernameList.push(username);
+    let cancelled = false;
+
+    const toUserEntry = async userId => {
+      try {
+        const user = await Meteor.callAsync('getUsers', userId);
+        // If no user (dummy data), fall back to showing the ID as the name
+        return { id: userId, username: user?.username ?? userId };
+      } catch (e) {
+        console.error('getUsers failed for', userId, e);
+        return { id: userId, username: userId };
       }
-      setUsernameList(usernameList);
     };
 
-    processUserIdList(targetSkillTree.subscribers);
-  }, [targetSkillTree]);
+    const load = async () => {
+      if (!subscriberIds.length) {
+        setUsers([]);
+        return;
+      }
+      const results = await Promise.all(subscriberIds.map(toUserEntry));
+      if (!cancelled) setUsers(results);
+    };
 
-  const getUserName = async userId => {
-    const user = await Meteor.callAsync('getUsers', userId);
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [subscriberIds]);
 
-    console.log(user);
+  const handleRemoved = useCallback(removedId => {
+    setUsers(prev => prev.filter(u => u.id !== removedId));
+  }, []);
 
-    // solely for filtering dummy data
-    if (!user) {
-      return userId;
-    }
+  if (!targetSkillTree) return null;
 
-    return user.username;
-  };
-
-  // Formatted as button, change if necessary
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
       <Button
@@ -60,19 +71,36 @@ export const UserList = ({ skillTreeId }) => {
       >
         User List
       </Button>
+
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
         <ModalHeader className="text-xl font-bold mt-2">
           List of users for {targetSkillTree.title}
         </ModalHeader>
+
         <ModalBody className="text-lg mt-2">
           <div>
-            <ul>
-              {usernameList.map(username => {
-                return <li key={username}>{String(username)}{Button</li>;
-              })}
-            </ul>
+            {users.length === 0 ? (
+              <p className="text-sm text-gray-500">No users subscribed.</p>
+            ) : (
+              <ul className="space-y-2">
+                {users.map(({ id, username }) => (
+                  <li
+                    key={id}
+                    className="flex items-center justify-between rounded-md border px-3 py-2"
+                  >
+                    <span className="truncate">{String(username)}</span>
+                    <RemoveUserButton
+                      userId={id}
+                      skillTreeId={skillTreeId}
+                      onRemoved={handleRemoved}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </ModalBody>
+
         <ModalFooter>
           <Button
             color="green"
