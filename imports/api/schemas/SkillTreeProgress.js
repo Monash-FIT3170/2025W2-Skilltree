@@ -16,17 +16,28 @@ const skillDataSchema = new SimpleSchema({
     min: 1,
     optional: true
   },
-  progressXp: {
+  netUpvotesRequired: {
     type: Number,
-    label: 'Progress XP',
+    label: 'Net Upvotes Required to complete this skill',
+    optional: true,
+    defaultValue: 0
+  },
+  currentNetUpvotes: {
+    type: Number,
+    label: 'Current Net Upvotes',
     optional: true,
     defaultValue: 0
   },
   xpPoints: {
     type: Number,
-    label: 'XP Points',
+    label: 'XP Points earned for completing this skill',
     optional: true,
     defaultValue: 0
+  },
+  proofId: {
+    type: String,
+    label: 'ID of the corresponding proof object for this skill',
+    optional: true
   },
   requirements: {
     type: String,
@@ -65,7 +76,7 @@ const skillNodeSchema = new SimpleSchema({
     ] // add our custom node types here
   },
   data: {
-    type: skillDataSchema, // Probs have to change this to have skill name and description
+    type: skillDataSchema,
     label: 'Skill data'
   },
   position: {
@@ -121,7 +132,12 @@ Schemas.SkillTreeProgress = new SimpleSchema({
     type: Array,
     label: 'List of skill edges'
   },
-  'skillEdges.$': skillEdgeSchema
+  'skillEdges.$': skillEdgeSchema,
+  xpPoints: {
+    type: Number,
+    label: 'Total XP Points earned by the user for this skilltree',
+    defaultValue: 0
+  }
 });
 
 SkillTreeProgressCollection.attachSchema(Schemas.SkillTreeProgress);

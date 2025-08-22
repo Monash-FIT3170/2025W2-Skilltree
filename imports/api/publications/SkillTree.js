@@ -25,7 +25,8 @@ Meteor.startup(async () => {
           data: {
             label: 'root',
             description: 'root',
-            progressXp: null,
+            netUpvotesRequired: null,
+            currentUpvotes: null,
             requirements: 'root',
             xpPoints: null
           },
@@ -37,8 +38,9 @@ Meteor.startup(async () => {
           data: {
             label: 'basic dribbling 🏀',
             description: 'Learn how to dribble the basketball effectively.',
-            progressXp: 10,
             requirements: 'Upload a video of yourself dribbling for 10 seconds',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 5,
             xpPoints: 10
           },
           position: { x: 200, y: 300 }
@@ -50,8 +52,9 @@ Meteor.startup(async () => {
             label: 'Layup 🏃‍♂️',
             description:
               ' A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
-            progressXp: 6,
             requirements: 'Upload a video of yourself',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 10
           },
           position: { x: 200, y: 200 }
@@ -62,9 +65,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Spin Move 😵',
             description: 'Learn how to do a spin move.',
-            progressXp: 0,
             requirements: 'Upload a video of yourself',
-            xpPoints: 20
+            netUpvotesRequired: 15,
+            currentNetUpvotes: 3,
+            xpPoints: 15
           },
           position: { x: 200, y: 100 }
         },
@@ -74,9 +78,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Agility 💨',
             description: 'Learn how to be agile.',
-            progressXp: 34,
             requirements:
               'Upload a video of yourself doing the illinois agility test',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 50
           },
           position: { x: 0, y: 100 }
@@ -87,8 +92,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Shooting Form 🎯',
             description: 'Learn how to do proper shooting form.',
-            progressXp: 20,
             requirements: 'Upload a video of yourself',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: -200, y: 300 }
@@ -99,8 +105,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Free Throws 💸',
             description: 'Learn how to do free throws.',
-            progressXp: 6,
             requirements: 'Upload a video of yourself',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: -150, y: 200 }
@@ -111,8 +118,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Three Pointers 💧',
             description: 'Learn how to do a spin move.',
-            progressXp: 0,
             requirements: 'Upload a video of yourself',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: -250, y: 100 }
@@ -123,8 +131,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Mid Range 🥶',
             description: 'Learn how to do a spin move.',
-            progressXp: 4,
             requirements: 'Upload a video of yourself',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: -350, y: 200 }
@@ -159,9 +168,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Passing',
             description: 'Learn how to pass the ball effectively.',
-            progressXp: 10,
             requirements:
               'Upload a video of yourself passing back and forth 3 times with another player',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 10
           },
           position: { x: 300, y: 100 }
@@ -172,8 +182,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Shooting',
             description: 'Learn how to shoot and score',
-            progressXp: 30,
             requirements: 'Upload a video of yourself scoring a goal',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 30
           },
           position: { x: 100, y: 250 }
@@ -184,8 +195,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Goalkeeping',
             description: 'Learn how to defend the goal',
-            progressXp: 50,
             requirements: 'Upload a video of yourself making a save',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 50
           },
           position: { x: 500, y: 350 }
@@ -212,8 +224,9 @@ Meteor.startup(async () => {
           data: {
             label: 'root',
             description: 'root',
-            progressXp: null,
             requirements: 'root',
+            netUpvotesRequired: null,
+            currentNetUpvotes: null,
             xpPoints: null
           },
           position: { x: 0, y: 0 }
@@ -224,8 +237,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Batting',
             description: 'Learn how to bat effectively.',
-            progressXp: 0,
             requirements: 'Upload a video of yourself batting for 10 balls',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 15
           },
           position: { x: 100, y: 75 }
@@ -236,8 +250,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Bowling',
             description: 'Learn how to bowl effectively.',
-            progressXp: 0,
             requirements: 'Upload a video of yourself bowling 10 balls',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 25
           },
           position: { x: 300, y: 175 }
@@ -248,8 +263,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Fielding',
             description: 'Learn how to field effectively.',
-            progressXp: 10,
             requirements: 'Upload a video of yourself fielding and catching',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 35
           },
           position: { x: 500, y: 275 }
@@ -277,8 +293,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Serving',
             description: 'Learn how to serve the tennis ball effectively.',
-            progressXp: 20,
             requirements: 'Upload a video of yourself serving 5 times',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: 300, y: 100 }
@@ -289,9 +306,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Rally Techniques',
             description: 'Learn how to rally with a partner.',
-            progressXp: 30,
             requirements:
               'Upload a video of yourself making a rally with at least 10 hits',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 30
           },
           position: { x: 300, y: 200 }
@@ -302,9 +320,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Serve and Volley',
             description: 'Learn how serve and volley for the winner',
-            progressXp: 75,
             requirements:
               'Upload a video of yourself winning a point with a serve and volley',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 75
           },
           position: { x: 300, y: 300 }
@@ -332,8 +351,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Bouldering',
             description: 'Learn how to boulder effectively.',
-            progressXp: 20,
             requirements: 'Upload a video of yourself bouldering for 5 minutes',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: 300, y: 100 }
@@ -344,9 +364,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Climbing Techniques',
             description: 'Learn how to climb with a partner.',
-            progressXp: 30,
             requirements:
               'Upload a video of yourself making a climb with at least 10 holds',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 30
           },
           position: { x: 300, y: 200 }
@@ -357,8 +378,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Turning Techniques',
             description: 'Learn how to turn effectively while climbing.',
-            progressXp: 75,
             requirements: 'Upload a video of yourself turning while climbing',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 75
           },
           position: { x: 300, y: 300 }
@@ -400,9 +422,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Force Sensitivity ✨',
             description: 'Learn how to sense the Force.',
-            progressXp: 5,
             requirements:
               'Watch a video about the Force and answer 3 quiz questions.',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 10
           },
           position: { x: 150, y: 100 }
@@ -413,8 +436,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Lightsaber Basics ⚔️',
             description: 'Understand the basic lightsaber forms.',
-            progressXp: 10,
             requirements: 'Upload a video of you mimicking Form I (Shii-Cho).',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 15
           },
           position: { x: -150, y: 100 }
@@ -425,8 +449,9 @@ Meteor.startup(async () => {
           data: {
             label: 'Jedi Meditation 🧘‍♂️',
             description: 'Develop mental clarity and connection to the Force.',
-            progressXp: 10,
             requirements: 'Record a 2-minute meditation log.',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 10
           },
           position: { x: 0, y: 200 }
@@ -437,9 +462,10 @@ Meteor.startup(async () => {
           data: {
             label: 'Force Telekinesis 🌀',
             description: 'Master the art of moving objects with your mind.',
-            progressXp: 0,
             requirements:
               'Upload a short creative video simulating telekinesis.',
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             xpPoints: 20
           },
           position: { x: 200, y: 300 }
@@ -450,10 +476,11 @@ Meteor.startup(async () => {
           data: {
             label: 'Lightsaber Duel 🥷',
             description: 'Engage in your first training duel.',
-            progressXp: 0,
             requirements:
               'Upload a video of a lightsaber duel (with a friend or animation).',
-            xpPoints: 30
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
+            xpPoints: 10
           },
           position: { x: -200, y: 300 }
         }
