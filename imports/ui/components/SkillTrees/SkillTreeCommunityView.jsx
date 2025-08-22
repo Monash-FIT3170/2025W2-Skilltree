@@ -24,7 +24,7 @@ function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
   return;
 }
 
-let progresNodes = [
+let progressNodes = [
   {
     id: '0',
     type: 'root',
@@ -127,7 +127,7 @@ export const SkillTreeCommunityView = () => {
       <SkillTreeView id={id} isAdmin={false} />
       <Outlet />
       <Button
-        onClick={() => testSaveTreeProgress(id, progresNodes, progressEdges)}
+        onClick={() => testSaveTreeProgress(id, progressNodes, progressEdges)}
       ></Button>
     </div>
   );
