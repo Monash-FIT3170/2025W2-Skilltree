@@ -114,3 +114,15 @@ server/                 [Server-side Code]
 tests/
 └── main.js               // Consolidates Tests
 ```
+## Deployment
+### Ubuntu 24.04 LTS (Noble)
+#### Setup
+```
+git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
+```
+```
+chmod +x ./2025W2-Skilltree/.deploy/setup.sh
+```
+```
+./2025W2-Skilltree/.deploy/setup.sh
+```
