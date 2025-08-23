@@ -5,7 +5,7 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // SidePanel component displays details and structure of a skill tree
-export const SidePanel = ({ skillTreeId, onClose }) => {
+export const SidePanel = ({ skillTreeId }) => {
   // Subscribe to 'skilltrees' publication so data is kept in sync reactively
   useSubscribeSuspense('skilltrees');
 
@@ -49,11 +49,6 @@ export const SidePanel = ({ skillTreeId, onClose }) => {
   // Render side panel UI
   return (
     <div className="fixed top-0 right-0 w-96 h-full bg-white shadow-xl p-4 overflow-y-auto z-50">
-      {/* Close button */}
-      <button onClick={onClose} className="mb-2 text-gray-500">
-        Close
-      </button>
-
       {/* Title and description */}
       <h2 className="text-xl font-bold mb-2">{skillTree.title}</h2>
       <p className="text-gray-600 mb-4">{skillTree.description}</p>
