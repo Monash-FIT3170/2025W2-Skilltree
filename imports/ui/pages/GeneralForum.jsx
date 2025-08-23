@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { TopicList } from '/imports/ui/components/TopicListGeneralForum';
 import { Meteor } from 'meteor/meteor';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();

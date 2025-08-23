@@ -5,9 +5,9 @@ import { PublicRoute } from '/imports/utils/RouteGuard';
 // Element JSX UI
 import { SignUp } from '/imports/ui/pages/SignUp';
 
-import Step1 from '/imports/ui/components/SignUpComponents/SignUpStep1';
-import Step2 from '/imports/ui/components/SignUpComponents/SignUpStep2';
-import Step3 from '/imports/ui/components/SignUpComponents/SignUpStep3';
+import Step1 from '../../ui/components/SignUp/SignUpStep1';
+import Step2 from '../../ui/components/SignUp/SignUpStep2';
+import Step3 from '../../ui/components/SignUp/SignUpStep3';
 
 // Define Routes for SignUpView JSX component
 export const SignUpRoutes = [
