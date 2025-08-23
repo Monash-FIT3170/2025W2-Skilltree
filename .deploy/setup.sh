@@ -28,18 +28,24 @@ cd $PROJECT_DIR
 meteor npm run setup
 
 # Allow unprivileged port 80
-sudo echo 'net.ipv4.ip_unprivileged_port_start=0' > /etc/sysctl.d/50-unprivileged-ports.conf
+sudo echo 'net.ipv4.ip_unprivileged_port_start=79' > /etc/sysctl.d/50-unprivileged-ports.conf
 sudo sysctl --system
 
 # Setup scripts symlinks
 cd $HOME
 ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
+ln -s $PROJECT_DIR/.deploy/restart.sh restart
+ln -s $PROJECT_DIR/.deploy/console.sh console
 
 # Add executable permission to scripts
 chmod +x $PROJECT_DIR/.deploy/setup.sh
 chmod +x $PROJECT_DIR/.deploy/start.sh
 chmod +x $PROJECT_DIR/.deploy/stop.sh
+chmod +x $PROJECT_DIR/.deploy/restart.sh
+chmod +x $PROJECT_DIR/.deploy/console.sh
 
 chmod +x $HOME/start
 chmod +x $HOME/stop
+chmod +x $HOME/restart
+chmod +x $HOME/console

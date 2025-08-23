@@ -137,3 +137,16 @@ Script to stop the webserver in the screen session:
 ```
 ./stop
 ```
+
+Script to restart (stop + start) webserver in the screen session:
+```
+./restart
+```
+Script to enter the screen session for accessing the webserver console:
+
+```
+./console
+```
+> [!CAUTION]
+> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
+> Use Ctrl+A then D to detach from the session instead.
