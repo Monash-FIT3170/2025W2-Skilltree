@@ -48,7 +48,10 @@ export const SidePanel = ({ skillTreeId }) => {
 
   // Render side panel UI
   return (
-    <div className="fixed top-0 right-0 w-96 h-full bg-white shadow-xl p-4 overflow-y-auto z-50">
+    <div
+      className="fixed right-0 w-96 bg-white shadow-xl p-4 overflow-y-auto z-50"
+      style={{ top: '60px', height: 'calc(100% - 60px)' }}
+    >
       {/* Title and description */}
       <h2 className="text-xl font-bold mb-2">{skillTree.title}</h2>
       <p className="text-gray-600 mb-4">{skillTree.description}</p>
