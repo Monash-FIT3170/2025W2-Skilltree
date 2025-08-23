@@ -101,7 +101,7 @@ export const ForgotPasswordForm = () => {
               Try another email
             </button>
             <Link
-              to="/signin"
+              to="/login"
               className="w-full py-3 px-4 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 active:scale-95"
             >
               <FiArrowLeft className="w-4 h-4" />
@@ -219,7 +219,7 @@ export const ForgotPasswordForm = () => {
               <p className="text-sm sm:text-base text-gray-600">
                 Remember your password?{' '}
                 <Link
-                  to="/signin"
+                  to="/login"
                   className="text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors"
                 >
                   Sign in

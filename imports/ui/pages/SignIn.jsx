@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Tracker } from 'meteor/tracker';
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
 import {
   FiEye,
@@ -28,8 +27,6 @@ export const SignIn = () => {
   });
   const [loggingIn, setLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const navigate = useNavigate();
 
   const validateEmailRealTime = value => {
     setEmail(value);
@@ -65,17 +62,8 @@ export const SignIn = () => {
             const validation = await Meteor.callAsync('mergeGoogleAccount');
             console.log(validation);
 
-            if (
-              validation.status === 'alreadyMerged' ||
-              validation.status === 'googleOnlyAccount'
-            ) {
-              navigate('/');
-            } else if (validation.status === 'justMerged') {
-              navigate('/');
-            } else if (validation.status === 'noManualAccount') {
+            if (validation.status === 'noManualAccount') {
               await Meteor.callAsync('addGoogleAccount');
-
-              navigate('/login/extraStep1');
             } else if (validation.status === 'missingGoogleEmail') {
               console.error('Google login failed: No Google email found');
             }
@@ -156,8 +144,6 @@ export const SignIn = () => {
         } else {
           localStorage.removeItem('rememberMe');
         }
-
-        navigate('/');
       }
     });
   };
@@ -314,7 +300,7 @@ export const SignIn = () => {
                   </label>
                   <Link
                     to="/login/password-recovery"
-                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold font-medium transition-colors"
+                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors"
                   >
                     Forgot password?
                   </Link>

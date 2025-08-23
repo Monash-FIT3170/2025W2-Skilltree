@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
 
+// AuthContext
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
+
 // JSX UI
-import { CreateTreeForm } from '/imports/ui/components/CreateTreeForm';
-import { SkillTreeEdit } from '../components/SkillTree';
+import { CreateTreeForm } from '../components/SkillTrees/CreateTreeForm';
+import { SkillTreeEdit } from '../components/SkillTrees/SkillTree';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 
 export const CreateSkillTree = () => {
+  //Current user id logged in
+  const userId = useContext(AuthContext); // Reactive when value changes
+
   const [showAddDetailsForm, setShowAddDetailsForm] = useState(true);
   const [showAddSkillsForm, setShowAddSkillsForm] = useState(false);
   const [skillTree, setSkillTree] = useState({
     title: '',
+    owner: userId,
     //add image later
     description: '',
     tags: [],
@@ -81,7 +88,17 @@ export const CreateSkillTree = () => {
 
   const handleSaveSkillTree = async skilltreeToSave => {
     try {
-      await Meteor.callAsync('skilltrees.insert', skilltreeToSave);
+      //Insert the new skilltree into the collection
+      const skillTreeId = await Meteor.callAsync(
+        'skilltrees.insert',
+        skilltreeToSave
+      );
+
+      //Update the owner's created communities list
+      await Meteor.callAsync('updateCreatedCommunities', skillTreeId);
+      //Update the owner's subscribed communities list
+      await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
+
       console.log('Skill Tree saved successfully');
     } catch (error) {
       console.error('Error saving skill tree:', error);

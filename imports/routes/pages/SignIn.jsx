@@ -1,9 +1,13 @@
 import React from 'react';
-import { PublicRoute, PrivateRoute } from '/imports/utils/RouteGuard';
+import {
+  PublicRoute,
+  PrivateRoute,
+  ProfileCompleteRoute
+} from '/imports/utils/RouteGuard';
 
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
-import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import { GetMissingGoogleFields } from '../../ui/components/SignUp/GetMissingGoogleFields';
 import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
 import { ResetPasswordForm } from '../../ui/pages/ResetPasswordForm';
 
@@ -21,7 +25,10 @@ export const SignInRoutes = [
     path: 'login/extraStep1',
     element: (
       <PrivateRoute redirect="/login">
-        <GetMissingGoogleFields />
+        {/* Route requires isProfileComplete to be false to access otherwise redirects to / */}
+        <ProfileCompleteRoute redirectUrl="/" requireComplete={false}>
+          <GetMissingGoogleFields />
+        </ProfileCompleteRoute>
       </PrivateRoute>
     )
   },
