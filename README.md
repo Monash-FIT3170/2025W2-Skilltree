@@ -126,3 +126,14 @@ chmod +x ./2025W2-Skilltree/.deploy/setup.sh
 ```
 ./2025W2-Skilltree/.deploy/setup.sh
 ```
+#### Usage
+Script to start the webserver in the screen session:
+
+```
+./start
+```
+Script to stop the webserver in the screen session:
+
+```
+./stop
+```
