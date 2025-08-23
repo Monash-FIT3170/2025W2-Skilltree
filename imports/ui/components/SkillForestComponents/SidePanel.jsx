@@ -1,17 +1,8 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react';
-import {
-  ReactFlow,
-  Background,
-  Controls,
-  MiniMap,
-  useNodesState,
-  useEdgesState,
-  useReactFlow,
-  ReactFlowProvider
-} from '@xyflow/react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr'; // Meteor hook for reactive data subscription
-import { useFind } from 'meteor/react-meteor-data/suspense'; // Meteor hook for reactive data querying
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree'; // MongoDB collection for skill trees
+import React from 'react';
+import { ReactFlow, Controls } from '@xyflow/react';
+import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // SidePanel component displays details and structure of a skill tree
 export const SidePanel = ({ skillTreeId, onClose }) => {
@@ -22,7 +13,8 @@ export const SidePanel = ({ skillTreeId, onClose }) => {
   const [skillTree] = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } }, // query filter (match ID)
     {
-      fields: { // limit fields for efficiency
+      fields: {
+        // limit fields for efficiency
         _id: 1,
         title: 1,
         description: 1,
@@ -58,7 +50,9 @@ export const SidePanel = ({ skillTreeId, onClose }) => {
   return (
     <div className="fixed top-0 right-0 w-96 h-full bg-white shadow-xl p-4 overflow-y-auto z-50">
       {/* Close button */}
-      <button onClick={onClose} className="mb-2 text-gray-500">Close</button>
+      <button onClick={onClose} className="mb-2 text-gray-500">
+        Close
+      </button>
 
       {/* Title and description */}
       <h2 className="text-xl font-bold mb-2">{skillTree.title}</h2>
@@ -67,7 +61,6 @@ export const SidePanel = ({ skillTreeId, onClose }) => {
       {/* React Flow graph visualization */}
       <div style={{ height: 400, width: '100%' }}>
         <ReactFlow nodes={nodes} edges={edges} fitView>
-          <MiniMap /> {/* shows a mini overview map */}
           <Controls /> {/* zoom and pan controls */}
         </ReactFlow>
       </div>
