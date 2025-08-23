@@ -5,14 +5,19 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
 
-export const CommentSection = () => {
+/**
+ * Component that displays all comments for a given proof.
+ * @param {Object} proofId - The ID of the proof to display comments for.
+ * @returns
+ */
+export const CommentSection = ({ proofId }) => {
   // loggedIn username
   const { username } = User(['username']);
 
   // Subscribe to comments and get real-time data
   useSubscribeSuspense('comments');
   const comments = useFind(CommentsCollection, [
-    {},
+    { proofId: proofId },
     {
       fields: { username: 1, comment: 1, createdAt: 1 },
       sort: { createdAt: -1 }

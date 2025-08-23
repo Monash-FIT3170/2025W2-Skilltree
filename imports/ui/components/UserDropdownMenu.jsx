@@ -45,6 +45,12 @@ export const UserDropdownMenu = () => {
           Dashboard
         </DropdownItem>
         <DropdownDivider />
+
+        <DropdownItem as={Link} to="/settings">
+          Settings
+        </DropdownItem>
+
+        <DropdownDivider />
         <DropdownItem onClick={() => Meteor.logout()}>
           Logout
           <FaSignOutAlt className="text-gray-400 ml-2" />
