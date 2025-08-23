@@ -70,7 +70,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     if (requireSyncing) {
       Meteor.callAsync(
         'saveSkillTreeProgress',
-        'dummySkillTreeID',
+        id,
         updatedNodes,
         skilltree.skillEdges,
         updatedTotalXp
