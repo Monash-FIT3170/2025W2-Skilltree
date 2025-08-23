@@ -30,7 +30,7 @@ export const GeneralForum = () => {
         setError('Failed to load topics: ' + err.message);
         setTopics([]);
       } else {
-        console.log('Fetched topics:', res);
+        // console.log('Fetched topics:', res);
         setTopics(res || []);
       }
       setLoading(false);
@@ -54,13 +54,13 @@ export const GeneralForum = () => {
     setError(null);
 
     // Backend method expects (forumTitle, skillTreeName)
-    Meteor.call('insertForum', topicTitle.trim(), skilltreeId, (err, res) => {
+    Meteor.call('insertForum', topicTitle.trim(), skilltreeId, err => {
       if (err) {
         console.error('Error creating topic:', err);
         setError('Failed to create topic: ' + err.message);
         setLoading(false);
       } else {
-        console.log('Topic created successfully:', res);
+        // console.log('Topic created successfully:', res);
         // Refetch topics after successful insert
         Meteor.call('getSkillTreeForums', skilltreeId, (err2, res2) => {
           if (err2) {
@@ -97,7 +97,7 @@ export const GeneralForum = () => {
     setLoading(true);
     setError(null);
 
-    console.log('Sending message with topic ID:', selectedTopicId);
+    // console.log('Sending message with topic ID:', selectedTopicId);
 
     // Find the topic to get the correct forumId
     const topic = topics.find(t => t.forumId === selectedTopicId);
@@ -108,21 +108,21 @@ export const GeneralForum = () => {
       return;
     }
 
-    console.log('Found topic for messaging:', topic);
+    // console.log('Found topic for messaging:', topic);
 
     // Backend method expects (forumId as Number, content, userId)
     Meteor.call(
       'addMessageToForum',
       topic.forumId,
       message.trim(),
-      currentUserId,
-      (err, res) => {
+      Meteor.user().username,
+      err => {
         if (err) {
           console.error('Error sending message:', err);
           setError('Failed to send message: ' + err.message);
           setLoading(false);
         } else {
-          console.log('Message sent successfully:', res);
+          // console.log('Message sent successfully:', res);
           // Refetch topics after successful message send to get updated messages
           Meteor.call('getSkillTreeForums', skilltreeId, (err2, res2) => {
             if (err2) {
@@ -143,18 +143,18 @@ export const GeneralForum = () => {
   const selectedTopic = topics.find(t => t.forumId === selectedTopicId);
 
   // Debug log to see which topic is being displayed
-  useEffect(() => {
-    if (selectedTopicId && selectedTopic) {
-      console.log('Displaying topic:', {
-        selectedTopicId,
-        foundTopic: {
-          title: selectedTopic.title,
-          forumId: selectedTopic.forumId,
-          messagesCount: selectedTopic.messages?.length || 0
-        }
-      });
-    }
-  }, [selectedTopicId, selectedTopic]);
+  // useEffect(() => {
+  //   if (selectedTopicId && selectedTopic) {
+  //     console.log('Displaying topic:', {
+  //       selectedTopicId,
+  //       foundTopic: {
+  //         title: selectedTopic.title,
+  //         forumId: selectedTopic.forumId,
+  //         messagesCount: selectedTopic.messages?.length || 0
+  //       }
+  //     });
+  //   }
+  // }, [selectedTopicId, selectedTopic]);
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -210,14 +210,6 @@ export const GeneralForum = () => {
         <TopicList
           topics={topics}
           onSelectTopic={id => {
-            console.log('Topic selected with forumId:', id);
-            console.log(
-              'Available topics:',
-              topics.map(t => ({
-                title: t.title,
-                forumId: t.id
-              }))
-            );
             setSelectedTopicId(id);
           }}
         />
