@@ -37,6 +37,7 @@ ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
 ln -s $PROJECT_DIR/.deploy/restart.sh restart
 ln -s $PROJECT_DIR/.deploy/console.sh console
+ln -s $PROJECT_DIR/.deploy/pull.sh pull
 
 # Add executable permission to scripts
 chmod +x $PROJECT_DIR/.deploy/setup.sh
@@ -44,8 +45,13 @@ chmod +x $PROJECT_DIR/.deploy/start.sh
 chmod +x $PROJECT_DIR/.deploy/stop.sh
 chmod +x $PROJECT_DIR/.deploy/restart.sh
 chmod +x $PROJECT_DIR/.deploy/console.sh
+chmod +x $PROJECT_DIR/.deploy/pull.sh
 
 chmod +x $HOME/start
 chmod +x $HOME/stop
 chmod +x $HOME/restart
 chmod +x $HOME/console
+chmod +x $HOME/pull
+
+# Automate pull on default branch every 5 min (cronjob) 
+(crontab -l 2>/dev/null; echo "*/5 * * * * $HOME/pull") | crontab -
