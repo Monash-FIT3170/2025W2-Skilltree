@@ -1,10 +1,6 @@
 #!/bin/bash
 #
 # Linux Server Setup: Ubuntu 24.04 LTS (Noble) amd64
-#
-# git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
-# chmod +x ./2025W2-Skilltree/.deploy/setup.sh
-# ./2025W2-Skilltree/.deploy/setup.sh
 
 PROJECT_DIR="$HOME/2025W2-Skilltree"
 
@@ -12,7 +8,9 @@ PROJECT_DIR="$HOME/2025W2-Skilltree"
 sudo apt update && sudo apt upgrade -y
 
 # Install packages
-sudo apt install screen micro btop gdu 
+sudo apt install screen micro btop gdu pipx -y
+pipx install ps_mem
+pipx ensurepath
 
 # NodeJS (24) Installation
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
@@ -21,7 +19,6 @@ nvm install 24
 
 # MeteorJS Installation
 npx meteor
-export PATH=/home/ubuntu/.meteor:$PATH
 
 # Project Setup
 cd $PROJECT_DIR
@@ -31,8 +28,12 @@ meteor npm run setup
 sudo echo 'net.ipv4.ip_unprivileged_port_start=79' > /etc/sysctl.d/50-unprivileged-ports.conf
 sudo sysctl --system
 
+# Set default shell to bash
+sudo chsh -s /bin/bash ubuntu
+
 # Setup scripts symlinks
 cd $HOME
+ln -s $PROJECT_DIR/.deploy/setup.sh setup
 ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
 ln -s $PROJECT_DIR/.deploy/restart.sh restart
@@ -47,6 +48,7 @@ chmod +x $PROJECT_DIR/.deploy/restart.sh
 chmod +x $PROJECT_DIR/.deploy/console.sh
 chmod +x $PROJECT_DIR/.deploy/pull.sh
 
+chmod +x $HOME/setup
 chmod +x $HOME/start
 chmod +x $HOME/stop
 chmod +x $HOME/restart

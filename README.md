@@ -27,7 +27,7 @@
 - Keziah Lang `33878552` klan0018@student.monash.edu
 - Steven Kaing `33155666` skai0008@student.monash.edu
 
-## Setup
+## Development Setup
 
 ```
 meteor npm run setup
@@ -116,6 +116,8 @@ tests/
 ```
 ## Deployment
 ### Ubuntu 24.04 LTS (Noble)
+> [!NOTE]
+> Bash scripts for Ubuntu Linux to set up the server, manage deployment, automate pull and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session.
 #### Setup
 ```
 git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
