@@ -2,15 +2,15 @@ import React from 'react';
 import { ChevronRight, Users, Crown } from 'lucide-react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
-
-// Mongo Collections
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+
+// This file is used to create the component that shows the users subscribed trees in the create skillforest form
 
 export const SubscribedTrees = ({
   skillTreeId,
   showSubscribers = false,
   currentUserId,
-  onSelect // now used for SidePanel
+  onSelect
 }) => {
   useSubscribeSuspense('skilltrees');
 
@@ -31,7 +31,7 @@ export const SubscribedTrees = ({
   const isOwner = skillTree.owner === currentUserId;
 
   return (
-    // Replace Link with a div that triggers onSelect
+    // div that triggers onSelect
     <div
       onClick={() => onSelect?.(skillTree._id)} // ✅ fires callback when clicked
       className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer"

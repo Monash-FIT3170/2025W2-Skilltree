@@ -35,7 +35,6 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
     e.preventDefault();
     console.log('SkillForest Created:', formData);
 
-    // pass form details to parent component
     onAddSkills(formData.title, formData.image);
 
     setFormData({
@@ -50,18 +49,18 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
   };
 
   return (
-    <div className="relative p-6">
-      {/* Top-right title */}
-      <div className="absolute top-6 left-6">
-        <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
-          Create SkillForest
-        </h2>
+    <div className="p-6">
+      <h2 className="text-4xl font-bold mb-6" style={{ color: '#328E6E' }}>
+        Create SkillForest
+      </h2>
 
+      {/* Use flexbox for responsive layout */}
+      <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Image Upload Section */}
-        <div className="pt-6">
+        <div className="flex flex-col items-center">
           <div
             onClick={triggerFileInput}
-            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors max-w-xl mx-auto"
+            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg w-48 h-36 flex items-center justify-center overflow-hidden"
           >
             {formData.previewImage ? (
               <img
@@ -85,7 +84,7 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   />
                 </svg>
-                <p className="mt-4 text-sm text-gray-600">
+                <p className="mt-1 text-sm text-gray-600">
                   <span className="font-semibold" style={{ color: '#328E6E' }}>
                     Click to upload
                   </span>
@@ -105,8 +104,7 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
             />
           </div>
           {formData.previewImage && (
-            <div className="flex justify-between mt-2">
-              <p className="text-sm text-gray-500">Image selected</p>
+            <div className="mt-2 text-center">
               <button
                 type="button"
                 onClick={() =>
@@ -118,49 +116,48 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
                 }
                 className="text-red-500 hover:text-red-700 text-sm font-medium"
               >
-                Remove
+                Remove Image
               </button>
             </div>
           )}
         </div>
-      </div>
 
-      <div className="max-w-3xl mx-auto pt-13">
-        <form onSubmit={handleSubmit}>
-          {/* Title */}
-          <div className="mb-0.5">
-            <label
-              htmlFor="title"
-              className="block text-gray-700 text-xl font-semibold mb-1"
-              style={{ color: '#328E6E' }}
+        {/* Form Section */}
+        <div className="w-full md:w-1/2">
+          <form onSubmit={handleSubmit}>
+            {/* Title */}
+            <div className="flex-1">
+              <label
+                htmlFor="title"
+                className="block text-gray-700 text-xl font-semibold mb-1"
+                style={{ color: '#328E6E' }}
+              >
+                Title
+              </label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Name your SkillForest..."
+                required
+              />
+            </div>
+            {/*
+            {/* Add Forest Button }
+            <button
+              type="submit"
+              className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors w-full"
+              style={{
+                backgroundColor: '#328E6E'
+              }}
             >
-              Title
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Name your SkillForest..."
-              required
-            />
-          </div>
-
-          {/* add forest Button */}
-          <button
-            type="submit"
-            className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
-            style={{
-              backgroundColor: '#328E6E',
-              width: '100%',
-              color: '#ffffff'
-            }}
-          >
-            Add Forest +
-          </button>
-        </form>
+              Add Forest +
+            </button>*/}
+          </form>
+        </div>
       </div>
     </div>
   );

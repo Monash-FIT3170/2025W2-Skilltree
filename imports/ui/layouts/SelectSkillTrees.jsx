@@ -8,11 +8,10 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // JSX UI
 import { SubscribedTrees } from '../components/SkillForestComponents/SubscribedTrees';
-import { EmptyState } from '../components/Dashboard/EmptyState';
 import { SidePanel } from '../components/SkillForestComponents/SidePanel';
 
-export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
-  // --- NEW STATE: track which skill tree is selected
+export const SelectSkillTrees = () => {
+  //track which skill tree is selected
   const [selectedSkillTree, setSelectedSkillTree] = useState(null);
 
   const user = User([
@@ -59,16 +58,19 @@ export const SelectSkillTrees = ({ setCommunitiesCount = null }) => {
                 skillTreeId={skillTree._id}
                 showSubscribers={true}
                 currentUserId={user._id}
-                onSelect={() => setSelectedSkillTree(skillTree._id)} // ✅ click handler sets the selected ID
+                onSelect={() => setSelectedSkillTree(skillTree._id)} // click handler sets the selected ID
               />
             ))}
           </div>
         ) : (
-          <EmptyState />
+          <p className="text-gray-500 text-center">
+            Looks like you don't have any skill trees. Head to the search bar
+            join one!
+          </p>
         )}
       </div>
 
-      {/* --- NEW: SidePanel rendered when a skill tree is selected */}
+      {/* SidePanel rendered when a skill tree is selected */}
       {selectedSkillTree && (
         <SidePanel
           skillTreeId={selectedSkillTree}
