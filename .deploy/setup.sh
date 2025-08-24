@@ -48,8 +48,11 @@ ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
 ln -s $PROJECT_DIR/.deploy/restart.sh restart
 ln -s $PROJECT_DIR/.deploy/console.sh console
+ln -s $PROJECT_DIR/.deploy/console-build.sh console-build
 ln -s $PROJECT_DIR/.deploy/build.sh build
 ln -s $PROJECT_DIR/.deploy/pull.sh pull
+ln -s $PROJECT_DIR/.deploy/pull-rebuild.sh pull-rebuild
+ln -s $PROJECT_DIR/.deploy/update.sh update
 
 # Add executable permission to scripts
 chmod +x $PROJECT_DIR/.deploy/setup.sh
@@ -57,16 +60,22 @@ chmod +x $PROJECT_DIR/.deploy/start.sh
 chmod +x $PROJECT_DIR/.deploy/stop.sh
 chmod +x $PROJECT_DIR/.deploy/restart.sh
 chmod +x $PROJECT_DIR/.deploy/console.sh
+chmod +x $PROJECT_DIR/.deploy/console-build.sh
 chmod +x $PROJECT_DIR/.deploy/build.sh
 chmod +x $PROJECT_DIR/.deploy/pull.sh
+chmod +x $PROJECT_DIR/.deploy/pull-rebuild.sh
+chmod +x $PROJECT_DIR/.deploy/update.sh
 
 chmod +x $HOME/setup
 chmod +x $HOME/start
 chmod +x $HOME/stop
 chmod +x $HOME/restart
 chmod +x $HOME/console
+chmod +x $HOME/console-build
 chmod +x $HOME/build
 chmod +x $HOME/pull
+chmod +x $HOME/pull-rebuild
+chmod +x $HOME/update
 
-# Automate pull on default branch every 5 min (cronjob) 
-(crontab -l 2>/dev/null; echo "*/5 * * * * $HOME/pull") | crontab -
+# Automate pull + rebuild on changes at default branch every 5 min (cronjob) 
+(crontab -l 2>/dev/null; echo "*/5 * * * * $HOME/update") | crontab -
