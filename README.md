@@ -117,7 +117,26 @@ tests/
 ## Deployment
 ### Ubuntu 24.04 LTS (Noble)
 > [!NOTE]
-> Bash scripts for Ubuntu Linux to set up the server, manage deployment, automate pull and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session.
+> Bash scripts for Ubuntu Linux to set up the server, manage deployment, build bundles, automate pull and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session.
+
+#### Environment Variables
+`$ENV_HOSTNAME` -- Server hostname or IP address. *Default: current IP address*.
+
+`$ENV_MONGO_URL` -- MongoDB database URL. *Default: mongodb://localhost:27017/skilltree*
+
+`$ENV_PORT` -- Webserver port. *Default: 3000*
+
+`$ENV_METEOR_SETTINGS` -- Meteor application settings from JSON. *Default: project's settings.json*
+
+#### Set Environment Variables
+Edit `~/.bashrc`:
+```
+export ENV_VAR="value"
+```
+To apply changes to the existing terminal session, run:
+```
+source ~/.bashrc
+```
 #### Setup
 ```
 git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
@@ -143,6 +162,10 @@ Script to stop the webserver in the screen session:
 Script to restart (stop + start) webserver in the screen session:
 ```
 ./restart
+```
+Script to build deployment bundle:
+```
+./build
 ```
 Script to enter the screen session for accessing the webserver console:
 

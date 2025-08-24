@@ -15,14 +15,24 @@ pipx ensurepath
 # NodeJS (24) Installation
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 \. "$HOME/.nvm/nvm.sh"
-nvm install 24
+nvm install 22.13.1
+
+# MongoDB setup
+sudo apt-get install gnupg curl -y
+curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg \
+   --dearmor
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl enable mongod --now
 
 # MeteorJS Installation
 npx meteor
 
 # Project Setup
 cd $PROJECT_DIR
-meteor npm run setup
+npm install --omit=dev
 
 # Allow unprivileged port 80
 sudo echo 'net.ipv4.ip_unprivileged_port_start=79' > /etc/sysctl.d/50-unprivileged-ports.conf
@@ -38,6 +48,7 @@ ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
 ln -s $PROJECT_DIR/.deploy/restart.sh restart
 ln -s $PROJECT_DIR/.deploy/console.sh console
+ln -s $PROJECT_DIR/.deploy/build.sh build
 ln -s $PROJECT_DIR/.deploy/pull.sh pull
 
 # Add executable permission to scripts
@@ -46,6 +57,7 @@ chmod +x $PROJECT_DIR/.deploy/start.sh
 chmod +x $PROJECT_DIR/.deploy/stop.sh
 chmod +x $PROJECT_DIR/.deploy/restart.sh
 chmod +x $PROJECT_DIR/.deploy/console.sh
+chmod +x $PROJECT_DIR/.deploy/build.sh
 chmod +x $PROJECT_DIR/.deploy/pull.sh
 
 chmod +x $HOME/setup
@@ -53,6 +65,7 @@ chmod +x $HOME/start
 chmod +x $HOME/stop
 chmod +x $HOME/restart
 chmod +x $HOME/console
+chmod +x $HOME/build
 chmod +x $HOME/pull
 
 # Automate pull on default branch every 5 min (cronjob) 
