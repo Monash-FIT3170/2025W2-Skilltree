@@ -27,6 +27,16 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo systemctl enable mongod --now
 
+# Caddy Installation (Reverse Proxy SSL)
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+chmod o+r /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+chmod o+r /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update
+sudo apt install caddy -y
+sudo systemctl disable caddy --now
+
 # MeteorJS Installation
 npx meteor
 
@@ -34,8 +44,8 @@ npx meteor
 cd $PROJECT_DIR
 npm install --omit=dev
 
-# Allow unprivileged port 80
-sudo echo 'net.ipv4.ip_unprivileged_port_start=79' > /etc/sysctl.d/50-unprivileged-ports.conf
+# Set UDP Buffer Sizes ~ https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes
+echo -e 'net.core.rmem_max=7500000\nnet.core.wmem_max=7500000' | sudo tee /etc/sysctl.d/99-socket-buffer-size.conf
 sudo sysctl --system
 
 # Set default shell to bash
@@ -48,6 +58,7 @@ ln -s $PROJECT_DIR/.deploy/start.sh start
 ln -s $PROJECT_DIR/.deploy/stop.sh stop
 ln -s $PROJECT_DIR/.deploy/restart.sh restart
 ln -s $PROJECT_DIR/.deploy/console.sh console
+ln -s $PROJECT_DIR/.deploy/console-proxy.sh console-proxy
 ln -s $PROJECT_DIR/.deploy/console-build.sh console-build
 ln -s $PROJECT_DIR/.deploy/build.sh build
 ln -s $PROJECT_DIR/.deploy/pull.sh pull
@@ -60,6 +71,7 @@ chmod +x $PROJECT_DIR/.deploy/start.sh
 chmod +x $PROJECT_DIR/.deploy/stop.sh
 chmod +x $PROJECT_DIR/.deploy/restart.sh
 chmod +x $PROJECT_DIR/.deploy/console.sh
+chmod +x $PROJECT_DIR/.deploy/console-proxy.sh
 chmod +x $PROJECT_DIR/.deploy/console-build.sh
 chmod +x $PROJECT_DIR/.deploy/build.sh
 chmod +x $PROJECT_DIR/.deploy/pull.sh
@@ -71,6 +83,7 @@ chmod +x $HOME/start
 chmod +x $HOME/stop
 chmod +x $HOME/restart
 chmod +x $HOME/console
+chmod +x $HOME/console-proxy
 chmod +x $HOME/console-build
 chmod +x $HOME/build
 chmod +x $HOME/pull
