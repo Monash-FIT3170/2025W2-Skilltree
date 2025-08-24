@@ -117,7 +117,7 @@ tests/
 ## Deployment
 ### Ubuntu 24.04 LTS (Noble)
 > [!NOTE]
-> Bash scripts for Ubuntu Linux to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. 
+> Bash scripts for Ubuntu Linux to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
 
 #### Environment Variables
 `$ENV_HOSTNAME` -- Server hostname or IP address. *Default: current IP address*.
@@ -171,6 +171,11 @@ Script to enter the screen session for accessing the webserver console:
 
 ```
 ./console
+```
+Script to enter the screen session for accessing the proxy console:
+
+```
+./console-proxy
 ```
 Script to enter the screen session for accessing the build console:
 
