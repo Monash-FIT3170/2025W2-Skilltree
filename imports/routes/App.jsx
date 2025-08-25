@@ -17,6 +17,7 @@ import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 import { GeneralForumRoutes } from '/imports/routes/pages/GeneralForum';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
 import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
+import { CreateSkillForestRoutes } from './pages/CreateSkillForest';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -43,6 +44,7 @@ export const AppRoutes = [
       ...CreateSkillTreeRoutes,
       ...GeneralForumRoutes,
       ...SearchResultsRoutes,
+      ...CreateSkillTreeRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }
