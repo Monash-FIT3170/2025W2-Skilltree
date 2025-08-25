@@ -50,6 +50,7 @@ sudo sysctl --system
 
 # Set default shell to bash
 sudo chsh -s /bin/bash ubuntu
+echo '[[ -f ~/.bashrc ]] && . ~/.bashrc' >> ~/.bash_profile # Fix SSH login not sourcing .bashrc
 
 # Setup scripts symlinks
 cd $HOME
