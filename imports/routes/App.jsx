@@ -17,6 +17,7 @@ import { GeneralForumRoutes } from '/imports/routes/pages/GeneralForum';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
 import { ManageCommunitiesRoutes } from '/imports/routes/pages/Community/ManageCommunities';
 import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
+import { AdminDashboardRoutes } from '/imports/routes/pages/Community/AdminDashboard';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -44,6 +45,7 @@ export const AppRoutes = [
       ...ManageCommunitiesRoutes,
       ...GeneralForumRoutes,
       ...SearchResultsRoutes,
+      ...AdminDashboardRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

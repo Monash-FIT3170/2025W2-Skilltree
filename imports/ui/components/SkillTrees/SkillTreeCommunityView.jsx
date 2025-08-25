@@ -86,12 +86,18 @@ export const SkillTreeCommunityView = () => {
           title: 1,
           owner: 1,
           description: 1,
-          termsAndConditions: 1
+          termsAndConditions: 1,
+          admins: 1,
+          subscribers: 1
         }
       }
     ],
     [id]
   )[0];
+
+  const isAdmin =
+    userId === skilltree.owner ||
+    (skilltree.admins && skilltree.admins.includes(userId));
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
@@ -113,6 +119,21 @@ export const SkillTreeCommunityView = () => {
               className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
             >
               Leaderboard
+            </Button>
+          </Link>
+
+          {/*Only owner, admin, moderators have access to this mod tool button
+
+            skilltree.admins
+          */}
+
+          <Link to="admin-tools" state={{ background: location }}>
+            <Button
+              color="blue"
+              pill
+              className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            >
+              Mod Tools
             </Button>
           </Link>
         </div>
