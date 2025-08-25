@@ -3,7 +3,7 @@ import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
-import { Fallback } from '/imports/ui/components/Fallback';
+import { Fallback } from '../ui/components/SiteFrame/Fallback';
 
 // Nested/Children Routes
 import { DashboardRoutes } from '/imports/routes/pages/Dashboard';

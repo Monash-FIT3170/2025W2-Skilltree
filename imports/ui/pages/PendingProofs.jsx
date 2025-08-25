@@ -6,8 +6,8 @@ import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr'
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { Fallback } from '/imports/ui/components/Fallback';
-import { ProofsList } from '/imports/ui/components/ProofsList';
+import { Fallback } from '../components/SiteFrame/Fallback';
+import { ProofsList } from '../components/Proofs/ProofsList';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();

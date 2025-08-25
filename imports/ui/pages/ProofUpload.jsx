@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
-import { ProofUploadButton } from '../components/ProofUploadButton';
+import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 
 export const ProofUpload = () => (
   <>
