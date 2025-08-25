@@ -129,7 +129,7 @@ tests/
 `$ENV_METEOR_SETTINGS` -- Meteor application settings from JSON. *Default: project's settings.json*
 
 #### Set Environment Variables
-Edit `~/.bashrc`:
+Edit `~/.bash_profile`:
 ```
 export ENV_VAR="value"
 ```
