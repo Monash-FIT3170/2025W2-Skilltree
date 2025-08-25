@@ -1,72 +1,60 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ReactFlow, Controls } from '@xyflow/react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useTracker } from 'meteor/react-meteor-data';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
-// SidePanel component displays details and structure of a skill tree
 export const SidePanel = ({ skillTreeId }) => {
-  // Subscribe to 'skilltrees' publication so data is kept in sync reactively
-  useSubscribeSuspense('skilltrees');
+  const skillTree = useTracker(() => {
+    const sub = Meteor.subscribe('skilltrees');
+    if (!sub.ready() || !skillTreeId) return null;
+    return SkillTreeCollection.findOne({ _id: skillTreeId });
+  }, [skillTreeId]);
 
-  // Fetch the specific skill tree by ID with selected fields
-  const [skillTree] = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } }, // query filter (match ID)
-    {
-      fields: {
-        // limit fields for efficiency
-        _id: 1,
-        title: 1,
-        description: 1,
-        image: 1,
-        owner: 1,
-        subscribers: 1,
-        skillNodes: 1,
-        skillEdges: 1
-      }
-    }
-  ]);
+  const nodes = useMemo(() => {
+    if (!skillTree?.skillNodes) return [];
+    return skillTree.skillNodes.map(node => ({
+      id: node.id,
+      type: node.type === 'root' ? 'input' : 'default',
+      data: { label: node.data.label },
+      position: { x: node.position.x, y: node.position.y }
+    }));
+  }, [skillTree?.skillNodes]);
 
-  // If no skill tree is found yet, don't render anything
-  if (!skillTree) return null;
+  const edges = useMemo(() => {
+    if (!skillTree?.skillEdges) return [];
+    return skillTree.skillEdges.map(edge => ({
+      id: edge.id,
+      source: edge.source,
+      target: edge.target,
+      animated: edge.animated || false
+    }));
+  }, [skillTree?.skillEdges]);
 
-  // Transform skillNodes into React Flow nodes format
-  const nodes = skillTree.skillNodes.map(node => ({
-    id: node.id,
-    type: node.type === 'root' ? 'input' : 'default', // root nodes become "input" type, others are normal
-    data: { label: node.data.label }, // label for the node
-    position: { x: node.position.x, y: node.position.y } // coordinates on the graph
-  }));
-
-  // Transform skillEdges into React Flow edges format
-  const edges = skillTree.skillEdges.map(edge => ({
-    id: edge.id,
-    source: edge.source, // starting node ID
-    target: edge.target, // ending node ID
-    animated: edge.animated || false // enable animation if defined
-  }));
-
-  // Render side panel UI
   return (
     <div
       className="fixed right-0 w-96 bg-white shadow-xl p-4 overflow-y-auto z-50"
       style={{ top: '60px', height: 'calc(100% - 60px)' }}
     >
-      {/* Title and description */}
-      <h2 className="text-xl font-bold mb-2">{skillTree.title}</h2>
-      <p className="text-gray-600 mb-4">{skillTree.description}</p>
+      {skillTree ? (
+        <>
+          <h2 className="text-xl font-bold mb-2">{skillTree.title}</h2>
+          <p className="text-gray-600 mb-4">{skillTree.description}</p>
 
-      {/* React Flow graph visualization */}
-      <div style={{ height: 400, width: '100%' }}>
-        <ReactFlow nodes={nodes} edges={edges} fitView>
-          <Controls /> {/* zoom and pan controls */}
-        </ReactFlow>
-      </div>
+          <div style={{ height: 400, width: '100%' }}>
+            <ReactFlow key={skillTreeId} nodes={nodes} edges={edges} fitView>
+              <Controls />
+            </ReactFlow>
+          </div>
 
-      {/* Subscribers count */}
-      <p className="text-gray-800 mt-2">
-        <strong>Subscribers:</strong> {skillTree.subscribers.length}
-      </p>
+          <p className="text-gray-800 mt-2">
+            <strong>Subscribers:</strong> {skillTree.subscribers.length}
+          </p>
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-full text-gray-400">
+          Select a SkillTree to view.
+        </div>
+      )}
     </div>
   );
 };
