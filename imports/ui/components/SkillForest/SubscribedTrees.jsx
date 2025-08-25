@@ -33,12 +33,12 @@ export const SubscribedTrees = ({
   return (
     // div that triggers onSelect
     <div
-      onClick={() => onSelect?.(skillTree._id)} // ✅ fires callback when clicked
-      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer"
+      onClick={() => onSelect?.(skillTree._id)}
+      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer h-48 w-63.5"
     >
       {/* Cover image / gradient */}
       <div
-        className={`relative h-32 
+        className={`relative h-24 
           ${!skillTree.image ? 'bg-gradient-to-br from-[#025940] to-[#04BF8A]' : ''}`}
       >
         {skillTree.image && (

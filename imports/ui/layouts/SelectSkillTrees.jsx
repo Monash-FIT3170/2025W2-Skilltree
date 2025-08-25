@@ -47,15 +47,15 @@ export const SelectSkillTrees = () => {
 
   return (
     <div className="relative">
-      <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
+      <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6 pr-300">
         {sortedSkillTrees.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-96">
             {sortedSkillTrees.map(skillTree => (
               <div
                 key={skillTree._id}
                 className={`relative transition-all duration-300 rounded-xl ${
                   selectedSkillTree === skillTree._id
-                    ? 'ring-2 ring-[#04BF8A] ring-offset-0 scale-[1.02]'
+                    ? 'ring-2 ring-[#04BF8A] ring-offset-0'
                     : ''
                 }`}
               >
