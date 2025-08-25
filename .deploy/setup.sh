@@ -10,7 +10,7 @@ sudo apt update && sudo apt upgrade -y
 # Install packages
 sudo apt install screen micro btop gdu pipx -y
 pipx install ps_mem
-pipx ensurepath
+echo -e '#!/bin/bash\nsudo $HOME/.local/share/pipx/venvs/ps-mem/bin/ps_mem "$@"' > $HOME/ps_mem && chmod +x $HOME/ps_mem
 
 # NodeJS (24) Installation
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
