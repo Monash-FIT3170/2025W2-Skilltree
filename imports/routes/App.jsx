@@ -45,6 +45,7 @@ export const AppRoutes = [
       ...GeneralForumRoutes,
       ...SearchResultsRoutes,
       ...CreateSkillTreeRoutes,
+      ...CreateSkillForestRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }
