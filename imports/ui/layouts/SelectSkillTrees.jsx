@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { User } from '/imports/utils/User';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
-import { SubscribedTrees } from '../components/SkillForestComponents/SubscribedTrees';
-import { SidePanel } from '../components/SkillForestComponents/SidePanel';
+import { SubscribedTrees } from '../components/SkillForest/SubscribedTrees';
+import { SidePanel } from '../components/SkillForest/SidePanel';
 
 export const SelectSkillTrees = () => {
   const user = User([
@@ -31,7 +32,8 @@ export const SelectSkillTrees = () => {
     const skillTreesWithRoles = allSkillTrees.map(tree => ({
       ...tree,
       isOwner: tree.owner === user?._id,
-      isMember: user?.profile?.subscribedCommunities?.includes(tree._id) || false
+      isMember:
+        user?.profile?.subscribedCommunities?.includes(tree._id) || false
     }));
 
     const sorted = [...skillTreesWithRoles].sort((a, b) => {
@@ -68,7 +70,8 @@ export const SelectSkillTrees = () => {
           </div>
         ) : (
           <p className="text-gray-500 text-center">
-            Looks like you don't have any skill trees. Head to the search bar join one!
+            Looks like you don't have any skill trees. Head to the search bar
+            join one!
           </p>
         )}
       </div>
