@@ -159,6 +159,16 @@ Schemas.UsersProfile = new SimpleSchema({
     type: Boolean,
     label: 'IsProfileComplete',
     optional: true
+  },
+  xpTEMP: {
+    type: Number,
+    label: 'TEMP xp field',
+    optional: true
+  },
+  commentNumTEMP: {
+    type: Number,
+    label: 'TEMP no. comments field',
+    optional: true
   }
 });
 

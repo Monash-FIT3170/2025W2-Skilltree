@@ -7,7 +7,7 @@ import {
 } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserDropdownMenu } from '/imports/ui/components/UserDropdownMenu';
+import { UserDropdownMenu } from './UserDropdownMenu';
 
 export const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState('');

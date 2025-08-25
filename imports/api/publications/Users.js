@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 
 // Schema
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
@@ -17,6 +17,22 @@ Meteor.publish('user', () => {
   } else {
     this.ready();
   }
+});
+
+Meteor.publish('usernames', function (userIds) {
+  if (!userIds) {
+    return this.ready();
+  }
+
+  return Meteor.users.find(
+    { _id: { $in: userIds } },
+    {
+      fields: {
+        username: 1,
+        profile: 1
+      }
+    }
+  );
 });
 
 // [Mock Data] via Meteor Startup
@@ -50,7 +66,9 @@ Meteor.startup(async () => {
       createdCommunities: [],
       friends: [],
       skillForests: [],
-      isProfileComplete: true
+      isProfileComplete: true,
+      xpTEMP: 20,
+      commentNumTEMP: 15
     }
   });
 
@@ -59,6 +77,7 @@ Meteor.startup(async () => {
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
+
     profile: {
       givenName: 'John',
       familyName: 'Doe',
@@ -80,10 +99,66 @@ Meteor.startup(async () => {
       createdCommunities: [],
       friends: [],
       skillForests: [],
-      isProfileComplete: true
+      isProfileComplete: true,
+      xpTEMP: 0,
+      commentNumTEMP: 0
     },
     services: {
       password: 'example123!'
     }
   });
+
+  const communityMemberA = await Accounts.createUserAsync({
+    username: 'member A',
+    password: 'testpass4',
+    email: 'lebron@gmail.com',
+    profile: {
+      givenName: 'John',
+      familyName: 'Wall',
+      avatarUrl: 'https://example.com/avatar.jpg',
+      bio: 'idk what to put here lol',
+      dateOfBirth: new Date('2024-05-07'),
+      subscribedCommunities: ['iCZmdXWy5GyqoqBox', 'ZmdXoqCGoWyixyqB5'],
+      roles: ['user', 'moderator'],
+      isActive: true,
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      proof_of_practice_uploads: [
+        '65a8b11f3d93c27b3c1b9de1',
+        '65a8b11f3d93c27b3c1b9de2'
+      ],
+      expertise_areas: ['Web Development', 'Cybersecurity', 'Devsssps'],
+      membership_tier: 'pro',
+      createdCommunities: [],
+      friends: [],
+      skillForests: [],
+      isProfileComplete: true,
+      xpTEMP: 10,
+      commentNumTEMP: 4
+    },
+    services: {
+      password: 'example123!'
+    }
+  });
+
+  await Meteor.callAsync(
+    'skilltrees.subscribeUser',
+    'basketball',
+    communityMemberA
+  );
+
+  for (let i = 0; i < 50; i++) {
+    const memberUsername = 'member' + String(i);
+
+    const memberId = await Accounts.createUserAsync({
+      username: memberUsername,
+      profile: {
+        xpTEMP: Math.floor(Math.random() * 100),
+        commentNumTEMP: Math.floor(Math.random() * 10)
+      }
+    });
+
+    await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', memberId);
+  }
 });
