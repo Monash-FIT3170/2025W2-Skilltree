@@ -135,7 +135,7 @@ export ENV_VAR="value"
 ```
 To apply changes to the existing terminal session, run:
 ```
-source ~/.bashrc
+. .bash_profile
 ```
 #### Setup
 ```
