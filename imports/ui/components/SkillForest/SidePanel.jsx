@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { ReactFlow, Controls } from '@xyflow/react';
+import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
