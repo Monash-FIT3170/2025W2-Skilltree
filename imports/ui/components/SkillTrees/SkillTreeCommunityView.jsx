@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { SkillTreeView } from '../components/SkillTreeView';
+import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
-import { NavigationDropdown } from '../components/NavigationDropdown';
+import { NavigationDropdown } from './NavigationDropdown';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
@@ -24,7 +24,7 @@ function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
   return;
 }
 
-let progresNodes = [
+let progressNodes = [
   {
     id: '0',
     type: 'root',
@@ -127,7 +127,7 @@ export const SkillTreeCommunityView = () => {
       <SkillTreeView id={id} isAdmin={false} />
       <Outlet />
       <Button
-        onClick={() => testSaveTreeProgress(id, progresNodes, progressEdges)}
+        onClick={() => testSaveTreeProgress(id, progressNodes, progressEdges)}
       ></Button>
     </div>
   );
