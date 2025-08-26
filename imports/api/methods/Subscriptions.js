@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { SubscriptionCollection } from '/imports/api/collections/Subscription';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { check } from 'meteor/check';
 
 Meteor.methods({
   async getSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SubscriptionCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
@@ -36,13 +36,13 @@ Meteor.methods({
       progressTreeEdges = baseTree.skillEdges;
     }
 
-    const existing = await SubscriptionCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
 
     if (existing) {
-      return await SubscriptionCollection.updateAsync(
+      return await SubscriptionsCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
@@ -53,7 +53,7 @@ Meteor.methods({
         }
       );
     } else {
-      return await SubscriptionCollection.insertAsync({
+      return await SubscriptionsCollection.insertAsync({
         userId: this.userId,
         skillTreeId,
         skillNodes: progressTreeNodes,
@@ -65,13 +65,13 @@ Meteor.methods({
 
   async removeSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SubscriptionCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
 
     if (existing) {
-      return await SubscriptionCollection.updateAsync(
+      return await SubscriptionsCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {

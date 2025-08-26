@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SubscriptionCollection } from '../collections/Subscription';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
 
 const skillDataSchema = new SimpleSchema({
   label: {
@@ -145,4 +145,4 @@ Schemas.Subscription = new SimpleSchema({
   }
 });
 
-SubscriptionCollection.attachSchema(Schemas.Subscription);
+SubscriptionsCollection.attachSchema(Schemas.Subscription);

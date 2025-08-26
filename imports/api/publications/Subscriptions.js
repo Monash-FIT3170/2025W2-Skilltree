@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { SubscriptionCollection } from '/imports/api/collections/Subscription';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
-Meteor.publish('subscription', () => SubscriptionCollection.find());
+Meteor.publish('subscriptions', () => SubscriptionsCollection.find());
 
 Meteor.startup(async () => {
-  await SubscriptionCollection.removeAsync({});
+  await SubscriptionsCollection.removeAsync({});
 
   const dummyProgressTree = [
     {
@@ -147,6 +147,6 @@ Meteor.startup(async () => {
 
   // Insert dummy data
   for (const progressTree of dummyProgressTree) {
-    await SubscriptionCollection.insertAsync(progressTree);
+    await SubscriptionsCollection.insertAsync(progressTree);
   }
 });
