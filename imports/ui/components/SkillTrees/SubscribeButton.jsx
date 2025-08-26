@@ -36,9 +36,12 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
     try {
+      // Create/activate the subscription document itself
+
       Meteor.callAsync('saveSubscription', skillTreeId);
       console.log('saved base tree');
 
+      // Add user to list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.subscribeUser',
         skillTreeId,
@@ -53,6 +56,9 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.unsubscribeUser
   const unsubscribeUser = async () => {
     try {
+      // Deactivate the subscription document itself
+      Meteor.callAsync('removeSubscription', skillTreeId, userId);
+      // Remove user from list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.unsubscribeUser',
         skillTreeId,
@@ -70,7 +76,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     setIsLoading(true);
 
-    // subscribe user to skilltree
+    // Add  user to skilltree's subscriber list and create/activate the subscription
     await subscribeUser();
 
     // add user to skilltree
@@ -93,6 +99,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     setIsLoading(true);
 
+    // Remove user from skilltree's subscriber list and deactivate the subscription
     await unsubscribeUser();
 
     // remove skill tree from user profile

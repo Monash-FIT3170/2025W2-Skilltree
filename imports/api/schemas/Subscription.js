@@ -123,6 +123,11 @@ Schemas.Subscription = new SimpleSchema({
     type: Number,
     label: 'Unique Community ID'
   },
+  active: {
+    type: Boolean,
+    label: 'Is Active',
+    defaultValue: true
+  },
   skillNodes: {
     type: Array,
     label: 'List of skill nodes'

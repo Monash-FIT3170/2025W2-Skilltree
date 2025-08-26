@@ -47,7 +47,8 @@ Meteor.methods({
         {
           $set: {
             skillNodes: progressTreeNodes,
-            skillEdges: progressTreeEdges
+            skillEdges: progressTreeEdges,
+            active: true
           }
         }
       );
@@ -56,7 +57,8 @@ Meteor.methods({
         userId: this.userId,
         skillTreeId,
         skillNodes: progressTreeNodes,
-        skillEdges: progressTreeEdges
+        skillEdges: progressTreeEdges,
+        active: true
       });
     }
   },
@@ -69,11 +71,14 @@ Meteor.methods({
     });
 
     if (existing) {
-      // Corrected remove query: remove by userId and skillTreeId
-      return await SubscriptionCollection.removeAsync({
-        userId: this.userId,
-        skillTreeId: skillTreeId
-      });
+      return await SubscriptionCollection.updateAsync(
+        { userId: this.userId, skillTreeId: skillTreeId },
+        {
+          $set: {
+            active: false
+          }
+        }
+      );
     } else {
       return null;
     }
