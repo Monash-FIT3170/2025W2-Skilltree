@@ -28,7 +28,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
 
   //Check if user has a saved progress
   useEffect(() => {
-    Meteor.call('getSkillTreeProgress', id, (err, res) => {
+    Meteor.call('getSubscription', id, (err, res) => {
       if (res) {
         console.log('Progress found - subscribed');
         console.log(res);

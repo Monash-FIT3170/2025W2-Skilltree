@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SkillTreeProgressCollection } from '../collections/SkillTreeProgress';
+import { SubscriptionCollection } from '../collections/Subscription';
 
 const skillDataSchema = new SimpleSchema({
   label: {
@@ -114,7 +114,7 @@ const skillEdgeSchema = new SimpleSchema({
 });
 
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
-Schemas.SkillTreeProgress = new SimpleSchema({
+Schemas.Subscription = new SimpleSchema({
   userId: {
     type: Number,
     label: 'Unique User ID'
@@ -140,4 +140,4 @@ Schemas.SkillTreeProgress = new SimpleSchema({
   }
 });
 
-SkillTreeProgressCollection.attachSchema(Schemas.SkillTreeProgress);
+SubscriptionCollection.attachSchema(Schemas.Subscription);

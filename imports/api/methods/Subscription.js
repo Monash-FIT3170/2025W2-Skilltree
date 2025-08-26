@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionCollection } from '/imports/api/collections/Subscription';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  async getSkillTreeProgress(skillTreeId) {
+  async getSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
@@ -18,7 +18,7 @@ Meteor.methods({
     }
   },
 
-  async saveSkillTreeProgress(
+  async saveSubscription(
     skillTreeId,
     progressTreeNodes = null,
     progressTreeEdges = null
@@ -36,13 +36,13 @@ Meteor.methods({
       progressTreeEdges = baseTree.skillEdges;
     }
 
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
 
     if (existing) {
-      return await SkillTreeProgressCollection.updateAsync(
+      return await SubscriptionCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
@@ -52,7 +52,7 @@ Meteor.methods({
         }
       );
     } else {
-      return await SkillTreeProgressCollection.insertAsync({
+      return await SubscriptionCollection.insertAsync({
         userId: this.userId,
         skillTreeId,
         skillNodes: progressTreeNodes,
@@ -61,16 +61,16 @@ Meteor.methods({
     }
   },
 
-  async removeSkillTreeProgress(skillTreeId) {
+  async removeSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
 
     if (existing) {
       // Corrected remove query: remove by userId and skillTreeId
-      return await SkillTreeProgressCollection.removeAsync({
+      return await SubscriptionCollection.removeAsync({
         userId: this.userId,
         skillTreeId: skillTreeId
       });

@@ -15,7 +15,7 @@ import { Meteor } from 'meteor/meteor';
 
 function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
   Meteor.callAsync(
-    'saveSkillTreeProgress',
+    'saveSubscription',
     skillTreeId,
     progressNodes,
     progressEdges

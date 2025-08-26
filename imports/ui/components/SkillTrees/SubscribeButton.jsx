@@ -36,7 +36,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
     try {
-      Meteor.callAsync('saveSkillTreeProgress', skillTreeId);
+      Meteor.callAsync('saveSubscription', skillTreeId);
       console.log('saved base tree');
 
       return await Meteor.callAsync(
