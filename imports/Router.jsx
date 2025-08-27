@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RootRoutes } from '/imports/routes/Root';
 
 // Render Router routes on both client side & server side rendering (SSR)
-if (Meteor.settings.enableSSR != false) {
+if (Meteor.settings.public.enableSSR != false) {
   renderWithSSR(RootRoutes);
 } // Without SSR
 else if (Meteor.isClient) {
