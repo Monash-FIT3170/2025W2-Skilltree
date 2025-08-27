@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   FiSearch,
-  FiEye,
   FiEdit3,
-  FiMail,
-  FiTrash2,
   FiLoader
 } from 'react-icons/fi';
 
@@ -18,6 +15,7 @@ export const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [expandedRoles, setExpandedRoles] = useState(new Set());
 
   //Wait for all members of the skilltree community to load in:
   const [loading, setLoading] = useState(true);
@@ -25,6 +23,17 @@ export const UserManagement = () => {
   useEffect(() => {
     fetchSkillTreeUsers();
   }, [skilltreeID]);
+
+  //toggling between hide and show
+  const toggleRoleExpansion = userId => {
+    const newExpanded = new Set(expandedRoles);
+    if (newExpanded.has(userId)) {
+      newExpanded.delete(userId);
+    } else {
+      newExpanded.add(userId);
+    }
+    setExpandedRoles(newExpanded);
+  };
 
   const fetchSkillTreeUsers = async () => {
     try {
@@ -90,21 +99,14 @@ export const UserManagement = () => {
     return '?';
   };
 
-  const getRoleColor = roles => {
-    if (!roles || roles.length === 0) {
-      return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-    const primaryRole = roles[0];
-
-    switch (primaryRole) {
+  const getRoleColor = role => {
+    switch (role) {
       case 'admin':
         return 'bg-red-100 text-red-700 border-red-200';
       case 'expert':
         return 'bg-purple-100 text-purple-700 border-purple-200';
       case 'moderator':
         return 'bg-blue-100 text-blue-700 border-blue-200';
-      case 'pro':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       default:
         return 'bg-gray-100 text-gray-700 border-gray-200';
     }
@@ -148,16 +150,6 @@ export const UserManagement = () => {
       : 'No email';
   };
 
-  const getRoleDisplay = user => {
-    if (user.roles && user.roles.length > 0) {
-      return user.roles[0]; // Display primary role
-    }
-    if (user.membership_tier) {
-      return user.membership_tier;
-    }
-    return 'user';
-  };
-
   // Filter users based on search term and role filter
   const filteredUsers = users.filter(user => {
     const matchesSearch =
@@ -167,8 +159,7 @@ export const UserManagement = () => {
 
     const matchesRole =
       roleFilter === 'all' ||
-      (user.roles && user.roles.includes(roleFilter)) ||
-      user.membership_tier === roleFilter;
+      (user.skilltreeRoles && user.skilltreeRoles.includes(roleFilter));
 
     return matchesSearch && matchesRole;
   });
@@ -178,7 +169,6 @@ export const UserManagement = () => {
     // Implement action logic here
   };
 
-  // LOADING STATE - Show this until data is loaded
   if (loading) {
     return (
       <div
@@ -328,12 +318,56 @@ export const UserManagement = () => {
                     </div>
                   </div>
                 </td>
-                <td className="py-4 px-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getRoleColor(user.skilltreeRoles)}`}
-                  >
-                    {getRoleDisplay(user)}
-                  </span>
+                <td className="py-2 px-2 w-32 sm:w-48 lg:w-64">
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                    {/* Always show first role */}
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(user.skilltreeRoles[0])} whitespace-nowrap`}
+                    >
+                      {user.skilltreeRoles[0]}
+                    </span>
+
+                    {/* Depending on your screen size, display the roles of the user in this skilltree */}
+                    {user.skilltreeRoles.length > 1 && (
+                      <>
+                        {/* Desktop - show all the roles (this is starting from index 1, not including the first role) */}
+                        <div className="hidden sm:flex sm:flex-wrap sm:gap-1.5">
+                          {user.skilltreeRoles.slice(1).map((role, index) => (
+                            <span
+                              key={index + 1}
+                              className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(role)} whitespace-nowrap`}
+                            >
+                              {role}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Mobile - show the rest of the roles */}
+                        <button
+                          onClick={() => toggleRoleExpansion(user._id)}
+                          className="sm:hidden text-xs text-gray-500 hover:text-gray-700 px-1 cursor-pointer"
+                        >
+                          {expandedRoles.has(user._id)
+                            ? `Hide (${user.skilltreeRoles.length - 1})`
+                            : `+${user.skilltreeRoles.length - 1}`}
+                        </button>
+
+                        {/* Mobile: expanded additional roles */}
+                        {expandedRoles.has(user._id) && (
+                          <div className="sm:hidden flex flex-wrap gap-1 w-full mt-2">
+                            {user.skilltreeRoles.slice(1).map((role, index) => (
+                              <span
+                                key={index + 1}
+                                className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(role)} whitespace-nowrap`}
+                              >
+                                {role}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </td>
 
                 <td className="py-4 px-4">
@@ -346,32 +380,11 @@ export const UserManagement = () => {
                 <td className="py-4 px-4">
                   <div className="flex justify-end gap-1">
                     <button
-                      onClick={() => handleUserAction(user._id, 'view')}
-                      className="p-2 text-gray-600 hover:text-[#04BF8A] hover:bg-[#04BF8A]/10 rounded-lg transition-colors"
-                      title="View Profile"
-                    >
-                      <FiEye className="w-4 h-4" />
-                    </button>
-                    <button
                       onClick={() => handleUserAction(user._id, 'edit')}
-                      className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
                       title="Edit User"
                     >
                       <FiEdit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleUserAction(user._id, 'message')}
-                      className="p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
-                      title="Send Message"
-                    >
-                      <FiMail className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleUserAction(user._id, 'delete')}
-                      className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      title="Remove from SkillTree"
-                    >
-                      <FiTrash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </td>
