@@ -2,11 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-import {
-  FiSearch,
-  FiEdit3,
-  FiLoader
-} from 'react-icons/fi';
+import { FiSearch, FiEdit3, FiLoader } from 'react-icons/fi';
 
 export const UserManagement = () => {
   const { id: skilltreeID } = useParams();
