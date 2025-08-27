@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Element JSX UI
-import { HelloView } from '/imports/ui/components/HelloView';
+import { HelloView } from '../../ui/components/Sample/HelloView';
 
 // Define Routes for HelloView JSX component
 export const HelloViewRoutes = [

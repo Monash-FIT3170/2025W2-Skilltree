@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Dropzone } from './Dropzone';
+import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
@@ -14,7 +14,12 @@ import { User } from '/imports/utils/User';
  *
  * NOTE: You need an AWS key to upload, see the README and reach out to Mitch to get one
  * */
-export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
+export const ProofUploadButton = ({
+  skilltreeId,
+  skill,
+  requirements,
+  onUploadProof
+}) => {
   // loggedIn username
   const currentUserId = Meteor.userId();
   const { username } = User(['username']);
@@ -144,7 +149,8 @@ export const ProofUploadButton = ({ skilltreeId, skill, requirements }) => {
    * @returns {Promise<void>}
    */
   const insertProof = async data => {
-    await Meteor.callAsync('insertProof', data);
+    const proofId = await Meteor.callAsync('insertProof', data);
+    onUploadProof(proofId);
   };
 
   /**  Main Functions */
