@@ -71,10 +71,10 @@ export const CommunityLeaderboardModal = () => {
           </div>
         </div>
       </ModalHeader>
-      <ModalBody className="w-full h-full min-h-[70vh]">
+      <ModalBody className="w-full h-full min-h-[70vh] max-h-[70vh] overflow-y-auto">
         <div className="space-y-6">
           <CommunityLeaderboardList
-            skillTreeId={id}
+            skillTreeId={id}  
             filter={filter}
           ></CommunityLeaderboardList>
         </div>
