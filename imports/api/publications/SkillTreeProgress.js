@@ -9,6 +9,7 @@ Meteor.startup(async () => {
   const dummyProgressTree = [
     {
       userId: 123123,
+      communityId: 'basketball',
       skillNodes: [
         {
           id: '0',
@@ -140,7 +141,8 @@ Meteor.startup(async () => {
         { id: 'e7', source: '7', target: '8' },
         { id: 'e8', source: '6', target: '5' },
         { id: 'e9', source: '8', target: '5' }
-      ]
+      ],
+      roles: ['user', 'expert']
     }
   ];
 

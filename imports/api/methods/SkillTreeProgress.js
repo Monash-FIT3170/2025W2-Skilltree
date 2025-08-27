@@ -18,6 +18,14 @@ Meteor.methods({
     }
   },
 
+  async getAllSkillTreeProgress(skillTreeId) {
+    check(skillTreeId, String);
+
+    return SkillTreeProgressCollection.find({
+      communityId: skillTreeId
+    }).fetchAsync();
+  },
+
   async saveSkillTreeProgress(
     skillTreeId,
     progressTreeNodes = null,

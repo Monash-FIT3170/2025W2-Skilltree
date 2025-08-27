@@ -137,6 +137,15 @@ Schemas.SkillTreeProgress = new SimpleSchema({
     type: Number,
     label: 'Total XP Points earned by the user for this skilltree',
     defaultValue: 0
+  },
+  roles: {
+    type: Array,
+    label: 'User Roles in this SkillTree',
+    defaultValue: ['user']
+  },
+  'roles.$': {
+    type: String,
+    allowedValues: ['user', 'expert', 'moderator', 'admin']
   }
 });
 
