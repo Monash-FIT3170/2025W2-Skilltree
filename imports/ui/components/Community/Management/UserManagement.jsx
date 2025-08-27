@@ -28,23 +28,23 @@ export const UserManagement = () => {
 
   const fetchSkillTreeUsers = async () => {
     try {
-      console.log(skilltreeID);
-      //Get all current skilltree progresses for this skilltree
-      const allProgressRecords = await Meteor.callAsync(
-        'getAllSkillTreeProgress',
-        skilltreeID
-      );
-      console.log(allProgressRecords);
+      //Retrieve skill tree
+      const skilltree = await Meteor.callAsync('skilltrees.get', skilltreeID);
 
-      //Extract all user IDs from progress records
-      const userIds = allProgressRecords.map(progress => progress.userId);
+      //Get userIds of subscribers of this skill tree
+      const userIds = skilltree.subscribers;
 
+      //Get user instances for each userId
       const userInstances = await Meteor.callAsync(
         'users.getMultipleByIds',
         userIds
       );
 
-      console.log(userInstances);
+      //Get skilltree progresses from skilltree
+      const allProgressRecords = await Meteor.callAsync(
+        'getAllSkillTreeProgress',
+        skilltreeID
+      );
 
       // Combine user data with their progress data
       const combinedData = userInstances.map(user => {
