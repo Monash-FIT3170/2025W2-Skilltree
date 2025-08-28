@@ -10,7 +10,8 @@ import { SkillTreeCollection } from '../../api/collections/SkillTree';
 
 // Import UI Components
 import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
-import { Loader } from 'lucide-react';
+import { SkillForestView } from '../components/SkillForest/SkillForestView';
+// import { Loader } from 'lucide-react';
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
@@ -25,17 +26,17 @@ export const SkillForest = () => {
     [skillForestId]
   )[0];
 
-  const skillTrees = useFind(SkillTreeCollection, [
-    { _id: { $in: skillForest?.skilltreeIds || [] } }
-  ]);
+  // const skillTrees = useFind(SkillTreeCollection, [
+  //   { _id: { $in: skillForest?.skilltreeIds || [] } }
+  // ]);
 
-  if (!skillForest) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="animate-spin" />
-      </div>
-    );
-  }
+  // if (!skillForest) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <Loader className="animate-spin" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -48,7 +49,7 @@ export const SkillForest = () => {
         </h1>
 
         {/* Responsive Grid for Skill Trees */}
-        <div className="w-full h-[65vh] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {/* <div className="w-full h-[65vh] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {skillTrees.map(tree => (
             <div
               key={tree._id}
@@ -57,7 +58,11 @@ export const SkillForest = () => {
               <SkillTreeView id={tree._id} isAdmin={false} />
             </div>
           ))}
-        </div>
+        </div> */}
+        <SkillForestView
+          skillTreeIds={skillForest.skilltreeIds || []}
+          isAdmin={false}
+        />
       </div>
     </>
   );
