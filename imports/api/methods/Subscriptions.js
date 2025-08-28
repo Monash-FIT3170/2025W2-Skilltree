@@ -82,5 +82,26 @@ Meteor.methods({
     } else {
       return null;
     }
+  },
+
+  async incrementXP(skillTreeId, sign) {
+    check(skillTreeId, String);
+    const existing = await SubscriptionsCollection.findOneAsync({
+      userId: this.userId,
+      skillTreeId
+    });
+
+    if (existing) {
+      return await SubscriptionsCollection.updateAsync(
+        { userId: this.userId, skillTreeId: skillTreeId },
+        {
+          $inc: {
+            xp: sign * 1
+          }
+        }
+      );
+    } else {
+      return null;
+    }
   }
 });

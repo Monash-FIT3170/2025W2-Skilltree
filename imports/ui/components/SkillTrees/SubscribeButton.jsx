@@ -132,18 +132,37 @@ export const SubscribeButton = ({ skillTreeId }) => {
     );
   }
 
+  const incrementXP = sign => {
+    Meteor.callAsync('incrementXP', skillTreeId, sign);
+  };
+
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
       {isSubscribed ? (
-        <Button
-          color="green"
-          pill
-          type="submit"
-          onClick={unsubscribeUserFromSkilltree}
-          className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-        >
-          Unsubscribe
-        </Button>
+        <>
+          <Button
+            color="green"
+            pill
+            type="submit"
+            onClick={unsubscribeUserFromSkilltree}
+            className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+          >
+            Unsubscribe
+          </Button>
+          <span
+            onClick={() => incrementXP(1)}
+            className="cursor-pointer text-blue-500 hover:underline"
+          >
+            +1 XP
+          </span>
+
+          <span
+            onClick={() => incrementXP(-1)}
+            className="cursor-pointer text-blue-500 hover:underline"
+          >
+            -1 XP
+          </span>
+        </>
       ) : (
         <Button
           color="green"
