@@ -2,7 +2,7 @@
   "name": "SkillTree",
   "private": true,
   "scripts": {
-    "setup": "meteor npm install && node -e \"require('fs').writeFileSync('settings.json', JSON.stringify({ public: { enableSSR: true }, private: { AWSAccessKeyId: '', AWSSecretAccessKey: '', google:{clientId:'',secret:'' }, smtp: { username: 'your-gmail@gmail.com', password:'App-Password', server: 'smtp.gmail.com', port: 465 } } }, null, 2))\" && meteor npm run postinstall",
+    "setup": "meteor npm install && node -e \"require('fs').writeFileSync('settings.json', JSON.stringify({ public: { enableSSR: false, enablePartialSRR: true }, private: { AWSAccessKeyId: '', AWSSecretAccessKey: '', google:{clientId:'',secret:'' }, smtp: { username: 'your-gmail@gmail.com', password:'App-Password', server: 'smtp.gmail.com', port: 465 } } }, null, 2))\" && meteor npm run postinstall",
     "start": "flowbite-react register && meteor run --settings settings.json --exclude-archs web.browser.legacy,web.cordova",
     "test": "meteor test --settings settings.json --exclude-archs web.browser.legacy,web.cordova --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --settings settings.json --exclude-archs web.browser.legacy,web.cordova --full-app --driver-package meteortesting:mocha",
