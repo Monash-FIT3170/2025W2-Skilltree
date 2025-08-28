@@ -10,6 +10,7 @@ import {
   getGreetingIcon,
   getGreetingMessage
 } from '../components/Dashboard/Greeting';
+import { DashboardSkillForest } from '../layouts/DashboardSkillForest';
 
 export const Dashboard = () => {
   const user = User(['profile.givenName']);
@@ -66,7 +67,7 @@ export const Dashboard = () => {
                   ? 'bg-green-600 text-white border-green-600'   // Active (green)
                   : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'}`} // Inactive (grey)
             >
-              Skill Forest
+              SkillForest
             </button>
 
             {/* Skill Trees Button */}
@@ -77,12 +78,12 @@ export const Dashboard = () => {
                   ? 'bg-green-600 text-white border-green-600'   // Active (green)
                   : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'}`} // Inactive (grey)
             >
-              Skill Trees
+              SkillTrees
             </button>
           </nav>
           {currentView === 'skillForest' && (
             <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
-              <span>View your skill trees in a forest layout</span>
+              <span>View your SkillForest</span>
               <Link to={'/manage-communities'}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
@@ -93,7 +94,7 @@ export const Dashboard = () => {
           )}
           {currentView === 'skillTrees' && (
             <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
-              <span>View your skill trees layout</span>
+              <span>View your skillForest</span>
               <Link to={'/manage-communities'}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
@@ -101,19 +102,30 @@ export const Dashboard = () => {
                 </button>
               </Link>
             </div>
+            
           )}
-
         </div>
-
         {/* My Skill Trees Section */}
         <div className="mb-8">
+          {currentView === 'skillForest' && (
           <div className="mb-8 w-full">
             <Suspense fallback={<DashboardLoadingState />}>
-              <DashboardSkillTrees
+              <DashboardSkillForest
                 key={user._id}
                 setCommunitiesCount={setCommunitiesCount} />
             </Suspense>
           </div>
+          )}
+
+          {currentView === 'skillTrees' && (
+          <div className="mb-8 w-full">
+            <Suspense fallback={<DashboardLoadingState />}>
+              <DashboardSkillTrees
+                key={user._id}
+                setCommunitiesCount={setCommunitiesCount} />  
+            </Suspense>
+            </div>
+            )}
         </div>
       </div>
     </div>
