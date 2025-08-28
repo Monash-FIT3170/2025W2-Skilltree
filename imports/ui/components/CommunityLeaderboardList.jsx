@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { List, ListItem, Badge } from 'flowbite-react';
+import { List, ListItem, Badge, Button } from 'flowbite-react';
 
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
@@ -24,6 +24,24 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
  * @returns List of users inside skilltree
  */
 export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
+  // current user
+  const currUser = Meteor.userId()
+
+  const userRef = useRef(null)
+  const [isVisible,setIsVisible] = useState(false)
+
+  const callbackFunction = (entries) => {
+    const [ entry ] = entries
+    setIsVisible(entry.isIntersecting)
+    console.log(isVisible)
+  }
+
+  const options = {
+    root: null,
+    rootMarge: "0px",
+    threshold: 0.01
+  }
+
   // useFind to query user data
   useSubscribeSuspense('skilltrees');
   const targetSkillTree = useFind(
@@ -57,29 +75,77 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     [targetSkillTree?.subscribers]
   );
 
+  const scrollToUser = () => {
+    if (userRef.current){
+      userRef.current.scrollIntoView({behavior: "smooth", block: "center"});
+    }
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(callbackFunction, options)
+    
+    if (userRef.current){
+      observer.observe(userRef.current);
+    }
+
+    // cleanup function when component unmounts
+    return () => {
+      if (userRef.current){
+        observer.unobserve(userRef.current)
+      }
+    }
+
+  },[userRef, options])
+
   return (
     <List unstyled className="divide-y divide-gray-200">
       {users.map((user, index) => {
-        return (
-          <ListItem
-            key={user._id}
-            className="pb-3"
-            onClick={() => console.log(user)}
-          >
-            <div className="flex items-center space-x-4">
-              <Badge
-                color="green"
-                size="sm"
-                className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+        if (user._id === currUser){
+          return (
+              <ListItem
+                key={user._id}
+                ref={userRef}
+                className="pb-3 bg-green-100"
+                onClick={() => console.log(user)}
               >
-                {String(index + 1)}
-              </Badge>
-              <span>{`${user.username}`}</span>
-              <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
-            </div>
-          </ListItem>
+                <div className="flex items-center space-x-4">
+                  <Badge
+                    color="green"
+                    size="sm"
+                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                  >
+                    {String(index + 1)}
+                  </Badge>
+                  <span>{`${user.username}`}</span>
+                  <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
+                </div>
+              </ListItem>
+          )
+        } else {
+            return (
+              <ListItem
+                key={user._id}
+                className="pb-3"
+                onClick={() => console.log(user)}
+              >
+                <div className="flex items-center space-x-4">
+                  <Badge
+                    color="green"
+                    size="sm"
+                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                  >
+                    {String(index + 1)}
+                  </Badge>
+                  <span>{`${user.username}`}</span>
+                  <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
+                </div>
+              </ListItem>
         );
+        }
       })}
+      <div className='absolute right-5 bottom-30'>
+        {!isVisible && <Button onClick={scrollToUser}>Scroll to me</Button>}
+      </div>
     </List>
   );
 };
