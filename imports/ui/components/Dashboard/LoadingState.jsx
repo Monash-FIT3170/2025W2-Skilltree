@@ -3,7 +3,7 @@ import React from 'react';
 export const DashboardLoadingState = () => {
   return (
     <div className="p-4 lg:p-6">
-      <div className="animate-pulse">
+      <div className="animate-pulse fadeInEffect">
         <div className="h-8 bg-gray-200 rounded w-64 mb-6"></div>
         <div className="space-y-8">
           {[1, 2].map(section => (
