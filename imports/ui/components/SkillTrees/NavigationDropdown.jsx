@@ -52,18 +52,6 @@ export const NavigationDropdown = ({ id }) => {
         />
       ),
       link: `/pendingproofs/${id}`
-    },
-    {
-      id: 'upload-evidence',
-      label: 'Upload Evidence',
-      icon: (
-        <img
-          src="/images/UploadEvidence.png"
-          alt="Logo"
-          className="w-8 h-8 rounded-lg object-contain"
-        />
-      ),
-      link: '/upload' // Eventually should go to specific skill tree upload
     }
   ];
 
