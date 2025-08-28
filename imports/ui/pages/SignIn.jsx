@@ -300,7 +300,7 @@ export const SignIn = () => {
                   </label>
                   <Link
                     to="/login/password-recovery"
-                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold font-medium transition-colors"
+                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors"
                   >
                     Forgot password?
                   </Link>

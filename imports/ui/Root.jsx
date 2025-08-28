@@ -6,7 +6,7 @@ import { ThemeConfig } from 'flowbite-react';
 import { AuthProvider } from '/imports/utils/providers/AuthProvider';
 
 // JSX UI
-import { Fallback } from '/imports/ui/components/Fallback';
+import { Fallback } from './components/SiteFrame/Fallback';
 
 export const Root = () => (
   <>
