@@ -58,6 +58,7 @@ Meteor.methods({
         skillTreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
+        xpPoints: 0,
         active: true
       });
     }
@@ -96,7 +97,7 @@ Meteor.methods({
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $inc: {
-            xp: sign * 1
+            xpPoints: sign * 1
           }
         }
       );

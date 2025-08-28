@@ -36,7 +36,7 @@ export const CommunityLeaderboardModal = () => {
 
   // Manage swapping between different leaderboard ordering metrics.
   // NOTE: All filters must come from the user profile, not the root-level user fields like username, email, password.
-  const [filter, setFilter] = useState('xpTEMP');
+  const [filter, setFilter] = useState('xpPoints');
 
   return (
     <Modal show={true} onClose={closeModal} dismissible size="7xl">
@@ -47,14 +47,14 @@ export const CommunityLeaderboardModal = () => {
           <div className="flex flex-row items-center justify-between px-4 gap-1">
             <Button
               color="green"
-              onClick={() => setFilter('xpTEMP')}
+              onClick={() => setFilter('xpPoints')}
               pill
               style={{
-                backgroundColor: filter === 'xpTEMP' ? '#328E6E' : '#7eaa9b'
+                backgroundColor: filter === 'xpPoints' ? '#328E6E' : '#7eaa9b'
               }}
               className={`cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0`}
             >
-              Top XP
+              Top xpPoints
             </Button>
             <Button
               color="green"
