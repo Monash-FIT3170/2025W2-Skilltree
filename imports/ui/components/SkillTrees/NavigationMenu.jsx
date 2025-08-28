@@ -19,19 +19,19 @@ export const NavigationMenu = ({ id }) => {
     {
       id: 'community-tree',
       label: 'Community Tree',
-      icon: <img src="/images/CommunityTree.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain" />,
+      icon: <img src="/images/CommunityTree.png" alt="Logo" className="w-6 h-6 object-contain" />,
       link: `/skilltree/${id}`
     },
     {
       id: 'general-forum',
       label: 'General Forum',
-      icon: <img src="/images/GeneralForum.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain" />,
+      icon: <img src="/images/GeneralForum.png" alt="Logo" className="w-6 h-6 object-contain" />,
       link: `/generalforum/${id}`
     },
     {
       id: 'pending-proof',
       label: 'Pending Proofs',
-      icon: <img src="/images/PendingProof.png" alt="Logo" className="w-8 h-8 rounded-lg object-contain" />,
+      icon: <img src="/images/PendingProof.png" alt="Logo" className="w-6 h-6 object-contain" />,
       link: `/pendingproofs/${id}`
     }
   ];
@@ -45,30 +45,31 @@ export const NavigationMenu = ({ id }) => {
 
   return (
     <div className="w-full">
-      {/* Dark green container with title + menu items in one row */}
-      <div className="flex items-center gap-6 px-6 py-3 bg-[#328E6E] rounded-[22px] overflow-x-auto">
-        {/* Skilltree Title */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+      {/* Classy container with gradient */}
+      <div className="flex items-center justify-between gap-6 px-6 py-4 bg-gradient-to-r from-[#2D7A5E] to-[#3A9A75] rounded-2xl shadow-md overflow-x-auto">
+        
+        {/* Skilltree Info */}
+        <div className="flex items-center gap-3 flex-shrink-0 border-r border-white/30 pr-6">
           <img
             src={skilltree.image || 'https://picsum.photos/100'}
             alt="Logo"
-            className="w-8 h-8 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover shadow-md"
           />
-          <h2 className="text-white text-2xl font-semibold leading-none !font-sans">
+          <h2 className="text-white text-xl font-semibold leading-none !font-sans tracking-wide">
             {skilltree.title}
           </h2>
         </div>
 
         {/* Inline Menu Items */}
-        <div className="flex items-center gap-4 ml-6">
+        <div className="flex items-center gap-3 ml-4">
           {menuItems.map(item => (
             <button
               key={item.id}
               onClick={() => handleMenuItemClick(item.id)}
-              className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl hover:bg-[#4AA355] hover:text-white text-black font-sans transition-all duration-200"
+              className="flex items-center gap-2 px-5 py-2 bg-white/90 rounded-full text-gray-800 font-medium text-sm shadow-sm border border-gray-200 hover:bg-[#3A9A75] hover:text-white hover:shadow-lg transition-all duration-200"
             >
               {item.icon}
-              <span className="text-sm font-medium">{item.label}</span>
+              <span>{item.label}</span>
             </button>
           ))}
         </div>
