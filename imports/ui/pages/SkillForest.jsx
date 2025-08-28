@@ -9,7 +9,7 @@ import { SkillForestCollection } from '../../api/collections/SkillForest';
 import { SkillTreeCollection } from '../../api/collections/SkillTree';
 
 // Import UI Components
-import { SkillTreeView } from '../components/SkillTreeView';
+import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
 import { Loader } from 'lucide-react';
 
 export const SkillForest = () => {
