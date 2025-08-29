@@ -69,11 +69,42 @@ export const SkillTreeLogic = ({
     }
   }
   //load user tree + check for parents
-  // else {
-  //   for (let i = 0; i < savedNodes.length; i++) {
-  //     if (savedNodes[i])
-  //   }
-  // };
+  //load user tree + check for parents
+  else {
+    console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
+    console.log('saved node root:', initialNodes[0]);
+
+    //check each parent
+    for (let i = 0; i < initialNodes.length; i++) {
+      // Ensure children exists and is an array
+      const children = initialNodes[i].data.children || [];
+
+      if (children.length > 0) {
+        let unlock = true;
+
+        //check each child by ID
+        for (let j = 0; j < children.length; j++) {
+          const childNode = children[j];
+
+          // Check if child node exists and is verified
+          if (!childNode.data.verified) {
+            unlock = false;
+            break;
+          }
+        }
+
+        if (!unlock) {
+          initialNodes[i].type = 'view-node-locked'; 
+        } else {
+          initialNodes[i].type = 'view-node-unlocked';
+        }
+      } else {
+        // Node has no children, so it should be unlocked
+        initialNodes[i].type = 'view-node-unlocked';
+      }
+    }
+    initialNodes[0].type = 'root';
+  }
 
   const initialEdges = savedEdges ?? [];
 
