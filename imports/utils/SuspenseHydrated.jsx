@@ -4,10 +4,12 @@ import { FastRender } from 'meteor/communitypackages:fast-render';
 
 // JSX UI
 import { Fallback } from '/imports/ui/components/SiteFrame/Fallback';
+import { DashboardLoadingState } from '/imports/ui/components/Dashboard/LoadingState';
 
 export const SuspenseHydrated = ({
   children, // <SuspenseData> <The child JSX /> </SuspenseData>
-  fallback = <Fallback /> //  <The Fallback JSX />
+  animate = false,
+  fallback = animate ? <DashboardLoadingState /> : <Fallback /> //  <The Fallback JSX />
 }) => {
   const [isHydrated, setIsHydrated] = useState(false); // Track if client is hydrated yet
 
