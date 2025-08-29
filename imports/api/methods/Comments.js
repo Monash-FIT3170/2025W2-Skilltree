@@ -1,14 +1,35 @@
 import { Meteor } from 'meteor/meteor';
 import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
+import { ProofCollection } from '../collections/Proof';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
 
 Meteor.methods({
   async addComment(comment) {
-    // Update comment author's comment count
+    // Gets the user id of the commenter
     // This assumes usernames are unique.
-    Meteor.users.updateAsync(
+    const user = await Meteor.users.findOneAsync(
       { username: comment.username },
-      { $inc: { 'profile.commentNumTEMP': 1 } }
+      { fields: { _id: 1 } }
+    );
+    const userId = user._id;
+
+    // Get the skilltreeId through the proof the comment is on
+    const proof = await ProofCollection.findOneAsync(
+      { _id: comment.proofId },
+      { fields: { skillTreeId: 1 } }
+    );
+    const { skillTreeId } = proof;
+
+    // Update the user's subcsription's numComments
+    SubscriptionsCollection.updateAsync(
+      {
+        skillTreeId: skillTreeId,
+        userId: userId
+      },
+      {
+        $inc: { numComments: 1 }
+      }
     );
 
     return await CommentsCollection.insertAsync(comment);
@@ -16,7 +37,7 @@ Meteor.methods({
 
   async removeComment(commentId) {
     check(commentId, String);
-
+    // TODO refactor for new numComments implementation
     // Update comment author's comment count
     // This assumes usernames are unique.
     const comment = await CommentsCollection.findOneAsync({ _id: commentId });

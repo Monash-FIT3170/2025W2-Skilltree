@@ -3,6 +3,7 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { check } from 'meteor/check';
 
+// TODO: POSTING A PROOF AUTO-SUBSCRIBES YOU FOR SOME REASON BUT THIS DOESN'T UPDATE ON THE SUBSCRIBE BUTTON
 Meteor.methods({
   async getSubscription(skillTreeId) {
     check(skillTreeId, String);
@@ -59,6 +60,7 @@ Meteor.methods({
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
         xpPoints: 0,
+        numComments: 0,
         active: true
       });
     }

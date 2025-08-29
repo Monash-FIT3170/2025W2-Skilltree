@@ -142,6 +142,12 @@ Schemas.Subscription = new SimpleSchema({
     type: Number,
     label: 'Total XP Points earned by the user for this skilltree',
     defaultValue: 0
+  },
+  numComments: {
+    type: Number,
+    label:
+      'Total number of comments made on pending proofs by the user for this skilltree',
+    defaultValue: 0
   }
 });
 
