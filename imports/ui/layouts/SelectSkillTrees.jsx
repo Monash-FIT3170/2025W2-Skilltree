@@ -15,6 +15,8 @@ export const SelectSkillTrees = () => {
   ]);
 
   const [selectedSkillTree, setSelectedSkillTree] = useState(null);
+  // For Toggle Select
+  const [selectedSkillTrees, setSelectedSkillTrees] = useState([]);
 
   const { sortedSkillTrees } = useTracker(() => {
     const sub = Meteor.subscribe('skilltrees');
@@ -45,6 +47,12 @@ export const SelectSkillTrees = () => {
     return { sortedSkillTrees: sorted };
   }, [user?._id]);
 
+  const toggleSelectSkillTree = id => {
+    setSelectedSkillTrees(prev =>
+      prev.includes(id) ? prev.filter(treeId => treeId !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className="relative">
       <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6 pr-300">
@@ -64,6 +72,8 @@ export const SelectSkillTrees = () => {
                   showSubscribers={true}
                   currentUserId={user._id}
                   onSelect={id => setSelectedSkillTree(id)}
+                  isSelected={selectedSkillTrees.includes(skillTree._id)}
+                  onToggle={toggleSelectSkillTree}
                 />
               </div>
             ))}
