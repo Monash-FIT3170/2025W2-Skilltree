@@ -10,7 +10,9 @@ export const SubscribedTrees = ({
   skillTreeId,
   showSubscribers = false,
   currentUserId,
-  onSelect
+  onSelect,
+  isSelected,
+  onToggle
 }) => {
   useSubscribeSuspense('skilltrees');
 
@@ -36,6 +38,35 @@ export const SubscribedTrees = ({
       onClick={() => onSelect?.(skillTree._id)}
       className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer h-48 w-63.5"
     >
+      <div className="absolute top-2 right-2 z-10">
+        <button
+          onClick={e => {
+            e.stopPropagation(); // Prevent triggering card onClick
+            onToggle?.(skillTree._id);
+          }}
+          className={`w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center
+      ${isSelected ? 'bg-green-500' : 'bg-white'}
+    `}
+        >
+          {isSelected && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={3}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+
       {/* Cover image / gradient */}
       <div
         className={`relative h-24 
