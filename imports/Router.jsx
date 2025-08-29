@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { FastRender } from 'meteor/communitypackages:fast-render';
 import { renderWithSSR } from 'meteor/communitypackages:react-router-ssr';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { renderToNodeStream } from 'react-dom/server';
 import { StaticRouterProvider } from 'react-router-dom/server';
@@ -15,6 +16,18 @@ import {
 import { RootRoutes } from '/imports/routes/Root';
 
 const rootId = 'react-target';
+const helmetTags = [
+  'base',
+  'bodyAttributes',
+  'htmlAttributes',
+  'link',
+  'meta',
+  'noscript',
+  'script',
+  'style',
+  'title'
+];
+
 // Render Router routes on both client side & server side rendering (SSR) via renderWithSSR from react-router-ssr
 if (Meteor.settings.public.enableSSR == true) {
   renderWithSSR(RootRoutes);
@@ -29,6 +42,12 @@ else if (Meteor.settings.public.enablePartialSRR != false) {
       const routerJsx = <StaticRouterProvider router={router} context={{}} />;
 
       sink.appendToElementById(rootId, renderToNodeStream(routerJsx)); // renderToNodeStream is deprecated but only that works as Meteor doesn't support renderToPipeableStream
+
+      // Add helmet tags for server render
+      const helmet = Helmet.renderStatic();
+      helmetTags.forEach(tag => {
+        sink.appendToHead(helmet[tag].toString());
+      });
     });
   } else if (Meteor.isClient) {
     const router = createBrowserRouter(RootRoutes, {
