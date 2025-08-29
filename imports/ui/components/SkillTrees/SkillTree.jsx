@@ -94,7 +94,7 @@ export const SkillTreeLogic = ({
         }
 
         if (!unlock) {
-          initialNodes[i].type = 'view-node-locked'; 
+          initialNodes[i].type = 'view-node-locked';
         } else {
           initialNodes[i].type = 'view-node-unlocked';
         }
@@ -192,6 +192,7 @@ export const SkillTreeLogic = ({
             description: '',
             requirements: '',
             children: [],
+            verified: false,
             xpPoints: 0,
             progressXp: 0,
             onOpenEditor: () => handleOpenEditor(id)
