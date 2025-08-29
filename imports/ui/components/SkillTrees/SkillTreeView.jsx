@@ -9,6 +9,7 @@ import { Meteor } from 'meteor/meteor';
 export const SkillTreeView = ({ id, isAdmin, onBack }) => {
   useSubscribeSuspense('skilltrees');
   const [skilltree, setSkilltree] = useState(null);
+  const [isSyncing, setIsSyncing] = useState(true);
 
   // Always call useFind at the top level - but don’t necessarily use it right away
   const fallbackSkillTree = useFind(
@@ -87,6 +88,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     } else {
       console.log('No changes detected - skipping sync');
     }
+    setIsSyncing(false);
   };
 
   //Check if user has a saved progress
@@ -110,7 +112,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     }
   }, [skilltree]);
 
-  if (!skilltree) {
+  if (!skilltree || isSyncing) {
     return <div>Loading...</div>;
   }
 
