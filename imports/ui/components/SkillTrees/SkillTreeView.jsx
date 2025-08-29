@@ -33,6 +33,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     let updatedTotalXp = skilltree.totalXp || 0;
     let requireSyncing = false;
 
+    console.log("Syncing nodes and upvotes...")
     await Promise.all(
       updatedNodes.map(async (node, index) => {
         if (!node.data.verified && node.data.proofId) {
@@ -81,6 +82,11 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
         skillNodes: updatedNodes,
         totalXp: updatedTotalXp
       });
+
+      console.log('Syncing complete');
+    }
+    else {
+      console.log('No changes detected - skipping sync');
     }
   };
 
@@ -96,8 +102,14 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
         setSkilltree(fallbackSkillTree);
       }
     });
-    syncNodeUpvotes();
   }, [id, fallbackSkillTree]);
+
+  // Only sync when skilltree is loaded
+  useEffect(() => {
+    if (skilltree) {
+      syncNodeUpvotes();
+    }
+  }, [skilltree]);
 
   if (!skilltree) {
     return <div>Loading...</div>;
