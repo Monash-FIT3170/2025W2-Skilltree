@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 // JSX UI
-import { Fallback } from '/imports/ui/components/Fallback';
+import { Fallback } from '../components/SiteFrame/Fallback';
 
 export const Sample = () => (
   <>

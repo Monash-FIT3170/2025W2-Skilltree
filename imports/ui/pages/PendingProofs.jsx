@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
@@ -6,8 +6,9 @@ import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr'
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { Fallback } from '/imports/ui/components/Fallback';
-import { ProofsList } from '/imports/ui/components/ProofsList';
+import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
+import { ProofsList } from '../components/Proofs/ProofsList';
+import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
@@ -44,9 +45,9 @@ export const PendingProofs = () => {
           </h1>
         </button>
         {/* Responsive container for ProofsList */}
-        <Suspense fallback={<Fallback msg={'Loading proofs...'} />}>
+        <SuspenseHydrated fallback={<DashboardLoadingState />}>
           <ProofsList skilltreeId={skilltreeId} />
-        </Suspense>
+        </SuspenseHydrated>
       </div>
     </>
   );

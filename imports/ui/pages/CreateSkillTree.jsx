@@ -6,8 +6,8 @@ import { Meteor } from 'meteor/meteor';
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 // JSX UI
-import { CreateTreeForm } from '/imports/ui/components/CreateTreeForm';
-import { SkillTreeEdit } from '../components/SkillTree';
+import { CreateTreeForm } from '../components/SkillTrees/CreateTreeForm';
+import { SkillTreeEdit } from '../components/SkillTrees/SkillTree';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 
 export const CreateSkillTree = () => {

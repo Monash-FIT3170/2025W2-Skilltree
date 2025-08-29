@@ -3,7 +3,7 @@ import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
 // Element JSX UI
 import { App } from '/imports/ui/App';
-import { Fallback } from '/imports/ui/components/Fallback';
+import { Fallback } from '../ui/components/SiteFrame/Fallback';
 
 // Nested/Children Routes
 import { DashboardRoutes } from '/imports/routes/pages/Dashboard';
@@ -13,7 +13,9 @@ import { PendingProofsRoutes } from '/imports/routes/pages/PendingProofs';
 import { ProofUploadRoutes } from '/imports/routes/pages/ProofUpload';
 import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommunity';
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
+import { GeneralForumRoutes } from '/imports/routes/pages/GeneralForum';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
+import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -38,6 +40,8 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
+      ...GeneralForumRoutes,
+      ...SearchResultsRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

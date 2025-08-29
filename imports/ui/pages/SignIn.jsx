@@ -4,14 +4,12 @@ import React, { useState } from 'react';
 import { Tracker } from 'meteor/tracker';
 import { Link } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
-import {
-  FiEye,
-  FiEyeOff,
-  FiMail,
-  FiLock,
-  FiAlertCircle,
-  FiCheck
-} from 'react-icons/fi';
+import { FiEye } from '@react-icons/all-files/fi/FiEye';
+import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+import { FiMail } from '@react-icons/all-files/fi/FiMail';
+import { FiLock } from '@react-icons/all-files/fi/FiLock';
+import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';
+import { FiCheck } from '@react-icons/all-files/fi/FiCheck';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { AnimatePresence } from 'framer-motion';
@@ -300,7 +298,7 @@ export const SignIn = () => {
                   </label>
                   <Link
                     to="/login/password-recovery"
-                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold font-medium transition-colors"
+                    className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors"
                   >
                     Forgot password?
                   </Link>
