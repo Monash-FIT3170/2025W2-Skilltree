@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users } from 'lucide-react';
+import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
 import { User } from '/imports/utils/User';
 import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 
@@ -55,7 +55,7 @@ export const Dashboard = () => {
         {/* My Skill Trees Section */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-            <Users size={20} className="text-[#04BF8A]" />
+            <FiUsers size={20} className="text-[#04BF8A]" />
             My Skill Trees
           </h2>
           <SuspenseHydrated fallback={<DashboardLoadingState />}>
