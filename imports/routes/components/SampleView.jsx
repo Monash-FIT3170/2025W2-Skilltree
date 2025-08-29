@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Element JSX UI
-import { SampleView } from '/imports/ui/components/SampleView';
+import { SampleView } from '../../ui/components/Sample/SampleView';
 
 // Define Routes for SampleView JSX component
 export const SampleViewRoutes = [

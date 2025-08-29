@@ -7,7 +7,7 @@ import {
 
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
-import { GetMissingGoogleFields } from '/imports/ui/components/SignUpComponents/GetMissingGoogleFields';
+import { GetMissingGoogleFields } from '../../ui/components/SignUp/GetMissingGoogleFields';
 import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
 import { ResetPasswordForm } from '../../ui/pages/ResetPasswordForm';
 
