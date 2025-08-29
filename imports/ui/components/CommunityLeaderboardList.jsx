@@ -29,6 +29,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
 
   const userRef = useRef(null)
   const [isVisible,setIsVisible] = useState(false)
+  const [isInList, setIsInList] = useState(false)
 
   const callbackFunction = (entries) => {
     const [ entry ] = entries
@@ -85,6 +86,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     const observer = new IntersectionObserver(callbackFunction, options)
     
     if (userRef.current){
+      setIsInList(true)
       observer.observe(userRef.current);
     }
 
@@ -97,15 +99,17 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
 
   },[userRef, options])
 
+
+
   return (
-    <List unstyled className="divide-y divide-gray-200">
+    <List unstyled className="divide-y divide-gray-200 relative">
       {users.map((user, index) => {
         if (user._id === currUser){
           return (
               <ListItem
                 key={user._id}
                 ref={userRef}
-                className="pb-3 bg-green-100"
+                className="bg-green-100 py-3"
                 onClick={() => console.log(user)}
               >
                 <div className="flex items-center space-x-4">
@@ -116,7 +120,9 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                   >
                     {String(index + 1)}
                   </Badge>
-                  <span>{`${user.username}`}</span>
+                  <span
+                    className='inline-flex items-center'
+                  >{`${user.username}`}</span>
                   <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
                 </div>
               </ListItem>
@@ -125,27 +131,36 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
             return (
               <ListItem
                 key={user._id}
-                className="pb-3"
+                className="py-3"
                 onClick={() => console.log(user)}
               >
                 <div className="flex items-center space-x-4">
                   <Badge
                     color="green"
                     size="sm"
-                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                    className="rounded-full p-1.5 w-[4ch] tabular-nums flex items-center justify-center"
                   >
                     {String(index + 1)}
                   </Badge>
-                  <span>{`${user.username}`}</span>
+                  <span className="inline-flex items-center">{`${user.username}`}</span>
                   <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
                 </div>
               </ListItem>
         );
         }
       })}
-      <div className='absolute right-5 bottom-30'>
-        {!isVisible && <Button onClick={scrollToUser}>Scroll to me</Button>}
-      </div>
+      {isInList && 
+        <div className='fixed bottom-1/6 left-1/2 transform -translate-x-1/2 z-50'>
+          {!isVisible && 
+            <Button
+              onClick={scrollToUser}
+              pill
+              className='cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0 object-cover '
+            >Scroll to me
+            </Button>
+          }
+        </div>
+      }
     </List>
   );
 };
