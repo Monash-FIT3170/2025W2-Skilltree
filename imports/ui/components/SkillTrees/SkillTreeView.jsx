@@ -33,7 +33,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     let updatedTotalXp = skilltree.totalXp || 0;
     let requireSyncing = false;
 
-    console.log("Syncing nodes and upvotes...")
+    console.log('Syncing nodes and upvotes...');
     await Promise.all(
       updatedNodes.map(async (node, index) => {
         if (!node.data.verified && node.data.proofId) {
@@ -84,8 +84,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
       });
 
       console.log('Syncing complete');
-    }
-    else {
+    } else {
       console.log('No changes detected - skipping sync');
     }
   };
