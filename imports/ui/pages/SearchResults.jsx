@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -28,7 +27,7 @@ export const SearchResults = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Search Results</h1>
-      <SuspenseHydrated animate={true}>
+      <Suspense>
         {results.length === 0 ? (
           <p>No results found.</p>
         ) : (
@@ -112,7 +111,7 @@ export const SearchResults = () => {
             ))}
           </div>
         )}
-      </SuspenseHydrated>
+      </Suspense>
     </div>
   );
 };

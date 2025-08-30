@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import { ProofsList } from '../components/Proofs/ProofsList';
-import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
@@ -44,9 +43,9 @@ export const PendingProofs = () => {
           </h1>
         </button>
         {/* Responsive container for ProofsList */}
-        <SuspenseHydrated fallback={<DashboardLoadingState />}>
+        <Suspense fallback={<DashboardLoadingState />}>
           <ProofsList skilltreeId={skilltreeId} />
-        </SuspenseHydrated>
+        </Suspense>
       </div>
     </>
   );
