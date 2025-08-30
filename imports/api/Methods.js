@@ -19,3 +19,4 @@ import '/imports/api/methods/Upload';
 import '/imports/api/methods/skillTreeMethods';
 import '/imports/api/methods/Comments';
 import '/imports/api/methods/Forum';
+import '/imports/api/methods/imageUpload'
