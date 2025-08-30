@@ -3,8 +3,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { List, ListItem, Badge } from 'flowbite-react';
 
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
@@ -25,7 +24,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
  */
 export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   // useFind to query user data
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const targetSkillTree = useFind(
     SkillTreeCollection,
     [
@@ -44,7 +43,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     [skillTreeId]
   )[0];
 
-  useSubscribeSuspense('usernames', targetSkillTree?.subscribers ?? []);
+  useSubscribe('usernames', targetSkillTree?.subscribers ?? []);
   const users = useFind(
     Meteor.users,
     [

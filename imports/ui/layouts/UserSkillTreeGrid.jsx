@@ -1,15 +1,14 @@
 import React from 'react';
 import { UserSkillTree } from '../components/UserSkillTreeTM';
 
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
 //testing again
 import { DashboardWidgetsCollection } from '/imports/api/collections/DashboardWidgets';
 
 export const UserSkillTreeGrid = () => {
-  useSubscribeSuspense('dashboardWidgets');
+  useSubscribe('dashboardWidgets');
   const dWidgets =
     useFind(DashboardWidgetsCollection, [
       {},

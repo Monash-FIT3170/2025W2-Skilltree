@@ -3,8 +3,7 @@ import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationDropdown } from './NavigationDropdown';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
 
@@ -76,7 +75,7 @@ export const SkillTreeCommunityView = () => {
   // extract location
   const { location } = useLocation();
 
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [

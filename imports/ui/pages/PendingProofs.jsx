@@ -2,8 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 // JSX UI
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
@@ -13,7 +12,7 @@ import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
 
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [

@@ -3,8 +3,7 @@ import { CgChevronRight } from '@react-icons/all-files/cg/CgChevronRight';
 import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
 import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 import { Link } from 'react-router-dom';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 // Mongo Collections
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -14,7 +13,7 @@ export const SkillTreeCard = ({
   showSubscribers = false,
   currentUserId
 }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skillTree = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } }, // SkillTreeId
     {

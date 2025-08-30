@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { FiChevronDown } from '@react-icons/all-files/fi/FiChevronDown';
 import { useNavigate } from 'react-router-dom';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 //NavigationDropdown component
@@ -10,7 +9,7 @@ export const NavigationDropdown = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   // load skilltree data
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(SkillTreeCollection, [
     { _id: { $eq: id } },
     { fields: { title: 1, image: 1 } }
