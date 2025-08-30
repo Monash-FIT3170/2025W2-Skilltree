@@ -81,28 +81,49 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('SkillTree Created:', formData);
-
-    // pass form details to parent component
-    onAddSkills(
-      formData.title,
-      formData.tags,
-      formData.description,
-      formData.tsandcs,
-      formData.image
+  
+    let base64Image = '';
+    if (formData.image) {
+      base64Image = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(formData.image);
+      });
+    }
+  
+    Meteor.call(
+      'skilltrees.insert',
+      {
+        title: formData.title,
+        description: formData.description,
+        termsAndConditions: formData.tsandcs,
+        tags: formData.tags,
+        image: base64Image //pass base64 to server
+      },
+      (err, res) => {
+        if (err) console.error(err);
+        else {
+          console.log('SkillTree created', res);
+          onAddSkills(res);
+          setFormData({
+            title: '',
+            description: '',
+            tag: '',
+            tags: [],
+            newTag: '',
+            tsandcs: '',
+            image: null,
+            previewImage: '',
+            showCustomTagInput: false
+          });
+        }
+      }
     );
-
-    setFormData({
-      title: '',
-      description: '',
-      tag: '',
-      tsandcs: '',
-      image: null,
-      previewImage: ''
-    });
   };
+  
 
   const triggerFileInput = () => {
     fileInputRef.current.click();
