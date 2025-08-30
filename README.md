@@ -48,6 +48,10 @@ This is a dummy `settings.json`, to allow the program to run without errors:
 
 ```
 {
+  "public": {
+    "enableSSR": false,
+    "enablePartialSRR": true
+  },
   "private": {
     "AWSAccessKeyId": "",
     "AWSSecretAccessKey": "",
