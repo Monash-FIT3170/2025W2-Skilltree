@@ -180,9 +180,10 @@ const dummyProgressTree = [
 Meteor.startup(async () => {
   // Remove existing users to avoid duplicates (debug only)
   await Meteor.users.removeAsync({});
+  await SkillTreeProgressCollection.removeAsync({});
 
   // Create first sample user
-  await Accounts.createUser({
+  const sampleId = await Accounts.createUser({
     username: 'sample',
     password: 'Sample123!',
     email: 'sample@email.com',
@@ -214,7 +215,7 @@ Meteor.startup(async () => {
   });
 
   // Create second sample user
-  await Accounts.createUser({
+  const exampleId = await Accounts.createUser({
     username: 'example',
     password: 'example123!',
     email: 'example@gmail.com',
@@ -289,6 +290,20 @@ Meteor.startup(async () => {
     communityMemberA
   );
 
+  for (const progressTree of dummyProgressTree) {
+    var copyProgressTree1 = { ...progressTree };
+    copyProgressTree1.userId = sampleId;
+    copyProgressTree1.roles = [...progressTree.roles, 'admin'];
+    await SkillTreeProgressCollection.insertAsync(copyProgressTree1);
+  }
+
+  for (const progressTree of dummyProgressTree) {
+    var copyProgressTree2 = { ...progressTree };
+    copyProgressTree2.userId = exampleId;
+    copyProgressTree2.roles = [...progressTree.roles, 'admin'];
+    await SkillTreeProgressCollection.insertAsync(copyProgressTree2);
+  }
+
   for (let i = 0; i < 50; i++) {
     const memberUsername = 'member' + String(i);
 
@@ -304,8 +319,9 @@ Meteor.startup(async () => {
 
     // Insert dummy data
     for (const progressTree of dummyProgressTree) {
-      progressTree.userId = memberId;
-      await SkillTreeProgressCollection.insertAsync(progressTree);
+      const copyProgressTree = { ...progressTree, userId: memberId };
+
+      await SkillTreeProgressCollection.insertAsync(copyProgressTree);
     }
   }
 });

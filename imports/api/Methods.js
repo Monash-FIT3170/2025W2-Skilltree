@@ -20,3 +20,4 @@ import '/imports/api/methods/skillTreeMethods';
 import '/imports/api/methods/Comments';
 import '/imports/api/methods/Forum';
 import '/imports/api/methods/Users';
+import '/imports/api/methods/AdminDashboard/SaveEditCommunityMember';

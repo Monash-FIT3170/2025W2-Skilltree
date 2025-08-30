@@ -25,8 +25,6 @@ export const UserList = ({ skillTreeId }) => {
 
   useEffect(() => {
     const processUserIdList = async userIdList => {
-      console.log(userIdList);
-      console.log(userIdList.length);
       const usernameList = [];
       for (var i = 0; i < userIdList.length; i++) {
         const username = await getUserName(userIdList[i]);
@@ -40,8 +38,6 @@ export const UserList = ({ skillTreeId }) => {
 
   const getUserName = async userId => {
     const user = await Meteor.callAsync('getUsers', userId);
-
-    console.log(user);
 
     // solely for filtering dummy data
     if (!user) {

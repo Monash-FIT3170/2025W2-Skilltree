@@ -4,14 +4,19 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FiSearch, FiEdit3, FiLoader } from 'react-icons/fi';
 
+import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
+
 export const UserManagement = () => {
   const { id: skilltreeID } = useParams();
 
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [expandedRoles, setExpandedRoles] = useState(new Set());
+
+  //Edit community modal
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState('');
 
   //Wait for all members of the skilltree community to load in:
   const [loading, setLoading] = useState(true);
@@ -114,21 +119,6 @@ export const UserManagement = () => {
       : 'bg-gray-100 text-gray-700 border-gray-200';
   };
 
-  const formatDate = dateString => {
-    if (!dateString) return 'Never';
-
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    } catch {
-      return 'Invalid Date';
-    }
-  };
-
   const getDisplayName = user => {
     if (user.profile?.givenName && user.profile?.familyName) {
       return `${user.profile.givenName} ${user.profile.familyName}`;
@@ -160,9 +150,14 @@ export const UserManagement = () => {
     return matchesSearch && matchesRole;
   });
 
-  const handleUserAction = (userId, action) => {
-    console.log(`Action: ${action} for user: ${userId}`);
-    // Implement action logic here
+  const handleEditAction = user => {
+    setEditModalOpen(true);
+    setSelectedUser(user);
+  };
+
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+    setSelectedUser(null);
   };
 
   if (loading) {
@@ -288,9 +283,7 @@ export const UserManagement = () => {
             {filteredUsers.map((user, index) => (
               <tr
                 key={user._id}
-                className={`border-b hover:bg-gray-50 transition-colors ${
-                  selectedUsers.includes(user._id) ? 'bg-[#04BF8A]/5' : ''
-                }`}
+                className={`border-b hover:bg-gray-50 transition-colors`}
               >
                 <td className="py-4 px-4">
                   <div className="flex items-center gap-3">
@@ -376,7 +369,7 @@ export const UserManagement = () => {
                 <td className="py-4 px-4">
                   <div className="flex justify-end gap-1">
                     <button
-                      onClick={() => handleUserAction(user._id, 'edit')}
+                      onClick={() => handleEditAction(user)}
                       className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
                       title="Edit User"
                     >
@@ -388,6 +381,17 @@ export const UserManagement = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/*Edit user modal */}
+      <div>
+        <EditCommunityMember
+          isOpen={editModalOpen}
+          onClose={closeEditModal}
+          user={selectedUser}
+          skilltreeId={skilltreeID}
+          onUserUpdated={fetchSkillTreeUsers}
+        />
       </div>
 
       {filteredUsers.length === 0 && (
