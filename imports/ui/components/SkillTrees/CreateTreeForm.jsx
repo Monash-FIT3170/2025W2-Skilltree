@@ -94,6 +94,16 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
       });
     }
   
+    // Pass everything to parent like old version, but use base64 for image
+    onAddSkills(
+      formData.title,
+      formData.tags,
+      formData.description,
+      formData.tsandcs,
+      base64Image
+    );
+  
+    // Save to Mongo via Meteor method
     Meteor.call(
       'skilltrees.insert',
       {
@@ -101,28 +111,28 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
         description: formData.description,
         termsAndConditions: formData.tsandcs,
         tags: formData.tags,
-        image: base64Image //pass base64 to server
+        image: base64Image
       },
       (err, res) => {
         if (err) console.error(err);
-        else {
-          console.log('SkillTree created', res);
-          onAddSkills(res);
-          setFormData({
-            title: '',
-            description: '',
-            tag: '',
-            tags: [],
-            newTag: '',
-            tsandcs: '',
-            image: null,
-            previewImage: '',
-            showCustomTagInput: false
-          });
-        }
+        else console.log('SkillTree created', res);
       }
     );
+  
+    // Reset form if needed
+    setFormData({
+      title: '',
+      description: '',
+      tag: '',
+      tags: [],
+      newTag: '',
+      tsandcs: '',
+      image: null,
+      previewImage: '',
+      showCustomTagInput: false
+    });
   };
+  
   
 
   const triggerFileInput = () => {
