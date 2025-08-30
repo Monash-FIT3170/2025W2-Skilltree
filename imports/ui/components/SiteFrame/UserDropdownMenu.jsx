@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt } from '@react-icons/all-files/fa/FaSignOutAlt';
 import {
   NavbarToggle,
   Dropdown,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown } from '@react-icons/all-files/fi/FiChevronDown';
 import { useNavigate } from 'react-router-dom';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';

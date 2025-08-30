@@ -2,9 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';
-import { FaCheckCircle } from 'react-icons/fa';
-import { GoXCircleFill } from 'react-icons/go';
+import { FiEye } from '@react-icons/all-files/fi/FiEye';
+import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+import { FiLock } from '@react-icons/all-files/fi/FiLock';
+import { FaCheckCircle } from '@react-icons/all-files/fa/FaCheckCircle';
+import { BsXCircleFill } from '@react-icons/all-files/bs/BsXCircleFill';
 import { motion } from 'framer-motion';
 
 import { Regex } from '/imports/utils/Regex';
@@ -182,7 +184,7 @@ const Step2 = () => {
                   {passMinMaxChar ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <GoXCircleFill className="text-red-500" />
+                    <BsXCircleFill className="text-red-500" />
                   )}{' '}
                   <span>Must be 8-64 characters long </span>
                 </div>
@@ -190,7 +192,7 @@ const Step2 = () => {
                   {passUpperCase ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <GoXCircleFill className="text-red-500" />
+                    <BsXCircleFill className="text-red-500" />
                   )}{' '}
                   <span> At least 1 uppercase letter </span>
                 </div>
@@ -198,7 +200,7 @@ const Step2 = () => {
                   {passLowerCase ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <GoXCircleFill className="text-red-500" />
+                    <BsXCircleFill className="text-red-500" />
                   )}{' '}
                   <span>At least 1 lowercase letter </span>
                 </div>
@@ -206,7 +208,7 @@ const Step2 = () => {
                   {passSpecialChar ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <GoXCircleFill className="text-red-500" />
+                    <BsXCircleFill className="text-red-500" />
                   )}{' '}
                   <span>At least 1 special character</span>
                 </div>
@@ -214,7 +216,7 @@ const Step2 = () => {
                   {passNumber ? (
                     <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <GoXCircleFill className="text-red-500" />
+                    <BsXCircleFill className="text-red-500" />
                   )}{' '}
                   <span>At least 1 number</span>
                 </div>

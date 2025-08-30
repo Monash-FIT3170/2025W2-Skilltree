@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accounts } from 'meteor/accounts-base';
-import { FaCheckCircle } from 'react-icons/fa';
-import { GoXCircleFill } from 'react-icons/go';
+import { FaCheckCircle } from '@react-icons/all-files/fa/FaCheckCircle';
+import { BsXCircleFill } from '@react-icons/all-files/bs/BsXCircleFill';
 import { Regex } from '/imports/utils/Regex';
 
 export const Password = () => {
@@ -187,7 +187,7 @@ export const Password = () => {
               {passMinMaxChar ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>Must be 8-64 characters long</span>
             </div>
@@ -195,7 +195,7 @@ export const Password = () => {
               {passUpperCase ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>At least 1 uppercase letter</span>
             </div>
@@ -203,7 +203,7 @@ export const Password = () => {
               {passLowerCase ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>At least 1 lowercase letter</span>
             </div>
@@ -211,7 +211,7 @@ export const Password = () => {
               {passSpecialChar ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>At least 1 special character</span>
             </div>
@@ -219,7 +219,7 @@ export const Password = () => {
               {passNumber ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>At least 1 number</span>
             </div>
@@ -227,7 +227,7 @@ export const Password = () => {
               {passwordsDifferent ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>Must be different from current password</span>
             </div>
@@ -252,7 +252,7 @@ export const Password = () => {
               {passwordsMatch ? (
                 <FaCheckCircle className="text-green-500" />
               ) : (
-                <GoXCircleFill className="text-red-500" />
+                <BsXCircleFill className="text-red-500" />
               )}
               <span>Passwords match</span>
             </div>

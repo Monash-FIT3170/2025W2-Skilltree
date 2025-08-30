@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
 

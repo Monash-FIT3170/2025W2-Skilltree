@@ -3,13 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { useParams } from 'react-router-dom';
 import { Regex } from '/imports/utils/Regex.js';
 import { Link } from 'react-router-dom';
-import {
-  FiAlertCircle,
-  FiCheck,
-  FiEye,
-  FiEyeOff,
-  FiLock
-} from 'react-icons/fi';
+import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';
+import { FiCheck } from '@react-icons/all-files/fi/FiCheck';
+import { FiEye } from '@react-icons/all-files/fi/FiEye';
+import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+import { FiLock } from '@react-icons/all-files/fi/FiLock';
 import { motion } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
 import { AnimatePresence } from 'framer-motion';

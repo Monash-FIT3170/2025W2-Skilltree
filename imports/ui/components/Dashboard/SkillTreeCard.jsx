@@ -1,5 +1,7 @@
 import React from 'react';
-import { ChevronRight, Users, Crown } from 'lucide-react';
+import { CgChevronRight } from '@react-icons/all-files/cg/CgChevronRight';
+import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 import { Link } from 'react-router-dom';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
@@ -54,7 +56,7 @@ export const SkillTreeCard = ({
           {/* Owner Crown */}
           {isOwner && (
             <div className="absolute top-2 right-2 bg-yellow-500 rounded-full p-1.5 shadow-lg">
-              <Crown size={14} className="text-white" />
+              <RiVipCrownLine size={14} className="text-white" />
             </div>
           )}
 
@@ -71,14 +73,14 @@ export const SkillTreeCard = ({
           <div className="flex items-center justify-between">
             {showSubscribers && (
               <div className="flex items-center gap-1 text-gray-500">
-                <Users size={14} />
+                <FiUsers size={14} />
                 <span className="text-xs">
                   {skillTree.subscribers.length} members
                 </span>
               </div>
             )}
             <button className="text-[#04BF8A] hover:text-[#025940] transition-colors">
-              <ChevronRight size={16} />
+              <CgChevronRight size={16} />
             </button>
           </div>
         </div>
