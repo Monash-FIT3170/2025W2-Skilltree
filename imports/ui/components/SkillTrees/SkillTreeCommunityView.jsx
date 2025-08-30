@@ -95,10 +95,6 @@ export const SkillTreeCommunityView = () => {
     [id]
   )[0];
 
-  const isAdmin =
-    userId === skilltree.owner ||
-    (skilltree.admins && skilltree.admins.includes(userId));
-
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   return (

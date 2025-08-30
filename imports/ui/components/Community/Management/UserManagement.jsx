@@ -16,7 +16,7 @@ export const UserManagement = () => {
 
   //Edit community modal
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
 
   //Wait for all members of the skilltree community to load in:
   const [loading, setLoading] = useState(true);
@@ -153,6 +153,14 @@ export const UserManagement = () => {
   const handleEditAction = user => {
     setEditModalOpen(true);
     setSelectedUser(user);
+  };
+
+  const handleUserDataUpdate = (userId, updatedFields) => {
+    setUsers(prev =>
+      prev.map(user =>
+        user._id === userId ? { ...user, ...updatedFields } : user
+      )
+    );
   };
 
   const closeEditModal = () => {
@@ -311,7 +319,7 @@ export const UserManagement = () => {
                   <div className="flex flex-wrap gap-1 sm:gap-1.5">
                     {/* Always show first role */}
                     <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(user.skilltreeRoles[0])} whitespace-nowrap`}
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(user.skilltreeRoles[0]) || getRoleColor('user')} whitespace-nowrap`}
                     >
                       {user.skilltreeRoles[0]}
                     </span>
@@ -390,7 +398,8 @@ export const UserManagement = () => {
           onClose={closeEditModal}
           user={selectedUser}
           skilltreeId={skilltreeID}
-          onUserUpdated={fetchSkillTreeUsers}
+          onUserUpdate={handleUserDataUpdate}
+          fallBackUpdate={fetchSkillTreeUsers}
         />
       </div>
 

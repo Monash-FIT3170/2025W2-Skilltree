@@ -11,7 +11,8 @@ export const EditCommunityMember = ({
   onClose,
   user,
   skilltreeId,
-  onUserUpdated
+  onUserUpdate,
+  fallBackUpdate
 }) => {
   //use formdata hook
   const initialData = useMemo(
@@ -70,21 +71,36 @@ export const EditCommunityMember = ({
   };
 
   const handleSave = async () => {
-    /*
-        As of 28/08/2025 version of SkillTree, the factors considered when updating the roles of a user in skilltree:
-        - Update the roles for user in skilltree progress collection on MongoDB, for the specific skilltree
-        - Update the roles in skilltree arrays it self: this includes admin, moderator and expert array
-        */
-    const result = await Meteor.callAsync(
-      'saveEditCommunityMemberModal',
-      user._id,
-      skilltreeId,
-      formData
-    );
+    try {
+      /*
+          As of 28/08/2025 version of SkillTree, the factors considered when updating the roles of a user in skilltree:
+          - Update the roles for user in skilltree progress collection on MongoDB, for the specific skilltree
+          - Update the roles in skilltree arrays it self: this includes admin, moderator and expert array
+      */
+      await Meteor.callAsync(
+        'saveEditCommunityMemberModal',
+        user._id,
+        skilltreeId,
+        formData
+      );
 
-    alert(result.message);
+      if (onUserUpdate) {
+        onUserUpdate(user._id, {
+          //add more properties in the future if needed
+          skilltreeRoles: formData.roles
+        });
+      }
 
-    onClose();
+      onClose();
+    } catch (error) {
+      console.error(error.reason || "Failed to update Member's data!");
+
+      if (fallBackUpdate) {
+        await fallBackUpdate(); //fetch skilltree users again to refresh table if needed
+      }
+
+      console.error('Failed to save changes!');
+    }
   };
 
   const handleClose = () => {
