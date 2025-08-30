@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
-import { NavigationDropdown } from './NavigationDropdown';
+import { NavigationMenu } from './NavigationMenu';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { SubscribeButton } from './SubscribeButton';
@@ -98,7 +98,7 @@ export const SkillTreeCommunityView = () => {
   return (
     <div key={id}>
       <div className="p-2">
-        <NavigationDropdown id={id} />
+        <NavigationMenu id={id} />
 
         <div className="p-2"></div>
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}
