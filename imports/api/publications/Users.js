@@ -180,7 +180,6 @@ const dummyProgressTree = [
 Meteor.startup(async () => {
   // Remove existing users to avoid duplicates (debug only)
   await Meteor.users.removeAsync({});
-  await SkillTreeProgressCollection.removeAsync({});
 
   // Create first sample user
   const sampleId = await Accounts.createUser({

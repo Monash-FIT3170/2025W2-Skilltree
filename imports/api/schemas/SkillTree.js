@@ -159,11 +159,6 @@ Schemas.SkillTree = new SimpleSchema({
     label: 'List of skill edges'
   },
   'skillEdges.$': skillEdgeSchema,
-  admins: {
-    type: Array,
-    label: 'User IDs of admins'
-  },
-  'admins.$': String,
   subscribers: {
     type: Array,
     label: 'User IDs of subscribers'
