@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 
 export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
   const [formData, setFormData] = useState({
@@ -10,9 +11,12 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     tsandcs: initialValues.tsandcs || '',
     image: initialValues.image || null,
     previewImage: initialValues.previewImage || '',
+    imageUrl: initialValues.imageUrl || '', // Store the S3 URL
     showCustomTagInput: false
   });
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const fileInputRef = useRef(null);
 
   //Used for Custom Tags
@@ -59,19 +63,98 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     }));
   };
 
-  const handleChange = e => {
-    if (e.target.name === 'image') {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
+  const handleImageUpload = async file => {
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setUploadError('Please upload a valid image file (JPG, PNG, or GIF)');
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      setUploadError('File size must be less than 5MB');
+      return;
+    }
+
+    setUploading(true);
+    setUploadError('');
+
+    try {
+      // Create FileReader to convert to base64
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        try {
+          // Set preview image immediately
           setFormData(prev => ({
             ...prev,
             image: file,
             previewImage: reader.result
           }));
-        };
-        reader.readAsDataURL(file);
+
+          // Upload to S3
+          const result = await new Promise((resolve, reject) => {
+            Meteor.call(
+              'images.upload',
+              reader.result,
+              file.name,
+              file.type,
+              (error, result) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(result);
+                }
+              }
+            );
+          });
+
+          if (result.success) {
+            setFormData(prev => ({
+              ...prev,
+              imageUrl: result.imageUrl
+            }));
+            setUploadError('');
+          } else {
+            throw new Error('Upload failed');
+          }
+        } catch (error) {
+          console.error('Upload error:', error);
+          setUploadError('Failed to upload image. Please try again.');
+          // Reset image on failure
+          setFormData(prev => ({
+            ...prev,
+            image: null,
+            previewImage: '',
+            imageUrl: ''
+          }));
+        } finally {
+          setUploading(false);
+        }
+      };
+
+      reader.onerror = () => {
+        setUploadError('Failed to read file');
+        setUploading(false);
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('File processing error:', error);
+      setUploadError('Failed to process file');
+      setUploading(false);
+    }
+  };
+
+  const handleChange = e => {
+    if (e.target.name === 'image') {
+      const file = e.target.files[0];
+      if (file) {
+        handleImageUpload(file);
       }
     } else {
       setFormData(prev => ({
@@ -81,31 +164,54 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+
+    // Prevent submission while uploading
+    if (uploading) {
+      setUploadError('Please wait for image upload to complete');
+      return;
+    }
+
     console.log('SkillTree Created:', formData);
 
-    // pass form details to parent component
+    // Pass form details to parent component, including the S3 image URL
     onAddSkills(
       formData.title,
       formData.tags,
       formData.description,
       formData.tsandcs,
-      formData.image
+      formData.imageUrl // This will be passed as the 'image' field to match schema
     );
 
     setFormData({
       title: '',
       description: '',
       tag: '',
+      tags: [],
+      newTag: '',
       tsandcs: '',
       image: null,
-      previewImage: ''
+      previewImage: '',
+      imageUrl: '',
+      showCustomTagInput: false
     });
   };
 
+  const removeImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      image: null,
+      previewImage: '',
+      imageUrl: ''
+    }));
+    setUploadError('');
+  };
+
   const triggerFileInput = () => {
-    fileInputRef.current.click();
+    if (!uploading) {
+      fileInputRef.current.click();
+    }
   };
 
   return (
@@ -120,9 +226,16 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
         <div className="pt-6">
           <div
             onClick={triggerFileInput}
-            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:bg-gray-50 transition-colors max-w-xl mx-auto"
+            className={`cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors max-w-xl mx-auto ${
+              uploading ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-50'
+            }`}
           >
-            {formData.previewImage ? (
+            {uploading ? (
+              <div className="flex flex-col items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+                <p className="mt-4 text-sm text-gray-600">Uploading image...</p>
+              </div>
+            ) : formData.previewImage ? (
               <img
                 src={formData.previewImage}
                 alt="Preview"
@@ -161,20 +274,31 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
               onChange={handleChange}
               className="hidden"
               accept="image/*"
+              disabled={uploading}
             />
           </div>
-          {formData.previewImage && (
+
+          {/* Upload Status Messages */}
+          {uploadError && (
+            <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+              {uploadError}
+            </div>
+          )}
+
+          {formData.imageUrl && !uploading && (
+            <div className="mt-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
+              Image uploaded successfully!
+            </div>
+          )}
+
+          {formData.previewImage && !uploading && (
             <div className="flex justify-between mt-2">
-              <p className="text-sm text-gray-500">Image selected</p>
+              <p className="text-sm text-gray-500">
+                {formData.imageUrl ? 'Image uploaded' : 'Image selected'}
+              </p>
               <button
                 type="button"
-                onClick={() =>
-                  setFormData(prev => ({
-                    ...prev,
-                    image: null,
-                    previewImage: ''
-                  }))
-                }
+                onClick={removeImage}
                 className="text-red-500 hover:text-red-700 text-sm font-medium"
               >
                 Remove
@@ -308,14 +432,19 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
           {/* add skills Button */}
           <button
             type="submit"
-            className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+            disabled={uploading}
+            className={`text-white font-semibold py-2 px-6 rounded transition-colors ${
+              uploading
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'hover:bg-green-700'
+            }`}
             style={{
-              backgroundColor: '#328E6E',
+              backgroundColor: uploading ? '#9CA3AF' : '#328E6E',
               width: '100%',
               color: '#ffffff'
             }}
           >
-            Add Skills +
+            {uploading ? 'Uploading Image...' : 'Add Skills +'}
           </button>
         </form>
       </div>
