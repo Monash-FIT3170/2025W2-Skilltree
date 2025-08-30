@@ -222,7 +222,7 @@ const CombinedSkillTreeLogic = ({
         nodeOrigin={[0.5, 0]}
       >
         <Background />
-        <MiniMap pannable zoomable/>
+        <MiniMap pannable zoomable />
         <Controls />
       </ReactFlow>
 
