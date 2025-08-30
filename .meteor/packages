@@ -18,7 +18,7 @@ shell-server@0.6.1            # Server-side component of the `meteor shell` comm
 hot-module-replacement@0.5.4  # Update client in development without reloading the page
 
 static-html@1.4.0             # Define static page content in .html files
-react-meteor-data       # React higher-order component for reactively tracking Meteor data
+react-meteor-data@4.0.0       # React higher-order component for reactively tracking Meteor data
 aldeed:simple-schema
 aldeed:collection2
 communitypackages:react-router-ssr
