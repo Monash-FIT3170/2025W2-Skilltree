@@ -41,7 +41,7 @@ Meteor.methods({
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    
+
     return await SkillTreeCollection.insertAsync(processedSkillTree);
   },
 

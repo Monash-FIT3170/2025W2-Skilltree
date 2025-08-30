@@ -28,7 +28,10 @@ Meteor.methods({
   async 'images.upload'(imageData, fileName, contentType) {
     // Validate user is logged in
     if (!this.userId) {
-      throw new Meteor.Error('not-authorized', 'Must be logged in to upload images');
+      throw new Meteor.Error(
+        'not-authorized',
+        'Must be logged in to upload images'
+      );
     }
 
     try {
@@ -73,23 +76,24 @@ Meteor.methods({
             Key: uniqueFileName,
             UploadId: uploadId,
             MultipartUpload: {
-              Parts: [{
-                ETag: uploadPartResponse.ETag,
-                PartNumber: 1
-              }]
+              Parts: [
+                {
+                  ETag: uploadPartResponse.ETag,
+                  PartNumber: 1
+                }
+              ]
             }
           })
         );
 
         // Construct the S3 URL (this will work if the bucket allows public access to this path)
         const imageUrl = `https://${AWS_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${uniqueFileName}`;
-        
+
         return {
           success: true,
           imageUrl: imageUrl,
           key: uniqueFileName
         };
-
       } catch (uploadError) {
         // If upload fails, abort the multipart upload
         await s3.send(
@@ -101,17 +105,22 @@ Meteor.methods({
         );
         throw uploadError;
       }
-
     } catch (error) {
       console.error('S3 Upload Error:', error);
-      throw new Meteor.Error('upload-failed', `Failed to upload image: ${error.message}`);
+      throw new Meteor.Error(
+        'upload-failed',
+        `Failed to upload image: ${error.message}`
+      );
     }
   },
 
   async 'images.delete'(imageKey) {
     // Validate user is logged in
     if (!this.userId) {
-      throw new Meteor.Error('not-authorized', 'Must be logged in to delete images');
+      throw new Meteor.Error(
+        'not-authorized',
+        'Must be logged in to delete images'
+      );
     }
 
     try {
@@ -121,15 +130,17 @@ Meteor.methods({
       });
 
       await s3.send(deleteCommand);
-      
+
       return {
         success: true,
         message: 'Image deleted successfully'
       };
-
     } catch (error) {
       console.error('S3 Delete Error:', error);
-      throw new Meteor.Error('delete-failed', `Failed to delete image: ${error.message}`);
+      throw new Meteor.Error(
+        'delete-failed',
+        `Failed to delete image: ${error.message}`
+      );
     }
   }
 });

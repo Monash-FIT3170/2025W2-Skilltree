@@ -63,7 +63,7 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     }));
   };
 
-  const handleImageUpload = async (file) => {
+  const handleImageUpload = async file => {
     if (!file) return;
 
     // Validate file type
@@ -86,7 +86,7 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
     try {
       // Create FileReader to convert to base64
       const reader = new FileReader();
-      
+
       reader.onloadend = async () => {
         try {
           // Set preview image immediately
@@ -98,13 +98,19 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
 
           // Upload to S3
           const result = await new Promise((resolve, reject) => {
-            Meteor.call('images.upload', reader.result, file.name, file.type, (error, result) => {
-              if (error) {
-                reject(error);
-              } else {
-                resolve(result);
+            Meteor.call(
+              'images.upload',
+              reader.result,
+              file.name,
+              file.type,
+              (error, result) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(result);
+                }
               }
-            });
+            );
           });
 
           if (result.success) {
@@ -116,7 +122,6 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
           } else {
             throw new Error('Upload failed');
           }
-
         } catch (error) {
           console.error('Upload error:', error);
           setUploadError('Failed to upload image. Please try again.');
@@ -138,7 +143,6 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
       };
 
       reader.readAsDataURL(file);
-
     } catch (error) {
       console.error('File processing error:', error);
       setUploadError('Failed to process file');
@@ -162,7 +166,7 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    
+
     // Prevent submission while uploading
     if (uploading) {
       setUploadError('Please wait for image upload to complete');
@@ -273,14 +277,14 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
               disabled={uploading}
             />
           </div>
-          
+
           {/* Upload Status Messages */}
           {uploadError && (
             <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
               {uploadError}
             </div>
           )}
-          
+
           {formData.imageUrl && !uploading && (
             <div className="mt-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
               Image uploaded successfully!
@@ -430,8 +434,8 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
             type="submit"
             disabled={uploading}
             className={`text-white font-semibold py-2 px-6 rounded transition-colors ${
-              uploading 
-                ? 'bg-gray-400 cursor-not-allowed' 
+              uploading
+                ? 'bg-gray-400 cursor-not-allowed'
                 : 'hover:bg-green-700'
             }`}
             style={{
