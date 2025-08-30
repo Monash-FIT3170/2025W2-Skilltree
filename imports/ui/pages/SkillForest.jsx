@@ -59,6 +59,16 @@ export const SkillForest = () => {
             </div>
           ))}
         </div> */}
+        {/* Display description if it exists */}
+        {skillForest?.description && (
+          <div className="mb-8">
+            <div className="bg-gray-50 border-l-4 border-[#328E6E] p-4 rounded-r-lg">
+              <p className="text-gray-700 leading-relaxed text-lg">
+                {skillForest.description}
+              </p>
+            </div>
+          </div>
+        )}
         <SkillForestView
           skillTreeIds={skillForest.skilltreeIds || []}
           isAdmin={false}
