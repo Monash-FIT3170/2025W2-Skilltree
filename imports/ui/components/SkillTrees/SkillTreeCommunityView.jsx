@@ -98,7 +98,7 @@ export const SkillTreeCommunityView = () => {
   return (
     <div key={id}>
       <div className="p-2">
-       <NavigationMenu id={id} />
+        <NavigationMenu id={id} />
 
         <div className="p-2"></div>
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}

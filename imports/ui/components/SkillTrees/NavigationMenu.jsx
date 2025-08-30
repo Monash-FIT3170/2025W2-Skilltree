@@ -19,24 +19,42 @@ export const NavigationMenu = ({ id }) => {
     {
       id: 'community-tree',
       label: 'Community Tree',
-      icon: <img src="/images/CommunityTree.png" alt="Logo" className="w-6 h-6 object-contain" />,
+      icon: (
+        <img
+          src="/images/CommunityTree.png"
+          alt="Logo"
+          className="w-6 h-6 object-contain"
+        />
+      ),
       link: `/skilltree/${id}`
     },
     {
       id: 'general-forum',
       label: 'General Forum',
-      icon: <img src="/images/GeneralForum.png" alt="Logo" className="w-6 h-6 object-contain" />,
+      icon: (
+        <img
+          src="/images/GeneralForum.png"
+          alt="Logo"
+          className="w-6 h-6 object-contain"
+        />
+      ),
       link: `/generalforum/${id}`
     },
     {
       id: 'pending-proof',
       label: 'Pending Proofs',
-      icon: <img src="/images/PendingProof.png" alt="Logo" className="w-6 h-6 object-contain" />,
+      icon: (
+        <img
+          src="/images/PendingProof.png"
+          alt="Logo"
+          className="w-6 h-6 object-contain"
+        />
+      ),
       link: `/pendingproofs/${id}`
     }
   ];
 
-  const handleMenuItemClick = (itemId) => {
+  const handleMenuItemClick = itemId => {
     const selectedItem = menuItems.find(item => item.id === itemId);
     if (selectedItem) navigate(selectedItem.link);
   };
@@ -47,7 +65,6 @@ export const NavigationMenu = ({ id }) => {
     <div className="w-full">
       {/* Classy container with gradient */}
       <div className="flex items-center justify-between gap-6 px-6 py-4 bg-gradient-to-r from-[#2D7A5E] to-[#3A9A75] rounded-2xl shadow-md overflow-x-auto">
-        
         {/* Skilltree Info */}
         <div className="flex items-center gap-3 flex-shrink-0 border-r border-white/30 pr-6">
           <img
