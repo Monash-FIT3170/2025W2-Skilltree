@@ -71,7 +71,7 @@ Meteor.methods({
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
         totalXp: 0,
-        roles: ['user', 'admin']
+        roles: ['user']
       });
     }
   },
@@ -91,6 +91,26 @@ Meteor.methods({
       });
     } else {
       return null;
+    }
+  },
+
+  async updateSkillTreeProgress(skillTreeId, userId, updateFields) {
+    check(skillTreeId, String);
+    check(userId, String);
+    check(updateFields, Object);
+
+    const existing = await SkillTreeProgressCollection.findOneAsync({
+      userId: userId,
+      skillTreeId
+    });
+
+    if (existing) {
+      return await SkillTreeProgressCollection.updateAsync(
+        { userId: userId, skillTreeId: skillTreeId },
+        {
+          $set: updateFields
+        }
+      );
     }
   }
 });
