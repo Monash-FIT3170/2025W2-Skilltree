@@ -98,6 +98,8 @@ export const CreateSkillTree = () => {
       await Meteor.callAsync('updateCreatedCommunities', skillTreeId);
       //Update the owner's subscribed communities list
       await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
+      //Add skilltree progress --> this will execute the else condition
+      await Meteor.callAsync('saveSkillTreeProgress', skillTreeId);
 
       console.log('Skill Tree saved successfully');
     } catch (error) {

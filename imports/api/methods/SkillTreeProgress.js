@@ -70,7 +70,8 @@ Meteor.methods({
         skillTreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
-        totalXp: 0
+        totalXp: 0,
+        roles: ['user', 'admin']
       });
     }
   },

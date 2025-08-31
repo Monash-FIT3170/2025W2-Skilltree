@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 import { FiSearch, FiEdit3 } from 'react-icons/fi';
+import { PenOff } from 'lucide-react';
 
 import { useSkillTreeUsers } from '/imports/ui/components/Community/services/UserService';
 import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
@@ -11,10 +13,11 @@ import { EditCommunityMember } from '/imports/ui/components/Community/Management
 import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
 
 export const UserManagement = () => {
+  const userId = useContext(AuthContext);
   const { id: skilltreeID } = useParams();
 
   //Services
-  const { users, loading } = useSkillTreeUsers(skilltreeID);
+  const { users, loading, skillTreeOwner } = useSkillTreeUsers(skilltreeID);
 
   //Utils
   const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
@@ -64,6 +67,26 @@ export const UserManagement = () => {
   const closeEditModal = () => {
     setEditModalOpen(false);
     setSelectedUser(null);
+  };
+
+  const canEditUser = user => {
+    if (!user?.skilltreeRoles || !user._id) {
+      return false;
+    }
+
+    //Cannot edit yourself
+    if (user._id === userId) {
+      return false;
+    }
+
+    //If you are an admin accessing the admin dashboard --> if the user row in the table is either yourself or another admin, then do not
+    // display the edit button
+    //Only owner can modify admins
+    if (user.skilltreeRoles.includes('admin')) {
+      return userId === skillTreeOwner;
+    }
+
+    return true;
   };
 
   if (loading) {
@@ -228,13 +251,22 @@ export const UserManagement = () => {
 
                 <td className="py-4 px-4">
                   <div className="flex justify-end gap-1">
-                    <button
-                      onClick={() => handleEditAction(user)}
-                      className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
-                      title="Edit User"
-                    >
-                      <FiEdit3 className="w-4 h-4" />
-                    </button>
+                    {canEditUser(user) ? (
+                      <button
+                        onClick={() => handleEditAction(user)}
+                        className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                        title="Edit User"
+                      >
+                        <FiEdit3 className="w-4 h-4" />
+                      </button>
+                    ) : (
+                      <button
+                        className="p-2 text-gray-600 rounded-lg cursor-pointer"
+                        title="Cannot Edit User. Contact Owner for support."
+                      >
+                        <PenOff className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

@@ -13,10 +13,11 @@ export const useSkillTreeUsers = skilltreeID => {
   //Find the target skiltree --> get all subscriber's ids
   const skilltree = useFind(SkillTreeCollection, [
     { _id: skilltreeID },
-    { fields: { subscribers: 1 } }
+    { fields: { owner: 1, subscribers: 1 } }
   ])[0];
 
   const userIds = skilltree?.subscribers || [];
+  const skillTreeOwner = skilltree.owner;
 
   //Get all progressRecords for target skilltree
   const progressRecords = useFind(SkillTreeProgressCollection, [
@@ -70,6 +71,7 @@ export const useSkillTreeUsers = skilltreeID => {
 
   return {
     users,
-    loading: isLoading
+    loading: isLoading,
+    skillTreeOwner
   };
 };
