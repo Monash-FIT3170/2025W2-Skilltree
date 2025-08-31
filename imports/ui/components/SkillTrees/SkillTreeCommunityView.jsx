@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
@@ -72,9 +72,10 @@ export const SkillTreeCommunityView = () => {
   // extract id from url params
   const { id } = useParams();
   const userId = useContext(AuthContext); // Reactive when value changes
-
   // extract location
   const { location } = useLocation();
+
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
   useSubscribeSuspense('skilltrees');
   const skilltree = useFind(
@@ -94,6 +95,27 @@ export const SkillTreeCommunityView = () => {
     ],
     [id]
   )[0];
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const result = await checkUserIsAdmin();
+      setIsUserAdmin(result);
+    };
+    checkAdminStatus();
+  }, [skilltree._id, userId]);
+
+  const checkUserIsAdmin = async () => {
+    //Retrieve roles
+    const currUserSkillTreeProgress = await Meteor.callAsync(
+      'getSkillTreeProgress',
+      skilltree._id
+    );
+
+    if (currUserSkillTreeProgress) {
+      return currUserSkillTreeProgress.roles.includes('admin');
+    }
+    return false;
+  };
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
@@ -118,20 +140,20 @@ export const SkillTreeCommunityView = () => {
             </Button>
           </Link>
 
-          {/*Only owner, admin, moderators have access to this mod tool button
+          {/*Only admins have access to these mod tools button
+           */}
 
-            skilltree.admins
-          */}
-
-          <Link to="admin-tools" state={{ background: location }}>
-            <Button
-              color="blue"
-              pill
-              className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-            >
-              Mod Tools
-            </Button>
-          </Link>
+          {isUserAdmin && (
+            <Link to="admin-tools" state={{ background: location }}>
+              <Button
+                color="blue"
+                pill
+                className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+              >
+                Mod Tools
+              </Button>
+            </Link>
+          )}
         </div>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
