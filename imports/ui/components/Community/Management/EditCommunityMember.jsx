@@ -5,14 +5,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
 import { useFormData } from '/imports/ui/components/Community/hooks/FormDataHook';
 
-export const EditCommunityMember = ({
-  isOpen,
-  onClose,
-  user,
-  skilltreeId,
-  onUserUpdate,
-  fallBackUpdate
-}) => {
+export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
   //use formdata hook
   const initialData = useMemo(
     () => ({
@@ -56,22 +49,9 @@ export const EditCommunityMember = ({
         formData
       );
 
-      if (onUserUpdate) {
-        onUserUpdate(user._id, {
-          //add more properties in the future if needed
-          skilltreeRoles: formData.roles
-        });
-      }
-
       onClose();
     } catch (error) {
       console.error(error.reason || "Failed to update Member's data!");
-
-      if (fallBackUpdate) {
-        await fallBackUpdate(); //fetch skilltree users again to refresh table if needed
-      }
-
-      console.error('Failed to save changes!');
     }
   };
 

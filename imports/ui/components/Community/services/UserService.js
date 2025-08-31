@@ -1,28 +1,51 @@
 import { Meteor } from 'meteor/meteor';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { useMemo } from 'react';
+import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
-export const userService = {
-  async getSkillTreeUsers(skilltreeID) {
-    //Retrieve skill tree
-    const skilltree = await Meteor.callAsync('skilltrees.get', skilltreeID);
+export const useSkillTreeUsers = skilltreeID => {
+  //Subscribe to all necessary collections
+  useSubscribe('users');
+  useSubscribe('skilltrees');
+  useSubscribe('skillTreeProgress');
 
-    //Get userIds of subscribers of this skill tree
-    const userIds = skilltree.subscribers;
+  //Find the target skiltree --> get all subscriber's ids
+  const skilltree = useFind(SkillTreeCollection, [
+    { _id: skilltreeID },
+    { fields: { subscribers: 1 } }
+  ])[0];
 
-    //Get user instances for each userId
-    const userInstances = await Meteor.callAsync(
-      'users.getMultipleByIds',
-      userIds
-    );
+  const userIds = skilltree?.subscribers || [];
 
-    //Get skilltree progresses from skilltree
-    const allProgressRecords = await Meteor.callAsync(
-      'getAllSkillTreeProgress',
-      skilltreeID
-    );
+  //Get all progressRecords for target skilltree
+  const progressRecords = useFind(SkillTreeProgressCollection, [
+    { skillTreeId: skilltreeID },
+    {
+      fields: {
+        userId: 1,
+        skillTreeId: 1,
+        roles: 1
+      }
+    }
+  ]);
 
-    // Combine user data with their progress data
-    const combinedData = userInstances.map(user => {
-      const userProgress = allProgressRecords.find(
+  const userRecords = useFind(Meteor.users, [
+    { _id: { $in: userIds } },
+    {
+      fields: {
+        _id: 1,
+        username: 1,
+        emails: 1,
+        profile: 1
+      }
+    }
+  ]);
+
+  // Reactively combine user data with the progress data
+  const users = useMemo(() => {
+    return userRecords.map(user => {
+      const userProgress = progressRecords.find(
         progress => progress.userId === user._id
       );
 
@@ -41,7 +64,12 @@ export const userService = {
         lastActiveSkilltree: userProgress?.lastActive || 'ACTIVE TODAY'
       };
     });
+  }, [userRecords, progressRecords]);
 
-    return combinedData;
-  }
+  const isLoading = !skilltree || (userIds.length > 0 && users.length === 0);
+
+  return {
+    users,
+    loading: isLoading
+  };
 };

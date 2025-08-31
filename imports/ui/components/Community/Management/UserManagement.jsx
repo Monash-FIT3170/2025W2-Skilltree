@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { FiSearch, FiEdit3 } from 'react-icons/fi';
 
-import { userService } from '/imports/ui/components/Community/services/UserService';
+import { useSkillTreeUsers } from '/imports/ui/components/Community/services/UserService';
 import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
 import { roleUtils } from '/imports/ui/components/Community/utils/rolesUtils';
 import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
@@ -14,13 +14,12 @@ export const UserManagement = () => {
   const { id: skilltreeID } = useParams();
 
   //Services
-  const { getSkillTreeUsers } = userService;
+  const { users, loading } = useSkillTreeUsers(skilltreeID);
 
   //Utils
   const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
   const { getRoleColour, getStatusColour } = roleUtils;
 
-  const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [expandedRoles, setExpandedRoles] = useState(new Set());
@@ -28,13 +27,6 @@ export const UserManagement = () => {
   //Edit community modal
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  //Wait for all members of the skilltree community to load in:
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchSkillTreeUsers();
-  }, [skilltreeID]);
 
   //toggling between hide and show
   const toggleRoleExpansion = userId => {
@@ -47,43 +39,26 @@ export const UserManagement = () => {
     setExpandedRoles(newExpanded);
   };
 
-  const fetchSkillTreeUsers = async () => {
-    try {
-      const combinedData = await getSkillTreeUsers(skilltreeID);
-
-      setUsers(combinedData);
-    } catch (error) {
-      console.error(error.reason || 'Failed to retrieve all skilltree users');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Filter users based on search term and role filter
-  const filteredUsers = users.filter(user => {
-    const matchesSearch =
-      searchTerm === '' ||
-      getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()) ||
-      getPrimaryEmail(user).toLowerCase().includes(searchTerm.toLowerCase());
+  // need to do useMemo for filtering: Only recompute value if its dependencies change. Otherwise, reuse the last cached value.
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => {
+      const matchesSearch =
+        searchTerm === '' ||
+        getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        getPrimaryEmail(user).toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesRole =
-      roleFilter === 'all' ||
-      (user.skilltreeRoles && user.skilltreeRoles.includes(roleFilter));
+      const matchesRole =
+        roleFilter === 'all' ||
+        (user.skilltreeRoles && user.skilltreeRoles.includes(roleFilter));
 
-    return matchesSearch && matchesRole;
-  });
+      return matchesSearch && matchesRole;
+    });
+  }, [users, searchTerm, roleFilter]);
 
   const handleEditAction = user => {
     setEditModalOpen(true);
     setSelectedUser(user);
-  };
-
-  const handleUserDataUpdate = (userId, updatedFields) => {
-    setUsers(prev =>
-      prev.map(user =>
-        user._id === userId ? { ...user, ...updatedFields } : user
-      )
-    );
   };
 
   const closeEditModal = () => {
@@ -250,6 +225,7 @@ export const UserManagement = () => {
                     {user.skilltreeActive ? 'Active' : 'Inactive'}
                   </span>
                 </td>
+
                 <td className="py-4 px-4">
                   <div className="flex justify-end gap-1">
                     <button
@@ -274,8 +250,6 @@ export const UserManagement = () => {
           onClose={closeEditModal}
           user={selectedUser}
           skilltreeId={skilltreeID}
-          onUserUpdate={handleUserDataUpdate}
-          fallBackUpdate={fetchSkillTreeUsers}
         />
       </div>
 
