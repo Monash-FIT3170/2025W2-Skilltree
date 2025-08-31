@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 
-import { FiUser, FiUserCheck, FiStar, FiSettings } from 'react-icons/fi';
-
+import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
 import { useFormData } from '/imports/ui/components/Community/hooks/FormDataHook';
 
 export const EditCommunityMember = ({
@@ -23,34 +22,7 @@ export const EditCommunityMember = ({
   );
 
   const { formData, updateFormData, isModified } = useFormData(initialData);
-
   const availableRoles = ['user', 'expert', 'moderator', 'admin'];
-
-  const roleConfig = {
-    user: {
-      icon: FiUser,
-      color: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200',
-      description:
-        'Basic access to community features. Note: everyone is a user!',
-      removable: false
-    },
-    expert: {
-      icon: FiStar,
-      color:
-        'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200',
-      description: 'Expert role with greater weightage in voting'
-    },
-    moderator: {
-      icon: FiUserCheck,
-      color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200',
-      description: 'Can moderate discussions and content in the community'
-    },
-    admin: {
-      icon: FiSettings,
-      color: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200',
-      description: 'Give full administrative access of this skilltree'
-    }
-  };
 
   const addRole = role => {
     if (!formData.roles.includes(role)) {
@@ -138,7 +110,7 @@ export const EditCommunityMember = ({
             </h4>
             <div className="space-y-2">
               {availableRoles.map(role => {
-                const config = roleConfig[role];
+                const config = ROLE_CONFIG[role];
                 const IconComponent = config.icon;
                 const isSelected = formData.roles.includes(role);
 
@@ -156,7 +128,7 @@ export const EditCommunityMember = ({
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className={`p-2 rounded-lg ${config.color.split(' ')[0]} ${config.color.split(' ')[1]}`}
+                        className={`p-2 rounded-lg ${config.colour.split(' ')[0]} ${config.colour.split(' ')[1]}`}
                       >
                         <IconComponent className="w-4 h-4" />
                       </div>

@@ -39,7 +39,7 @@ Meteor.publish('usernames', function (userIds) {
 const dummyProgressTree = [
   {
     userId: 123123,
-    communityId: 'basketball',
+    skillTreeId: 'basketball',
     skillNodes: [
       {
         id: '0',
@@ -289,18 +289,25 @@ Meteor.startup(async () => {
     communityMemberA
   );
 
+  //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree1 = { ...progressTree };
     copyProgressTree1.userId = sampleId;
     copyProgressTree1.roles = [...progressTree.roles, 'admin'];
     await SkillTreeProgressCollection.insertAsync(copyProgressTree1);
   }
-
+  //Example Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree2 = { ...progressTree };
     copyProgressTree2.userId = exampleId;
     copyProgressTree2.roles = [...progressTree.roles, 'admin'];
     await SkillTreeProgressCollection.insertAsync(copyProgressTree2);
+  }
+  //John Wall Dummy skilltree progress
+  for (const progressTree of dummyProgressTree) {
+    var copyProgressTree3 = { ...progressTree };
+    copyProgressTree3.userId = communityMemberA;
+    await SkillTreeProgressCollection.insertAsync(copyProgressTree3);
   }
 
   for (let i = 0; i < 50; i++) {

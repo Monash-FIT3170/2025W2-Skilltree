@@ -18,7 +18,7 @@ Meteor.methods({
     const currentAdminProgress = await SkillTreeProgressCollection.findOneAsync(
       {
         userId: this.userId,
-        communityId: skillTreeId
+        skillTreeId: skillTreeId
       }
     );
     console.log('LOL');
@@ -43,7 +43,7 @@ Meteor.methods({
     const currentSkillTreeProgress =
       await SkillTreeProgressCollection.findOneAsync({
         userId: userId,
-        communityId: skillTreeId
+        skillTreeId: skillTreeId
       });
 
     if (!currentSkillTreeProgress) {
@@ -55,7 +55,7 @@ Meteor.methods({
 
     //Update user's skilltreeprogress colllection
     await SkillTreeProgressCollection.updateAsync(
-      { userId: userId, communityId: skillTreeId },
+      { userId: userId, skillTreeId: skillTreeId },
       { $set: { roles: formData.roles } }
     );
 

@@ -1,13 +1,24 @@
-import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
-import { FiSearch, FiEdit3, FiLoader } from 'react-icons/fi';
+import { FiSearch, FiEdit3 } from 'react-icons/fi';
 
+import { userService } from '/imports/ui/components/Community/services/UserService';
+import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
+import { roleUtils } from '/imports/ui/components/Community/utils/rolesUtils';
 import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
+
+import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
 
 export const UserManagement = () => {
   const { id: skilltreeID } = useParams();
+
+  //Services
+  const { getSkillTreeUsers } = userService;
+
+  //Utils
+  const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
+  const { getRoleColour, getStatusColour } = roleUtils;
 
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,45 +49,7 @@ export const UserManagement = () => {
 
   const fetchSkillTreeUsers = async () => {
     try {
-      //Retrieve skill tree
-      const skilltree = await Meteor.callAsync('skilltrees.get', skilltreeID);
-
-      //Get userIds of subscribers of this skill tree
-      const userIds = skilltree.subscribers;
-
-      //Get user instances for each userId
-      const userInstances = await Meteor.callAsync(
-        'users.getMultipleByIds',
-        userIds
-      );
-
-      //Get skilltree progresses from skilltree
-      const allProgressRecords = await Meteor.callAsync(
-        'getAllSkillTreeProgress',
-        skilltreeID
-      );
-
-      // Combine user data with their progress data
-      const combinedData = userInstances.map(user => {
-        const userProgress = allProgressRecords.find(
-          progress => progress.userId === user._id
-        );
-
-        return {
-          ...user,
-          skilltreeProgress: userProgress,
-          skilltreeRoles: userProgress?.roles || ['user'],
-          skilltreeXP: userProgress?.xpPoints || 0,
-          skilltreeActive: userProgress?.active ?? true,
-          completedNodes:
-            userProgress?.skillNodes?.filter(
-              node => node.type === 'view-node-completed'
-            )?.length || 0,
-          totalNodes: userProgress?.skillNodes?.length || 0,
-          joinedSkilltree: userProgress?.createdAt || 'ACTIVE TODAY',
-          lastActiveSkilltree: userProgress?.lastActive || 'ACTIVE TODAY'
-        };
-      });
+      const combinedData = await getSkillTreeUsers(skilltreeID);
 
       setUsers(combinedData);
     } catch (error) {
@@ -84,56 +57,6 @@ export const UserManagement = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getInitials = user => {
-    const givenName = user.profile?.givenName || '';
-    const familyName = user.profile?.familyName || '';
-
-    if (givenName && familyName) {
-      return (givenName[0] + familyName[0]).toUpperCase();
-    } else if (givenName) {
-      return givenName[0].toUpperCase();
-    } else if (user.username) {
-      return user.username[0].toUpperCase();
-    }
-    return '?';
-  };
-
-  const getRoleColor = role => {
-    switch (role) {
-      case 'admin':
-        return 'bg-red-100 text-red-700 border-red-200';
-      case 'expert':
-        return 'bg-purple-100 text-purple-700 border-purple-200';
-      case 'moderator':
-        return 'bg-blue-100 text-blue-700 border-blue-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getStatusColor = isActive => {
-    return isActive
-      ? 'bg-green-100 text-green-700 border-green-200'
-      : 'bg-gray-100 text-gray-700 border-gray-200';
-  };
-
-  const getDisplayName = user => {
-    if (user.profile?.givenName && user.profile?.familyName) {
-      return `${user.profile.givenName} ${user.profile.familyName}`;
-    } else if (user.profile?.givenName) {
-      return user.profile.givenName;
-    } else if (user.username) {
-      return user.username;
-    }
-    return 'Unknown User';
-  };
-
-  const getPrimaryEmail = user => {
-    return user.emails && user.emails.length > 0
-      ? user.emails[0].address
-      : 'No email';
   };
 
   // Filter users based on search term and role filter
@@ -169,54 +92,7 @@ export const UserManagement = () => {
   };
 
   if (loading) {
-    return (
-      <div
-        className="bg-white rounded-xl shadow-lg p-6 "
-        style={{ minHeight: '800px' }}
-      >
-        {/* Loading Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <div className="h-6 bg-gray-200 rounded w-48 mb-2 animate-pulse"></div>
-            <div className="h-4 bg-gray-200 rounded w-64 animate-pulse"></div>
-          </div>
-          <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
-        </div>
-
-        {/* Loading Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-gray-50 p-4 rounded-lg animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
-              <div className="h-8 bg-gray-200 rounded w-12"></div>
-            </div>
-          ))}
-        </div>
-
-        {/* Loading Search Bar */}
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="flex-1 h-12 bg-gray-100 rounded-lg animate-pulse"></div>
-          <div className="w-32 h-12 bg-gray-100 rounded-lg animate-pulse"></div>
-        </div>
-
-        {/* Loading Table */}
-        <div className="space-y-3">
-          <div className="h-12 bg-gray-50 rounded"></div>
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="h-16 bg-gray-50 rounded animate-pulse"
-            ></div>
-          ))}
-        </div>
-
-        {/* Loading Indicator */}
-        <div className="flex items-center justify-center mt-8 text-gray-500">
-          <FiLoader className="animate-spin mr-2" />
-          Loading users...
-        </div>
-      </div>
-    );
+    return <LoadingUserManagementTable />;
   }
 
   return (
@@ -319,7 +195,7 @@ export const UserManagement = () => {
                   <div className="flex flex-wrap gap-1 sm:gap-1.5">
                     {/* Always show first role */}
                     <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(user.skilltreeRoles[0]) || getRoleColor('user')} whitespace-nowrap`}
+                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(user.skilltreeRoles[0]) || getRoleColour('user')} whitespace-nowrap`}
                     >
                       {user.skilltreeRoles[0]}
                     </span>
@@ -332,7 +208,7 @@ export const UserManagement = () => {
                           {user.skilltreeRoles.slice(1).map((role, index) => (
                             <span
                               key={index + 1}
-                              className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(role)} whitespace-nowrap`}
+                              className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
                             >
                               {role}
                             </span>
@@ -355,7 +231,7 @@ export const UserManagement = () => {
                             {user.skilltreeRoles.slice(1).map((role, index) => (
                               <span
                                 key={index + 1}
-                                className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(role)} whitespace-nowrap`}
+                                className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
                               >
                                 {role}
                               </span>
@@ -369,7 +245,7 @@ export const UserManagement = () => {
 
                 <td className="py-4 px-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(user.skilltreeActive)}`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColour(user.skilltreeActive)}`}
                   >
                     {user.skilltreeActive ? 'Active' : 'Inactive'}
                   </span>

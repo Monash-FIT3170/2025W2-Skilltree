@@ -7,7 +7,7 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 import { Crown } from 'lucide-react';
-import { NoSkillTreesFound } from '/imports/ui/components/Community/Management/NoSkillTreesFound';
+import { NoSkillTreesFound } from '/imports/ui/components/Community/Fallbacks/NoSkillTreesFound';
 
 /* Community Icon - if they donot have an icon, use fallback.
  Since some of the images are not stored in the AWS bucket, they appear weirdly.

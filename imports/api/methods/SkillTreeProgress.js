@@ -22,7 +22,7 @@ Meteor.methods({
     check(skillTreeId, String);
 
     return SkillTreeProgressCollection.find({
-      communityId: skillTreeId
+      skillTreeId: skillTreeId
     }).fetchAsync();
   },
 
