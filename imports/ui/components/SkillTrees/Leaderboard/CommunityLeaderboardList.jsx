@@ -117,7 +117,8 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                     <Badge
                       color="green"
                       size="sm"
-                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex hover:bg-green-100"
+                      clearTheme={{hover: true}}
                     >
                       {String(index + 1)}
                     </Badge>
@@ -147,7 +148,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                     <Badge
                       color="green"
                       size="sm"
-                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex hover:bg-green-100"
                     >
                       {String(index + 1)}
                     </Badge>
