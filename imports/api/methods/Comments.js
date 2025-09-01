@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
-import { CommentsCollection } from '/imports/api/collections/Comments';
 import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '../collections/Proof';
 import { SubscriptionsCollection } from '../collections/Subscriptions';
+import { CommentsCollection } from '/imports/api/collections/Comments';
 
 Meteor.methods({
   async addComment(comment) {

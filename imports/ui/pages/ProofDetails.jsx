@@ -4,14 +4,13 @@
  * and an embedded comment section.
  */
 
-import React from 'react';
-import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
-import { ProofCollection } from '/imports/api/collections/Proof';
-import { CommentSection } from '../components/Proofs/Comments/CommentSection';
+import { useFind } from 'meteor/react-meteor-data/suspense';
+import React from 'react';
 import { AddComment } from '../components/Proofs/Comments/AddComment';
-import { User } from '/imports/utils/User';
+import { CommentSection } from '../components/Proofs/Comments/CommentSection';
+import { ProofCollection } from '/imports/api/collections/Proof';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -31,10 +30,10 @@ export const ProofDetails = ({ proofId, onClose }) => {
     {
       fields: {
         description: 1,
-        user: 1,
         username: 1,
         date: 1,
         evidenceLink: 1,
+        skillTreeId: 1,
         subskill: 1,
         upvotes: 1,
         downvotes: 1
@@ -69,7 +68,10 @@ export const ProofDetails = ({ proofId, onClose }) => {
   // Return nothing if data proof doesn't exist
   if (!proof) return null;
 
-  const { username } = User(['username']);
+  // Get current logged-in user details
+  const user = Meteor.user();
+  const username = user?.username ?? '';
+  const userId = user?._id ?? '';
 
   return (
     <div
@@ -140,7 +142,12 @@ export const ProofDetails = ({ proofId, onClose }) => {
           {/* Comment Section */}
           <div className="w-1/2 border-l border-gray-300 pl-4 overflow-y-auto">
             <h3 className="text-lg font-semibold mb-2">Comments</h3>
-            <AddComment username={username} proofid={proof._id} />
+            <AddComment
+              userId={userId}
+              username={username}
+              proofid={proof._id}
+              skillTreeId={proof.skillTreeId}
+            />
             <CommentSection proofId={proof._id} />
           </div>
         </div>
