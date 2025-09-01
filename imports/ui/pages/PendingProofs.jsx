@@ -13,6 +13,7 @@ export const PendingProofs = () => {
   const { skilltreeId } = useParams();
 
   useSubscribeSuspense('skilltrees');
+  useSubscribeSuspense('skillTreeProgress');
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -27,6 +28,27 @@ export const PendingProofs = () => {
     ],
     [skilltreeId]
   )[0];
+
+  // Get the current user's role in this skilltree using useFind
+  const userId = Meteor.userId();
+  const userProgress = useFind(
+    // Collection
+    require('/imports/api/collections/SkillTreeProgress').SkillTreeProgressCollection,
+    // Selector
+    [
+      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { fields: { roles: 1 } }
+    ],
+    [userId, skilltreeId]
+  )[0];
+  const userRoles = userProgress?.roles || [];
+  if (userRoles.length > 0) {
+    console.log('User roles in this skilltree:', userRoles);
+  } else {
+    console.log('No roles found for user in this skilltree.');
+  }
+
+  // ...existing code...
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
@@ -45,7 +67,7 @@ export const PendingProofs = () => {
         </button>
         {/* Responsive container for ProofsList */}
         <Suspense fallback={<Fallback msg={'Loading proofs...'} />}>
-          <ProofsList skilltreeId={skilltreeId} />
+          <ProofsList skilltreeId={skilltreeId} userRoles={userRoles} />
         </Suspense>
       </div>
     </>

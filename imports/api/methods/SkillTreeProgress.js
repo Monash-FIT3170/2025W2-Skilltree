@@ -53,25 +53,29 @@ Meteor.methods({
 
     if (existing) {
       const newTotalXp = totalXp !== null ? totalXp : existing.totalXp;
-
+      
+      // Update existing record with both user and expert roles
       return await SkillTreeProgressCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
             skillNodes: progressTreeNodes,
             skillEdges: progressTreeEdges,
-            totalXp: newTotalXp
+            totalXp: newTotalXp,
+            roles: ['user', 'expert']
           }
         }
       );
     } else {
+      // Create new record with both user and expert roles
+      // TEMPORARY EXPERT ROLE FOR TESTING
       return await SkillTreeProgressCollection.insertAsync({
         userId: this.userId,
         skillTreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
         totalXp: 0,
-        roles: ['user']
+        roles: ['user', 'expert']
       });
     }
   },

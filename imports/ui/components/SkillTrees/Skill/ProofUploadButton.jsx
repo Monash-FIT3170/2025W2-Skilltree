@@ -172,7 +172,9 @@ export const ProofUploadButton = ({
       evidenceLink: uploadResults.Location,
       verification: 0,
       skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
-      subskill: skill
+      subskill: skill,
+      expertVerified: 0,
+      expertVerifiers: []
     };
     await insertProof(proof);
     // Uncomment these if you want to close the modal after submission. Should probably just link to the post view instead
