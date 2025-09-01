@@ -3,7 +3,7 @@ import { Schemas } from '/imports/api/Schemas';
 import { RoleApplicationCollection } from '/imports/api/collections/RoleApplications';
 
 // Base schema with common fields
-const BaseApplicationSchema = new SimpleSchema({
+Schemas.application = new SimpleSchema({
   userId: {
     type: String
   },
@@ -31,6 +31,18 @@ const BaseApplicationSchema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Id,
     optional: true,
     label: 'Skill Tree ID'
+  },
+  qualifications: {
+    type: String,
+    min: 50,
+    max: 1000,
+    label: 'Describe your qualifications and experience'
+  },
+  motivation: {
+    type: String,
+    min: 50,
+    max: 500,
+    label: 'Why do you want to become an expert in this community?'
   },
   createdAt: {
     type: Date,
@@ -60,98 +72,4 @@ const BaseApplicationSchema = new SimpleSchema({
   }
 });
 
-// Moderator-specific schema
-Schemas.moderator = new SimpleSchema([
-  BaseApplicationSchema,
-  {
-    // Moderator-specific fields
-    motivation: {
-      type: String,
-      min: 50,
-      max: 1000,
-      label: 'Why do you want to become a moderator?'
-    },
-    timeAvailability: {
-      type: String,
-      allowedValues: [
-        'less than 5 hours per week',
-        '5-10 hours per week',
-        '10-15 hours per week',
-        '15-20 hours per week',
-        'more than 20 hours per week'
-      ],
-      label: 'Time Availability'
-    },
-    previousExperience: {
-      type: String,
-      optional: true,
-      max: 500,
-      label: 'Previous moderation experience (optional)'
-    },
-    rulesAgreement: {
-      type: Boolean,
-      label: 'I agree to enforce community rules fairly and consistently'
-    }
-  }
-]);
-
-// Expert-specific schema
-Schemas.expert = new SimpleSchema([
-  BaseApplicationSchema,
-  {
-    // Expert-specific fields
-    skillArea: {
-      type: String,
-      label: 'Area of Expertise'
-    },
-    experienceLevel: {
-      type: String,
-      allowedValues: [
-        'beginner (0-1 years)',
-        'intermediate (1-3 years)',
-        'advanced (3-5 years)',
-        'expert (5+ years)',
-        'professional (10+ years)'
-      ],
-      label: 'Experience Level'
-    },
-    qualifications: {
-      type: String,
-      min: 50,
-      max: 1000,
-      label: 'Describe your qualifications and experience'
-    },
-    portfolio: {
-      type: String,
-      optional: true,
-      regEx: SimpleSchema.RegEx.Url,
-      label: 'Portfolio/GitHub URL (optional)'
-    },
-    motivation: {
-      type: String,
-      min: 50,
-      max: 500,
-      label: 'Why do you want to become an expert in this community?'
-    },
-    mentorshipExperience: {
-      type: String,
-      optional: true,
-      max: 500,
-      label: 'Previous teaching/mentoring experience (optional)'
-    },
-    availabilityForHelp: {
-      type: String,
-      allowedValues: [
-        'occasional help when available',
-        'regular weekly assistance',
-        'daily community involvement',
-        'intensive mentoring commitment'
-      ],
-      label: 'How often can you help community members?'
-    }
-  }
-]);
-
-// Attach schemas to collection
-RoleApplicationCollection.attachSchema(Schemas.moderator);
-RoleApplicationCollection.attachSchema(Schemas.expert);
+RoleApplicationCollection.attachSchema(Schemas.application);

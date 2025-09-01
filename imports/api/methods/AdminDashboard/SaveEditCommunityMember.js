@@ -21,8 +21,6 @@ Meteor.methods({
         skillTreeId: skillTreeId
       }
     );
-    console.log('LOL');
-    console.log(currentAdminProgress);
 
     if (
       !currentAdminProgress ||

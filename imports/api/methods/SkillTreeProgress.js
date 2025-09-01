@@ -94,22 +94,24 @@ Meteor.methods({
     }
   },
 
-  async updateSkillTreeProgress(skillTreeId, userId, updateFields) {
+  async updateSkillTreeProgress(skillTreeId, userId, updateOperation) {
     check(skillTreeId, String);
     check(userId, String);
-    check(updateFields, Object);
+    check(updateOperation, Object);
 
     const existing = await SkillTreeProgressCollection.findOneAsync({
       userId: userId,
       skillTreeId
     });
 
+    if (!existing) {
+      throw new Meteor.Error('user-does-not-exist', 'User does not exist!');
+    }
+
     if (existing) {
       return await SkillTreeProgressCollection.updateAsync(
         { userId: userId, skillTreeId: skillTreeId },
-        {
-          $set: updateFields
-        }
+        updateOperation
       );
     }
   }
