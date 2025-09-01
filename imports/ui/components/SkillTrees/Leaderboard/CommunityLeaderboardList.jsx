@@ -102,7 +102,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
 
 
   return (
-    <List unstyled className="divide-y divide-gray-200 relative">
+    <List unstyled className="divide-y divide-gray-200 relative space-y-0">
       {users.map((user, index) => {
         if (user._id === currUser){
           return (
@@ -112,18 +112,26 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                 className="bg-green-100 py-3"
                 onClick={() => console.log(user)}
               >
-                <div className="flex items-center space-x-4">
-                  <Badge
-                    color="green"
-                    size="sm"
-                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                <div className="flex items-center">
+                  <div class="flex w-2/20 items-center justify-center-safe">
+                    <Badge
+                      color="green"
+                      size="sm"
+                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                    >
+                      {String(index + 1)}
+                    </Badge>
+                  </div>
+                  <div 
+                    className="flex w-3/20 items-center justify-center-safe"
                   >
-                    {String(index + 1)}
-                  </Badge>
-                  <span
-                    className='inline-flex items-center'
-                  >{`${user.username}`}</span>
-                  <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
+                    {`${user.username}`}
+                  </div>
+                  <div
+                    className="flex w-6/20 items-center justify-center-safe"
+                  >
+                    {`${user.profile ? user.profile[filter] : -1}`}
+                  </div>
                 </div>
               </ListItem>
           )
@@ -134,19 +142,29 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                 className="py-3"
                 onClick={() => console.log(user)}
               >
-                <div className="flex items-center space-x-4">
-                  <Badge
-                    color="green"
-                    size="sm"
-                    className="rounded-full p-1.5 w-[4ch] tabular-nums flex items-center justify-center"
+                <div className="flex items-center">
+                  <div class="flex w-2/20 items-center justify-center-safe">
+                    <Badge
+                      color="green"
+                      size="sm"
+                      className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex"
+                    >
+                      {String(index + 1)}
+                    </Badge>
+                  </div>
+                  <div 
+                    className="flex w-3/20 items-center justify-center-safe"
                   >
-                    {String(index + 1)}
-                  </Badge>
-                  <span className="inline-flex items-center">{`${user.username}`}</span>
-                  <span>{`${user.profile ? user.profile[filter] : -1}`}</span>
+                    {`${user.username}`}
+                  </div>
+                  <div
+                    className="flex w-6/20 items-center justify-center-safe"
+                  >
+                    {`${user.profile ? user.profile[filter] : -1}`}
+                  </div>
                 </div>
               </ListItem>
-        );
+            );
         }
       })}
       {isInList && 
