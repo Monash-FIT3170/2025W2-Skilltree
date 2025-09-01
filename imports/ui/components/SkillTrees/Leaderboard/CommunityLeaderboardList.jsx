@@ -31,12 +31,14 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isInList, setIsInList] = useState(false);
 
+  // callback function for intersection observer
   const callbackFunction = entries => {
     const [entry] = entries;
     setIsVisible(entry.isIntersecting);
     console.log(isVisible);
   };
 
+  // options for intersection observer
   const options = {
     root: null,
     rootMarge: '0px',
