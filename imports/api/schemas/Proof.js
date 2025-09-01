@@ -75,7 +75,7 @@ Schemas.Proof = new SimpleSchema({
   },
   expertVerified: {
     type: SimpleSchema.Integer,
-    label: 'number of expert that have said true for verifying this proof', 
+    label: 'number of expert that have said true for verifying this proof',
     defaultValue: 0,
     min: 0,
     optional: true

@@ -132,11 +132,12 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                 {/* Subskill Tag */}
                 <div className="text-sm font-bold text-black h-6 mb-2 px-2">
                   {proof.subskill || 'Subskill Placeholder'}
-                  {typeof proof.expertVerified === 'number' && proof.expertVerified > 0 && (
-                    <span className="ml-2 text-xs text-green-700 font-semibold">
-                      ✅ Verified by Expert ({proof.expertVerified})
-                    </span>
-                  )}
+                  {typeof proof.expertVerified === 'number' &&
+                    proof.expertVerified > 0 && (
+                      <span className="ml-2 text-xs text-green-700 font-semibold">
+                        ✅ Verified by Expert ({proof.expertVerified})
+                      </span>
+                    )}
                 </div>
 
                 {/* Evidence Image Preview */}
@@ -188,8 +189,7 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                       👎 Downvote ({proof.downvotes || 0})
                     </button>
                   </div>
-                  
-                  
+
                   {/* Net Upvotes Status */}
                   <div className="text-center mx-2">
                     <span>

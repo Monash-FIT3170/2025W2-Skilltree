@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
+import { Meteor } from 'meteor/meteor';
 
 // JSX UI
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
@@ -33,7 +34,8 @@ export const PendingProofs = () => {
   const userId = Meteor.userId();
   const userProgress = useFind(
     // Collection
-    require('/imports/api/collections/SkillTreeProgress').SkillTreeProgressCollection,
+    require('/imports/api/collections/SkillTreeProgress')
+      .SkillTreeProgressCollection,
     // Selector
     [
       { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
