@@ -122,11 +122,11 @@ const skillEdgeSchema = new SimpleSchema({
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
 Schemas.SkillTreeProgress = new SimpleSchema({
   userId: {
-    type: Number,
+    type: String,
     label: 'Unique User ID'
   },
   skillTreeId: {
-    type: Number,
+    type: String,
     label: 'Unique Skill Tree ID'
   },
   skillNodes: {
