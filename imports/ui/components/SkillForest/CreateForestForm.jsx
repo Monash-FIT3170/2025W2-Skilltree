@@ -1,10 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-export const CreateForestForm = ({
-  onChange,
-  onAddSkills,
-  initialValues = {}
-}) => {
+export const CreateForestForm = ({ onChange, initialValues = {} }) => {
   const [formData, setFormData] = useState({
     title: initialValues.title || '',
     image: initialValues.image || null,
@@ -44,12 +40,13 @@ export const CreateForestForm = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('SkillForest Created:', formData);
 
-    onAddSkills(formData.title, formData.image);
+    // pass form details to parent component
+    onChange(formData.title, formData.description, formData.image);
 
     setFormData({
       title: '',
+      description: '',
       image: null,
       previewImage: ''
     });
@@ -135,48 +132,46 @@ export const CreateForestForm = ({
 
         {/* Form Section */}
         <div className="w-full md:w-1/2">
-          <form onSubmit={handleSubmit}>
-            {/* Title */}
-            <div className="flex-1 pt-6 mb-4">
-              <label
-                htmlFor="title"
-                className="block text-gray-700 text-xl font-semibold mb-1 -mt-6"
-                style={{ color: '#328E6E' }}
-              >
-                Title
-              </label>
-              <input
-                id="title"
-                name="title"
-                type="text"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Name your SkillForest..."
-                required
-              />
-            </div>
-            {/* Description */}
-            <div className="flex-1">
-              <label
-                htmlFor="description"
-                className="block text-gray-700 text-xl font-semibold mb-1"
-                style={{ color: '#328E6E' }}
-              >
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                rows="2"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 resize-y"
-                placeholder="Describe your SkillTree..."
-                required
-              ></textarea>
-            </div>
-          </form>
+          {/* Title */}
+          <div className="flex-1 pt-6 mb-4">
+            <label
+              htmlFor="title"
+              className="block text-gray-700 text-xl font-semibold mb-1 -mt-6"
+              style={{ color: '#328E6E' }}
+            >
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              placeholder="Name your SkillForest..."
+              required
+            />
+          </div>
+          {/* Description */}
+          <div className="flex-1">
+            <label
+              htmlFor="description"
+              className="block text-gray-700 text-xl font-semibold mb-1"
+              style={{ color: '#328E6E' }}
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              rows="2"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 resize-y"
+              placeholder="Describe your SkillTree..."
+              required
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

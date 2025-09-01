@@ -97,6 +97,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
       <SidePanel skillTreeId={selectedSkillTree} />
       <div className="mt-6 text-center">
         <button
+          type="submit"
           onClick={() =>
             onOpenPopup?.(
               sortedSkillTrees.filter(tree =>

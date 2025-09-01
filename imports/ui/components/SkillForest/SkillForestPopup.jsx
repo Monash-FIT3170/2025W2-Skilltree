@@ -36,11 +36,9 @@ export const SkillForestPopup = ({
         {/* SkillForest title and description */}
         <div className="mb-6">
           <h2 className="text-3xl font-bold" style={{ color: '#328E6E' }}>
-            {skillForestTitle || 'My SkillForest'}
+            {skillForestTitle}
           </h2>
-          <p className="text-gray-600 mt-2">
-            {skillForestDescription || 'No description provided.'}
-          </p>
+          <p className="text-gray-600 mt-2">{skillForestDescription}</p>
         </div>
 
         {/* Subtitle above selected skilltrees */}
