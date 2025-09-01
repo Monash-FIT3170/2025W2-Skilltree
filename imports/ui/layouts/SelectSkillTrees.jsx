@@ -56,6 +56,13 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
   return (
     <div className="relative">
       <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6 pr-300">
+        {/* Subheading */}
+        <h2
+          className="block text-gray-700 text-xl font-semibold mb-4 -mt-6"
+          style={{ color: '#328E6E' }}
+        >
+          Select SkillTrees
+        </h2>
         {sortedSkillTrees.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-96">
             {sortedSkillTrees.map(skillTree => (
@@ -63,7 +70,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
                 key={skillTree._id}
                 className={`relative transition-all duration-300 rounded-xl ${
                   selectedSkillTree === skillTree._id
-                    ? 'ring-2 ring-[#04BF8A] ring-offset-0'
+                    ? 'ring-2 ring-green-500'
                     : ''
                 }`}
               >
@@ -97,7 +104,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
               )
             )
           }
-          className="bg-green-600 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+          className="bg-green-500 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
         >
           Create SkillForest
         </button>

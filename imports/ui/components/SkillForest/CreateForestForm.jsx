@@ -1,6 +1,10 @@
 import React, { useRef, useState } from 'react';
 
-export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
+export const CreateForestForm = ({
+  onChange,
+  onAddSkills,
+  initialValues = {}
+}) => {
   const [formData, setFormData] = useState({
     title: initialValues.title || '',
     image: initialValues.image || null,
@@ -10,24 +14,31 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
   const fileInputRef = useRef(null);
 
   const handleChange = e => {
+    // Check if the input being changed is the file input for image
     if (e.target.name === 'image') {
-      const file = e.target.files[0];
+      const file = e.target.files[0]; // Get the first selected file
       if (file) {
-        const reader = new FileReader();
+        const reader = new FileReader(); // Create a FileReader to read file as Data URL
         reader.onloadend = () => {
+          // Once the file is read, update the form state
           setFormData(prev => ({
-            ...prev,
-            image: file,
-            previewImage: reader.result
+            ...prev, // Keep the existing state
+            image: file, // Store the actual file object
+            previewImage: reader.result // Store the base64 string for preview
           }));
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // Start reading the file as a Data URL
       }
     } else {
-      setFormData(prev => ({
-        ...prev,
-        [e.target.name]: e.target.value
-      }));
+      const { name, value } = e.target;
+      setFormData(prev => {
+        const newFormData = { ...prev, [name]: value };
+        if (onChange) {
+          // Pass the updated title and description to the parent
+          onChange(newFormData.title, newFormData.description);
+        }
+        return newFormData;
+      });
     }
   };
 
@@ -165,17 +176,6 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
                 required
               ></textarea>
             </div>
-            {/*
-            {/* Add Forest Button }
-            <button
-              type="submit"
-              className="text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors w-full"
-              style={{
-                backgroundColor: '#328E6E'
-              }}
-            >
-              Add Forest +
-            </button>*/}
           </form>
         </div>
       </div>
