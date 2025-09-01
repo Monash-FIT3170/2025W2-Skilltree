@@ -44,20 +44,37 @@ export const CreateSkillForest = () => {
     });
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (!e.target.checkValidity()) {
+      e.target.reportValidity();
+      return;
+    }
+    // If form is valid -> popup will open when user selects skilltrees
+  };
+
   return (
     <>
-      <CreateForestForm
-        onChange={(title, description) => {
-          setFormTitle(title);
-          setFormDescription(description);
-        }}
-      />
-      <SelectSkillTrees
-        onOpenPopup={selectedSkillTrees => {
-          setSelectedSkillTrees(selectedSkillTrees);
-          setShowPopup(true);
-        }}
-      />
+      <form onSubmit={handleSubmit}>
+        <CreateForestForm
+          onChange={(title, description) => {
+            setFormTitle(title);
+            setFormDescription(description);
+          }}
+        />
+        <SelectSkillTrees
+          onOpenPopup={selectedSkillTrees => {
+            if (!formTitle.trim() || !formDescription.trim()) {
+              // This will trigger built-in validation messages
+              document.querySelector('form').reportValidity();
+              return;
+            }
+            setSelectedSkillTrees(selectedSkillTrees);
+            setShowPopup(true);
+          }}
+        />
+      </form>
 
       {showPopup && (
         <SkillForestPopup
