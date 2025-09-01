@@ -61,8 +61,10 @@ Meteor.methods({
           $set: {
             skillNodes: progressTreeNodes,
             skillEdges: progressTreeEdges,
-            totalXp: newTotalXp,
-            roles: ['user', 'expert']
+            totalXp: newTotalXp
+          },
+          $addToSet: {
+            roles: { $each: ['user', 'expert'] }
           }
         }
       );
