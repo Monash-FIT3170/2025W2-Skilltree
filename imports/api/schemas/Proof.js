@@ -72,6 +72,21 @@ Schemas.Proof = new SimpleSchema({
   },
   'downvoters.$': {
     type: String
+  },
+  expertVerified: {
+    type: SimpleSchema.Integer,
+    label: 'number of expert that have said true for verifying this proof',
+    defaultValue: 0,
+    min: 0,
+    optional: true
+  },
+  expertVerifiers: {
+    type: Array,
+    defaultValue: [],
+    label: 'Array of expert user IDs who have verified this proof'
+  },
+  'expertVerifiers.$': {
+    type: String
   }
 });
 

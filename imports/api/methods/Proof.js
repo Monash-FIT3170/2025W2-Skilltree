@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
+import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
 import { check } from 'meteor/check';
 
 // Define Meteor Methods for ProofCollection (client-side calls)
@@ -129,5 +130,46 @@ Meteor.methods({
       update.$inc.upvotes = -1;
     }
     return await ProofCollection.updateAsync({ _id: proofId }, update);
+  },
+
+  // Verify a proof: only users with 'expert' role for the same skillTreeId can verify
+  async 'proof.verify'(proofId) {
+    check(proofId, String);
+    const userId = this.userId;
+    if (!userId) throw new Meteor.Error('Not authorised');
+
+    const proof = await ProofCollection.findOneAsync({ _id: proofId });
+    if (!proof) throw new Meteor.Error('Proof not found');
+
+    // Ensure expert role for this proof's skill tree
+    const progress = await SkillTreeProgressCollection.findOneAsync({
+      userId,
+      skillTreeId: proof.skillTreeId
+    });
+    const roles = progress?.roles ?? [];
+    const isExpert = roles.includes('expert');
+    if (!isExpert) throw new Meteor.Error('Not authorised');
+
+    const isVerified = proof.expertVerifiers?.includes(userId);
+
+    // Remove verification if already verified
+    if (isVerified) {
+      return await ProofCollection.updateAsync(
+        { _id: proofId },
+        {
+          $pull: { expertVerifiers: userId },
+          $inc: { expertVerified: -1 }
+        }
+      );
+    }
+
+    // Add verification
+    return await ProofCollection.updateAsync(
+      { _id: proofId },
+      {
+        $addToSet: { expertVerifiers: userId },
+        $inc: { expertVerified: 1 }
+      }
+    );
   }
 });
