@@ -12,9 +12,17 @@ export const CreateSkillForest = () => {
   const [showPopup, setShowPopup] = useState(false);
   // for selected skilltrees
   const [selectedSkillTrees, setSelectedSkillTrees] = useState([]);
+  // state for form inputs
+  const [formTitle, setFormTitle] = useState('');
+  const [formDescription, setFormDescription] = useState('');
   return (
     <>
-      <CreateForestForm />
+      <CreateForestForm
+        onChange={(title, description) => {
+          setFormTitle(title);
+          setFormDescription(description);
+        }}
+      />
       <SelectSkillTrees
         onOpenPopup={selectedSkillTrees => {
           setSelectedSkillTrees(selectedSkillTrees);
@@ -24,6 +32,8 @@ export const CreateSkillForest = () => {
 
       {showPopup && (
         <SkillForestPopup
+          skillForestTitle={formTitle}
+          skillForestDescription={formDescription}
           selectedSkillTrees={selectedSkillTrees}
           onConfirm={() => {
             console.log('Confirmed SkillForest:', selectedSkillTrees);

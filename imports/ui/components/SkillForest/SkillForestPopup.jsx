@@ -1,6 +1,9 @@
 import React from 'react';
-import { SubscribedTrees } from './SubscribedTrees';
+import { SubscribedTreesPopup } from './SubscribedTreesPopup';
+
 export const SkillForestPopup = ({
+  skillForestTitle,
+  skillForestDescription,
   selectedSkillTrees,
   onConfirm,
   onClose
@@ -8,47 +11,72 @@ export const SkillForestPopup = ({
   if (!selectedSkillTrees.length) return null;
 
   return (
-    <>
-      {/* Full-page overlay */}
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center pointer-events-none">
-        {/* Semi-transparent background */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm pointer-events-auto" />
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center">
+      {/* Semi-transparent background */}
+      <div
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+        onClick={onClose} // clicking outside closes popup
+      />
 
-        {/* Popup content */}
-        <div className="relative bg-white rounded-xl shadow-xl w-full max-w-lg p-6 z-[1001] pointer-events-auto">
-          <h2 className="text-2xl font-bold mb-4" style={{ color: '#328E6E' }}>
-            Preview Your SkillForest
+      {/* Popup content */}
+      <div className="relative bg-white rounded-xl shadow-xl w-full max-w-4xl p-6 z-[1001]">
+        {/* Close X button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 font-bold text-2xl cursor-pointer"
+        >
+          ×
+        </button>
+
+        {/* Main Title */}
+        <h1 className="text-2xl font-bold text-gray-400 mb-2">
+          Preview SkillForest
+        </h1>
+
+        {/* SkillForest title and description */}
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold" style={{ color: '#328E6E' }}>
+            {skillForestTitle || 'My SkillForest'}
           </h2>
+          <p className="text-gray-600 mt-2">
+            {skillForestDescription || 'No description provided.'}
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-y-auto">
-            {selectedSkillTrees.map(tree => (
-              <SubscribedTrees
-                key={tree._id}
+        {/* Subtitle above selected skilltrees */}
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">
+          Selected SkillTrees
+        </h2>
+
+        {/* Grid of selected skill trees */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-[50vh] overflow-y-auto">
+          {selectedSkillTrees.map(tree => (
+            <div key={tree._id} className="flex justify-center">
+              <SubscribedTreesPopup
                 skillTreeId={tree._id}
-                showSubscribers={true}
-                currentUserId={tree.owner}
-                isSelected={true}
+                className="w-48 h-40" // smaller card size
               />
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="flex justify-end gap-3 mt-6">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
-            >
-              Back
-            </button>
-            <button
-              onClick={onConfirm}
-              className="px-4 py-2 rounded-lg text-white font-semibold hover:bg-green-700"
-              style={{ backgroundColor: '#328E6E' }}
-            >
-              Confirm
-            </button>
-          </div>
+        {/* Buttons */}
+        <div className="flex justify-end gap-3 mt-6">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+          >
+            Back
+          </button>
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 rounded-lg text-white font-semibold hover:bg-green-700"
+            style={{ backgroundColor: '#328E6E' }}
+          >
+            Confirm
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
