@@ -12,25 +12,27 @@ Meteor.methods({
       { username: comment.username },
       { fields: { _id: 1 } }
     );
-    const userId = user._id;
+    const userId = user?._id || '';
 
     // Get the skilltreeId through the proof the comment is on
     const proof = await ProofCollection.findOneAsync(
       { _id: comment.proofId },
       { fields: { skillTreeId: 1 } }
     );
-    const { skillTreeId } = proof;
+    const { skillTreeId } = proof || {};
 
-    // Update the user's subcsription's numComments
-    SubscriptionsCollection.updateAsync(
-      {
-        skillTreeId: skillTreeId,
-        userId: userId
-      },
-      {
-        $inc: { numComments: 1 }
-      }
-    );
+    if (userId) {
+      // Update the user's subscription's numComments
+      SubscriptionsCollection.updateAsync(
+        {
+          skillTreeId: skillTreeId,
+          userId: userId
+        },
+        {
+          $inc: { numComments: 1 }
+        }
+      );
+    }
 
     return await CommentsCollection.insertAsync(comment);
   },
@@ -48,7 +50,7 @@ Meteor.methods({
       { username: comment.username },
       { fields: { _id: 1 } }
     );
-    const userId = user._id;
+    const userId = user?._id || '';
 
     // Get the skilltreeId through the proof the comment is on
     const proof = await ProofCollection.findOneAsync(
@@ -56,17 +58,18 @@ Meteor.methods({
       { fields: { skillTreeId: -1 } }
     );
     const { skillTreeId } = proof;
-
-    // Update the user's subcsription's numComments
-    SubscriptionsCollection.updateAsync(
-      {
-        skillTreeId: skillTreeId,
-        userId: userId
-      },
-      {
-        $inc: { numComments: -1 }
-      }
-    );
+    if (userId) {
+      // Update the user's subcsription's numComments
+      SubscriptionsCollection.updateAsync(
+        {
+          skillTreeId: skillTreeId,
+          userId: userId
+        },
+        {
+          $inc: { numComments: -1 }
+        }
+      );
+    }
 
     const result = await CommentsCollection.removeAsync(commentId);
     if (result === 0) {
