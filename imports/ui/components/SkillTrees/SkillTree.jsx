@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   ReactFlow,
   Background,
@@ -10,11 +11,11 @@ import {
   useReactFlow,
   ReactFlowProvider
 } from '@xyflow/react';
-import { RootNode } from './nodes/RootNote';
-import { NewEmptyNode } from './nodes/NewEmptyNode';
-import { ViewNode } from './nodes/ViewNode';
-import { SkillEditForm } from './SkillEditForm';
-import { SkillViewForm } from './SkillViewForm';
+import { RootNode } from './Nodes/RootNote';
+import { NewEmptyNode } from './Nodes/NewEmptyNode';
+import { ViewNode } from './Nodes/ViewNode';
+import { SkillEditForm } from './Skill/SkillEditForm';
+import { SkillViewForm } from './Skill/SkillViewForm';
 import { Button } from 'flowbite-react';
 // This is the logic and page for creating/editing a skilltree
 
@@ -54,19 +55,58 @@ export const SkillTreeLogic = ({
     }));
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
-  if (isAdmin && !savedNodes) {
-    initialNodes = [
-      {
-        id: '0',
-        type: 'root',
-        data: { label: 'root' },
-        position: { x: 0, y: 0 }
-      }
-    ];
+  //For creating a fresh new tree
+  if (isAdmin) {
+    if (!savedNodes) {
+      initialNodes = [
+        {
+          id: '0',
+          type: 'root',
+          data: { label: 'root', children: [] },
+          position: { x: 0, y: 0 }
+        }
+      ];
+    }
   }
-  const initialEdges = savedEdges ?? [
-    { id: '0->1000', source: '0', target: '1000' }
-  ];
+  //load user tree + check for parents
+  //load user tree + check for parents
+  else {
+    console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
+    console.log('saved node root:', initialNodes[0]);
+
+    //check each parent
+    for (let i = 0; i < initialNodes.length; i++) {
+      // Ensure children exists and is an array
+      const children = initialNodes[i].data.children || [];
+
+      if (children.length > 0) {
+        let unlock = true;
+
+        //check each child by ID
+        for (let j = 0; j < children.length; j++) {
+          const childNode = children[j];
+
+          // Check if child node exists and is verified
+          if (!childNode.data.verified) {
+            unlock = false;
+            break;
+          }
+        }
+
+        if (!unlock) {
+          initialNodes[i].type = 'view-node-locked';
+        } else {
+          initialNodes[i].type = 'view-node-unlocked';
+        }
+      } else {
+        // Node has no children, so it should be unlocked
+        initialNodes[i].type = 'view-node-unlocked';
+      }
+    }
+    initialNodes[0].type = 'root';
+  }
+
+  const initialEdges = savedEdges ?? [];
 
   const idRef = useRef(1);
   const getId = () => `${idRef.current++}`;
@@ -113,8 +153,26 @@ export const SkillTreeLogic = ({
   }, []);
 
   const onConnect = useCallback(
-    connection => setEdges(eds => addEdge(connection, eds)),
-    [setEdges]
+    connection => {
+      setEdges(eds => addEdge(connection, eds));
+
+      // Update the parent node to include the new child ID
+      setNodes(nds =>
+        nds.map(node => {
+          if (node.id === connection.source) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                children: [...node.data.children, connection.target]
+              }
+            };
+          }
+          return node;
+        })
+      );
+    },
+    [setEdges, setNodes]
   );
 
   const onConnectEnd = useCallback(
@@ -133,6 +191,8 @@ export const SkillTreeLogic = ({
             label: `Node ${id}`,
             description: '',
             requirements: '',
+            children: [],
+            verified: false,
             xpPoints: 0,
             progressXp: 0,
             onOpenEditor: () => handleOpenEditor(id)
@@ -140,7 +200,24 @@ export const SkillTreeLogic = ({
           origin: nodeOrigin
         };
 
-        setNodes(nds => nds.concat(newNode));
+        // Combine both operations in a single setNodes call
+        setNodes(nds =>
+          nds
+            .map(node => {
+              if (node.id === connectionState.fromNode.id) {
+                return {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    children: [...node.data.children, id]
+                  }
+                };
+              }
+              return node;
+            })
+            .concat(newNode)
+        );
+
         setEdges(eds =>
           eds.concat({
             id: `e-${connectionState.fromNode.id}-${id}`,
@@ -150,15 +227,54 @@ export const SkillTreeLogic = ({
         );
       }
     },
-    [screenToFlowPosition, handleOpenEditor]
+    [screenToFlowPosition, handleOpenEditor, setNodes, setEdges]
   );
-
+  const onEdgesDelete = useCallback(
+    deletedEdges => {
+      deletedEdges.forEach(deletedEdge => {
+        setNodes(nds =>
+          nds.map(node => {
+            if (node.id === deletedEdge.source) {
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  children: node.data.children.filter(
+                    childId => childId !== deletedEdge.target
+                  )
+                }
+              };
+            }
+            return node;
+          })
+        );
+      });
+    },
+    [setNodes]
+  );
   const handleOnSave = () => {
     onSave({ nodes, edges });
   };
 
+  // stores proofId in node data, then syncs with DB
+  const handleLinkProofToNode = proofId => {
+    const updatedNodes = nodes.map(node =>
+      node.id === editingNode.id
+        ? { ...node, data: { ...node.data, proofId } }
+        : node
+    );
+    setNodes(updatedNodes);
+    Meteor.callAsync('saveSkillTreeProgress', id, updatedNodes, edges);
+  };
+
+  const printNodes = () => {
+    console.log('Printer triggered');
+    console.log(nodes);
+  };
+
   return (
     <>
+      <Button onClick={printNodes}>Print Nodes</Button>
       {isAdmin ? (
         <>
           <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
@@ -189,6 +305,7 @@ export const SkillTreeLogic = ({
           onEdgesChange={isAdmin ? onEdgesChange : null}
           onConnect={isAdmin ? onConnect : null}
           onConnectEnd={isAdmin ? onConnectEnd : null}
+          onEdgesDelete={isAdmin ? onEdgesDelete : null}
           fitView
           nodeOrigin={nodeOrigin}
         >
@@ -225,6 +342,7 @@ export const SkillTreeLogic = ({
             skilltreeId={id}
             editingNode={editingNode}
             onCancel={() => setEditingNode(null)}
+            onUploadProof={proofId => handleLinkProofToNode(proofId)}
           />
         ))}
     </>

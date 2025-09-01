@@ -9,8 +9,8 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { CommentSection } from '/imports/ui/components/CommentSection';
-import { AddComment } from '/imports/ui/components/AddComment';
+import { CommentSection } from '../components/Proofs/Comments/CommentSection';
+import { AddComment } from '../components/Proofs/Comments/AddComment';
 import { User } from '/imports/utils/User';
 
 /**

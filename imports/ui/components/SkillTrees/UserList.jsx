@@ -77,7 +77,7 @@ export const UserList = ({ skillTreeId }) => {
           <Button
             color="green"
             pill
-            className="cursor-pointer position-relative text-lg font-bold mt-2 text-white font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            className="cursor-pointer position-relative text-lg font-bold mt-2 text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
             onClick={() => setOpenModal(false)}
           >
             Exit
