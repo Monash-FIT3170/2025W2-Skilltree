@@ -10,6 +10,8 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { Fallback } from '../components/SiteFrame/Fallback';
 import { ProofsList } from '../components/Proofs/ProofsList';
 
+import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
 
@@ -33,10 +35,7 @@ export const PendingProofs = () => {
   // Get the current user's role in this skilltree using useFind
   const userId = Meteor.userId();
   const userProgress = useFind(
-    // Collection
-    require('/imports/api/collections/SkillTreeProgress')
-      .SkillTreeProgressCollection,
-    // Selector
+    SkillTreeProgressCollection,
     [
       { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
