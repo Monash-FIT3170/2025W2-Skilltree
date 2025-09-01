@@ -64,13 +64,13 @@ export const SkillForestPopup = ({
         <div className="flex justify-end gap-3 mt-6">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 cursor-pointer"
           >
             Back
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 rounded-lg text-white font-semibold hover:bg-green-700"
+            className="px-4 py-2 rounded-lg text-white font-semibold hover:bg-green-700 cursor-pointer"
             style={{ backgroundColor: '#328E6E' }}
           >
             Confirm

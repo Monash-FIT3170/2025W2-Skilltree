@@ -9,7 +9,6 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 export const SubscribedTrees = ({
   skillTreeId,
   showSubscribers = false,
-  currentUserId,
   onSelect,
   isSelected,
   onToggle
@@ -30,13 +29,11 @@ export const SubscribedTrees = ({
     }
   ])[0];
 
-  const isOwner = skillTree.owner === currentUserId;
-
   return (
     // div that triggers onSelect
     <div
       onClick={() => onSelect?.(skillTree._id)}
-      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer h-48 w-63.5"
+      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-48 w-63.5"
     >
       <div className="absolute top-2 right-2 z-10">
         <button
@@ -44,7 +41,7 @@ export const SubscribedTrees = ({
             e.stopPropagation(); // Prevent triggering card onClick
             onToggle?.(skillTree._id);
           }}
-          className={`w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center
+          className={`w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center cursor-pointer
       ${isSelected ? 'bg-green-500' : 'bg-white'}
     `}
         >
