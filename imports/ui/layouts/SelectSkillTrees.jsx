@@ -7,7 +7,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { SubscribedTrees } from '../components/SkillForest/SubscribedTrees';
 import { SidePanel } from '../components/SkillForest/SidePanel';
 
-export const SelectSkillTrees = () => {
+export const SelectSkillTrees = ({ onOpenPopup }) => {
   const user = User([
     '_id',
     'profile.createdCommunities',
@@ -88,6 +88,20 @@ export const SelectSkillTrees = () => {
 
       {/* SidePanel always visible, shows placeholder when no tree selected */}
       <SidePanel skillTreeId={selectedSkillTree} />
+      <div className="mt-6 text-center">
+        <button
+          onClick={() =>
+            onOpenPopup?.(
+              sortedSkillTrees.filter(tree =>
+                selectedSkillTrees.includes(tree._id)
+              )
+            )
+          }
+          className="bg-green-600 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+        >
+          Create SkillForest
+        </button>
+      </div>
     </div>
   );
 };

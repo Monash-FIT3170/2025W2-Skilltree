@@ -50,7 +50,7 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
 
   return (
     <div className="p-6">
-      <h2 className="text-4xl font-bold mb-6" style={{ color: '#328E6E' }}>
+      <h2 className="text-4xl font-bold mb-4" style={{ color: '#328E6E' }}>
         Create SkillForest
       </h2>
 
@@ -60,7 +60,7 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
         <div className="flex flex-col items-center">
           <div
             onClick={triggerFileInput}
-            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg w-48 h-36 flex items-center justify-center overflow-hidden"
+            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg w-50 h-40 flex items-center justify-center overflow-hidden mt-4"
           >
             {formData.previewImage ? (
               <img
@@ -126,10 +126,10 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
         <div className="w-full md:w-1/2">
           <form onSubmit={handleSubmit}>
             {/* Title */}
-            <div className="flex-1">
+            <div className="flex-1 pt-6 mb-4">
               <label
                 htmlFor="title"
-                className="block text-gray-700 text-xl font-semibold mb-1"
+                className="block text-gray-700 text-xl font-semibold mb-1 -mt-6"
                 style={{ color: '#328E6E' }}
               >
                 Title
@@ -144,6 +144,26 @@ export const CreateForestForm = ({ onAddSkills, initialValues = {} }) => {
                 placeholder="Name your SkillForest..."
                 required
               />
+            </div>
+            {/* Description */}
+            <div className="flex-1">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 text-xl font-semibold mb-1"
+                style={{ color: '#328E6E' }}
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows="2"
+                value={formData.description}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 resize-y"
+                placeholder="Describe your SkillTree..."
+                required
+              ></textarea>
             </div>
             {/*
             {/* Add Forest Button }

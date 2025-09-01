@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronRight, Users, Crown } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -82,13 +82,6 @@ export const SubscribedTrees = ({
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
-        {/* Owner Crown */}
-        {isOwner && (
-          <div className="absolute top-2 right-2 bg-yellow-500 rounded-full p-1.5 shadow-lg">
-            <Crown size={14} className="text-white" />
-          </div>
-        )}
-
         {/* Title */}
         <h3 className="absolute bottom-3 left-3 text-white font-semibold text-lg">
           {skillTree.title}
@@ -110,9 +103,7 @@ export const SubscribedTrees = ({
               </span>
             </div>
           )}
-          <button className="text-[#04BF8A] hover:text-[#025940] transition-colors">
-            <ChevronRight size={16} />
-          </button>
+          <button className="text-[#04BF8A] hover:text-[#025940] transition-colors"></button>
         </div>
       </div>
     </div>
