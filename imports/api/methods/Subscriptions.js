@@ -22,11 +22,13 @@ Meteor.methods({
   async saveSubscription(
     skillTreeId,
     progressTreeNodes = null,
-    progressTreeEdges = null
+    progressTreeEdges = null,
+    totalXp = null
   ) {
     check(skillTreeId, String);
     if (progressTreeNodes !== null) check(progressTreeNodes, [Object]);
     if (progressTreeEdges !== null) check(progressTreeEdges, [Object]);
+    if (totalXp !== null) check(totalXp, Number);
 
     //Get template tree for unsubscribed user
     const baseTree = await SkillTreeCollection.findOneAsync({
@@ -43,13 +45,16 @@ Meteor.methods({
     });
 
     if (existing) {
+      const newTotalXp = totalXp !== null ? totalXp : existing.totalXp;
+
       return await SubscriptionsCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
             skillNodes: progressTreeNodes,
             skillEdges: progressTreeEdges,
-            active: true
+            active: true,
+            totalXp: newTotalXp
           }
         }
       );
@@ -59,7 +64,7 @@ Meteor.methods({
         skillTreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
-        xpPoints: 0,
+        totalXp: 0,
         numComments: 0,
         active: true
       });
@@ -99,7 +104,7 @@ Meteor.methods({
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $inc: {
-            xpPoints: sign * 1
+            totalXp: sign * 1
           }
         }
       );

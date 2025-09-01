@@ -39,6 +39,12 @@ const skillDataSchema = new SimpleSchema({
     label: 'ID of the corresponding proof object for this skill',
     optional: true
   },
+  verified: {
+    type: Boolean,
+    label: 'True if the proof for this skill has been verified',
+    optional: true,
+    defaultValue: false
+  },
   requirements: {
     type: String,
     label: 'Requirements to unlock this skill',
@@ -119,9 +125,9 @@ Schemas.Subscription = new SimpleSchema({
     type: Number,
     label: 'Unique User ID'
   },
-  communityId: {
+  skillTreeId: {
     type: Number,
-    label: 'Unique Community ID'
+    label: 'Unique Skill Tree ID'
   },
   active: {
     type: Boolean,
@@ -138,7 +144,7 @@ Schemas.Subscription = new SimpleSchema({
     label: 'List of skill edges'
   },
   'skillEdges.$': skillEdgeSchema,
-  xpPoints: {
+  totalXp: {
     type: Number,
     label: 'Total XP Points earned by the user for this skilltree',
     defaultValue: 0

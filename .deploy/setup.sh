@@ -92,7 +92,7 @@ chmod +x $HOME/pull-rebuild
 chmod +x $HOME/update
 
 # Automate pull + rebuild on changes at default branch every 5 min (cronjob) 
-(crontab -l 2>/dev/null; echo "*/5 * * * * $HOME/update") | crontab -
+(crontab -l 2>/dev/null; echo "*/5 * * * * . $HOME/.bash_profile; $HOME/update") | crontab -
 
 # Automate webserver start on server reboot
 (crontab -l; echo "@reboot . $HOME/.bash_profile; $HOME/start") | crontab -

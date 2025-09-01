@@ -8,6 +8,8 @@ import { Meteor } from 'meteor/meteor';
 
 export const SkillTreeView = ({ id, isAdmin, onBack }) => {
   useSubscribeSuspense('skilltrees');
+  const [skilltree, setSkilltree] = useState(null);
+  const [isSyncing, setIsSyncing] = useState(true);
 
   // Always call useFind at the top level - but don’t necessarily use it right away
   const fallbackSkillTree = useFind(
@@ -24,7 +26,70 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     [id]
   )[0];
 
-  const [skilltree, setSkilltree] = useState(null);
+  /* Fetches proof for each node and syncs netUpvotes.
+  If required netUpvotes threshold is reached, node is marked as verified and XP is earned.
+  Then updates DB and local state */
+  const syncNodeUpvotes = async () => {
+    let updatedNodes = [...skilltree.skillNodes];
+    let updatedTotalXp = skilltree.totalXp || 0;
+    let requireSyncing = false;
+
+    console.log('Syncing nodes and upvotes...');
+    await Promise.all(
+      updatedNodes.map(async (node, index) => {
+        if (!node.data.verified && node.data.proofId) {
+          const proof = await Meteor.callAsync(
+            'findProofID',
+            node.data.proofId
+          );
+
+          if (proof) {
+            const netUpvotes = proof.upvotes - proof.downvotes;
+
+            // Only update if currentNetUpvotes has changed
+            if (netUpvotes != node.data.currentNetUpvotes) {
+              requireSyncing = true;
+              const updatedNode = {
+                ...node.data,
+                currentNetUpvotes: netUpvotes
+              };
+
+              if (netUpvotes >= node.data.netUpvotesRequired) {
+                console.log(
+                  `Required net upvotes reached - SkillNode Verified! "${node.data.label}", id: ${node.id}`
+                );
+                updatedNode.verified = true;
+                updatedTotalXp += node.data.xpPoints;
+                console.log(`${node.data.xpPoints} XP earned!`);
+              }
+              updatedNodes[index] = { ...node, data: updatedNode };
+            }
+          }
+        }
+      })
+    );
+
+    if (requireSyncing) {
+      Meteor.callAsync(
+        'saveSkillTreeProgress',
+        id,
+        updatedNodes,
+        skilltree.skillEdges,
+        updatedTotalXp
+      );
+
+      setSkilltree({
+        ...skilltree,
+        skillNodes: updatedNodes,
+        totalXp: updatedTotalXp
+      });
+
+      console.log('Syncing complete');
+    } else {
+      console.log('No changes detected - skipping sync');
+    }
+    setIsSyncing(false);
+  };
 
   //Check if user has a saved progress
   useEffect(() => {
@@ -40,7 +105,14 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     });
   }, [id, fallbackSkillTree]);
 
-  if (!skilltree) {
+  // Only sync when skilltree is loaded
+  useEffect(() => {
+    if (skilltree) {
+      syncNodeUpvotes();
+    }
+  }, [skilltree]);
+
+  if (!skilltree || isSyncing) {
     return <div>Loading...</div>;
   }
 

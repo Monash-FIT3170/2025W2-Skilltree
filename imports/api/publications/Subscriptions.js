@@ -9,6 +9,8 @@ Meteor.startup(async () => {
   const dummyProgressTree = [
     {
       userId: 123123,
+      skillTreeId: 'dummySkillTreeID',
+      totalXp: 10,
       skillNodes: [
         {
           id: '0',
@@ -32,7 +34,7 @@ Meteor.startup(async () => {
             currentNetUpvotes: 0,
             xpPoints: 10,
             requirements: 'Upload a video of yourself dribbling for 10 seconds',
-            proofId: 'testProofId'
+            proofId: 'testProof4'
           },
           position: { x: 200, y: 300 }
         },

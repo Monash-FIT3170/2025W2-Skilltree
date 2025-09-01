@@ -71,7 +71,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     SubscriptionsCollection,
     [
       { skillTreeId: { $eq: skillTreeId }, userId: { $in: subscriberIds } },
-      { fields: { userId: 1, xpPoints: 1, numComments: 1 } }
+      { fields: { userId: 1, totalXp: 1, numComments: 1 } }
     ],
     [skillTreeId, ...subscriberIds]
   );
@@ -79,7 +79,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   // Map userId to XP
   const xpMap = {};
   subscriptions.forEach(sub => {
-    xpMap[sub.userId] = sub.xpPoints ?? 0;
+    xpMap[sub.userId] = sub.totalXp ?? 0;
   });
 
   const numCommentsMap = {};
@@ -90,12 +90,12 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   // Combine users with their XP
   const leaderboard = users.map(user => ({
     username: user.username,
-    xpPoints: xpMap[user._id] ?? 0,
+    totalXp: xpMap[user._id] ?? 0,
     numComments: numCommentsMap[user._id] ?? 0
   }));
 
   // Sort by XP descending
-  leaderboard.sort((a, b) => b.xpPoints - a.xpPoints);
+  leaderboard.sort((a, b) => b.totalXp - a.totalXp);
 
   return (
     <List unstyled className="divide-y divide-gray-200">
@@ -111,7 +111,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
             </Badge>
             <span>{entry.username}</span>
             <span>
-              {filter === 'xpPoints' ? entry.xpPoints : entry.numComments}
+              {filter === 'totalXp' ? entry.totalXp : entry.numComments}
             </span>
           </div>
         </ListItem>
