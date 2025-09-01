@@ -104,7 +104,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
               )
             )
           }
-          className="bg-green-500 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors"
+          className="bg-green-500 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors cursor-pointer"
         >
           Create SkillForest
         </button>
