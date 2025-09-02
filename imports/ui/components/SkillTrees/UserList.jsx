@@ -40,8 +40,6 @@ export const UserList = ({ skillTreeId }) => {
   const getUserName = async userId => {
     const user = await Meteor.callAsync('getUsers', userId);
 
-    console.log(user);
-
     // solely for filtering dummy data
     if (!user) {
       return userId;
