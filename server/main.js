@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import 'meteor/aldeed:collection2/dynamic';
-await Collection2.load();
+await Collection2.load(); // eslint-disable-line
 
 await import('/imports/api/Publications'); // Publications
 import '/imports/api/Methods'; // Methods
