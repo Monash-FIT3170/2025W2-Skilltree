@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SkillTreeProgressCollection } from '../collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
 
 const skillDataSchema = new SimpleSchema({
   label: {
@@ -120,7 +120,7 @@ const skillEdgeSchema = new SimpleSchema({
 });
 
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
-Schemas.SkillTreeProgress = new SimpleSchema({
+Schemas.Subscription = new SimpleSchema({
   userId: {
     type: String,
     label: 'Unique User ID'
@@ -128,6 +128,11 @@ Schemas.SkillTreeProgress = new SimpleSchema({
   skillTreeId: {
     type: String,
     label: 'Unique Skill Tree ID'
+  },
+  active: {
+    type: Boolean,
+    label: 'Is Active',
+    defaultValue: true
   },
   skillNodes: {
     type: Array,
@@ -152,7 +157,13 @@ Schemas.SkillTreeProgress = new SimpleSchema({
   'roles.$': {
     type: String,
     allowedValues: ['user', 'expert', 'moderator', 'admin']
+  },
+  numComments: {
+    type: Number,
+    label:
+      'Total number of comments made on pending proofs by the user for this skilltree',
+    defaultValue: 0
   }
 });
 
-SkillTreeProgressCollection.attachSchema(Schemas.SkillTreeProgress);
+SubscriptionsCollection.attachSchema(Schemas.Subscription);

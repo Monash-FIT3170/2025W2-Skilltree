@@ -99,7 +99,7 @@ export const CreateSkillTree = () => {
       //Update the owner's subscribed communities list
       await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
       //Add skilltree progress --> this will execute the else condition
-      await Meteor.callAsync('saveSkillTreeProgress', skillTreeId);
+      await Meteor.callAsync('saveSubscription', skillTreeId);
       //Add admin role to skilltree progression
       const updateOperation = {
         $addToSet: { roles: 'admin' }

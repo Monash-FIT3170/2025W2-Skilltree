@@ -2,9 +2,8 @@
 import React, { useState } from 'react';
 
 // Meteor-specific imports
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -34,7 +33,7 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
    * - Subscribes to the 'proof' publication.
    * - Fetches all proofs, sorted by date (latest first).
    */
-  useSubscribeSuspense('proof');
+  useSubscribe('proof');
   const proofs =
     useFind(ProofCollection, [
       { skillTreeId: { $eq: skilltreeId } },

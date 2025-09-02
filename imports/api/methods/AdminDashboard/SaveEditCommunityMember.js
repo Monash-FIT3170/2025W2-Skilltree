@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 Meteor.methods({
   async saveEditCommunityMemberModal(userId, skillTreeId, formData) {
@@ -15,12 +15,10 @@ Meteor.methods({
         */
 
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
-    const currentAdminProgress = await SkillTreeProgressCollection.findOneAsync(
-      {
-        userId: this.userId,
-        skillTreeId: skillTreeId
-      }
-    );
+    const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
+      userId: this.userId,
+      skillTreeId: skillTreeId
+    });
 
     if (
       !currentAdminProgress ||
@@ -38,11 +36,12 @@ Meteor.methods({
     }
 
     //Find target user's skilltree progress for input skilltreeId
-    const currentSkillTreeProgress =
-      await SkillTreeProgressCollection.findOneAsync({
+    const currentSkillTreeProgress = await SubscriptionsCollection.findOneAsync(
+      {
         userId: userId,
         skillTreeId: skillTreeId
-      });
+      }
+    );
 
     if (!currentSkillTreeProgress) {
       throw new Meteor.Error(
@@ -52,7 +51,7 @@ Meteor.methods({
     }
 
     //Update user's skilltreeprogress colllection
-    await SkillTreeProgressCollection.updateAsync(
+    await SubscriptionsCollection.updateAsync(
       { userId: userId, skillTreeId: skillTreeId },
       { $set: { roles: formData.roles } }
     );

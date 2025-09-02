@@ -2,7 +2,7 @@
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const SkillTreeProgressExample = () => {
   const currentUserId = Meteor.userId();
@@ -15,14 +15,14 @@ export const SkillTreeProgressExample = () => {
 
   // Get all skill tree progress for the current user
   const myProgress = useFind(
-    SkillTreeProgressCollection,
+    SubscriptionsCollection,
     [{ userId: currentUserId }],
     [currentUserId]
   );
 
   // Get climbing skill tree progress for the current user
   const climbingProgress = useFind(
-    SkillTreeProgressCollection,
+    SubscriptionsCollection,
     [{ userId: currentUserId, skillTreeId: 'Climbing' }],
     [currentUserId]
   )[0];

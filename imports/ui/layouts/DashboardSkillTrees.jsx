@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 
 // Mongo Collections
@@ -23,7 +22,7 @@ export const DashboardSkillTrees = () => {
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
   // Get all unique skill tree IDs (created + subscribed)
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const allSkillTrees = useFind(SkillTreeCollection, [
     { _id: { $in: allUniqueIds } },
     {

@@ -1,14 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Button } from 'flowbite-react';
 
 // Mongo Collections
 import { SampleCollection } from '/imports/api/collections/Sample';
 
 export const SampleView = () => {
-  useSubscribeSuspense('sample'); // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering
+  useSubscribe('sample'); // Subscribe to the "sample" publication, suspense waits and allows for subscribed data on SSR pre-rendering
   const samples = useFind(SampleCollection, [
     {}, // selector - query to find
     {

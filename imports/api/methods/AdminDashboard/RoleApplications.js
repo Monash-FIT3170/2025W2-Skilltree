@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { RoleApplicationCollection } from '/imports/api/collections/RoleApplications';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 Meteor.methods({
   async approveRoleApplication(applicationId, skillTreeId) {
@@ -13,12 +13,10 @@ Meteor.methods({
     }
 
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
-    const currentAdminProgress = await SkillTreeProgressCollection.findOneAsync(
-      {
-        userId: this.userId,
-        skillTreeId: skillTreeId
-      }
-    );
+    const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
+      userId: this.userId,
+      skillTreeId: skillTreeId
+    });
 
     if (
       !currentAdminProgress ||
@@ -48,12 +46,10 @@ Meteor.methods({
     }
 
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
-    const currentAdminProgress = await SkillTreeProgressCollection.findOneAsync(
-      {
-        userId: this.userId,
-        skillTreeId: skillTreeId
-      }
-    );
+    const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
+      userId: this.userId,
+      skillTreeId: skillTreeId
+    });
 
     if (
       !currentAdminProgress ||

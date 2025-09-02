@@ -3,8 +3,7 @@ import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationMenu } from './NavigationMenu';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
 
@@ -15,7 +14,7 @@ import { Meteor } from 'meteor/meteor';
 
 function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
   Meteor.callAsync(
-    'saveSkillTreeProgress',
+    'saveSubscription',
     skillTreeId,
     progressNodes,
     progressEdges
@@ -77,7 +76,7 @@ export const SkillTreeCommunityView = () => {
 
   const [isUserAdmin, setIsUserAdmin] = useState(false);
 
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -107,13 +106,14 @@ export const SkillTreeCommunityView = () => {
   const checkUserIsAdmin = async () => {
     //Retrieve roles
     const currUserSkillTreeProgress = await Meteor.callAsync(
-      'getSkillTreeProgress',
+      'getSubscription',
       skilltree._id
     );
 
     if (currUserSkillTreeProgress) {
       return currUserSkillTreeProgress.roles.includes('admin');
     }
+    console.log(currUserSkillTreeProgress);
     return false;
   };
 

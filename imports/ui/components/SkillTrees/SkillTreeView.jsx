@@ -1,13 +1,12 @@
 import { ReactFlowProvider } from '@xyflow/react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import React, { useEffect, useState } from 'react';
 import { SkillTreeLogic } from './SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { Meteor } from 'meteor/meteor';
 
 export const SkillTreeView = ({ id, isAdmin, onBack }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const [skilltree, setSkilltree] = useState(null);
   const [isSyncing, setIsSyncing] = useState(true);
 
@@ -71,7 +70,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
 
     if (requireSyncing) {
       Meteor.callAsync(
-        'saveSkillTreeProgress',
+        'saveSubscription',
         id,
         updatedNodes,
         skilltree.skillEdges,
@@ -93,7 +92,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
 
   //Check if user has a saved progress
   useEffect(() => {
-    Meteor.call('getSkillTreeProgress', id, (err, res) => {
+    Meteor.call('getSubscription', id, (err, res) => {
       if (res) {
         console.log('Progress found - subscribed');
         console.log(res);

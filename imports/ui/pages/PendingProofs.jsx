@@ -1,23 +1,20 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
 
 // JSX UI
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import { ProofsList } from '../components/Proofs/ProofsList';
-import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
 
-  useSubscribeSuspense('skilltrees');
-  useSubscribeSuspense('skillTreeProgress');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -36,7 +33,7 @@ export const PendingProofs = () => {
   // Get the current user's role in this skilltree using useFind
   const userId = Meteor.userId();
   const userProgress = useFind(
-    SkillTreeProgressCollection,
+    SubscriptionsCollection,
     [
       { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
@@ -68,9 +65,9 @@ export const PendingProofs = () => {
           </h1>
         </button>
         {/* Responsive container for ProofsList */}
-        <SuspenseHydrated fallback={<DashboardLoadingState />}>
+        <Suspense fallback={<DashboardLoadingState />}>
           <ProofsList skilltreeId={skilltreeId} />
-        </SuspenseHydrated>
+        </Suspense>
       </div>
     </>
   );

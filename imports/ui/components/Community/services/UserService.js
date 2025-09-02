@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useMemo } from 'react';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const useSkillTreeUsers = skilltreeID => {
   //Subscribe to all necessary collections
   useSubscribe('users');
   useSubscribe('skilltrees');
-  useSubscribe('skillTreeProgress');
+  useSubscribe('subscriptions');
 
   //Find the target skiltree --> get all subscriber's ids
   const skilltree = useFind(SkillTreeCollection, [
@@ -20,7 +20,7 @@ export const useSkillTreeUsers = skilltreeID => {
   const skillTreeOwner = skilltree.owner;
 
   //Get all progressRecords for target skilltree
-  const progressRecords = useFind(SkillTreeProgressCollection, [
+  const progressRecords = useFind(SubscriptionsCollection, [
     { skillTreeId: skilltreeID },
     {
       fields: {

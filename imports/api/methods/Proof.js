@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { check } from 'meteor/check';
 
 // Define Meteor Methods for ProofCollection (client-side calls)
@@ -142,7 +142,7 @@ Meteor.methods({
     if (!proof) throw new Meteor.Error('Proof not found');
 
     // Ensure expert role for this proof's skill tree
-    const progress = await SkillTreeProgressCollection.findOneAsync({
+    const progress = await SubscriptionsCollection.findOneAsync({
       userId,
       skillTreeId: proof.skillTreeId
     });

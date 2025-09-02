@@ -1,6 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 // Schema
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
@@ -208,7 +208,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 20,
       commentNumTEMP: 15
     }
   });
@@ -241,7 +240,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 0,
       commentNumTEMP: 0
     },
     services: {
@@ -275,7 +273,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 10,
       commentNumTEMP: 4
     },
     services: {
@@ -294,20 +291,20 @@ Meteor.startup(async () => {
     var copyProgressTree1 = { ...progressTree };
     copyProgressTree1.userId = sampleId;
     copyProgressTree1.roles = [...progressTree.roles, 'admin'];
-    await SkillTreeProgressCollection.insertAsync(copyProgressTree1);
+    await SubscriptionsCollection.insertAsync(copyProgressTree1);
   }
   //Example Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree2 = { ...progressTree };
     copyProgressTree2.userId = exampleId;
     copyProgressTree2.roles = [...progressTree.roles, 'admin'];
-    await SkillTreeProgressCollection.insertAsync(copyProgressTree2);
+    await SubscriptionsCollection.insertAsync(copyProgressTree2);
   }
   //John Wall Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree3 = { ...progressTree };
     copyProgressTree3.userId = communityMemberA;
-    await SkillTreeProgressCollection.insertAsync(copyProgressTree3);
+    await SubscriptionsCollection.insertAsync(copyProgressTree3);
   }
 
   for (let i = 0; i < 50; i++) {
@@ -316,7 +313,6 @@ Meteor.startup(async () => {
     const memberId = await Accounts.createUserAsync({
       username: memberUsername,
       profile: {
-        xpTEMP: Math.floor(Math.random() * 100),
         commentNumTEMP: Math.floor(Math.random() * 10)
       }
     });
@@ -327,7 +323,7 @@ Meteor.startup(async () => {
     for (const progressTree of dummyProgressTree) {
       const copyProgressTree = { ...progressTree, userId: memberId };
 
-      await SkillTreeProgressCollection.insertAsync(copyProgressTree);
+      await SubscriptionsCollection.insertAsync(copyProgressTree);
     }
   }
 });
