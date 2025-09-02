@@ -112,7 +112,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
               onClick={() => console.log(user)}
             >
               <div className="flex items-center">
-                <div class="flex w-2/20 items-center justify-center-safe">
+                <div className="flex w-2/20 items-center justify-center-safe">
                   <Badge
                     color="green"
                     size="sm"
@@ -139,7 +139,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
               onClick={() => console.log(user)}
             >
               <div className="flex items-center">
-                <div class="flex w-2/20 items-center justify-center-safe">
+                <div className="flex w-2/20 items-center justify-center-safe">
                   <Badge
                     color="green"
                     size="sm"
