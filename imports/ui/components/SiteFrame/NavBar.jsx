@@ -68,7 +68,7 @@ export const NavBar = () => {
   return (
     <div className="sticky top-0 z-50">
       <Navbar className="bg-[#328E6E] shadow-lg" fluid>
-        <NavbarBrand as={Link} href="/">
+        <NavbarBrand as={Link} to="/">
           <div className="flex items-center mr-5">
             <img
               src="/images/logo.png"
