@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
+import React, { useState, useMemo } from 'react';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
@@ -15,43 +14,67 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
   ]);
 
   const [selectedSkillTree, setSelectedSkillTree] = useState(null);
-  // For Toggle Select
   const [selectedSkillTrees, setSelectedSkillTrees] = useState([]);
 
-  // For multiselecting skilltrees
-  const { sortedSkillTrees } = useTracker(() => {
-    const sub = Meteor.subscribe('skilltrees');
-    if (!sub.ready()) return { sortedSkillTrees: [] };
+  // Subscribe to skilltrees
+  useSubscribe('skilltrees');
 
-    const createdIds = user?.profile?.createdCommunities ?? [];
-    const subscribedIds = user?.profile?.subscribedCommunities ?? [];
-    const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
+  // Fetch all subscribed + created skilltrees
+  const allSkillTrees = useFind(SkillTreeCollection, [
+    {
+      _id: {
+        $in: [
+          ...(user?.profile?.createdCommunities || []),
+          ...(user?.profile?.subscribedCommunities || [])
+        ]
+      }
+    },
+    {
+      sort: { createdAt: -1 },
+      fields: {
+        _id: 1,
+        owner: 1,
+        title: 1,
+        description: 1,
+        createdAt: 1,
+        subscribers: 1,
+        skillNodes: 1,
+        skillEdges: 1
+      }
+    }
+  ]);
 
-    const allSkillTrees = SkillTreeCollection.find(
-      { _id: { $in: allUniqueIds } },
-      { sort: { createdAt: -1 } }
-    ).fetch();
-
-    const skillTreesWithRoles = allSkillTrees.map(tree => ({
-      ...tree,
-      isOwner: tree.owner === user?._id,
-      isMember:
-        user?.profile?.subscribedCommunities?.includes(tree._id) || false
-    }));
-
-    const sorted = [...skillTreesWithRoles].sort((a, b) => {
-      if (a.isOwner && !b.isOwner) return -1;
-      if (!a.isOwner && b.isOwner) return 1;
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-
-    return { sortedSkillTrees: sorted };
-  }, [user?._id]);
+  const sortedSkillTrees = useMemo(() => {
+    if (!allSkillTrees) return [];
+    return allSkillTrees
+      .map(tree => ({
+        ...tree,
+        isOwner: tree.owner === user?._id,
+        isMember: (user?.profile?.subscribedCommunities || []).includes(
+          tree._id
+        )
+      }))
+      .sort((a, b) => {
+        if (a.isOwner && !b.isOwner) return -1;
+        if (!a.isOwner && b.isOwner) return 1;
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+  }, [allSkillTrees, user?._id]);
 
   const toggleSelectSkillTree = id => {
     setSelectedSkillTrees(prev =>
       prev.includes(id) ? prev.filter(treeId => treeId !== id) : [...prev, id]
     );
+  };
+
+  const handleSelect = tree => {
+    console.log(
+      'Card clicked, selected for SidePanel:',
+      tree._id,
+      tree.skillNodes,
+      tree.skillEdges
+    );
+    setSelectedSkillTree(tree); // store the whole tree, not just the id
   };
 
   return (
@@ -64,13 +87,14 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
         >
           Select SkillTrees
         </h2>
+
         {sortedSkillTrees.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-96">
             {sortedSkillTrees.map(skillTree => (
               <div
                 key={skillTree._id}
                 className={`relative transition-all duration-300 rounded-xl ${
-                  selectedSkillTree === skillTree._id
+                  selectedSkillTree?._id === skillTree._id
                     ? 'ring-2 ring-green-500'
                     : ''
                 }`}
@@ -79,7 +103,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
                   skillTreeId={skillTree._id}
                   showSubscribers={true}
                   currentUserId={user._id}
-                  onSelect={id => setSelectedSkillTree(id)}
+                  onSelect={handleSelect}
                   isSelected={selectedSkillTrees.includes(skillTree._id)}
                   onToggle={toggleSelectSkillTree}
                 />
@@ -87,8 +111,8 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-align left">
-            Looks like you don't have any skilltrees. Head to the search bar
+          <p className="text-gray-500">
+            Looks like you don't have any skilltrees. Head to the search bar to
             join one!
           </p>
         )}
@@ -96,8 +120,9 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
 
       {/* SidePanel always visible, shows placeholder when no tree selected */}
       <div className="w-80">
-        <SidePanel skillTreeId={selectedSkillTree} />
+        <SidePanel skillTree={selectedSkillTree} />
       </div>
+
       <div className="mt-6 mb-4 flex justify-end pr-128">
         <button
           type="button"

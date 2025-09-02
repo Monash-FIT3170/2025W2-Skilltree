@@ -1,8 +1,8 @@
 import React from 'react';
 import { ChevronRight, Users, Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+//import { useSubscribe } from 'meteor/communitypackages:react-router-ssr';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // Mongo Collections
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -12,7 +12,7 @@ export const SkillTreeCard = ({
   showSubscribers = false,
   currentUserId
 }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skillTree = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } }, // SkillTreeId
     {

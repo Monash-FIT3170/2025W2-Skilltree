@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
 import { ReactFlow, Controls } from '@xyflow/react';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
-export const SidePanel = ({ skillTreeId }) => {
-  const skillTree = useTracker(() => {
-    const sub = Meteor.subscribe('skilltrees');
-    if (!sub.ready() || !skillTreeId) return null;
-    return SkillTreeCollection.findOne({ _id: skillTreeId });
-  }, [skillTreeId]);
+export const SidePanel = ({ skillTree }) => {
+  // Subscribe to skilltrees
+  useSubscribe('skilltrees');
 
+  console.log('SidePanel skillTree:', skillTree);
+  console.log('Nodes:', skillTree?.skillNodes);
+  console.log('Edges:', skillTree?.skillEdges);
+
+  // Build nodes for ReactFlow
   const nodes = useMemo(() => {
     if (!skillTree?.skillNodes) return [];
     return skillTree.skillNodes.map(node => ({
@@ -21,6 +21,7 @@ export const SidePanel = ({ skillTreeId }) => {
     }));
   }, [skillTree?.skillNodes]);
 
+  // Build edges for ReactFlow
   const edges = useMemo(() => {
     if (!skillTree?.skillEdges) return [];
     return skillTree.skillEdges.map(edge => ({
@@ -42,7 +43,7 @@ export const SidePanel = ({ skillTreeId }) => {
           <p className="text-gray-600 mb-4">{skillTree.description}</p>
 
           <div style={{ height: 400, width: '100%' }}>
-            <ReactFlow key={skillTreeId} nodes={nodes} edges={edges} fitView>
+            <ReactFlow key={skillTree._id} nodes={nodes} edges={edges} fitView>
               <Controls />
             </ReactFlow>
           </div>

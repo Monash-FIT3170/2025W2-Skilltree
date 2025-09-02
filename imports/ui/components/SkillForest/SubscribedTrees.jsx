@@ -1,7 +1,6 @@
 import React from 'react';
 import { Users } from 'lucide-react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // This file is used to create the component that shows the users subscribed trees in the create skillforest form
@@ -13,10 +12,10 @@ export const SubscribedTrees = ({
   isSelected,
   onToggle
 }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
 
   const skillTree = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } },
+    { _id: { $eq: skillTreeId } }, // Ensure this is the Mongo _id
     {
       fields: {
         _id: 1,
@@ -24,26 +23,35 @@ export const SubscribedTrees = ({
         image: 1,
         title: 1,
         description: 1,
-        subscribers: 1
+        subscribers: 1,
+        skillNodes: 1,
+        skillEdges: 1
       }
     }
   ])[0];
 
+  if (!skillTree) return null;
+
   return (
-    // div that triggers onSelect
     <div
-      onClick={() => onSelect?.(skillTree._id)}
+      // Only clicking the card (not the toggle) updates SidePanel
+      onClick={() => {
+        console.log('Card clicked, selected for SidePanel:', skillTree._id);
+        onSelect?.(skillTree);
+      }}
       className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-48 w-63.5"
     >
+      {/* Toggle circle */}
       <div className="absolute top-2 right-2 z-10">
         <button
           onClick={e => {
-            e.stopPropagation(); // Prevent triggering card onClick
-            onToggle?.(skillTree._id);
+            e.stopPropagation(); // Prevent card click
+            console.log('Toggled SkillTree ID:', skillTree._id);
+            onToggle?.(skillTree._id); // Only toggle selection for SkillForest
           }}
           className={`w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center cursor-pointer
-      ${isSelected ? 'bg-green-500' : 'bg-white'}
-    `}
+            ${isSelected ? 'bg-green-500' : 'bg-white'}
+          `}
         >
           {isSelected && (
             <svg
@@ -64,7 +72,7 @@ export const SubscribedTrees = ({
         </button>
       </div>
 
-      {/* Cover image / gradient */}
+      {/* Card content */}
       <div
         className={`relative h-24 
           ${!skillTree.image ? 'bg-gradient-to-br from-[#025940] to-[#04BF8A]' : ''}`}
