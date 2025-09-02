@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
-import { Link } from 'react-router-dom';
-import { Users, ChevronRight } from 'lucide-react';
+import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
 import { User } from '/imports/utils/User';
 
 // JSX UI
@@ -16,7 +15,6 @@ export const Dashboard = () => {
 
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
-  const [communitiesCount, setCommunitiesCount] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,28 +53,12 @@ export const Dashboard = () => {
 
         {/* My Skill Trees Section */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Users size={20} className="text-[#04BF8A]" />
-                My Skill Trees
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Skill trees you own and communities you've joined
-              </p>
-            </div>
-            <Link to={'/manage-communities'}>
-              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
-                Manage Communities ({communitiesCount})
-                <ChevronRight size={16} />
-              </button>
-            </Link>
-          </div>
+          <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+            <FiUsers size={20} className="text-[#04BF8A]" />
+            My Skill Trees
+          </h2>
           <Suspense fallback={<DashboardLoadingState />}>
-            <DashboardSkillTrees
-              key={user._id}
-              setCommunitiesCount={setCommunitiesCount}
-            />
+            <DashboardSkillTrees key={user._id} />
           </Suspense>
         </div>
       </div>

@@ -1,13 +1,12 @@
 import { ReactFlowProvider } from '@xyflow/react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import React, { useEffect, useState } from 'react';
 import { SkillTreeLogic } from './SkillTree';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { Meteor } from 'meteor/meteor';
 
 export const SkillTreeView = ({ id, isAdmin, onBack }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const [skilltree, setSkilltree] = useState(null);
   const [isSyncing, setIsSyncing] = useState(true);
 

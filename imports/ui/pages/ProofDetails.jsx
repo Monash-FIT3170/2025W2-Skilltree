@@ -4,9 +4,8 @@
  * and an embedded comment section.
  */
 
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React from 'react';
 import { AddComment } from '../components/Proofs/Comments/AddComment';
 import { CommentSection } from '../components/Proofs/Comments/CommentSection';
@@ -24,7 +23,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
   /**
    * Fetches the selected proof document from the Meteor data layer.
    */
-  useSubscribeSuspense('proof');
+  useSubscribe('proof');
   const proof = useFind(ProofCollection, [
     { _id: { $eq: proofId } },
     {

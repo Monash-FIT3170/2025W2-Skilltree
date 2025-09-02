@@ -55,7 +55,7 @@ Meteor.methods({
     // Get the skilltreeId through the proof the comment is on
     const proof = await ProofCollection.findOneAsync(
       { _id: comment.proofId },
-      { fields: { skillTreeId: -1 } }
+      { fields: { skillTreeId: 1 } }
     );
     const { skillTreeId } = proof;
     if (userId) {
