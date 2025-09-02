@@ -54,7 +54,7 @@ export const SkillViewForm = ({
             htmlFor="xpPoints"
             className="block mb-2 text-sm font-medium text-emerald-700"
           >
-            Upvotes Required:
+            Upvotes Required to earn {editingNode.xpPoints} XP:
           </label>
           <div className="flex items-center gap-4">
             <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">

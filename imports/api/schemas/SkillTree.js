@@ -39,6 +39,12 @@ const skillDataSchema = new SimpleSchema({
     label: 'ID of the corresponding proof object for this skill',
     optional: true
   },
+  verified: {
+    type: Boolean,
+    label: 'True if the proof for this skill has been verified',
+    optional: true,
+    defaultValue: false
+  },
   requirements: {
     type: String,
     label: 'Requirements to unlock this skill',
