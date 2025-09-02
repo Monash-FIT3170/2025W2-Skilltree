@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { CommentsCollection } from '/imports/api/collections/Comments';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
 
@@ -15,7 +14,7 @@ export const CommentSection = ({ proofId }) => {
   const { username } = User(['username']);
 
   // Subscribe to comments and get real-time data
-  useSubscribeSuspense('comments');
+  useSubscribe('comments');
   const comments = useFind(CommentsCollection, [
     { proofId: proofId },
     {

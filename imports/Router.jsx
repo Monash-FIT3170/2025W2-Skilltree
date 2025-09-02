@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { FastRender } from 'meteor/communitypackages:fast-render';
-import { renderWithSSR } from 'meteor/communitypackages:react-router-ssr';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { createRoot, hydrateRoot } from 'react-dom/client';
@@ -28,11 +27,8 @@ const helmetTags = [
   'title'
 ];
 
-// Render Router routes on both client side & server side rendering (SSR) via renderWithSSR from react-router-ssr
-if (Meteor.settings.public.enableSSR == true) {
-  renderWithSSR(RootRoutes);
-} // Partial SSR (no subscribed prerender) [default]
-else if (Meteor.settings.public.enablePartialSRR != false) {
+// Render Router routes on both client side & server side rendering (SSR) [default]
+if (Meteor.settings.public.enableSSR != false) {
   if (Meteor.isServer) {
     FastRender.onPageLoad(async sink => {
       const location = sink.request.url;

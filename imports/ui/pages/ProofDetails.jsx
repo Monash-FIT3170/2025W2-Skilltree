@@ -5,8 +5,7 @@
  */
 
 import React from 'react';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { CommentSection } from '../components/Proofs/Comments/CommentSection';
@@ -25,7 +24,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
   /**
    * Fetches the selected proof document from the Meteor data layer.
    */
-  useSubscribeSuspense('proof');
+  useSubscribe('proof');
   const proof = useFind(ProofCollection, [
     { _id: { $eq: proofId } },
     {
