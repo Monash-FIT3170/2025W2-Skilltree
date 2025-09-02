@@ -39,7 +39,7 @@ export const SubscribedTrees = ({
         console.log('Card clicked, selected for SidePanel:', skillTree._id);
         onSelect?.(skillTree);
       }}
-      className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-48 w-63.5"
+      className="bg-white relative rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer h-48 w-full"
     >
       {/* Toggle circle */}
       <div className="absolute top-2 right-2 z-10">

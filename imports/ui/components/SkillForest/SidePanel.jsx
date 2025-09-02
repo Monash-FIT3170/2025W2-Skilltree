@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ReactFlow, Controls } from '@xyflow/react';
-import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 export const SidePanel = ({ skillTree }) => {
   // Subscribe to skilltrees

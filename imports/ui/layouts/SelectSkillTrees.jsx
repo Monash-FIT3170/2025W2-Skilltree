@@ -79,17 +79,19 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
 
   return (
     <div className="relative">
-      <div className="bg-white rounded-xl p-4 lg:p-6 pr-300">
-        {/* Subheading */}
-        <h2
-          className="block text-gray-700 text-xl font-semibold mb-4 -mt-6"
-          style={{ color: '#328E6E' }}
-        >
-          Select SkillTrees
-        </h2>
-
+      {/* Subheading */}
+      <h2
+        className="block text-gray-700 text-xl font-bold pl-6"
+        style={{ color: '#328E6E' }}
+      >
+        Select SkillTrees
+      </h2>
+      <div
+        className="bg-white rounded-xl p-4 lg:p-6 overflow-y-auto"
+        style={{ maxHeight: 'calc(80vh - 200px)' }}
+      >
         {sortedSkillTrees.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-96">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-[24rem]">
             {sortedSkillTrees.map(skillTree => (
               <div
                 key={skillTree._id}
