@@ -264,7 +264,7 @@ export const SkillTreeLogic = ({
         : node
     );
     setNodes(updatedNodes);
-    Meteor.callAsync('saveSkillTreeProgress', id, updatedNodes, edges);
+    Meteor.callAsync('saveSubscription', id, updatedNodes, edges);
   };
 
   const printNodes = () => {

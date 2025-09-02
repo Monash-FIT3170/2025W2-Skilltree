@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
-Meteor.publish('skillTreeProgress', () => SkillTreeProgressCollection.find());
+Meteor.publish('subscriptions', () => SubscriptionsCollection.find());
 
 Meteor.startup(async () => {
-  await SkillTreeProgressCollection.removeAsync({});
+  await SubscriptionsCollection.removeAsync({});
 
   const dummyProgressTree = [
     {
@@ -142,12 +142,13 @@ Meteor.startup(async () => {
         { id: 'e7', source: '7', target: '8' },
         { id: 'e8', source: '6', target: '5' },
         { id: 'e9', source: '8', target: '5' }
-      ]
+      ],
+      active: true
     }
   ];
 
   // Insert dummy data
   for (const progressTree of dummyProgressTree) {
-    await SkillTreeProgressCollection.insertAsync(progressTree);
+    await SubscriptionsCollection.insertAsync(progressTree);
   }
 });
