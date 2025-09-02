@@ -71,5 +71,13 @@ Meteor.methods({
         updatedAt: new Date()
       }
     });
+  },
+
+  async addToRoleApplicationQueue(formData) {
+    return RoleApplicationCollection.insertAsync({
+      ...formData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
   }
 });

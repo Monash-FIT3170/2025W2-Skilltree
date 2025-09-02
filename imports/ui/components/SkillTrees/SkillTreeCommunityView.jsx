@@ -154,6 +154,16 @@ export const SkillTreeCommunityView = () => {
               </Button>
             </Link>
           )}
+
+          <Link to="application" state={{ background: location }}>
+            <Button
+              color="green"
+              pill
+              className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            >
+              Help Manage our Community!
+            </Button>
+          </Link>
         </div>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!

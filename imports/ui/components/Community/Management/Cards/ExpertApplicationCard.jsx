@@ -26,10 +26,18 @@ export const ExpertApplicationCard = ({ application, onReview }) => {
           <div className="space-y-2">
             <div>
               <span className="text-sm font-medium text-gray-700">
-                Experience:{' '}
+                Qualifications:{' '}
               </span>
               <span className="text-sm text-gray-600">
                 {application.qualifications}
+              </span>
+            </div>
+            <div>
+              <span className="text-sm font-medium text-gray-700">
+                Motivation:{' '}
+              </span>
+              <span className="text-sm text-gray-600">
+                {application.motivation}
               </span>
             </div>
           </div>
