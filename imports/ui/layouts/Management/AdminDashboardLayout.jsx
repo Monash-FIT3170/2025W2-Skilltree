@@ -1,8 +1,13 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+import { ImExit } from '@react-icons/all-files/im/ImExit';
+
 import { RouteContent } from './AdminDashboardOutlet';
 
 export const AdminDashboardLayout = () => {
+  const { id: skilltreeID } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -34,6 +39,14 @@ export const AdminDashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
+      <button
+        onClick={() => navigate(`/skilltree/${skilltreeID}`)}
+        className="flex items-center gap-2 cursor-pointer hover:underline"
+      >
+        <ImExit className="w-4 h-4" />
+        <span> Go Back to SkillTree</span>
+      </button>
+
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-6 sm:mb-8">
