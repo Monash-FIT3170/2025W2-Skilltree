@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // Always-visible NavigationMenu component
@@ -9,7 +8,7 @@ export const NavigationMenu = ({ id }) => {
   const navigate = useNavigate();
 
   // load skilltree data
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(SkillTreeCollection, [
     { _id: { $eq: id } },
     { fields: { title: 1, image: 1 } }
