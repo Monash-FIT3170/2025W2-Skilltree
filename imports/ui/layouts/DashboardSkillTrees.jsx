@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
 import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
@@ -59,7 +59,7 @@ export const DashboardSkillTrees = () => {
         <Link to={'/manage-communities'}>
           <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
             Manage Communities ({skillTreesWithRoles.length})
-            <ChevronRight size={16} />
+            <HiOutlineChevronRight size={16} />
           </button>
         </Link>
       </div>
