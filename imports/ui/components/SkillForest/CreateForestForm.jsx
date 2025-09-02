@@ -38,20 +38,6 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
     }
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    // pass form details to parent component
-    onChange(formData.title, formData.description, formData.image);
-
-    setFormData({
-      title: '',
-      description: '',
-      image: null,
-      previewImage: ''
-    });
-  };
-
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
