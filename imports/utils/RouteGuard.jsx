@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { User } from '/imports/utils/User';
-import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
