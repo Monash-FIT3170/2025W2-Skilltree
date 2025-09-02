@@ -2,8 +2,8 @@ import React, { useMemo, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
-import { FiSearch, FiEdit3 } from 'react-icons/fi';
-import { PenOff } from 'lucide-react';
+import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
+import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
 
 import { useSkillTreeUsers } from '/imports/ui/components/Community/services/UserService';
 import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
@@ -251,20 +251,13 @@ export const UserManagement = () => {
 
                 <td className="py-4 px-4">
                   <div className="flex justify-end gap-1">
-                    {canEditUser(user) ? (
+                    {canEditUser(user) && (
                       <button
                         onClick={() => handleEditAction(user)}
                         className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
                         title="Edit User"
                       >
                         <FiEdit3 className="w-4 h-4" />
-                      </button>
-                    ) : (
-                      <button
-                        className="p-2 text-gray-600 rounded-lg cursor-pointer"
-                        title="Cannot Edit User. Contact Owner for support."
-                      >
-                        <PenOff className="w-4 h-4" />
                       </button>
                     )}
                   </div>

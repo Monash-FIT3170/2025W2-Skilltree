@@ -1,4 +1,7 @@
-import { FiUser, FiStar, FiUserCheck, FiSettings } from 'react-icons/fi';
+import { FiUser } from '@react-icons/all-files/fi/FiUser';
+import { FiStar } from '@react-icons/all-files/fi/FiStar';
+import { FiUserCheck } from '@react-icons/all-files/fi/FiUserCheck';
+import { FiSettings } from '@react-icons/all-files/fi/FiSettings';
 
 export const roleUtils = {
   getRoleColour(role) {

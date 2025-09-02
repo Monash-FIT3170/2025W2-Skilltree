@@ -6,7 +6,7 @@ import { useFind } from 'meteor/react-meteor-data/suspense';
 // Mongo Collections
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
-import { Crown } from 'lucide-react';
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 import { NoSkillTreesFound } from '/imports/ui/components/Community/Fallbacks/NoSkillTreesFound';
 
 /* Community Icon - if they donot have an icon, use fallback.
@@ -117,7 +117,7 @@ export const ManageCommunitiesList = ({ activeTab, searchQuery }) => {
                   </h3>
                   {isOwned(community._id) && (
                     <div className="bg-yellow-500 rounded-full p-1.5 shadow-lg">
-                      <Crown size={14} className="text-white" />
+                      <RiVipCrownLine size={14} className="text-white" />
                     </div>
                   )}
                 </div>

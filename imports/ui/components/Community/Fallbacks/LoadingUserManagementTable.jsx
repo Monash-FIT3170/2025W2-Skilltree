@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiLoader } from 'react-icons/fi';
+import { FiLoader } from '@react-icons/all-files/fi/FiLoader';
 
 export const LoadingUserManagementTable = () => {
   return (
