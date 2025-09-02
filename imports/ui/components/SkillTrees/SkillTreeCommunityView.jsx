@@ -75,6 +75,7 @@ export const SkillTreeCommunityView = () => {
   const { location } = useLocation();
 
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
 
   useSubscribe('skilltrees');
   const skilltree = useFind(
@@ -96,12 +97,17 @@ export const SkillTreeCommunityView = () => {
   )[0];
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      const result = await checkUserIsAdmin();
-      setIsUserAdmin(result);
+    if (!skilltree?._id || !userId) return;
+
+    const checkStatus = async () => {
+      const isAdmin = await checkUserIsAdmin();
+      setIsUserAdmin(isAdmin);
+
+      const isSubscribed = await checkUserIsSubscribed();
+      setIsUserSubscribed(isSubscribed);
     };
-    checkAdminStatus();
-  }, [skilltree._id, userId]);
+    checkStatus();
+  }, [skilltree?._id, userId, skilltree?.subscribers]);
 
   const checkUserIsAdmin = async () => {
     //Retrieve roles
@@ -115,6 +121,20 @@ export const SkillTreeCommunityView = () => {
     }
     console.log(currUserSkillTreeProgress);
     return false;
+  };
+
+  const checkUserIsSubscribed = async () => {
+    try {
+      const foundUser = await Meteor.callAsync(
+        'skilltrees.findUser',
+        skilltree._id,
+        userId
+      );
+      return !!foundUser;
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      return false;
+    }
   };
 
   if (!skilltree) return <div>Skill Tree not found</div>;
@@ -155,15 +175,17 @@ export const SkillTreeCommunityView = () => {
             </Link>
           )}
 
-          <Link to="application" state={{ background: location }}>
-            <Button
-              color="green"
-              pill
-              className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-            >
-              Help Manage our Community!
-            </Button>
-          </Link>
+          {isUserSubscribed && (
+            <Link to="application" state={{ background: location }}>
+              <Button
+                color="green"
+                pill
+                className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+              >
+                Help our Community
+              </Button>
+            </Link>
+          )}
         </div>
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
