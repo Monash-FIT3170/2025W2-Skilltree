@@ -18,6 +18,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
   // For Toggle Select
   const [selectedSkillTrees, setSelectedSkillTrees] = useState([]);
 
+  // For multiselecting skilltrees
   const { sortedSkillTrees } = useTracker(() => {
     const sub = Meteor.subscribe('skilltrees');
     if (!sub.ready()) return { sortedSkillTrees: [] };
@@ -55,7 +56,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
 
   return (
     <div className="relative">
-      <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6 pr-300">
+      <div className="bg-white rounded-xl p-4 lg:p-6 pr-300">
         {/* Subheading */}
         <h2
           className="block text-gray-700 text-xl font-semibold mb-4 -mt-6"
@@ -86,18 +87,21 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center">
-            Looks like you don't have any skill trees. Head to the search bar
+          <p className="text-gray-500 text-align left">
+            Looks like you don't have any skilltrees. Head to the search bar
             join one!
           </p>
         )}
       </div>
 
       {/* SidePanel always visible, shows placeholder when no tree selected */}
-      <SidePanel skillTreeId={selectedSkillTree} />
-      <div className="mt-6 text-center">
+      <div className="w-80">
+        <SidePanel skillTreeId={selectedSkillTree} />
+      </div>
+      <div className="mt-6 mb-4 flex justify-end pr-128">
         <button
           type="submit"
+          disabled={selectedSkillTrees.length === 0}
           onClick={() =>
             onOpenPopup?.(
               sortedSkillTrees.filter(tree =>
@@ -105,7 +109,11 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
               )
             )
           }
-          className="bg-green-500 text-white font-semibold py-2 px-6 rounded hover:bg-green-700 transition-colors cursor-pointer"
+          className={`${
+            selectedSkillTrees.length === 0
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-green-500 hover:bg-green-700 cursor-pointer'
+          } text-white font-semibold py-2 px-6 rounded transition-colors`}
         >
           Create SkillForest
         </button>
