@@ -100,7 +100,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
       </div>
       <div className="mt-6 mb-4 flex justify-end pr-128">
         <button
-          type="submit"
+          type="button"
           disabled={selectedSkillTrees.length === 0}
           onClick={() =>
             onOpenPopup?.(

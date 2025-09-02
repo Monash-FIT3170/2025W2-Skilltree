@@ -32,7 +32,7 @@ export const CreateSkillForest = () => {
       skilltreeIds: selectedSkillTrees.map(tree => tree._id)
     });*/
 
-    Meteor.call('insertSkillforest', skillforestToSave, (err, res) => {
+    Meteor.call('insertSkillforest', skillforestToSave, err => {
       if (err) {
         //console.error('Error creating SkillForest:', err);
         toast.error('Failed to create SkillForest');
@@ -44,38 +44,32 @@ export const CreateSkillForest = () => {
     });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleOpenPopup = selectedTrees => {
+    const form = document.getElementById('skillForestForm');
 
-    if (!e.target.checkValidity()) {
-      e.target.reportValidity();
+    // Only triggers error messages here
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
-    // If form is valid -> popup will open when user selects skilltrees
+
+    setSelectedSkillTrees(selectedTrees);
+    setShowPopup(true);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form id="skillForestForm" noValidate>
         <CreateForestForm
           onChange={(title, description) => {
             setFormTitle(title);
             setFormDescription(description);
           }}
         />
-        <SelectSkillTrees
-          onOpenPopup={selectedSkillTrees => {
-            if (!formTitle.trim() || !formDescription.trim()) {
-              // This will trigger built-in validation messages
-              document.querySelector('form').reportValidity();
-              return;
-            }
-            setSelectedSkillTrees(selectedSkillTrees);
-            setShowPopup(true);
-          }}
-        />
       </form>
-
+      <SelectSkillTrees
+        onOpenPopup={selectedSkillTrees => handleOpenPopup(selectedSkillTrees)}
+      />
       {showPopup && (
         <SkillForestPopup
           skillForestTitle={formTitle}
