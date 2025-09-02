@@ -22,3 +22,4 @@ import '/imports/api/methods/Forum';
 import '/imports/api/methods/Users';
 import '/imports/api/methods/AdminDashboard/SaveEditCommunityMember';
 import '/imports/api/methods/AdminDashboard/RoleApplications';
+import '/imports/api/methods/imageUpload';
