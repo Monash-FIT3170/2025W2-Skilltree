@@ -13,7 +13,7 @@ export const AdminDashboardLayout = () => {
 
   // Extract current tab from URL path
   const pathSegments = location.pathname.split('/');
-  const activeTab = pathSegments[pathSegments.length - 1] || 'account';
+  const activeTab = pathSegments[pathSegments.length - 1] || 'users';
 
   const tabs = [
     {
@@ -25,12 +25,12 @@ export const AdminDashboardLayout = () => {
       key: 'roles',
       label: 'Roles',
       path: 'roles'
-    },
-    {
-      key: 'queue',
-      label: 'Queue',
-      path: 'queue'
     }
+    // {
+    //   key: 'queue',
+    //   label: 'Queue',
+    //   path: 'queue'
+    // }
   ];
 
   const handleTabClick = tabPath => {
