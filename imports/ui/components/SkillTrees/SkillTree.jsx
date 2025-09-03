@@ -275,7 +275,7 @@ export const SkillTreeLogic = ({
   return (
     <>
       <Button onClick={printNodes}>Print Nodes</Button>
-      {isAdmin ? (
+      {isAdmin && (
         <>
           <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
             Add Skills
@@ -290,13 +290,9 @@ export const SkillTreeLogic = ({
             Save
           </Button>
         </>
-      ) : (
-        <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
-          Skills
-        </h2>
       )}
 
-      <div style={{ width: '100vw', height: '65vh' }} ref={reactFlowWrapper}>
+      <div style={{ width: '100%', height: '65vh' }} ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           nodeTypes={nodeTypes}

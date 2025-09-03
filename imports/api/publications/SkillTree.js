@@ -154,6 +154,7 @@ Meteor.startup(async () => {
       subscribers: ['playerA', 'playerB', 'a1S2A2A933jf']
     },
     {
+      _id: 'soccer',
       title: 'Soccer',
       owner: 'owner',
       image: 'https://example.com/image1.png',
@@ -211,6 +212,7 @@ Meteor.startup(async () => {
       subscribers: ['fanX', 'fanY']
     },
     {
+      _id: 'cricket',
       title: 'Cricket',
       owner: 'owner',
       image: 'https://example.com/image1.png',
@@ -280,6 +282,7 @@ Meteor.startup(async () => {
       subscribers: ['user1', 'user2']
     },
     {
+      _id: 'tennis',
       title: 'Tennis',
       owner: 'owner',
       image: 'https://example.com/image1.png',
@@ -394,6 +397,7 @@ Meteor.startup(async () => {
       subscribers: ['playerZ', 'coachY']
     },
     {
+      _id: 'jeditraining',
       title: 'Jedi Training',
       owner: 'owner',
       image:
