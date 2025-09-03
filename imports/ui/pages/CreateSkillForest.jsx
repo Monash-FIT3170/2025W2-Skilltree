@@ -26,20 +26,20 @@ export const CreateSkillForest = () => {
       skilltreeIds: selectedSkillTrees.map(tree => tree._id) //<-- only the IDs
     };
 
-    /*console.log('SkillForest to save:', {
-      title: formTitle,
-      description: formDescription,
-      skilltreeIds: selectedSkillTrees.map(tree => tree._id)
-    });*/
-
-    Meteor.call('insertSkillforest', skillforestToSave, err => {
+    Meteor.call('insertSkillforest', skillforestToSave, (err, newSkillForestId) => {
       if (err) {
         //console.error('Error creating SkillForest:', err);
         toast.error('Failed to create SkillForest');
       } else {
-        //console.log('SkillForest created with ID:', res);
-        toast.success('SkillForest created successfully!');
-        setShowPopup(false);
+        // Update user's createdCommunities
+        Meteor.call('updateUserCreatedCommunities', newSkillForestId, error => {
+          if (error) {
+            toast.error('Failed to update user communities');
+          } else {
+            toast.success('SkillForest created successfully!');
+            setShowPopup(false);
+          }
+        });
       }
     });
   };

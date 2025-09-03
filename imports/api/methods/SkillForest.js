@@ -50,5 +50,15 @@ Meteor.methods({
       { _id: skillforestId },
       { $set: { skilltreeIds: newSkilltreeIds } }
     );
+  },
+
+  async updateUserCreatedCommunities(skillforestId) {
+    check(skillforestId, String);
+    const userId = this.userId;
+    if (!userId) throw new Meteor.Error('not-authorized');
+    await Meteor.users.updateAsync(userId, {
+      $addToSet: { 'profile.createdCommunities': skillforestId }
+    });
+    return true;
   }
 });
