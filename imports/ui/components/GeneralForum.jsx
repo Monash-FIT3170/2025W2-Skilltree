@@ -7,8 +7,18 @@ export const GeneralForum = () => {
   // Mock messages for now, you can later filter by skilltreeId or fetch real data
   const [messages, setMessages] = useState([
     { id: 1, username: 'Alice', text: 'Hey everyone!', createdAt: new Date() },
-    { id: 2, username: 'Lisa', text: 'Hi Alice! How are you?', createdAt: new Date() },
-    { id: 3, username: 'Charlie', text: 'Welcome to the community forum', createdAt: new Date() }
+    {
+      id: 2,
+      username: 'Lisa',
+      text: 'Hi Alice! How are you?',
+      createdAt: new Date()
+    },
+    {
+      id: 3,
+      username: 'Charlie',
+      text: 'Welcome to the community forum',
+      createdAt: new Date()
+    }
   ]);
 
   const [message, setMessage] = useState('');
@@ -32,6 +42,10 @@ export const GeneralForum = () => {
       }
     ]);
     setMessage('');
+  };
+
+  const handleInputChange = e => {
+    setMessage(e.target.value);
   };
 
   return (
@@ -73,7 +87,7 @@ export const GeneralForum = () => {
           className="flex-1 border rounded-full px-4 py-2"
           placeholder="Type a message..."
           value={message}
-          onChange={e => setMessage(e.target.value)}
+          onChange={handleInputChange}
         />
         <button
           type="submit"

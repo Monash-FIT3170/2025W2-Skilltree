@@ -9,7 +9,6 @@ import { SkillForestCollection } from '/imports/api/collections/SkillForest';
 // JSX UI
 import { SkillForestCard } from '../components/Dashboard/SkillForestCard';
 import { EmptyStateForest } from '../components/Dashboard/EmptyStateForest';
-import { create } from 'lodash';
 
 export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
   const user = User([
@@ -18,7 +17,7 @@ export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
     'profile.subscribedCommunities'
   ]);
   const createdIds = user?.profile?.createdCommunities ?? [];
-//   const subscribedIds = user?.profile?.subscribedCommunities ?? [];
+  //   const subscribedIds = user?.profile?.subscribedCommunities ?? [];
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds])];
   // Get all unique skill tree IDs (created + subscribed)
@@ -26,7 +25,15 @@ export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
   const allSkillForests = useFind(SkillForestCollection, [
     { _id: { $in: allUniqueIds } },
     {
-      fields: { _id: 1, owner: 1, image:1, title:1, description:1, skilltreeIds:1, createdAt: 1 }
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+        description: 1,
+        skilltreeIds: 1,
+        createdAt: 1
+      }
     }
   ]).filter(Boolean); //Some elements were null, so we filter out any null results
 
@@ -65,7 +72,7 @@ export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
             ))}
           </div>
         ) : (
-          <EmptyStateForest/>
+          <EmptyStateForest />
         )}
       </div>
     </>

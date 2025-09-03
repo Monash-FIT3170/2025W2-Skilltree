@@ -1,16 +1,10 @@
 import React from 'react';
-import { ChevronRight, Users, Crown } from 'lucide-react';
+import { Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-// import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
 
-// Mongo Collections
-import { SkillForestCollection } from '/imports/api/collections/SkillForest';
+// Remove unused imports: ChevronRight, Users, useFind, SkillForestCollection
 
-export const SkillForestCard = ({
-    skillForest,
-    currentUserId
-}) => {
+export const SkillForestCard = ({ skillForest, currentUserId }) => {
   const isOwner = skillForest.owner === currentUserId;
 
   return (
@@ -52,7 +46,6 @@ export const SkillForestCard = ({
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">
             {skillForest.description}
           </p>
-
         </div>
       </div>
     </Link>
