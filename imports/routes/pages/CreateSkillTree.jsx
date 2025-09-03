@@ -5,5 +5,5 @@ import { CreateSkillTree } from '/imports/ui/pages/CreateSkillTree';
 
 // Define Routes for NotFound JSX component
 export const CreateSkillTreeRoutes = [
-  { path: '/create', element: <CreateSkillTree /> }
+  { path: '/createskilltree', element: <CreateSkillTree /> }
 ];
