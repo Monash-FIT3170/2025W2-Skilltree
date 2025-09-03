@@ -1,11 +1,11 @@
-<<<<<<< HEAD
-=======
-@@ -0,0 +1,103 @@
->>>>>>> 5ab6c491fa03d166780edbfa3411146d92a382bf
+// ../../ui/pages/Moderator.jsx
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 
-export const ModeratorForm = ({ skillTreeId }) => {
+export const ModeratorForm = () => {
+  const { skillTreeId } = useParams();
+
   const [formData, setFormData] = useState({
     name: '',
     qualifications: '',
@@ -20,7 +20,7 @@ export const ModeratorForm = ({ skillTreeId }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // TODO: Handle submission (e.g. send to server)
+    // TODO: Replace with your real submission (e.g., fetch/axios to backend)
     console.log('Form submitted for skillTreeId:', skillTreeId, formData);
   };
 
@@ -35,6 +35,20 @@ export const ModeratorForm = ({ skillTreeId }) => {
         className="space-y-4 max-w-lg mx-auto p-4 border rounded-lg shadow"
       >
         <h2 className="text-2xl font-bold mb-4">Moderator Application</h2>
+
+        {/* Skill Tree ID (read-only, from route) */}
+        <div>
+          <label htmlFor="skillTreeId" className="block font-medium">
+            Skill Tree ID
+          </label>
+          <input
+            id="skillTreeId"
+            name="skillTreeId"
+            value={skillTreeId ?? ''}
+            readOnly
+            className="w-full border rounded p-2 bg-gray-50"
+          />
+        </div>
 
         {/* Name */}
         <div>
