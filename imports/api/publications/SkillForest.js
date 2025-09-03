@@ -14,22 +14,22 @@ Meteor.startup(async () => {
     }
 
     const dummySkillForests = [
-      {
-        _id: 'software',
-        title: 'Software Development',
-        description:
-          'This skill forest covers the fundamentals of software development including programming languages, algorithms, and data structures.',
-        skilltreeIds: ['basketball', 'soccer', 'cricket', 'tennis'],
-        owner: sampleUser._id
-      },
-      {
-        title: 'Athletic Training',
-        description:
-          'Become an all-rounder athlete with skills in strength training, endurance, and flexibility.',
-        skilltreeIds: ['tennis', 'Climbing', 'jeditraining'],
-        owner: sampleUser._id
-      }
-      ,
+      // {
+      //   _id: 'software',
+      //   title: 'Software Development',
+      //   description:
+      //     'This skill forest covers the fundamentals of software development including programming languages, algorithms, and data structures.',
+      //   skilltreeIds: ['basketball', 'soccer', 'cricket', 'tennis'],
+      //   owner: sampleUser._id
+      // },
+      // {
+      //   title: 'Athletic Training',
+      //   description:
+      //     'Become an all-rounder athlete with skills in strength training, endurance, and flexibility.',
+      //   skilltreeIds: ['tennis', 'Climbing', 'jeditraining'],
+      //   owner: sampleUser._id
+      // }
+      // ,
       // {
       //   title: 'Digital Marketing',
       //   description: 'Become an all-rounder athlete with skills in strength training, endurance, and flexibility.',
