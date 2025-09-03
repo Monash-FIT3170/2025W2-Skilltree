@@ -22,7 +22,7 @@ export const Roles = () => {
       fields: {
         _id: 1,
         userId: 1,
-        name: 1,
+        username: 1,
         email: 1,
         applicationType: 1,
         status: 1,

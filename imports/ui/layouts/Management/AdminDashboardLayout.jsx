@@ -1,10 +1,8 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { ImExit } from '@react-icons/all-files/im/ImExit';
-
-import { RouteContent } from './AdminDashboardOutlet';
 
 export const AdminDashboardLayout = () => {
   const { id: skilltreeID } = useParams();
@@ -76,7 +74,9 @@ export const AdminDashboardLayout = () => {
         </div>
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
-        <RouteContent />
+        <div className="w-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

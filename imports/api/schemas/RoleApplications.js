@@ -7,9 +7,9 @@ Schemas.application = new SimpleSchema({
   userId: {
     type: String
   },
-  name: {
+  username: {
     type: String,
-    label: 'Full Name'
+    label: ' Username'
   },
   email: {
     type: String,
@@ -28,19 +28,18 @@ Schemas.application = new SimpleSchema({
   },
   skillTreeId: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
     optional: true,
     label: 'Skill Tree ID'
   },
   qualifications: {
     type: String,
-    min: 50,
+    min: 1,
     max: 1000,
     label: 'Describe your qualifications and experience'
   },
   motivation: {
     type: String,
-    min: 50,
+    min: 1,
     max: 500,
     label: 'Why do you want to become an expert in this community?'
   },

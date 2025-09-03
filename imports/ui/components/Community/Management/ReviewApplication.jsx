@@ -18,7 +18,7 @@ export const ReviewApplication = ({
                   : 'Expert'}{' '}
                 Application
               </h3>
-              <p className="text-gray-600">{selectedApplication.name}</p>
+              <p className="text-gray-600">{selectedApplication.username}</p>
             </div>
           </div>
           <button
@@ -34,10 +34,10 @@ export const ReviewApplication = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name
+                Username
               </label>
               <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900">
-                {selectedApplication.name}
+                {selectedApplication.username}
               </div>
             </div>
             <div>

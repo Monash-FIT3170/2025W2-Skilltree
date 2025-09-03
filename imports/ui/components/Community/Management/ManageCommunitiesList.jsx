@@ -1,8 +1,7 @@
 import React from 'react';
 import { User } from '/imports/utils/User';
 import { useNavigate } from 'react-router-dom';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 // Mongo Collections
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
@@ -35,7 +34,7 @@ export const ManageCommunitiesList = ({ activeTab, searchQuery }) => {
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
   // Get all unique skill tree IDs (created + subscribed)
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const allSkillTrees = useFind(SkillTreeCollection, [
     { _id: { $in: allUniqueIds } },
     {

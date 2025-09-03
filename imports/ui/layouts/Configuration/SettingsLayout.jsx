@@ -1,6 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { RouteContent } from './SettingsLayoutOutlet';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 export const SettingsLayout = () => {
   const navigate = useNavigate();
@@ -73,7 +72,9 @@ export const SettingsLayout = () => {
         </div>
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
-        <RouteContent />
+        <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

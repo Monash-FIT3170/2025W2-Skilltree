@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { RoleApplicationCollection } from '/imports/api/collections/RoleApplications';
 
+//Import for validation
+import '/imports/api/schemas/RoleApplications';
+
 Meteor.publish('roleApplications', () => RoleApplicationCollection.find());
 
 Meteor.startup(async () => {
@@ -9,7 +12,7 @@ Meteor.startup(async () => {
   // Insert dummy moderator application
   RoleApplicationCollection.insertAsync({
     userId: 'dummy-user-1',
-    name: 'Alex Johnson',
+    username: 'Username123',
     email: 'alex.johnson@example.com',
     applicationType: 'moderator',
     status: 'pending',
@@ -24,7 +27,7 @@ Meteor.startup(async () => {
 
   RoleApplicationCollection.insertAsync({
     userId: 'dummy-user-2',
-    name: 'Anthony Edwards',
+    username: 'AnthonyEdwardsDaGoat',
     email: 'ant.edwards@example.com',
     applicationType: 'moderator',
     status: 'pending',
@@ -40,7 +43,7 @@ Meteor.startup(async () => {
   // Insert dummy expert application
   RoleApplicationCollection.insertAsync({
     userId: 'dummy-user-3',
-    name: 'Sarah Chen',
+    username: 'ChrisPaulCP3',
     email: 'sarah.chen@example.com',
     applicationType: 'expert',
     status: 'pending',
@@ -56,7 +59,7 @@ Meteor.startup(async () => {
   // Insert dummy expert application
   RoleApplicationCollection.insertAsync({
     userId: 'dummy-user-4',
-    name: 'Kevin Durant',
+    username: 'KarlMaloneLol',
     email: 'kevin.durant@example.com',
     applicationType: 'expert',
     status: 'pending',

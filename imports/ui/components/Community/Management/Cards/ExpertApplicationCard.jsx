@@ -12,7 +12,7 @@ export const ExpertApplicationCard = ({ application, onReview }) => {
         <div className="flex-1">
           <div className="flex items-center space-x-3 mb-2">
             <h3 className="text-lg font-semibold text-gray-900">
-              {application.name}
+              {application.username}
             </h3>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
               <span className="ml-1 capitalize">{application.status}</span>

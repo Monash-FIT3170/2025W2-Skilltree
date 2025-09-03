@@ -19,14 +19,6 @@ Meteor.methods({
     }
   },
 
-  async getAllSkillTreeProgress(skillTreeId) {
-    check(skillTreeId, String);
-
-    return SubscriptionsCollection.find({
-      skillTreeId: skillTreeId
-    }).fetchAsync();
-  },
-
   async saveSubscription(
     skillTreeId,
     progressTreeNodes = null,

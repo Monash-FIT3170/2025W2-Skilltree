@@ -11,12 +11,7 @@ import { ApplicationTimeline } from '/imports/ui/components/Community/Management
 
 export const Application = () => {
   //Current userid logged in
-  const user = User([
-    '_id',
-    'emails',
-    'profile.givenName',
-    'profile.familyName'
-  ]);
+  const user = User(['_id', 'emails.at(0).address', 'username']);
 
   const { id: skilltreeID } = useParams();
 
@@ -55,7 +50,7 @@ export const Application = () => {
 
     const formData = {
       userId: user._id,
-      name: user.profile?.givenName + ' ' + user.profile?.familyName,
+      username: user.username,
       email: user.emails.at(0).address,
       applicationType: applicationType,
       status: 'pending',
