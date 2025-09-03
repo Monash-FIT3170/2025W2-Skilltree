@@ -6,7 +6,7 @@ export const EmptyStateForest = () => {
   const navigate = useNavigate();
 
   const handleEmptyStateClick = () => {
-    navigate('/search-communities');
+    navigate('createskillforest');
   };
   return (
     <div className="col-span-full flex flex-col items-center justify-center py-12 px-4">
