@@ -10,6 +10,7 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 // Custom RouteGuard Hook
 export const useRouteGuard = ({
   AccessCondition,
+  replace = false,
   state = {},
   redirectUrl = '/',
   children,
@@ -18,7 +19,7 @@ export const useRouteGuard = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!AccessCondition) navigate(redirectUrl, { state });
+    if (!AccessCondition) navigate(redirectUrl, { replace, state });
   }, [AccessCondition]); // Navigate has to be used when component first mounts via useEffect, not on first render.
 
   return AccessCondition ? children : fallback; // Display fallback until AccessCondition is met on component mount
@@ -38,7 +39,7 @@ export const PublicRoute = ({
 
   return useRouteGuard({
     AccessCondition: !(hideForLoggedIn && loggedIn),
-    state: { fromUrl: location.pathname },
+    replace: true,
     redirectUrl,
     children
   });
