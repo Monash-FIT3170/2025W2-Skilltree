@@ -175,12 +175,15 @@ const CombinedSkillTreeLogic = ({
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  const onNodeClick = useCallback((event, node) => {
-    if (node.id.startsWith('title-')) {
-      const skillTreeId = node.id.replace('title-', '');
-      navigate(`/skilltree/${skillTreeId}`);
-    }
-  }, [navigate]);
+  const onNodeClick = useCallback(
+    (event, node) => {
+      if (node.id.startsWith('title-')) {
+        const skillTreeId = node.id.replace('title-', '');
+        navigate(`/skilltree/${skillTreeId}`);
+      }
+    },
+    [navigate]
+  );
 
   // Update nodes and edges when combined data changes
   useEffect(() => {
