@@ -306,7 +306,7 @@ export const SkillTreeLogic = ({
           nodeOrigin={nodeOrigin}
         >
           <Background />
-          <MiniMap />
+          <MiniMap pannable zoomable />
           <Controls />
         </ReactFlow>
       </div>
