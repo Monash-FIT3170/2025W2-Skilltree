@@ -69,10 +69,12 @@ export const SkillForest = () => {
             </div>
           </div>
         )}
-        <SkillForestView
-          skillTreeIds={skillForest.skilltreeIds || []}
-          isAdmin={false}
-        />
+        <div className="bg-white rounded-lg shadow-sm p-4 h-[70vh] min-h-[500px]">
+          <SkillForestView
+            skillTreeIds={skillForest.skilltreeIds || []}
+            isAdmin={false}
+          />
+        </div>
       </div>
     </>
   );

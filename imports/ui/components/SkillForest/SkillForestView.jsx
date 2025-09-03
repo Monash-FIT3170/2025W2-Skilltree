@@ -223,7 +223,7 @@ const CombinedSkillTreeLogic = ({
   );
 
   return (
-    <div style={{ width: '100%', height: '80vh' }}>
+    <div className="w-full h-full">
       <ReactFlow
         nodes={nodes}
         nodeTypes={nodeTypes}
@@ -231,7 +231,7 @@ const CombinedSkillTreeLogic = ({
         edges={edges}
         onEdgesChange={isAdmin ? onEdgesChange : null}
         fitView
-        fitViewOptions={{ padding: 0.1 }}
+        fitViewOptions={{ padding: 0.1, maxZoom: 1.2, minZoom: 0.1 }}
         nodeOrigin={[0.5, 0]}
         onNodeClick={onNodeClick}
       >
@@ -269,12 +269,14 @@ export const SkillForestView = ({
   }
 
   return (
-    <ReactFlowProvider>
-      <CombinedSkillTreeLogic
-        skillTreeIds={skillTreeIds}
-        isAdmin={isAdmin}
-        spacing={spacing}
-      />
-    </ReactFlowProvider>
+    <div className="w-full h-full">
+      <ReactFlowProvider>
+        <CombinedSkillTreeLogic
+          skillTreeIds={skillTreeIds}
+          isAdmin={isAdmin}
+          spacing={spacing}
+        />
+      </ReactFlowProvider>
+    </div>
   );
 };
