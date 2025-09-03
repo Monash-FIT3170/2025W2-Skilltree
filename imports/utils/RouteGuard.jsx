@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { User } from '/imports/utils/User';
+import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -41,7 +41,7 @@ export const ProfileCompleteRoute = ({
   redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
   requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) => {
-  useSubscribeSuspense('users'); // Needed to workaround SSR
+  useSubscribe('users'); // Needed to workaround SSR
   const user = User(['profile.isProfileComplete']); // Suspense waits until data is ready to avoid undefined data
   const isProfileComplete = user?.profile?.isProfileComplete;
 

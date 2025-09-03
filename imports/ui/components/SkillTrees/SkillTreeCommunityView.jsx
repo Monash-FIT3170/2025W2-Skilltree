@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
-import { NavigationDropdown } from './NavigationDropdown';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { NavigationMenu } from './NavigationMenu';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscribeButton } from './SubscribeButton';
 import { UserList } from './UserList';
 
@@ -15,7 +14,7 @@ import { Meteor } from 'meteor/meteor';
 
 function testSaveTreeProgress(skillTreeId, progressNodes, progressEdges) {
   Meteor.callAsync(
-    'saveSkillTreeProgress',
+    'saveSubscription',
     skillTreeId,
     progressNodes,
     progressEdges
@@ -76,7 +75,7 @@ export const SkillTreeCommunityView = () => {
   // extract location
   const { location } = useLocation();
 
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -98,7 +97,7 @@ export const SkillTreeCommunityView = () => {
   return (
     <div key={id}>
       <div className="p-2">
-        <NavigationDropdown id={id} />
+        <NavigationMenu id={id} />
 
         <div className="p-2"></div>
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}

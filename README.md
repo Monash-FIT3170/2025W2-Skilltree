@@ -48,6 +48,9 @@ This is a dummy `settings.json`, to allow the program to run without errors:
 
 ```
 {
+  "public": {
+    "enableSSR": true
+  },
   "private": {
     "AWSAccessKeyId": "",
     "AWSSecretAccessKey": "",
@@ -114,6 +117,22 @@ server/                 [Server-side Code]
 tests/
 └── main.js               // Consolidates Tests
 ```
+## Development Info
+>  [!TIP]
+>  Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
+>
+>  ```
+>  import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+>  ```
+>
+>  For example: `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
+>
+>  ``````
+>  import { FiEye } from '@react-icons/all-files/fi/FiEye';
+>  import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+>  import { FiLock } from '@react-icons/all-files/fi/FiLock';`
+>  ``````
+
 ## Deployment
 ### Ubuntu 24.04 LTS (Noble)
 > [!NOTE]
