@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   ReactFlow,
   Background,
@@ -45,6 +46,7 @@ const CombinedSkillTreeLogic = ({
   spacing = 800
 }) => {
   useSubscribe('skilltrees');
+  const navigate = useNavigate();
 
   // Get all skill trees
   const skillTrees = useFind(
@@ -111,7 +113,7 @@ const CombinedSkillTreeLogic = ({
           label: skilltree.title || `Skill Tree ${index + 1}`
         },
         draggable: false,
-        selectable: false,
+        selectable: true,
         style: {
           background: '#328E6E',
           color: 'white',
@@ -121,7 +123,8 @@ const CombinedSkillTreeLogic = ({
           borderRadius: '8px',
           padding: '10px',
           minWidth: '200px',
-          textAlign: 'center'
+          textAlign: 'center',
+          cursor: 'pointer'
         }
       };
 
@@ -172,6 +175,13 @@ const CombinedSkillTreeLogic = ({
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  const onNodeClick = useCallback((event, node) => {
+    if (node.id.startsWith('title-')) {
+      const skillTreeId = node.id.replace('title-', '');
+      navigate(`/skilltree/${skillTreeId}`);
+    }
+  }, [navigate]);
+
   // Update nodes and edges when combined data changes
   useEffect(() => {
     setNodes(allNodes);
@@ -220,6 +230,7 @@ const CombinedSkillTreeLogic = ({
         fitView
         fitViewOptions={{ padding: 0.1 }}
         nodeOrigin={[0.5, 0]}
+        onNodeClick={onNodeClick}
       >
         <Background />
         <MiniMap pannable zoomable />
