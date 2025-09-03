@@ -1,12 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { check } from 'meteor/check';
 
+// TODO: POSTING A PROOF AUTO-SUBSCRIBES YOU FOR SOME REASON BUT THIS DOESN'T UPDATE ON THE SUBSCRIBE BUTTON
 Meteor.methods({
-  async getSkillTreeProgress(skillTreeId) {
+  async getSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
@@ -18,7 +19,7 @@ Meteor.methods({
     }
   },
 
-  async saveSkillTreeProgress(
+  async saveSubscription(
     skillTreeId,
     progressTreeNodes = null,
     progressTreeEdges = null,
@@ -38,7 +39,7 @@ Meteor.methods({
       progressTreeEdges = baseTree.skillEdges;
     }
 
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
@@ -46,40 +47,67 @@ Meteor.methods({
     if (existing) {
       const newTotalXp = totalXp !== null ? totalXp : existing.totalXp;
 
-      return await SkillTreeProgressCollection.updateAsync(
+      return await SubscriptionsCollection.updateAsync(
         { userId: this.userId, skillTreeId: skillTreeId },
         {
           $set: {
             skillNodes: progressTreeNodes,
             skillEdges: progressTreeEdges,
+            active: true,
             totalXp: newTotalXp
           }
         }
       );
     } else {
-      return await SkillTreeProgressCollection.insertAsync({
+      return await SubscriptionsCollection.insertAsync({
         userId: this.userId,
         skillTreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
-        totalXp: 0
+        totalXp: 0,
+        numComments: 0,
+        active: true
       });
     }
   },
 
-  async removeSkillTreeProgress(skillTreeId) {
+  async removeSubscription(skillTreeId) {
     check(skillTreeId, String);
-    const existing = await SkillTreeProgressCollection.findOneAsync({
+    const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
       skillTreeId
     });
 
     if (existing) {
-      // Corrected remove query: remove by userId and skillTreeId
-      return await SkillTreeProgressCollection.removeAsync({
-        userId: this.userId,
-        skillTreeId: skillTreeId
-      });
+      return await SubscriptionsCollection.updateAsync(
+        { userId: this.userId, skillTreeId: skillTreeId },
+        {
+          $set: {
+            active: false
+          }
+        }
+      );
+    } else {
+      return null;
+    }
+  },
+
+  async incrementXP(skillTreeId, sign) {
+    check(skillTreeId, String);
+    const existing = await SubscriptionsCollection.findOneAsync({
+      userId: this.userId,
+      skillTreeId
+    });
+
+    if (existing) {
+      return await SubscriptionsCollection.updateAsync(
+        { userId: this.userId, skillTreeId: skillTreeId },
+        {
+          $inc: {
+            totalXp: sign * 1
+          }
+        }
+      );
     } else {
       return null;
     }

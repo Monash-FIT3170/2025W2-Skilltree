@@ -67,7 +67,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 20,
       commentNumTEMP: 15
     }
   });
@@ -100,7 +99,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 0,
       commentNumTEMP: 0
     },
     services: {
@@ -134,7 +132,6 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      xpTEMP: 10,
       commentNumTEMP: 4
     },
     services: {
@@ -154,7 +151,6 @@ Meteor.startup(async () => {
     const memberId = await Accounts.createUserAsync({
       username: memberUsername,
       profile: {
-        xpTEMP: Math.floor(Math.random() * 100),
         commentNumTEMP: Math.floor(Math.random() * 10)
       }
     });
