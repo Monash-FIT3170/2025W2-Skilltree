@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Suspense } from 'react';
 import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
