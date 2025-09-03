@@ -1,5 +1,6 @@
 import React from 'react';
 import { SubscribedTreesPopup } from './SubscribedTreesPopup';
+import { useNavigate } from 'react-router-dom';
 
 export const SkillForestPopup = ({
   skillForestTitle,
@@ -8,7 +9,16 @@ export const SkillForestPopup = ({
   onConfirm,
   onClose
 }) => {
+  const navigate = useNavigate();
+
   if (!selectedSkillTrees.length) return null;
+
+  const handleConfirm = async() => {
+    if (onConfirm){
+      await onConfirm();
+    }
+      navigate('/Dashboard'); // Redirect to Dashboard after confirming
+  };
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center">
@@ -67,7 +77,7 @@ export const SkillForestPopup = ({
             Back
           </button>
           <button
-            onClick={onConfirm}
+            onClick={handleConfirm}
             className="px-4 py-2 rounded-lg text-white font-semibold hover:bg-green-700 cursor-pointer"
             style={{ backgroundColor: '#328E6E' }}
           >
