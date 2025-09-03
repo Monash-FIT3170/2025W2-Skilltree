@@ -40,7 +40,6 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
-      ...GeneralForumRoutes,
       ...SearchResultsRoutes,
       ...GeneralForumRoutes,
       ...NotFoundRoutes // * Last for Page not found
