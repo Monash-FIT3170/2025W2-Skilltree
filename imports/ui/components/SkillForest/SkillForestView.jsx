@@ -10,7 +10,7 @@ import {
   useReactFlow,
   ReactFlowProvider
 } from '@xyflow/react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { Meteor } from 'meteor/meteor';
@@ -44,7 +44,7 @@ const CombinedSkillTreeLogic = ({
   isAdmin = false,
   spacing = 800
 }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
 
   // Get all skill trees
   const skillTrees = useFind(

@@ -275,7 +275,7 @@ export const SkillTreeLogic = ({
   return (
     <>
       <Button onClick={printNodes}>Print Nodes</Button>
-      {isAdmin ? (
+      {isAdmin && (
         <>
           <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
             Add Skills
