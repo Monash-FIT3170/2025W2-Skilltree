@@ -56,6 +56,6 @@ Meteor.startup(async () => {
       $set: {
         'profile.createdCommunities': skillForestIds
       }
-    });  
-  }, 1000); 
-}); 
+    });
+  }, 1000);
+});
