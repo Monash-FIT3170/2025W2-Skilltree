@@ -259,7 +259,7 @@ const CombinedSkillTreeLogic = ({
   );
 };
 
-export const SkillForestView = ({
+export const SkillForestUnifiedView = ({
   skillTreeIds,
   isAdmin = false,
   spacing = 800

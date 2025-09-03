@@ -10,7 +10,7 @@ import { SkillTreeCollection } from '../../api/collections/SkillTree';
 
 // Import UI Components
 import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
-import { SkillForestView } from '../components/SkillForest/SkillForestView';
+import { SkillForestUnifiedView } from '../components/SkillForest/SkillForestUnifiedView';
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
@@ -82,7 +82,7 @@ export const SkillForest = () => {
         {/* Conditional Rendering based on view mode */}
         {isUnifiedView ? (
           <div className="bg-white rounded-lg shadow-sm p-4 h-[70vh] min-h-[500px]">
-            <SkillForestView
+            <SkillForestUnifiedView
               skillTreeIds={skillForest?.skilltreeIds || []}
               isAdmin={false}
             />
