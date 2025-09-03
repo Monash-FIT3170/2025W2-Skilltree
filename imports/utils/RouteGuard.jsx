@@ -73,3 +73,17 @@ export const ProfileCompleteRoute = ({
     children
   });
 };
+
+// AdminRoute Helper JSX
+export const AdminRoute = ({
+  children,
+  redirectUrl = '/' // Redirect url can be specified otherwise goes to /
+}) => {
+  const PLACEHOLDER = true;
+
+  return useRouteGuard({
+    AccessCondition: PLACEHOLDER,
+    redirectUrl,
+    children
+  });
+};
