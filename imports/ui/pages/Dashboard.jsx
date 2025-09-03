@@ -94,7 +94,7 @@ export const Dashboard = () => {
           )}
           {currentView === 'skillTrees' && (
             <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
-              <span>View your skillForest</span>
+              <span>View your SkillTree</span>
               <Link to={'/manage-communities'}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
