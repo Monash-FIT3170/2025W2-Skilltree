@@ -75,7 +75,7 @@ const CombinedSkillTreeLogic = ({
   );
 
   const loadTreeProgress = useCallback((tree, index) => {
-    Meteor.call('getSkillTreeProgress', tree._id, (err, res) => {
+    Meteor.call('getSubscriptions', tree._id, (err, res) => {
       const skilltree = res || tree;
       setLoadedTrees(prev => ({
         ...prev,
