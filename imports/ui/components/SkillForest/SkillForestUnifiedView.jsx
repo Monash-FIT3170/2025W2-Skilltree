@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import {
   ReactFlow,
   Background,
@@ -46,6 +47,7 @@ const CombinedSkillTreeLogic = ({
   spacing = 800
 }) => {
   useSubscribe('skilltrees');
+  useSubscribe('subscriptions');
   const navigate = useNavigate();
 
   // Get all skill trees
@@ -54,6 +56,11 @@ const CombinedSkillTreeLogic = ({
     [{ _id: { $in: skillTreeIds } }],
     [skillTreeIds]
   );
+
+  const subscriptions = useFind(SubscriptionsCollection, [
+    { skillTreeId: { $in: skillTreeIds } }
+  ]);
+
 
   const [globalEditingNode, setGlobalEditingNode] = useState(null);
   const [allNodes, setAllNodes] = useState([]);
@@ -74,23 +81,42 @@ const CombinedSkillTreeLogic = ({
     [skillTrees.length, spacing]
   );
 
-  const loadTreeProgress = useCallback((tree, index) => {
-    Meteor.call('getSubscriptions', tree._id, (err, res) => {
-      const skilltree = res || tree;
-      setLoadedTrees(prev => ({
-        ...prev,
-        [tree._id]: { skilltree, index }
-      }));
-    });
-  }, []);
+  // const loadTreeProgress = useCallback((tree, index) => {
+  //   Meteor.call('getSubscriptions', tree._id, (err, res) => {
+  //     const skilltree = res || tree;
+  //     setLoadedTrees(prev => ({
+  //       ...prev,
+  //       [tree._id]: { skilltree, index }
+  //     }));
+  //   });
+  // }, []);
 
   // Load all trees when skillTrees change
   useEffect(() => {
     setLoadedTrees({});
     skillTrees.forEach((tree, index) => {
-      loadTreeProgress(tree, index);
+      Meteor.call('getSubscriptions', tree._id, (err, res) => {
+        if (err) {
+          console.error('Error fetching subscriptions:', err);
+          setLoadedTrees(prev => ({
+            ...prev,
+            [tree._id]: { skilltree: tree, index }
+          }));
+          return;
+        }
+        const subscription = subscriptions?.find(sub => sub.skillTreeId === tree._id);
+        const skilltree = subscription
+          ? { ...res, subscriptionData: subscription }
+          : res;
+
+        setLoadedTrees(prev => ({
+          ...prev,
+          [tree._id]: { skilltree, index }
+        }));
+      });
     });
-  }, [skillTrees, loadTreeProgress]);
+  }, [skillTrees, subscriptions]);
+
 
   // Combine nodes of all loaded trees
   useEffect(() => {
