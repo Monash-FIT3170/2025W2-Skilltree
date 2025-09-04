@@ -9,7 +9,11 @@ Meteor.methods({
       description: String,
       skilltreeIds: [String]
     });
-    return await SkillForestCollection.insertAsync(skillforest);
+    // Attach owner field
+    const userId = this.userId;
+    if (!userId) throw new Meteor.Error('not-authorized');
+    const skillforestWithOwner = { ...skillforest, owner: userId };
+    return await SkillForestCollection.insertAsync(skillforestWithOwner);
   },
 
   async getSkillforest(skillforestId) {
@@ -50,5 +54,15 @@ Meteor.methods({
       { _id: skillforestId },
       { $set: { skilltreeIds: newSkilltreeIds } }
     );
+  },
+
+  async updateUserCreatedCommunities(skillforestId) {
+    check(skillforestId, String);
+    const userId = this.userId;
+    if (!userId) throw new Meteor.Error('not-authorized');
+    await Meteor.users.updateAsync(userId, {
+      $addToSet: { 'profile.createdCommunities': skillforestId }
+    });
+    return true;
   }
 });

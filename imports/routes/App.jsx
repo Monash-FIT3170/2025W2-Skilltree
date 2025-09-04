@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Suspense } from 'react';
 import { PrivateRoute, ProfileCompleteRoute } from '/imports/utils/RouteGuard';
 
@@ -17,6 +18,8 @@ import { GeneralForumRoutes } from '/imports/routes/pages/GeneralForum';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
 import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
 import { SkillForestRoutes } from '/imports/routes/pages/SkillForest';
+import { CreateSkillForestRoutes } from './pages/CreateSkillForest';
+
 // Define Routes for App JSX layout
 export const AppRoutes = [
   {
@@ -40,9 +43,10 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
-      ...GeneralForumRoutes,
       ...SearchResultsRoutes,
+      ...GeneralForumRoutes,
       ...SkillForestRoutes,
+      ...CreateSkillForestRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

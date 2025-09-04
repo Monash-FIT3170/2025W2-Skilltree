@@ -19,7 +19,7 @@ export const SkillForest = () => {
   const [isUnifiedView, setIsUnifiedView] = useState(true);
 
   // Subscribe to skill forests
-  useSubscribe('skillforests');
+  useSubscribe('skillForests');
   useSubscribe('skilltrees');
 
   const skillForest = useFind(
