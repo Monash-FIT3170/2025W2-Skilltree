@@ -61,7 +61,6 @@ const CombinedSkillTreeLogic = ({
     { skillTreeId: { $in: skillTreeIds } }
   ]);
 
-
   const [globalEditingNode, setGlobalEditingNode] = useState(null);
   const [allNodes, setAllNodes] = useState([]);
   const [allEdges, setAllEdges] = useState([]);
@@ -104,7 +103,9 @@ const CombinedSkillTreeLogic = ({
           }));
           return;
         }
-        const subscription = subscriptions?.find(sub => sub.skillTreeId === tree._id);
+        const subscription = subscriptions?.find(
+          sub => sub.skillTreeId === tree._id
+        );
         const skilltree = subscription
           ? { ...res, subscriptionData: subscription }
           : res;
@@ -116,7 +117,6 @@ const CombinedSkillTreeLogic = ({
       });
     });
   }, [skillTrees, subscriptions]);
-
 
   // Combine nodes of all loaded trees
   useEffect(() => {
