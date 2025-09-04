@@ -43,6 +43,20 @@ export const ProofUploadButton = ({
   // Modal Controller
   const [openModal, setOpenModal] = useState(false);
 
+  /**
+   * Closes the upload modal, sending the user back to the Node modal. Resets state so that something new can be uploaded if they hit 'Post Proof' again.
+   * TODO: Long term you probably shouldn't be able to upload again while you have a pending proof for the same skill.
+   */
+  const cleanupAndClose = () => {
+    setOpenModal(false);
+    setFileUploadProgress(undefined);
+    setSelectedFile(null);
+    setResult(null);
+    setPreviewUrl('');
+    setPreviewType('');
+    setIsValidFile(false);
+  };
+
   /**  Helper Functions */
   /**
    * Handles uploading a file to the AWS S3 bucket.
@@ -113,6 +127,9 @@ export const ProofUploadButton = ({
         uploadPromises
       );
       setResult(res);
+      console.log('Upload complete:', res);
+      alert('Upload complete!');
+      cleanupAndClose();
       return res;
     } catch (error) {
       console.error(error);
@@ -333,7 +350,7 @@ export const ProofUploadButton = ({
                   color="green"
                   className="focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer"
                   type="submit"
-                  disabled={!isValidFile}
+                  disabled={!isValidFile || result}
                 >
                   Post
                 </Button>
