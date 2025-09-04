@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
 import { User } from '/imports/utils/User';
 import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
