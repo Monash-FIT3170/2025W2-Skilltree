@@ -1,6 +1,6 @@
 import React from 'react';
-import { Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 
 // Remove unused imports: ChevronRight, Users, useFind, SkillForestCollection
 
@@ -12,11 +12,10 @@ export const SkillForestCard = ({ skillForest, currentUserId }) => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer">
         <div
           className={`relative h-32 
-          ${
-            !skillForest.image
+          ${!skillForest.image
               ? 'bg-gradient-to-br from-[#025940] to-[#04BF8A]'
               : ''
-          }`}
+            }`}
         >
           {skillForest.image && (
             <img
@@ -33,7 +32,7 @@ export const SkillForestCard = ({ skillForest, currentUserId }) => {
           {/* Owner Crown */}
           {isOwner && (
             <div className="absolute top-2 right-2 bg-yellow-500 rounded-full p-1.5 shadow-lg">
-              <Crown size={14} className="text-white" />
+              <RiVipCrownLine size={14} className="text-white" />
             </div>
           )}
 
