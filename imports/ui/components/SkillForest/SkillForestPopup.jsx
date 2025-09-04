@@ -13,11 +13,11 @@ export const SkillForestPopup = ({
 
   if (!selectedSkillTrees.length) return null;
 
-  const handleConfirm = async() => {
-    if (onConfirm){
+  const handleConfirm = async () => {
+    if (onConfirm) {
       await onConfirm();
     }
-      navigate('/Dashboard'); // Redirect to Dashboard after confirming
+    navigate('/Dashboard'); // Redirect to Dashboard after confirming
   };
 
   return (

@@ -26,22 +26,30 @@ export const CreateSkillForest = () => {
       skilltreeIds: selectedSkillTrees.map(tree => tree._id) //<-- only the IDs
     };
 
-    Meteor.call('insertSkillforest', skillforestToSave, (err, newSkillForestId) => {
-      if (err) {
-        //console.error('Error creating SkillForest:', err);
-        toast.error('Failed to create SkillForest');
-      } else {
-        // Update user's createdCommunities
-        Meteor.call('updateUserCreatedCommunities', newSkillForestId, error => {
-          if (error) {
-            toast.error('Failed to update user communities');
-          } else {
-            toast.success('SkillForest created successfully!');
-            setShowPopup(false);
-          }
-        });
+    Meteor.call(
+      'insertSkillforest',
+      skillforestToSave,
+      (err, newSkillForestId) => {
+        if (err) {
+          //console.error('Error creating SkillForest:', err);
+          toast.error('Failed to create SkillForest');
+        } else {
+          // Update user's createdCommunities
+          Meteor.call(
+            'updateUserCreatedCommunities',
+            newSkillForestId,
+            error => {
+              if (error) {
+                toast.error('Failed to update user communities');
+              } else {
+                toast.success('SkillForest created successfully!');
+                setShowPopup(false);
+              }
+            }
+          );
+        }
       }
-    });
+    );
   };
 
   const handleOpenPopup = selectedTrees => {

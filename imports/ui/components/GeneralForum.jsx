@@ -28,7 +28,7 @@ export const GeneralForum = () => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = (e) => {
+  const sendMessage = e => {
     e.preventDefault();
     if (!message.trim()) return;
 
