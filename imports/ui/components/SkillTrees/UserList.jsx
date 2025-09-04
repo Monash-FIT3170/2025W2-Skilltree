@@ -24,8 +24,6 @@ export const UserList = ({ skillTreeId }) => {
 
   useEffect(() => {
     const processUserIdList = async userIdList => {
-      console.log(userIdList);
-      console.log(userIdList.length);
       const usernameList = [];
       for (var i = 0; i < userIdList.length; i++) {
         const username = await getUserName(userIdList[i]);
