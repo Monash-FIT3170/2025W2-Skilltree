@@ -11,6 +11,7 @@ import { SkillTreeCollection } from '../../api/collections/SkillTree';
 // Import UI Components
 import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
 import { SkillForestUnifiedView } from '../components/SkillForest/SkillForestUnifiedView';
+import { SkillForestSplitView } from '../components/SkillForest/SkillForestSplitView';
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
@@ -26,10 +27,6 @@ export const SkillForest = () => {
     [{ _id: { $eq: skillForestId } }],
     [skillForestId]
   )[0];
-
-  const skillTrees = useFind(SkillTreeCollection, [
-    { _id: { $in: skillForest?.skilltreeIds || [] } }
-  ]);
 
   return (
     <>
@@ -88,24 +85,10 @@ export const SkillForest = () => {
             />
           </div>
         ) : (
-          <div className="w-full h-[65vh] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {skillTrees.map(tree => (
-              <div
-                key={tree._id}
-                className="w-full h-full bg-white rounded-lg shadow-md p-4 border border-gray-200"
-              >
-                <h3
-                  className="text-lg font-semibold text-[#328E6E] mb-2 cursor-pointer"
-                  onClick={() => navigate(`/skilltree/${tree._id}`)}
-                >
-                  {tree.title}
-                </h3>
-                <div className="h-[calc(100%-2rem)]">
-                  <SkillTreeView id={tree._id} isAdmin={false} />
-                </div>
-              </div>
-            ))}
-          </div>
+          <SkillForestSplitView
+            skillTreeIds={skillForest?.skilltreeIds || []}
+            isAdmin={false}
+          />
         )}
       </div>
     </>

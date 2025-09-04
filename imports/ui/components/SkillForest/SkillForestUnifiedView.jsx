@@ -60,6 +60,7 @@ const CombinedSkillTreeLogic = ({
   const [allEdges, setAllEdges] = useState([]);
   const [loadedTrees, setLoadedTrees] = useState({});
 
+  // I used GitHub Copilot (https://github.com/copilot) to get the initial idea for the SkillTree placement logic on the SkillForest page
   const getTreePosition = useCallback(
     index => {
       const cols = Math.ceil(Math.sqrt(skillTrees.length));
