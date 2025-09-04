@@ -28,6 +28,13 @@ const skillDataSchema = new SimpleSchema({
     optional: true,
     defaultValue: 0
   },
+  children: {
+    type: Array,
+    label: 'List of child Nodes',
+    optional: true,
+    defaultValue: []
+  },
+  'children.$': String,
   xpPoints: {
     type: Number,
     label: 'XP Points earned for completing this skill',

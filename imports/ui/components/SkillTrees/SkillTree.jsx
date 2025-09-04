@@ -84,7 +84,7 @@ export const SkillTreeLogic = ({
 
         //check each child by ID
         for (let j = 0; j < children.length; j++) {
-          const childNode = children[j];
+          const childNode = initialNodes[Number(children[j])];
 
           // Check if child node exists and is verified
           if (!childNode.data.verified) {
