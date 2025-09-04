@@ -6,7 +6,6 @@ import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import { ProofsList } from '../components/Proofs/ProofsList';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 
@@ -60,7 +59,7 @@ export const PendingProofs = () => {
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
         {/* Responsive container for ProofsList */}
-        <Suspense fallback={<DashboardLoadingState />}>
+        <Suspense>
           <ProofsList skilltreeId={skilltreeId} />
         </Suspense>
       </div>
