@@ -2,6 +2,10 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
 import { ToastContainer, Flip } from 'react-toastify';
 import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { Link } from 'react-router-dom';
+import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
 
 // JSX UI
 import { DashboardSkillTrees } from '/imports/ui/layouts/DashboardSkillTrees';
@@ -20,7 +24,7 @@ export const Dashboard = () => {
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
   const [setCommunitiesCount] = useState(0);
-  const [currentView, setCurrentView] = useState('skillForest');
+  const [currentView, setCurrentView] = useState('skillTrees');
   const handleViewChange = view => {
     setCurrentView(view);
   };
@@ -33,6 +37,33 @@ export const Dashboard = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Quick fix for demo - can clean this up later
+  const user2 = User([
+    '_id',
+    'profile.createdCommunities',
+    'profile.subscribedCommunities'
+  ]);
+  const createdIds = user2?.profile?.createdCommunities ?? [];
+  const subscribedIds = user2?.profile?.subscribedCommunities ?? [];
+  //Using Set will make all elements unique
+  const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
+  // Get all unique skill tree IDs (created + subscribed)
+  useSubscribe('skilltrees');
+  const allSkillTrees = useFind(SkillTreeCollection, [
+    { _id: { $in: allUniqueIds } },
+    {
+      fields: { _id: 1, owner: 1 }
+    }
+  ]).filter(Boolean); //Some elements were null, so we filter out any null results
+
+  // Filter and categorise skill trees
+  const skillTreesWithRoles = allSkillTrees.map(skillTree => ({
+    ...skillTree,
+    isOwner: skillTree.owner === user?._id,
+    isMember:
+      user?.profile?.subscribedCommunities?.includes(skillTree._id) || false
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -58,25 +89,21 @@ export const Dashboard = () => {
           <h1 className="text-2xl lg:text-3xl font-bold text-[#025940] mb-2">
             Dashboard
           </h1>
-          <p className="text-gray-600">
-            Manage your SkillTrees and track your learning journey
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-600">
+              Manage your SkillTrees and track your learning journey
+            </p>
+            <Link to={'/manage-communities'}>
+              <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                Manage Communities ({skillTreesWithRoles.length})
+                <HiOutlineChevronRight size={16} />
+              </button>
+            </Link>
+          </div>
         </div>
         {/* Skill Forest and Skill Trees Section buttons */}
         <div className="mb-8">
           <nav className="flex gap-3 mb-4">
-            <button
-              onClick={() => handleViewChange('skillForest')}
-              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
-              ${
-                currentView === 'skillForest'
-                  ? 'bg-green-600 text-white border-green-600' // Active (green)
-                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
-              }`} // Inactive (grey)
-            >
-              SkillForests
-            </button>
-
             {/* Skill Trees Button */}
             <button
               onClick={() => handleViewChange('skillTrees')}
@@ -88,6 +115,17 @@ export const Dashboard = () => {
               }`} // Inactive (grey)
             >
               SkillTrees
+            </button>
+            <button
+              onClick={() => handleViewChange('skillForest')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${
+                currentView === 'skillForest'
+                  ? 'bg-green-600 text-white border-green-600' // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
+              }`} // Inactive (grey)
+            >
+              SkillForests
             </button>
           </nav>
           {currentView === 'skillForest' && (
