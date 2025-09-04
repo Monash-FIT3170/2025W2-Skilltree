@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
+// import { Link } from 'react-router-dom';
+// import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 

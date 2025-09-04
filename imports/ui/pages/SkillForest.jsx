@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 
 // Import Collections
 import { SkillForestCollection } from '../../api/collections/SkillForest';
-import { SkillTreeCollection } from '../../api/collections/SkillTree';
+// import { SkillTreeCollection } from '../../api/collections/SkillTree';
 
 // Import UI Components
-import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
+// import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
 import { SkillForestUnifiedView } from '../components/SkillForest/SkillForestUnifiedView';
 import { SkillForestSplitView } from '../components/SkillForest/SkillForestSplitView';
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isUnifiedView, setIsUnifiedView] = useState(true);
 
   // Subscribe to skill forests

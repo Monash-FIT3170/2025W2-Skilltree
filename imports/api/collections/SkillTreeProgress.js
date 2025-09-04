@@ -1,7 +1,7 @@
-import { Mongo } from 'meteor/mongo';
+// import { Mongo } from 'meteor/mongo';
 
-export const SkillTreeProgressCollection = new Mongo.Collection(
-  'skillTreeProgress'
-);
+// export const SkillTreeProgressCollection = new Mongo.Collection(
+//   'skillTreeProgress'
+// );
 
-Meteor.publish('skillTreeProgress', () => SkillTreeProgressCollection.find());
+// Meteor.publish('skillTreeProgress', () => SkillTreeProgressCollection.find());
