@@ -37,7 +37,6 @@ export const SkillForest = () => {
       </Helmet>
 
       <div className="p-4 md:p-8 font-sans">
-        
         <button
           onClick={() => navigate('/dashboard')}
           className="flex items-center gap-2 cursor-pointer hover:underline mb-4"
