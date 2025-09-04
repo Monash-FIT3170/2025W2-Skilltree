@@ -55,6 +55,9 @@ Meteor.methods({
             skillEdges: progressTreeEdges,
             active: true,
             totalXp: newTotalXp
+          },
+          $addToSet: {
+            roles: { $each: ['user', 'expert'] }
           }
         }
       );
@@ -65,6 +68,7 @@ Meteor.methods({
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
         totalXp: 0,
+        roles: ['user'],
         numComments: 0,
         active: true
       });
@@ -110,6 +114,28 @@ Meteor.methods({
       );
     } else {
       return null;
+    }
+  },
+
+  async updateSkillTreeProgress(skillTreeId, userId, updateOperation) {
+    check(skillTreeId, String);
+    check(userId, String);
+    check(updateOperation, Object);
+
+    const existing = await SubscriptionsCollection.findOneAsync({
+      userId: userId,
+      skillTreeId
+    });
+
+    if (!existing) {
+      throw new Meteor.Error('user-does-not-exist', 'User does not exist!');
+    }
+
+    if (existing) {
+      return await SubscriptionsCollection.updateAsync(
+        { userId: userId, skillTreeId: skillTreeId },
+        updateOperation
+      );
     }
   }
 });
