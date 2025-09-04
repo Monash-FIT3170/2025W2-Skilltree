@@ -15,7 +15,6 @@ import {
 import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { Meteor } from 'meteor/meteor';
 
 // Import nodes
 import { RootNode } from '../SkillTrees/Nodes/RootNote';
@@ -281,7 +280,7 @@ export const SkillForestUnifiedView = ({
   spacing = 800
 }) => {
   if (!skillTreeIds || skillTreeIds.length === 0) {
-    return <div>No skill trees to display</div>;
+    return <div>No SkillTrees to display</div>;
   }
 
   return (

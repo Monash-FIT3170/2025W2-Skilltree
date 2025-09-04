@@ -20,7 +20,7 @@ export const SkillForestSplitView = ({ skillTreeIds, isAdmin = false }) => {
   if (!skillTreeIds || skillTreeIds.length === 0) {
     return (
       <div className="w-full h-64 flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg">
-        <p className="text-gray-500">No skill trees to display</p>
+        <p className="text-gray-500">No SkillTrees to display</p>
       </div>
     );
   }

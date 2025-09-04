@@ -14,10 +14,10 @@ export const EmptyStateForest = () => {
         <Search className="text-gray-400" size={24} />
       </div>
       <h3 className="text-lg font-semibold text-gray-700 mb-2">
-        No SkillForest Joined
+        No SkillForests Joined
       </h3>
       <p className="text-gray-500 text-center text-sm max-w-md leading-relaxed">
-        Looks like you don't have any SkillForest. Lets create once!
+        Looks like you don't have any SkillForests. Let's create one!
       </p>
       <button
         onClick={handleEmptyStateClick}

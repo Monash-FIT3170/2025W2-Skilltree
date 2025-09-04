@@ -17,8 +17,8 @@ export const EmptyState = () => {
         No SkillTrees Joined
       </h3>
       <p className="text-gray-500 text-center text-sm max-w-md leading-relaxed">
-        Looks like you don't have any SkillTree. Head to the search bar and join
-        one!
+        Looks like you don't have any SkillTrees. Head to the search bar and
+        join one!
       </p>
       <button
         onClick={handleEmptyStateClick}

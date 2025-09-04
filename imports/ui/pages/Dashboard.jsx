@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
+import React, { Suspense, useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { ToastContainer, Flip } from 'react-toastify';
 import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 
 // JSX UI
@@ -60,7 +59,7 @@ export const Dashboard = () => {
             Dashboard
           </h1>
           <p className="text-gray-600">
-            Manage your skill trees and track your learning journey
+            Manage your SkillTrees and track your learning journey
           </p>
         </div>
         {/* Skill Forest and Skill Trees Section buttons */}
@@ -75,7 +74,7 @@ export const Dashboard = () => {
                   : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
               }`} // Inactive (grey)
             >
-              SkillForest
+              SkillForests
             </button>
 
             {/* Skill Trees Button */}
@@ -93,7 +92,7 @@ export const Dashboard = () => {
           </nav>
           {currentView === 'skillForest' && (
             <div className="flex items-center justify-between mt-1 text-l text-gray-500">
-              <h2>View your SkillForest</h2>
+              <h2>View your SkillForests</h2>
               {/* <Link to={"/manage-communities"}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
@@ -104,7 +103,7 @@ export const Dashboard = () => {
           )}
           {currentView === 'skillTrees' && (
             <div className="flex items-center justify-between mt-1 text-l text-gray-500">
-              <h2>View your SkillTree</h2>
+              <h2>View your SkillTrees</h2>
               {/* <Link to={"/manage-communities"}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
