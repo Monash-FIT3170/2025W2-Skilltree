@@ -17,7 +17,7 @@ export const SkillForestPopup = ({
     if (onConfirm) {
       await onConfirm();
     }
-    navigate('/Dashboard'); // Redirect to Dashboard after confirming
+    navigate('/Dashboard', { state: { showToast: true } }); // Redirect to Dashboard after confirming
   };
 
   return (

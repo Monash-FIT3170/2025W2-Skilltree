@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 // import { Link } from 'react-router-dom';
 // import { ChevronRight } from 'lucide-react';
 import { User } from '/imports/utils/User';
+import { ToastContainer, toast, Flip } from 'react-toastify';
 
 // JSX UI
 import { DashboardSkillTrees } from '/imports/ui/layouts/DashboardSkillTrees';
@@ -11,6 +12,7 @@ import {
   getGreetingMessage
 } from '../components/Dashboard/Greeting';
 import { DashboardSkillForest } from '../layouts/DashboardSkillForest';
+import { ToastTrigger } from '../components/SkillForest/ToastTrigger';
 
 export const Dashboard = () => {
   const user = User(['profile.givenName']);
@@ -131,6 +133,21 @@ export const Dashboard = () => {
               </Suspense>
             </div>
           )}
+
+          <ToastTrigger />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Flip}
+          />
         </div>
       </div>
     </div>
