@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
+import { Meteor } from 'meteor/meteor';
 
 // JSX UI
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
@@ -8,6 +9,8 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import { ProofsList } from '../components/Proofs/ProofsList';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
@@ -27,6 +30,25 @@ export const PendingProofs = () => {
     ],
     [skilltreeId]
   )[0];
+
+  // Get the current user's role in this skilltree using useFind
+  const userId = Meteor.userId();
+  const userProgress = useFind(
+    SubscriptionsCollection,
+    [
+      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { fields: { roles: 1 } }
+    ],
+    [userId, skilltreeId]
+  )[0];
+  const userRoles = userProgress?.roles || [];
+  if (userRoles.length > 0) {
+    console.log('User roles in this skilltree:', userRoles);
+  } else {
+    console.log('No roles found for user in this skilltree.');
+  }
+
+  // ...existing code...
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
