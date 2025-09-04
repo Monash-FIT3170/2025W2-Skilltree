@@ -1,6 +1,8 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
+import { SearchLoadingState } from '../components/SiteFrame/SearchLoadingState';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -27,9 +29,9 @@ export const SearchResults = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Search Results</h1>
-      <Suspense>
+      <SuspenseHydrated fallback={<SearchLoadingState />}>
         {results.length === 0 ? (
-          <p>No results found.</p>
+          <p className="fadeInEffect">No results found.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {results.map(item => (
@@ -111,7 +113,7 @@ export const SearchResults = () => {
             ))}
           </div>
         )}
-      </Suspense>
+      </SuspenseHydrated>
     </div>
   );
 };
