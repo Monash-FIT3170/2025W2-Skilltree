@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import {
   Button,
@@ -13,7 +13,6 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const UserList = ({ skillTreeId }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [usernameList, setUsernameList] = useState([]);
 
   // Code to extract a skilltree from the database
   useSubscribe('skilltrees');
@@ -43,7 +42,7 @@ export const UserList = ({ skillTreeId }) => {
     [{ _id: { $in: subscriberIds } }, { fields: { username: 1, _id: 1 } }],
     [subscriberIds]
   );
-  
+
   // Formatted as button, change if necessary
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
