@@ -39,8 +39,13 @@ export const Dashboard = () => {
   }, []);
 
   // Quick fix for demo - can clean this up later
-  const createdIds = user?.profile?.createdCommunities ?? [];
-  const subscribedIds = user?.profile?.subscribedCommunities ?? [];
+  const user2 = User([
+    '_id',
+    'profile.createdCommunities',
+    'profile.subscribedCommunities'
+  ]);
+  const createdIds = user2?.profile?.createdCommunities ?? [];
+  const subscribedIds = user2?.profile?.subscribedCommunities ?? [];
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
   // Get all unique skill tree IDs (created + subscribed)
@@ -99,18 +104,6 @@ export const Dashboard = () => {
         {/* Skill Forest and Skill Trees Section buttons */}
         <div className="mb-8">
           <nav className="flex gap-3 mb-4">
-            <button
-              onClick={() => handleViewChange('skillForest')}
-              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
-              ${
-                currentView === 'skillForest'
-                  ? 'bg-green-600 text-white border-green-600' // Active (green)
-                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
-              }`} // Inactive (grey)
-            >
-              SkillForests
-            </button>
-
             {/* Skill Trees Button */}
             <button
               onClick={() => handleViewChange('skillTrees')}
@@ -122,6 +115,17 @@ export const Dashboard = () => {
               }`} // Inactive (grey)
             >
               SkillTrees
+            </button>
+            <button
+              onClick={() => handleViewChange('skillForest')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${
+                currentView === 'skillForest'
+                  ? 'bg-green-600 text-white border-green-600' // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
+              }`} // Inactive (grey)
+            >
+              SkillForests
             </button>
           </nav>
           {currentView === 'skillForest' && (
