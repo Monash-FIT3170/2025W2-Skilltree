@@ -119,7 +119,7 @@ Meteor.startup(async () => {
             label: 'Three Pointers 💧',
             description: 'Learn how to do a spin move.',
             requirements: 'Upload a video of yourself',
-            netUpvotesRequired: 10,
+            netUpvotesRequired: 1,
             currentNetUpvotes: 0,
             xpPoints: 20
           },
