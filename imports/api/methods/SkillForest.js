@@ -11,7 +11,9 @@ Meteor.methods({
     });
     // Attach owner field only if userId exists
     const userId = this.userId;
-    const skillforestWithOwner = userId ? { ...skillforest, owner: userId } : skillforest;
+    const skillforestWithOwner = userId
+      ? { ...skillforest, owner: userId }
+      : skillforest;
     return await SkillForestCollection.insertAsync(skillforestWithOwner);
   },
 
@@ -31,7 +33,6 @@ Meteor.methods({
   async updateSkillforestTitle(skillforestId, newTitle) {
     check(skillforestId, String);
     check(newTitle, String);
-    if (!this.userId) throw new Meteor.Error('not-authorized');
     return await SkillForestCollection.updateAsync(
       { _id: skillforestId },
       { $set: { title: newTitle } }
@@ -41,7 +42,6 @@ Meteor.methods({
   async updateSkillforestDescription(skillforestId, newDescription) {
     check(skillforestId, String);
     check(newDescription, String);
-    if (!this.userId) throw new Meteor.Error('not-authorized');
     return await SkillForestCollection.updateAsync(
       { _id: skillforestId },
       { $set: { description: newDescription } }
@@ -51,7 +51,6 @@ Meteor.methods({
   async updateSkillforestSkilltreeIds(skillforestId, newSkilltreeIds) {
     check(skillforestId, String);
     check(newSkilltreeIds, [String]);
-    if (!this.userId) throw new Meteor.Error('not-authorized');
     return await SkillForestCollection.updateAsync(
       { _id: skillforestId },
       { $set: { skilltreeIds: newSkilltreeIds } }
