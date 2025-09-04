@@ -1,4 +1,5 @@
 import { Handle, Position } from '@xyflow/react';
+import React, { useState } from 'react';
 
 export function ViewNode({ data, isUnlocked }) {
   const progress = isUnlocked
