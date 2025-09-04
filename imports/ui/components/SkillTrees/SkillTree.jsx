@@ -267,14 +267,13 @@ export const SkillTreeLogic = ({
     Meteor.callAsync('saveSubscription', id, updatedNodes, edges);
   };
 
-  const printNodes = () => {
-    console.log('Printer triggered');
-    console.log(nodes);
-  };
+  // const printNodes = () => {
+  //   console.log('Printer triggered');
+  //   console.log(nodes);
+  // };
 
   return (
     <>
-      <Button onClick={printNodes}>Print Nodes</Button>
       {isAdmin && (
         <>
           <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
