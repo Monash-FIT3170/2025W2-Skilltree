@@ -133,6 +133,9 @@ tests/
 >  import { FiLock } from '@react-icons/all-files/fi/FiLock';`
 >  ``````
 
+> [!TIP]
+> _Non useFind, datetime (timezone) or modified data (sorting etc) fetches from the database that gets loaded directly on the page should opt out of SSR such as the DashboardSkillTrees (sort mismatch issue) and ProofsList (datetime timezone mismatch) etc._
+
 ## Deployment
 ### Ubuntu 24.04 LTS (Noble)
 > [!NOTE]

@@ -143,61 +143,33 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   return (
     <List unstyled className="divide-y divide-gray-200 relative space-y-0">
       {leaderboard.map((entry, index) => {
-        if (entry._id === currUserId) {
-          return (
-            <ListItem
-              key={entry._id}
-              ref={userRef}
-              className="bg-green-100 py-3"
-              onClick={() => console.log(entry)}
-            >
-              <div className="flex items-center">
-                <div className="flex w-2/20 items-center justify-center-safe">
-                  <Badge
-                    color="green"
-                    size="sm"
-                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex hover:bg-green-100"
-                    clearTheme={{ hover: true }}
-                  >
-                    {String(index + 1)}
-                  </Badge>
-                </div>
-                <div className="flex w-3/20 items-center justify-center-safe">
-                  {`${entry.username}`}
-                </div>
-                <div className="flex w-6/20 items-center justify-center-safe">
-                  {filter === 'totalXp' ? entry.totalXp : entry.numComments}
-                </div>
+        const isCurrentUser = entry._id === currUserId;
+        return (
+          <ListItem
+            key={entry._id}
+            ref={isCurrentUser ? userRef : null}
+            className={`py-3 ${isCurrentUser ? 'bg-green-100' : ''}`}
+            onClick={() => console.log(entry)}
+          >
+            <div className="flex items-center">
+              <div className="flex w-2/20 items-center justify-center-safe">
+                <Badge
+                  color="green"
+                  size="sm"
+                  className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex hover:bg-green-100"
+                >
+                  {String(index + 1)}
+                </Badge>
               </div>
-            </ListItem>
-          );
-        } else {
-          return (
-            <ListItem
-              key={entry._id}
-              className="py-3"
-              onClick={() => console.log(entry)}
-            >
-              <div className="flex items-center">
-                <div className="flex w-2/20 items-center justify-center-safe">
-                  <Badge
-                    color="green"
-                    size="sm"
-                    className="rounded-full p-1.5 w-[4ch] tabular-nums items-center justify-center inline-flex hover:bg-green-100"
-                  >
-                    {String(index + 1)}
-                  </Badge>
-                </div>
-                <div className="flex w-3/20 items-center justify-center-safe">
-                  {`${entry.username}`}
-                </div>
-                <div className="flex w-6/20 items-center justify-center-safe">
-                  {filter === 'totalXp' ? entry.totalXp : entry.numComments}
-                </div>
+              <div className="flex w-3/20 items-center justify-center-safe">
+                {`${entry.username}`}
               </div>
-            </ListItem>
-          );
-        }
+              <div className="flex w-6/20 items-center justify-center-safe">
+                {filter === 'totalXp' ? entry.totalXp : entry.numComments}
+              </div>
+            </div>
+          </ListItem>
+        );
       })}
 
       {isInList && (

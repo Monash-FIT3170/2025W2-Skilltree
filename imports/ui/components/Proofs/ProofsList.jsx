@@ -8,6 +8,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { ProofDetails } from '/imports/ui/pages/ProofDetails';
+import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
 
 /**
  * Component: ProofsList
@@ -123,9 +124,12 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                     )}
                     <span>{proof.username}</span>
                   </span>
-                  <span className="text-xs italic">
-                    {formatDate(proof.date)}
-                  </span>
+                  {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
+                  <SuspenseHydrated>
+                    <span className="text-xs italic popInEffect">
+                      {formatDate(proof.date)}
+                    </span>
+                  </SuspenseHydrated>
                 </div>
 
                 {/* Subskill Tag */}
