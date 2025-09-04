@@ -122,11 +122,11 @@ const skillEdgeSchema = new SimpleSchema({
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
 Schemas.Subscription = new SimpleSchema({
   userId: {
-    type: Number,
+    type: String,
     label: 'Unique User ID'
   },
   skillTreeId: {
-    type: Number,
+    type: String,
     label: 'Unique Skill Tree ID'
   },
   active: {
@@ -148,6 +148,15 @@ Schemas.Subscription = new SimpleSchema({
     type: Number,
     label: 'Total XP Points earned by the user for this skilltree',
     defaultValue: 0
+  },
+  roles: {
+    type: Array,
+    label: 'User Roles in this SkillTree',
+    defaultValue: ['user']
+  },
+  'roles.$': {
+    type: String,
+    allowedValues: ['user', 'expert', 'moderator', 'admin']
   },
   numComments: {
     type: Number,

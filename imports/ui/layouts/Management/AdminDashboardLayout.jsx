@@ -1,40 +1,34 @@
 import React from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-export const SettingsLayout = () => {
+import { ImExit } from '@react-icons/all-files/im/ImExit';
+
+export const AdminDashboardLayout = () => {
+  const { id: skilltreeID } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
   // Extract current tab from URL path
   const pathSegments = location.pathname.split('/');
-  const activeTab = pathSegments[pathSegments.length - 1] || 'account';
+  const activeTab = pathSegments[pathSegments.length - 1] || 'users';
 
   const tabs = [
     {
-      key: 'account',
-      label: 'Account',
-      path: '/settings/account'
+      key: 'users',
+      label: 'User Management',
+      path: 'users'
     },
     {
-      key: 'profile',
-      label: 'Profile',
-      path: '/settings/profile'
-    },
-    {
-      key: 'privacy',
-      label: 'Privacy',
-      path: '/settings/privacy'
-    },
-    {
-      key: 'subscription',
-      label: 'Subscription',
-      path: '/settings/subscription'
-    },
-    {
-      key: 'notification',
-      label: 'Notification',
-      path: '/settings/notification'
+      key: 'roles',
+      label: 'Roles',
+      path: 'roles'
     }
+    // {
+    //   key: 'queue',
+    //   label: 'Queue',
+    //   path: 'queue'
+    // }
   ];
 
   const handleTabClick = tabPath => {
@@ -43,11 +37,19 @@ export const SettingsLayout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
+      <button
+        onClick={() => navigate(`/skilltree/${skilltreeID}`)}
+        className="flex items-center gap-2 cursor-pointer hover:underline"
+      >
+        <ImExit className="w-4 h-4" />
+        <span> Go Back to SkillTree</span>
+      </button>
+
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-[#328E6E] mb-4">
-            Settings
+            Admin Dashboard
           </h1>
         </div>
 
@@ -72,7 +74,7 @@ export const SettingsLayout = () => {
         </div>
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
-        <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
+        <div className="w-full">
           <Outlet />
         </div>
       </div>
