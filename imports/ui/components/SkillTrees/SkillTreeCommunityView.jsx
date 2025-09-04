@@ -5,7 +5,6 @@ import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationMenu } from './NavigationMenu';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscribeButton } from './SubscribeButton';
-import { UserList } from './UserList';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -147,9 +146,6 @@ export const SkillTreeCommunityView = () => {
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}
         <div className="flex gap-4 items-center mt-2">
           {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
-
-          <UserList skillTreeId={id}></UserList>
-
           <Link to="leaderboard" state={{ background: location }}>
             <Button
               color="green"
