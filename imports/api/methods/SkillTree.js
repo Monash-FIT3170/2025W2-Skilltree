@@ -75,6 +75,10 @@ Meteor.methods({
     return skilltree;
   },
 
+  'skilltrees.getAll'() {
+    return SkillTreeCollection.find({}, { sort: { createdAt: -1 } }).fetch();
+  },
+
   // add user to skill tree user field
   async 'skilltrees.subscribeUser'(skilltreeId, userId) {
     const skilltree = await SkillTreeCollection.findOneAsync({

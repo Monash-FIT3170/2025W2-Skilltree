@@ -6,7 +6,7 @@ export const DashboardLoadingState = () => {
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-sm text-gray-500 mt-1">
-            Skill trees you own and communities you've joined
+            SkillTrees you own and communities you've joined
           </p>
         </div>
         <div className="flex items-center">

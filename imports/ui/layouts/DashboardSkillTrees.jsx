@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
+// import { Link } from 'react-router-dom';
+// import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 
@@ -49,19 +49,6 @@ export const DashboardSkillTrees = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-sm text-gray-500 mt-1">
-            Skill trees you own and communities you've joined
-          </p>
-        </div>
-        <Link to={'/manage-communities'}>
-          <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
-            Manage Communities ({skillTreesWithRoles.length})
-            <HiOutlineChevronRight size={16} />
-          </button>
-        </Link>
-      </div>
       <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
         {sortedSkillTrees.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

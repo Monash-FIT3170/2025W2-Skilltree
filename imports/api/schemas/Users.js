@@ -230,4 +230,6 @@ Schemas.User = new SimpleSchema({
 });
 
 // Attached the schema to Meteor.users
-Meteor.users.attachSchema(Schemas.User);
+Meteor.startup(() => {
+  Meteor.users.attachSchema(Schemas.User);
+});
