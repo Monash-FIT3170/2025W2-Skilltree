@@ -92,30 +92,19 @@ const CombinedSkillTreeLogic = ({
 
   // Load all trees when skillTrees change
   useEffect(() => {
-    setLoadedTrees({});
-    skillTrees.forEach((tree, index) => {
-      Meteor.call('getSubscriptions', tree._id, (err, res) => {
-        if (err) {
-          console.error('Error fetching subscriptions:', err);
-          setLoadedTrees(prev => ({
-            ...prev,
-            [tree._id]: { skilltree: tree, index }
-          }));
-          return;
-        }
-        const subscription = subscriptions?.find(
-          sub => sub.skillTreeId === tree._id
-        );
-        const skilltree = subscription
-          ? { ...res, subscriptionData: subscription }
-          : res;
+    const merged = skillTrees.reduce((acc, tree, index) => {
+      const subscription = subscriptions.find(
+        sub => sub.skillTreeId === tree._id
+      );
 
-        setLoadedTrees(prev => ({
-          ...prev,
-          [tree._id]: { skilltree, index }
-        }));
-      });
-    });
+      const skilltree = subscription
+        ? { ...tree, subscriptionData: subscription }
+        : tree;
+
+      acc[tree._id] = { skilltree, index };
+      return acc;
+    }, {});
+    setLoadedTrees(merged);
   }, [skillTrees, subscriptions]);
 
   // Combine nodes of all loaded trees
