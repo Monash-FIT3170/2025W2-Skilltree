@@ -10,14 +10,14 @@ export const DashboardLoadingState = () => {
           </p>
         </div>
         <div className="flex items-center">
-          <span className="animate-pulse h-4 bg-gray-200 rounded w-48"></span>
+          <span className="animate-pulse fadeInEffect h-4 bg-gray-200 rounded w-48"></span>
         </div>
       </div>
       <div className="bg-white rounded-xl border border-gray-100 p-4 lg:p-6">
         <div className="space-y-4">
           {[1, 2].map(section => (
             <div key={section}>
-              <div className="animate-pulse grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="animate-pulse fadeInEffect grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3].map(item => (
                   <div key={item} className="bg-gray-200 rounded-xl h-53"></div>
                 ))}
