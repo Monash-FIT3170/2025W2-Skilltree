@@ -12,10 +12,11 @@ export const SkillForestCard = ({ skillForest, currentUserId }) => {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] overflow-hidden cursor-pointer">
         <div
           className={`relative h-32 
-          ${!skillForest.image
+          ${
+            !skillForest.image
               ? 'bg-gradient-to-br from-[#025940] to-[#04BF8A]'
               : ''
-            }`}
+          }`}
         >
           {skillForest.image && (
             <img
