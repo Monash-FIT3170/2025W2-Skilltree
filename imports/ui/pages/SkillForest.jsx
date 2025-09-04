@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useFind } from 'meteor/react-meteor-data/suspense';
+import { ImExit } from '@react-icons/all-files/im/ImExit';
+import { useNavigate } from 'react-router-dom';
 
 // Import Collections
 import { SkillForestCollection } from '../../api/collections/SkillForest';
@@ -15,7 +17,7 @@ import { SkillForestSplitView } from '../components/SkillForest/SkillForestSplit
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isUnifiedView, setIsUnifiedView] = useState(true);
 
   // Subscribe to skill forests
@@ -35,6 +37,15 @@ export const SkillForest = () => {
       </Helmet>
 
       <div className="p-4 md:p-8 font-sans">
+        
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="flex items-center gap-2 cursor-pointer hover:underline mb-4"
+        >
+          <ImExit className="w-4 h-4" />
+          <span>Go Back to Dashboard</span>
+        </button>
+
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold text-[#328E6E]">
             {skillForest.title}
