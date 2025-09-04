@@ -19,6 +19,7 @@ hot-module-replacement@0.5.4  # Update client in development without reloading t
 
 static-html@1.4.0             # Define static page content in .html files
 react-meteor-data@4.0.0       # React higher-order component for reactively tracking Meteor data
+aldeed:simple-schema
 aldeed:collection2
 communitypackages:react-router-ssr
 accounts-base@3.1.2
