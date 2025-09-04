@@ -12,8 +12,7 @@ Meteor.startup(async () => {
       _id: 'basketball',
       title: 'Basketball',
       owner: 'owner',
-      image:
-        'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png',
+      image: 'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png',
       description: 'Learn dribbling to shooting.',
       termsAndConditions:
         'This SkillTree is intended for sports training purposes.',
@@ -157,7 +156,8 @@ Meteor.startup(async () => {
       _id: 'soccer',
       title: 'Soccer',
       owner: 'owner',
-      image: 'https://www.shutterstock.com/image-photo/dynamic-cinematic-shot-professional-soccer-260nw-2469222681.jpg',
+      image:
+        'https://www.shutterstock.com/image-photo/dynamic-cinematic-shot-professional-soccer-260nw-2469222681.jpg',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
         'Content for personal development in football skills.',
@@ -215,7 +215,8 @@ Meteor.startup(async () => {
       _id: 'cricket',
       title: 'Cricket',
       owner: 'owner',
-      image: 'https://t3.ftcdn.net/jpg/05/10/55/58/360_F_510555809_gSP39J8OgWzaMf21CTnqV7CTXU12rP3K.jpg',
+      image:
+        'https://t3.ftcdn.net/jpg/05/10/55/58/360_F_510555809_gSP39J8OgWzaMf21CTnqV7CTXU12rP3K.jpg',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
       tags: ['cricket', 'bat', 'sports'],
@@ -285,7 +286,8 @@ Meteor.startup(async () => {
       _id: 'tennis',
       title: 'Tennis',
       owner: 'owner',
-      image: 'https://media.istockphoto.com/id/1412188048/photo/tennis-balls-and-racket-on-the-grass-court.jpg?s=612x612&w=0&k=20&c=r9NHYjskuj8I7br4sQOUTM6as6ECdHYpsYoJ6WaaPOk=',
+      image:
+        'https://media.istockphoto.com/id/1412188048/photo/tennis-balls-and-racket-on-the-grass-court.jpg?s=612x612&w=0&k=20&c=r9NHYjskuj8I7br4sQOUTM6as6ECdHYpsYoJ6WaaPOk=',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
       tags: ['tennis', 'racket', 'sports'],
@@ -343,7 +345,8 @@ Meteor.startup(async () => {
       _id: 'Climbing',
       title: 'Climbing',
       owner: 'owner',
-      image: 'https://t3.ftcdn.net/jpg/02/22/06/58/360_F_222065854_pgIzW1KCCgoYkqWKSccIHNeplvR8L5G1.jpg',
+      image:
+        'https://t3.ftcdn.net/jpg/02/22/06/58/360_F_222065854_pgIzW1KCCgoYkqWKSccIHNeplvR8L5G1.jpg',
       description: 'Learn how to climb effectively.',
       termsAndConditions: 'For use by climbing enthusiasts and trainers.',
       tags: ['climbing', 'outdoor', 'sports'],
