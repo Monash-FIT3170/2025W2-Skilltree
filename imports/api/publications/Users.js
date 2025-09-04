@@ -172,7 +172,7 @@ const dummyProgressTree = [
       { id: 'e8', source: '6', target: '5' },
       { id: 'e9', source: '8', target: '5' }
     ],
-    roles: ['user', 'expert', 'moderator']
+    roles: ['user', 'expert']
   }
 ];
 
