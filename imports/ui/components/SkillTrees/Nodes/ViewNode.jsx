@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 export function ViewNode({ data, isUnlocked }) {

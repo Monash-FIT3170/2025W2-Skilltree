@@ -15,9 +15,10 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
 
   // 2. Correctly call useFind. It needs a function that calls Collection.find()
   //    This returns an array of documents, so we take the first one [0].
-  const baseSkillTree = useFind(() => SkillTreeCollection.find({ _id: id }), [
-    id,
-  ])[0];
+  const baseSkillTree = useFind(
+    () => SkillTreeCollection.find({ _id: id }),
+    [id]
+  )[0];
   const userSubscription = useFind(
     () => SubscriptionsCollection.find({ userId, skillTreeId: id }),
     [userId, id]
@@ -38,7 +39,12 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
         setSkilltree(baseSkillTree);
       }
     }
-  }, [isSkillTreesLoading, isSubscriptionsLoading, baseSkillTree, userSubscription]);
+  }, [
+    isSkillTreesLoading,
+    isSubscriptionsLoading,
+    baseSkillTree,
+    userSubscription
+  ]);
 
   // 4. Re-integrate your upvote syncing logic
   useEffect(() => {
@@ -66,7 +72,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
                 requireSyncing = true;
                 const updatedNodeData = {
                   ...node.data,
-                  currentNetUpvotes: netUpvotes,
+                  currentNetUpvotes: netUpvotes
                 };
                 if (netUpvotes >= node.data.netUpvotesRequired) {
                   updatedNodeData.verified = true;
@@ -91,7 +97,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
         setSkilltree(prev => ({
           ...prev,
           skillNodes: updatedNodes,
-          totalXp: updatedTotalXp,
+          totalXp: updatedTotalXp
         }));
       }
       setIsLoading(false); // End loading after sync is complete
