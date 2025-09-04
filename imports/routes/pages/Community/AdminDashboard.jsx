@@ -5,12 +5,17 @@ import { AdminDashboardLayout } from '/imports/ui/layouts/Management/AdminDashbo
 import { UserManagement } from '/imports/ui/components/Community/Management/UserManagement';
 import { Roles } from '/imports/ui/components/Community/Management/Roles';
 import { Queue } from '/imports/ui/components/Community/Management/Queue';
+import { AdminRoute } from '../../../utils/RouteGuard';
 
 // Admin Dashboard Routes (separate section)
 export const AdminDashboardRoutes = [
   {
     path: 'skilltree/:id/admin-tools',
-    element: <AdminDashboardLayout />,
+    element: (
+      <AdminRoute>
+        <AdminDashboardLayout />
+      </AdminRoute>
+    ),
     children: [
       {
         index: true,
