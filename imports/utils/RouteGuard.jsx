@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { User } from '/imports/utils/User';
-import { useSubscribe } from 'meteor/react-meteor-data/suspense';
-import { useNavigate } from 'react-router-dom';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
+import { useNavigate, useParams } from 'react-router-dom';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -12,6 +13,7 @@ export const useRouteGuard = ({
   AccessCondition,
   replace = false,
   state = {},
+  relativePath = false,
   redirectUrl = '/',
   children,
   fallback = <></>
@@ -19,7 +21,12 @@ export const useRouteGuard = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!AccessCondition) navigate(redirectUrl, { replace, state });
+    if (!AccessCondition)
+      navigate(redirectUrl, {
+        replace,
+        state,
+        relative: relativePath ? 'path' : 'route'
+      });
   }, [AccessCondition]); // Navigate has to be used when component first mounts via useEffect, not on first render.
 
   return AccessCondition ? children : fallback; // Display fallback until AccessCondition is met on component mount
@@ -78,12 +85,24 @@ export const ProfileCompleteRoute = ({
 // AdminRoute Helper JSX
 export const AdminRoute = ({
   children,
-  redirectUrl = '/' // Redirect url can be specified otherwise goes to /
+  redirectUrl = '..' // Redirect url can be specified otherwise goes to /
 }) => {
-  const PLACEHOLDER = true;
+  const userId = useContext(AuthContext); // Computed once from top level
+  const { id: skilltreeID } = useParams(); // Get skilltreeID from route
+
+  useSubscribe('subscriptions');
+  const skilltree = useFind(SubscriptionsCollection, [
+    { skillTreeId: skilltreeID, userId: userId }, // fetch loggedIn user's subscriptions data for the matching skillTreeId
+    {
+      fields: {
+        roles: 1 // Only fetch the roles array field to determine if loggedIn user is admin for the skilltree
+      }
+    }
+  ])[0] ?? { roles: [] }; // If user is not in skilltree, return fallback object value that will be false
 
   return useRouteGuard({
-    AccessCondition: PLACEHOLDER,
+    AccessCondition: skilltree?.roles.includes('admin'),
+    relativePath: true,
     redirectUrl,
     children
   });
