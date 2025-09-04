@@ -8,7 +8,7 @@ export const NoSkillTreesFound = () => {
         <RiSearchLine className="text-gray-400" size={24} />
       </div>
       <h3 className="text-lg font-semibold text-gray-700 mb-2">
-        No Skill Trees Found
+        No SkillTrees Found
       </h3>
     </div>
   );

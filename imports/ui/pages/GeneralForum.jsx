@@ -273,7 +273,6 @@ export const GeneralForum = () => {
               </button>
             </div>
           </form>
-
           <div className="p-3 bg-white border-t">
             <button
               className="bg-gray-300 text-black px-4 py-2 hover:bg-gray-400"

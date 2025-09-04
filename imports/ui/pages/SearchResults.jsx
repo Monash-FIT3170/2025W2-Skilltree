@@ -17,13 +17,24 @@ export const SearchResults = () => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
-    Meteor.call('searchSkillTrees', searchQuery, tagFilters, (err, res) => {
-      if (err) {
-        console.error(err);
-      } else {
-        setResults(res);
-      }
-    });
+    // If no search query, fetch all skill trees
+    if (!searchQuery) {
+      Meteor.call('skilltrees.getAll', (err, res) => {
+        if (err) {
+          console.error(err);
+        } else {
+          setResults(res);
+        }
+      });
+    } else {
+      Meteor.call('searchSkillTrees', searchQuery, tagFilters, (err, res) => {
+        if (err) {
+          console.error(err);
+        } else {
+          setResults(res);
+        }
+      });
+    }
   }, [searchQuery, tagFilters]);
 
   return (

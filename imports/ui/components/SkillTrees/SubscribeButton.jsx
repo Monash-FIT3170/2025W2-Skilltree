@@ -133,9 +133,9 @@ export const SubscribeButton = ({ skillTreeId }) => {
   }
 
   // For testing purposes, implement a button for this if you want to manually add/remove xp
-  const incrementXP = sign => {
-    Meteor.callAsync('incrementXP', skillTreeId, sign);
-  };
+  // const incrementXP = sign => {
+  //   Meteor.callAsync('incrementXP', skillTreeId, sign);
+  // };
 
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
