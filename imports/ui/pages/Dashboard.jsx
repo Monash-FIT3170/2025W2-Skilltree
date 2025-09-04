@@ -34,7 +34,7 @@ export const Dashboard = () => {
         <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
           {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
           <SuspenseHydrated fallback={<GreetingLoadingState />}>
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2 popInEffect">
               <span className="text-3xl">{greetingIcon}</span>
               <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
                 {greeting}, {user?.profile?.givenName}!

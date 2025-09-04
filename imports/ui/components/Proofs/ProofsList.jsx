@@ -118,7 +118,7 @@ export const ProofsList = ({ skilltreeId }) => {
                   </span>
                   {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
                   <SuspenseHydrated>
-                    <span className="text-xs italic">
+                    <span className="text-xs italic popInEffect">
                       {formatDate(proof.date)}
                     </span>
                   </SuspenseHydrated>
