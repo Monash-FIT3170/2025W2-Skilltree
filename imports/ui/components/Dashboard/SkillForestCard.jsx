@@ -1,6 +1,6 @@
 import React from 'react';
-import { Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { RiVipCrownLine } from '@react-icons/all-files/ri/RiVipCrownLine';
 
 // Remove unused imports: ChevronRight, Users, useFind, SkillForestCollection
 
@@ -33,7 +33,7 @@ export const SkillForestCard = ({ skillForest, currentUserId }) => {
           {/* Owner Crown */}
           {isOwner && (
             <div className="absolute top-2 right-2 bg-yellow-500 rounded-full p-1.5 shadow-lg">
-              <Crown size={14} className="text-white" />
+              <RiVipCrownLine size={14} className="text-white" />
             </div>
           )}
 
