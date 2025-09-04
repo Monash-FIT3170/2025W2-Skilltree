@@ -13,7 +13,7 @@ Meteor.startup(async () => {
       title: 'Basketball',
       owner: 'owner',
       image:
-        'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
+        'https://cdn.nba.com/headshots/nba/latest/1040x760/2544.png',
       description: 'Learn dribbling to shooting.',
       termsAndConditions:
         'This SkillTree is intended for sports training purposes.',
@@ -157,7 +157,7 @@ Meteor.startup(async () => {
       _id: 'soccer',
       title: 'Soccer',
       owner: 'owner',
-      image: 'https://example.com/image1.png',
+      image: 'https://www.shutterstock.com/image-photo/dynamic-cinematic-shot-professional-soccer-260nw-2469222681.jpg',
       description: 'Learn the core skills for soccer',
       termsAndConditions:
         'Content for personal development in football skills.',
@@ -215,7 +215,7 @@ Meteor.startup(async () => {
       _id: 'cricket',
       title: 'Cricket',
       owner: 'owner',
-      image: 'https://example.com/image1.png',
+      image: 'https://t3.ftcdn.net/jpg/05/10/55/58/360_F_510555809_gSP39J8OgWzaMf21CTnqV7CTXU12rP3K.jpg',
       description: 'Learn batting, bowling, and fielding in cricket.',
       termsAndConditions: 'For cricket enthusiasts and training programs.',
       tags: ['cricket', 'bat', 'sports'],
@@ -285,7 +285,7 @@ Meteor.startup(async () => {
       _id: 'tennis',
       title: 'Tennis',
       owner: 'owner',
-      image: 'https://example.com/image1.png',
+      image: 'https://media.istockphoto.com/id/1412188048/photo/tennis-balls-and-racket-on-the-grass-court.jpg?s=612x612&w=0&k=20&c=r9NHYjskuj8I7br4sQOUTM6as6ECdHYpsYoJ6WaaPOk=',
       description: 'hit the ball to eachother with a racket',
       termsAndConditions: 'For use by tennis players and trainers.',
       tags: ['tennis', 'racket', 'sports'],
@@ -343,7 +343,7 @@ Meteor.startup(async () => {
       _id: 'Climbing',
       title: 'Climbing',
       owner: 'owner',
-      image: 'https://example.com/image1.png',
+      image: 'https://t3.ftcdn.net/jpg/02/22/06/58/360_F_222065854_pgIzW1KCCgoYkqWKSccIHNeplvR8L5G1.jpg',
       description: 'Learn how to climb effectively.',
       termsAndConditions: 'For use by climbing enthusiasts and trainers.',
       tags: ['climbing', 'outdoor', 'sports'],
@@ -401,7 +401,7 @@ Meteor.startup(async () => {
       title: 'Jedi Training',
       owner: 'owner',
       image:
-        'https://upload.wikimedia.org/wikipedia/en/8/8e/Jedi_Order_symbol.svg',
+        'https://www.cnet.com/a/img/resize/e886705292a95994de4fea6be716f215f594027f/hub/2017/03/13/557b221e-633d-41ba-8ba6-545dc30c0d9b/yodacrop.jpg?auto=webp&fit=crop&height=675&width=1200',
       description:
         'Train to become a Jedi Master, from mastering the Force to wielding a lightsaber.',
       termsAndConditions:
