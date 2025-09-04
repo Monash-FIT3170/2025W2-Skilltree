@@ -158,8 +158,8 @@ export const GeneralForum = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <div className="bg-[#328E6E] text-white px-4 py-3 font-bold text-lg shadow">
-        General Forum - Skill Tree {skilltreeId}
+      <div className="p-2">
+        <NavigationMenu id={skilltreeId} />
       </div>
 
       {error && (

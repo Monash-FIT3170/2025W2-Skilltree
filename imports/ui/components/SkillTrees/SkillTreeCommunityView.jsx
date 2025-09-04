@@ -99,12 +99,12 @@ export const SkillTreeCommunityView = () => {
       <div className="p-2">
         <NavigationMenu id={id} />
 
-        <div className="p-2"></div>
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}
-        {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
-        <div className="p-2"></div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center mt-2">
+          {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
+
           <UserList skillTreeId={id}></UserList>
+
           <Link to="leaderboard" state={{ background: location }}>
             <Button
               color="green"
@@ -115,6 +115,7 @@ export const SkillTreeCommunityView = () => {
             </Button>
           </Link>
         </div>
+
         <h1 className="text-3xl font-bold mt-2">
           Welcome to {skilltree.title}!
         </h1>

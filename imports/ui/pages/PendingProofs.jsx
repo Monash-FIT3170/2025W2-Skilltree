@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
 import { ProofsList } from '../components/Proofs/ProofsList';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
@@ -34,14 +35,8 @@ export const PendingProofs = () => {
       <Helmet>
         <title>SkillTree - Pending Proofs</title>
       </Helmet>
-      <div className="px-4 pt-4">
-        <button className="min-w-60 text-white-600 rounded-xl bg-[#328E6E]">
-          <h1 className="p-4">
-            <b>
-              <p className="text-white ...">{skilltree.title} </p>
-            </b>
-          </h1>
-        </button>
+      <div className="p-2">
+        <NavigationMenu id={skilltreeId} />
         {/* Responsive container for ProofsList */}
         <Suspense fallback={<DashboardLoadingState />}>
           <ProofsList skilltreeId={skilltreeId} />
