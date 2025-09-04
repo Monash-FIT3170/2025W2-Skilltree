@@ -130,7 +130,7 @@ export const Dashboard = () => {
 
           {currentView === 'skillTrees' && (
             <div className="mb-8 w-full">
-          <SuspenseHydrated fallback={<DashboardLoadingState />}>
+              <SuspenseHydrated fallback={<DashboardLoadingState />}>
                 <DashboardSkillTrees
                   key={user._id}
                   setCommunitiesCount={setCommunitiesCount}
