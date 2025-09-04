@@ -82,25 +82,25 @@ export const Dashboard = () => {
             </button>
           </nav>
           {currentView === "skillForest" && (
-            <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
-              <span>View your SkillForest</span>
-              <Link to={"/manage-communities"}>
+            <div className="flex items-center justify-between mt-1 text-l text-gray-500">
+              <h2>View your SkillForest</h2>
+              {/* <Link to={"/manage-communities"}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
                   <ChevronRight size={16} />
                 </button>
-              </Link>
+              </Link> */}
             </div>
           )}
           {currentView === "skillTrees" && (
-            <div className="flex items-center justify-between mt-1 text-sm text-gray-500">
-              <span>View your SkillTree</span>
-              <Link to={"/manage-communities"}>
+            <div className="flex items-center justify-between mt-1 text-l text-gray-500">
+              <h2>View your SkillTree</h2>
+              {/* <Link to={"/manage-communities"}>
                 <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
                   Manage Communities ({communitiesCount})
                   <ChevronRight size={16} />
                 </button>
-              </Link>
+              </Link> */}
             </div>
           )}
         </div>
