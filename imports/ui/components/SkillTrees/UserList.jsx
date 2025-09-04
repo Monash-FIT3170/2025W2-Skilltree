@@ -12,42 +12,38 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const UserList = ({ skillTreeId }) => {
-  // Code to extract a skilltree from the database
-  useSubscribe('skilltrees', skillTreeId);
-  const skillTrees = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } }
-  ]);
-  const targetSkillTree = skillTrees[0];
-
   const [openModal, setOpenModal] = useState(false);
   const [usernameList, setUsernameList] = useState([]);
 
-  useEffect(() => {
-    const processUserIdList = async userIdList => {
-      console.log(userIdList);
-      console.log(userIdList.length);
-      const usernameList = [];
-      for (var i = 0; i < userIdList.length; i++) {
-        const username = await getUserName(userIdList[i]);
-        usernameList.push(username);
+  // Code to extract a skilltree from the database
+  useSubscribe('skilltrees');
+  const targetSkillTree = useFind(
+    SkillTreeCollection,
+    [
+      {
+        _id: {
+          $eq: skillTreeId
+        }
+      },
+      {
+        fields: {
+          subscribers: 1,
+          title: 1
+        }
       }
-      setUsernameList(usernameList);
-    };
+    ],
+    [skillTreeId]
+  )[0];
 
-    processUserIdList(targetSkillTree.subscribers);
-  }, [targetSkillTree]);
+  const subscriberIds = targetSkillTree?.subscribers ?? [];
 
-  const getUserName = async userId => {
-    const user = await Meteor.callAsync('getUsers', userId);
-
-    // solely for filtering dummy data
-    if (!user) {
-      return userId;
-    }
-
-    return user.username;
-  };
-
+  useSubscribe('usernames', subscriberIds);
+  const users = useFind(
+    Meteor.users,
+    [{ _id: { $in: subscriberIds } }, { fields: { username: 1, _id: 1 } }],
+    [subscriberIds]
+  );
+  
   // Formatted as button, change if necessary
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
@@ -66,8 +62,8 @@ export const UserList = ({ skillTreeId }) => {
         <ModalBody className="text-lg mt-2">
           <div>
             <ul>
-              {usernameList.map(username => {
-                return <li key={username}>{String(username)}</li>;
+              {users.map(user => {
+                return <li key={user._id}>{String(user.username)}</li>;
               })}
             </ul>
           </div>
