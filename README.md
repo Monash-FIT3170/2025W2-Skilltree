@@ -27,17 +27,25 @@
 - Keziah Lang `33878552` klan0018@student.monash.edu
 - Steven Kaing `33155666` skai0008@student.monash.edu
 
-## Development Setup
+# Development
+
+## Tech Stack
+
+...
+
+## Installation
+
+### Prerequisites
+
+...
+
+### Project Setup
 
 ```
 meteor npm run setup
 ```
 
-```
-meteor npm run start
-```
-
-### Manual Setup:
+#### Manual Project Setup:
 
 ```
 meteor npm install
@@ -68,7 +76,15 @@ This is a dummy `settings.json`, to allow the program to run without errors:
 }
 ```
 
-## Lint
+## Development Workflow
+
+### Run the Development Server
+
+```
+meteor npm run start
+```
+
+### Run Linter
 
 ```
 meteor npm run lint
@@ -78,13 +94,15 @@ meteor npm run lint
 meteor npm run lint:fix
 ```
 
-## Tests
+### Run Unit Tests
 
 ```
 meteor npm run test
 ```
 
-## Directory Structure
+## Code Architecture
+
+### Directory Structure
 
 ```
 client/                 [Client-side Code]
@@ -117,7 +135,9 @@ server/                 [Server-side Code]
 tests/
 └── main.js               // Consolidates Tests
 ```
-## Development Info
+
+### Deep Imports
+
 >  [!TIP]
 >  Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
 >
@@ -130,18 +150,23 @@ tests/
 >  ``````
 >  import { FiEye } from '@react-icons/all-files/fi/FiEye';
 >  import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
->  import { FiLock } from '@react-icons/all-files/fi/FiLock';`
+>  import { FiLock } from '@react-icons/all-files/fi/FiLock';
 >  ``````
+
+### Server Side Rendering (SSR)
 
 > [!TIP]
 > _Non useFind, datetime (timezone) or modified data (sorting etc) fetches from the database that gets loaded directly on the page should opt out of SSR such as the DashboardSkillTrees (sort mismatch issue) and ProofsList (datetime timezone mismatch) etc._
 
-## Deployment
-### Ubuntu 24.04 LTS (Noble)
-> [!NOTE]
-> Bash scripts for Ubuntu Linux to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+# Deployment
+## Server Hosts
 
-#### Environment Variables
+### Ubuntu 24.04 LTS (Noble)
+
+> [!NOTE]
+> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+
+## Environment Variables
 `$ENV_HOSTNAME` -- Server hostname or IP address. *Default: current IP address*.
 
 `$ENV_MONGO_URL` -- MongoDB database URL. *Default: mongodb://localhost:27017/skilltree*
@@ -150,7 +175,7 @@ tests/
 
 `$ENV_METEOR_SETTINGS` -- Meteor application settings from JSON. *Default: project's settings.json*
 
-#### Set Environment Variables
+### Set Environment Variables
 Edit `~/.bash_profile`:
 ```
 export ENV_VAR="value"
@@ -159,7 +184,7 @@ To apply changes to the existing terminal session, run:
 ```
 . .bash_profile
 ```
-#### Setup
+## Server Host Setup
 ```
 git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
 ```
@@ -169,7 +194,7 @@ chmod +x ./2025W2-Skilltree/.deploy/setup.sh
 ```
 ./2025W2-Skilltree/.deploy/setup.sh
 ```
-#### Usage
+## Server Host Usage
 Script to start the webserver in the screen session:
 
 ```
