@@ -32,7 +32,7 @@
 ## Tech Stack
 
 - **Frontend**: [React](https://react.dev/) [`v18.3.1`](https://18.react.dev/)
-- **Full Stack**: [Meteor](https://www.meteor.com/) [`v3.3.2`](https://release-3-3-2.docs.meteor.com/)
+- **Backend**: [Meteor](https://www.meteor.com/) [`v3.3.2`](https://release-3-3-2.docs.meteor.com/)
 - **Database**: [MongoDB](https://www.mongodb.com/) via [Mongo](https://github.com/meteor/meteor/tree/master/packages/mongo) [`v2.1.4`](https://docs.meteor.com/api/collections.html)
 
 ## Installation
