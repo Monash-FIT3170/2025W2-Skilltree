@@ -1,14 +1,16 @@
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeProgressCollection } from '/imports/api/collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
-Meteor.publish('skillTreeProgress', () => SkillTreeProgressCollection.find());
+Meteor.publish('subscriptions', () => SubscriptionsCollection.find());
 
 Meteor.startup(async () => {
-  await SkillTreeProgressCollection.removeAsync({});
+  await SubscriptionsCollection.removeAsync({});
 
   const dummyProgressTree = [
     {
       userId: 123123,
+      skillTreeId: 'dummySkillTreeID',
+      totalXp: 10,
       skillNodes: [
         {
           id: '0',
@@ -32,7 +34,7 @@ Meteor.startup(async () => {
             currentNetUpvotes: 0,
             xpPoints: 10,
             requirements: 'Upload a video of yourself dribbling for 10 seconds',
-            proofId: 'testProofId'
+            proofId: 'testProof4'
           },
           position: { x: 200, y: 300 }
         },
@@ -140,12 +142,14 @@ Meteor.startup(async () => {
         { id: 'e7', source: '7', target: '8' },
         { id: 'e8', source: '6', target: '5' },
         { id: 'e9', source: '8', target: '5' }
-      ]
+      ],
+      roles: ['user'],
+      active: true
     }
   ];
 
   // Insert dummy data
   for (const progressTree of dummyProgressTree) {
-    await SkillTreeProgressCollection.insertAsync(progressTree);
+    await SubscriptionsCollection.insertAsync(progressTree);
   }
 });

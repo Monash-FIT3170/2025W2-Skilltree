@@ -21,19 +21,28 @@ Meteor.methods({
       description,
       termsAndConditions,
       tags,
-      image,
+      image, // S3 URL string
       skillNodes,
       skillEdges,
       owner: this.userId,
       admins: [this.userId],
-      subscribers: [this.userId]
+      subscribers: [this.userId],
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     return SkillTreeCollection.insertAsync(doc);
   },
 
   async 'skilltrees.insertAsync'(skillTree) {
-    return await SkillTreeCollection.insertAsync(skillTree);
+    // Ensure imageUrl is properly handled
+    const processedSkillTree = {
+      ...skillTree,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    return await SkillTreeCollection.insertAsync(processedSkillTree);
   },
 
   'skilltrees.update'(skilltreeId, skilltree) {
@@ -43,7 +52,13 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
 
-    return SkillTreeCollection.update(skilltreeId, { $set: skilltree });
+    // Add updatedAt timestamp
+    const updateData = {
+      ...skilltree,
+      updatedAt: new Date()
+    };
+
+    return SkillTreeCollection.update(skilltreeId, { $set: updateData });
   },
 
   'skilltrees.remove'(skilltreeId) {
@@ -58,6 +73,10 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
     return skilltree;
+  },
+
+  'skilltrees.getAll'() {
+    return SkillTreeCollection.find({}, { sort: { createdAt: -1 } }).fetch();
   },
 
   // add user to skill tree user field
@@ -76,6 +95,9 @@ Meteor.methods({
       {
         $addToSet: {
           subscribers: userId
+        },
+        $set: {
+          updatedAt: new Date()
         }
       }
     );
@@ -95,6 +117,9 @@ Meteor.methods({
       {
         $pull: {
           subscribers: userId
+        },
+        $set: {
+          updatedAt: new Date()
         }
       }
     );

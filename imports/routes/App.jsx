@@ -15,7 +15,12 @@ import { SkillTreeCommunityRoutes } from '/imports/routes/pages/SkillTreeCommuni
 import { CreateSkillTreeRoutes } from '/imports/routes/pages/CreateSkillTree';
 import { GeneralForumRoutes } from '/imports/routes/pages/GeneralForum';
 import { SettingRoutes } from '/imports/routes/pages/Configuration/Settings';
+import { ManageCommunitiesRoutes } from '/imports/routes/pages/Community/ManageCommunities';
 import { SearchResultsRoutes } from '/imports/routes/pages/SearchResults';
+import { AdminDashboardRoutes } from '/imports/routes/pages/Community/AdminDashboard';
+import { ApplicationRoutes } from '/imports/routes/pages/Community/Application';
+import { SkillForestRoutes } from '/imports/routes/pages/SkillForest';
+import { CreateSkillForestRoutes } from './pages/CreateSkillForest';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -40,8 +45,13 @@ export const AppRoutes = [
       ...ProofUploadRoutes,
       ...SkillTreeCommunityRoutes,
       ...CreateSkillTreeRoutes,
-      ...GeneralForumRoutes,
+      ...ManageCommunitiesRoutes,
       ...SearchResultsRoutes,
+      ...AdminDashboardRoutes,
+      ...ApplicationRoutes,
+      ...GeneralForumRoutes,
+      ...SkillForestRoutes,
+      ...CreateSkillForestRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

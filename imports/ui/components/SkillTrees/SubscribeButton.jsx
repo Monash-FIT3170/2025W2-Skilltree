@@ -36,9 +36,12 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
     try {
-      Meteor.callAsync('saveSkillTreeProgress', skillTreeId);
+      // Create/activate the subscription document itself
+
+      Meteor.callAsync('saveSubscription', skillTreeId);
       console.log('saved base tree');
 
+      // Add user to list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.subscribeUser',
         skillTreeId,
@@ -53,6 +56,9 @@ export const SubscribeButton = ({ skillTreeId }) => {
   // call meteor method skilltrees.unsubscribeUser
   const unsubscribeUser = async () => {
     try {
+      // Deactivate the subscription document itself
+      Meteor.callAsync('removeSubscription', skillTreeId, userId);
+      // Remove user from list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.unsubscribeUser',
         skillTreeId,
@@ -70,7 +76,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     setIsLoading(true);
 
-    // subscribe user to skilltree
+    // Add  user to skilltree's subscriber list and create/activate the subscription
     await subscribeUser();
 
     // add user to skilltree
@@ -93,6 +99,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     setIsLoading(true);
 
+    // Remove user from skilltree's subscriber list and deactivate the subscription
     await unsubscribeUser();
 
     // remove skill tree from user profile
@@ -125,18 +132,25 @@ export const SubscribeButton = ({ skillTreeId }) => {
     );
   }
 
+  // For testing purposes, implement a button for this if you want to manually add/remove xp
+  // const incrementXP = sign => {
+  //   Meteor.callAsync('incrementXP', skillTreeId, sign);
+  // };
+
   return (
     <div className="flex flex-wrap items-start gap-2 w-15/100">
       {isSubscribed ? (
-        <Button
-          color="green"
-          pill
-          type="submit"
-          onClick={unsubscribeUserFromSkilltree}
-          className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-        >
-          Unsubscribe
-        </Button>
+        <>
+          <Button
+            color="green"
+            pill
+            type="submit"
+            onClick={unsubscribeUserFromSkilltree}
+            className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+          >
+            Unsubscribe
+          </Button>
+        </>
       ) : (
         <Button
           color="green"

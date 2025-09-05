@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();
@@ -158,8 +159,8 @@ export const GeneralForum = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <div className="bg-[#328E6E] text-white px-4 py-3 font-bold text-lg shadow">
-        General Forum - Skill Tree {skilltreeId}
+      <div className="p-2">
+        <NavigationMenu id={skilltreeId} />
       </div>
 
       {error && (
@@ -272,7 +273,6 @@ export const GeneralForum = () => {
               </button>
             </div>
           </form>
-
           <div className="p-3 bg-white border-t">
             <button
               className="bg-gray-300 text-black px-4 py-2 hover:bg-gray-400"

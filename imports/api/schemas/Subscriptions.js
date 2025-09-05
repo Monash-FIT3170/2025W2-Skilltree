@@ -1,6 +1,6 @@
 import SimpleSchema from 'meteor/aldeed:simple-schema';
 import { Schemas } from '/imports/api/Schemas';
-import { SkillTreeProgressCollection } from '../collections/SkillTreeProgress';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
 
 const skillDataSchema = new SimpleSchema({
   label: {
@@ -15,6 +15,12 @@ const skillDataSchema = new SimpleSchema({
     max: 1000,
     min: 1,
     optional: true
+  },
+  progressXp: {
+    type: Number,
+    label: 'Progress XP',
+    optional: true,
+    defaultValue: 0
   },
   netUpvotesRequired: {
     type: Number,
@@ -38,6 +44,12 @@ const skillDataSchema = new SimpleSchema({
     type: String,
     label: 'ID of the corresponding proof object for this skill',
     optional: true
+  },
+  verified: {
+    type: Boolean,
+    label: 'True if the proof for this skill has been verified',
+    optional: true,
+    defaultValue: false
   },
   requirements: {
     type: String,
@@ -114,14 +126,19 @@ const skillEdgeSchema = new SimpleSchema({
 });
 
 // Define the schema for the SkillTreeCollection using SimpleSchema to Schemas (for reusability)
-Schemas.SkillTreeProgress = new SimpleSchema({
+Schemas.Subscription = new SimpleSchema({
   userId: {
-    type: Number,
+    type: String,
     label: 'Unique User ID'
   },
-  communityId: {
-    type: Number,
-    label: 'Unique Community ID'
+  skillTreeId: {
+    type: String,
+    label: 'Unique Skill Tree ID'
+  },
+  active: {
+    type: Boolean,
+    label: 'Is Active',
+    defaultValue: true
   },
   skillNodes: {
     type: Array,
@@ -133,11 +150,26 @@ Schemas.SkillTreeProgress = new SimpleSchema({
     label: 'List of skill edges'
   },
   'skillEdges.$': skillEdgeSchema,
-  xpPoints: {
+  totalXp: {
     type: Number,
     label: 'Total XP Points earned by the user for this skilltree',
+    defaultValue: 0
+  },
+  roles: {
+    type: Array,
+    label: 'User Roles in this SkillTree',
+    defaultValue: ['user']
+  },
+  'roles.$': {
+    type: String,
+    allowedValues: ['user', 'expert', 'moderator', 'admin']
+  },
+  numComments: {
+    type: Number,
+    label:
+      'Total number of comments made on pending proofs by the user for this skilltree',
     defaultValue: 0
   }
 });
 
-SkillTreeProgressCollection.attachSchema(Schemas.SkillTreeProgress);
+SubscriptionsCollection.attachSchema(Schemas.Subscription);

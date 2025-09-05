@@ -1,22 +1,33 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Link } from 'react-router-dom';
-import { Users, ChevronRight } from 'lucide-react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
+import { ToastContainer, Flip } from 'react-toastify';
+import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { Link } from 'react-router-dom';
+import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight';
 
 // JSX UI
 import { DashboardSkillTrees } from '/imports/ui/layouts/DashboardSkillTrees';
 import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
+import { GreetingLoadingState } from '../components/Dashboard/GreetingLoadingState';
 import {
   getGreetingIcon,
   getGreetingMessage
 } from '../components/Dashboard/Greeting';
+import { DashboardSkillForest } from '../layouts/DashboardSkillForest';
+import { ToastTrigger } from '../components/SkillForest/ToastTrigger';
 
 export const Dashboard = () => {
   const user = User(['profile.givenName']);
 
   const [greeting, setGreeting] = useState(getGreetingMessage());
   const [greetingIcon, setGreetingIcon] = useState(getGreetingIcon());
-  const [communitiesCount, setCommunitiesCount] = useState(0);
+  const [setCommunitiesCount] = useState(0);
+  const [currentView, setCurrentView] = useState('skillTrees');
+  const handleViewChange = view => {
+    setCurrentView(view);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,17 +38,47 @@ export const Dashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Quick fix for demo - can clean this up later
+  const user2 = User([
+    '_id',
+    'profile.createdCommunities',
+    'profile.subscribedCommunities'
+  ]);
+  const createdIds = user2?.profile?.createdCommunities ?? [];
+  const subscribedIds = user2?.profile?.subscribedCommunities ?? [];
+  //Using Set will make all elements unique
+  const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
+  // Get all unique skill tree IDs (created + subscribed)
+  useSubscribe('skilltrees');
+  const allSkillTrees = useFind(SkillTreeCollection, [
+    { _id: { $in: allUniqueIds } },
+    {
+      fields: { _id: 1, owner: 1 }
+    }
+  ]).filter(Boolean); //Some elements were null, so we filter out any null results
+
+  // Filter and categorise skill trees
+  const skillTreesWithRoles = allSkillTrees.map(skillTree => ({
+    ...skillTree,
+    isOwner: skillTree.owner === user?._id,
+    isMember:
+      user?.profile?.subscribedCommunities?.includes(skillTree._id) || false
+  }));
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
         {/* Intro message */}
         <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-3xl">{greetingIcon}</span>
-            <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
-              {greeting}, {user?.profile?.givenName}!
-            </h1>
-          </div>
+          {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
+          <SuspenseHydrated fallback={<GreetingLoadingState />}>
+            <div className="flex items-center gap-3 mb-2 popInEffect">
+              <span className="text-3xl">{greetingIcon}</span>
+              <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
+                {greeting}, {user?.profile?.givenName}!
+              </h1>
+            </div>
+          </SuspenseHydrated>
           <p className="text-gray-600 ml-12">
             Ready to continue your learning journey?
           </p>
@@ -48,36 +89,107 @@ export const Dashboard = () => {
           <h1 className="text-2xl lg:text-3xl font-bold text-[#025940] mb-2">
             Dashboard
           </h1>
-          <p className="text-gray-600">
-            Manage your skill trees and track your learning journey
-          </p>
-        </div>
-
-        {/* My Skill Trees Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Users size={20} className="text-[#04BF8A]" />
-                My Skill Trees
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Skill trees you own and communities you've joined
-              </p>
-            </div>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-600">
+              Manage your SkillTrees and track your learning journey
+            </p>
             <Link to={'/manage-communities'}>
               <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
-                Manage Communities ({communitiesCount})
-                <ChevronRight size={16} />
+                Manage Communities ({skillTreesWithRoles.length})
+                <HiOutlineChevronRight size={16} />
               </button>
             </Link>
           </div>
-          <Suspense fallback={<DashboardLoadingState />}>
-            <DashboardSkillTrees
-              key={user._id}
-              setCommunitiesCount={setCommunitiesCount}
-            />
-          </Suspense>
+        </div>
+        {/* Skill Forest and Skill Trees Section buttons */}
+        <div className="mb-8">
+          <nav className="flex gap-3 mb-4">
+            {/* Skill Trees Button */}
+            <button
+              onClick={() => handleViewChange('skillTrees')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${
+                currentView === 'skillTrees'
+                  ? 'bg-green-600 text-white border-green-600' // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
+              }`} // Inactive (grey)
+            >
+              SkillTrees
+            </button>
+            <button
+              onClick={() => handleViewChange('skillForest')}
+              className={`px-6 py-2 rounded-lg font-semibold border transition-colors
+              ${
+                currentView === 'skillForest'
+                  ? 'bg-green-600 text-white border-green-600' // Active (green)
+                  : 'bg-gray-300 text-gray-700 border-gray-300 hover:bg-gray-400'
+              }`} // Inactive (grey)
+            >
+              SkillForests
+            </button>
+          </nav>
+          {currentView === 'skillForest' && (
+            <div className="flex items-center justify-between mt-1 text-l text-gray-500">
+              <h2>View your SkillForests</h2>
+              {/* <Link to={"/manage-communities"}>
+                <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                  Manage Communities ({communitiesCount})
+                  <ChevronRight size={16} />
+                </button>
+              </Link> */}
+            </div>
+          )}
+          {currentView === 'skillTrees' && (
+            <div className="flex items-center justify-between mt-1 text-l text-gray-500">
+              <h2>View your SkillTrees</h2>
+              {/* <Link to={"/manage-communities"}>
+                <button className="text-[#04BF8A] hover:text-[#025940] text-sm font-medium flex items-center gap-1 transition-colors cursor-pointer">
+                  Manage Communities ({communitiesCount})
+                  <ChevronRight size={16} />
+                </button>
+              </Link> */}
+            </div>
+          )}
+        </div>
+        {/* My Skill Trees Section */}
+        {/* Opt out of SSR due to processing (sort) useFind data causing mismatch on hydration */}
+        <div className="mb-8">
+          {currentView === 'skillForest' && (
+            <div className="mb-8 w-full">
+              <Suspense fallback={<DashboardLoadingState />}>
+                <DashboardSkillForest
+                  key={user._id}
+                  setCommunitiesCount={setCommunitiesCount}
+                />
+              </Suspense>
+            </div>
+          )}
+
+          {currentView === 'skillTrees' && (
+            <div className="mb-8 w-full">
+              <SuspenseHydrated fallback={<DashboardLoadingState />}>
+                <DashboardSkillTrees
+                  key={user._id}
+                  setCommunitiesCount={setCommunitiesCount}
+                />
+              </SuspenseHydrated>
+            </div>
+          )}
+
+          <ToastTrigger />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Flip}
+          />
         </div>
       </div>
     </div>

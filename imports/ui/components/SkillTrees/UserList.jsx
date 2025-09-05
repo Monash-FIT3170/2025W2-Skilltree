@@ -7,26 +7,22 @@ import {
   ModalFooter,
   ModalHeader
 } from 'flowbite-react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const UserList = ({ skillTreeId }) => {
   // Code to extract a skilltree from the database
-  useSubscribeSuspense('skilltrees', skillTreeId);
+  useSubscribe('skilltrees', skillTreeId);
   const skillTrees = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } }
   ]);
   const targetSkillTree = skillTrees[0];
-
   const [openModal, setOpenModal] = useState(false);
   const [usernameList, setUsernameList] = useState([]);
 
   useEffect(() => {
     const processUserIdList = async userIdList => {
-      console.log(userIdList);
-      console.log(userIdList.length);
       const usernameList = [];
       for (var i = 0; i < userIdList.length; i++) {
         const username = await getUserName(userIdList[i]);
@@ -40,8 +36,6 @@ export const UserList = ({ skillTreeId }) => {
 
   const getUserName = async userId => {
     const user = await Meteor.callAsync('getUsers', userId);
-
-    console.log(user);
 
     // solely for filtering dummy data
     if (!user) {

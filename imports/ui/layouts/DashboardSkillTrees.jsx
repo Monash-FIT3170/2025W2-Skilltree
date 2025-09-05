@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 
 // Mongo Collections
@@ -10,7 +9,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { SkillTreeCard } from '../components/Dashboard/SkillTreeCard';
 import { EmptyState } from '../components/Dashboard/EmptyState';
 
-export const DashboardSkillTrees = ({ setCommunitiesCount = null }) => {
+export const DashboardSkillTrees = () => {
   const user = User([
     '_id',
     'profile.createdCommunities',
@@ -21,7 +20,7 @@ export const DashboardSkillTrees = ({ setCommunitiesCount = null }) => {
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
   // Get all unique skill tree IDs (created + subscribed)
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const allSkillTrees = useFind(SkillTreeCollection, [
     { _id: { $in: allUniqueIds } },
     {
@@ -45,9 +44,6 @@ export const DashboardSkillTrees = ({ setCommunitiesCount = null }) => {
     if (!a.isOwner && b.isOwner) return 1;
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
-
-  // Update Manage Communities (value)
-  if (setCommunitiesCount) setCommunitiesCount(skillTreesWithRoles.length);
 
   return (
     <>

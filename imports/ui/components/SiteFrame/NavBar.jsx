@@ -68,7 +68,7 @@ export const NavBar = () => {
   return (
     <div className="sticky top-0 z-50">
       <Navbar className="bg-[#328E6E] shadow-lg" fluid>
-        <NavbarBrand as={Link} href="/">
+        <NavbarBrand as={Link} to="/">
           <div className="flex items-center mr-5">
             <img
               src="/images/logo.png"
@@ -208,9 +208,14 @@ export const NavBar = () => {
 
         <NavbarToggle />
         <NavbarCollapse>
-          <NavbarLink as={Link} to="/create">
+          <NavbarLink as={Link} to="/createskilltree">
             <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
               Create SkillTree
+            </div>
+          </NavbarLink>
+          <NavbarLink as={Link} to="/createskillforest">
+            <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+              Create SkillForest
             </div>
           </NavbarLink>
           <UserDropdownMenu />

@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { useContext } from 'react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 
 // AuthContext
@@ -12,7 +11,6 @@ export const User = (fields = [], options = {}) => {
     fields: Object.fromEntries(fields.map(field => [field, 1]))
   };
   const userId = useContext(AuthContext); // Reactive when value changes
-  useSubscribeSuspense('users'); // Needed to workaround SSR
 
   return (
     useFind(Meteor.users, [{ _id: { $eq: userId } }, projection, options])[0] ??

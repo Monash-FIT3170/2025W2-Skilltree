@@ -1,18 +1,20 @@
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
+import { Meteor } from 'meteor/meteor';
 
 // JSX UI
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { Fallback } from '../components/SiteFrame/Fallback';
 import { ProofsList } from '../components/Proofs/ProofsList';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const PendingProofs = () => {
   const { skilltreeId } = useParams();
 
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -28,6 +30,25 @@ export const PendingProofs = () => {
     [skilltreeId]
   )[0];
 
+  // Get the current user's role in this skilltree using useFind
+  const userId = Meteor.userId();
+  const userProgress = useFind(
+    SubscriptionsCollection,
+    [
+      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { fields: { roles: 1 } }
+    ],
+    [userId, skilltreeId]
+  )[0];
+  const userRoles = userProgress?.roles || [];
+  if (userRoles.length > 0) {
+    console.log('User roles in this skilltree:', userRoles);
+  } else {
+    console.log('No roles found for user in this skilltree.');
+  }
+
+  // ...existing code...
+
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   return (
@@ -35,16 +56,10 @@ export const PendingProofs = () => {
       <Helmet>
         <title>SkillTree - Pending Proofs</title>
       </Helmet>
-      <div className="px-4 pt-4">
-        <button className="min-w-60 text-white-600 rounded-xl bg-[#328E6E]">
-          <h1 className="p-4">
-            <b>
-              <p className="text-white ...">{skilltree.title} </p>
-            </b>
-          </h1>
-        </button>
+      <div className="p-2">
+        <NavigationMenu id={skilltreeId} />
         {/* Responsive container for ProofsList */}
-        <Suspense fallback={<Fallback msg={'Loading proofs...'} />}>
+        <Suspense>
           <ProofsList skilltreeId={skilltreeId} />
         </Suspense>
       </div>

@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 
 // Meteor-specific imports
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
 import { Meteor } from 'meteor/meteor';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { ProofDetails } from '/imports/ui/pages/ProofDetails';
+import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
 
 /**
  * Component: ProofsList
@@ -23,7 +23,7 @@ import { ProofDetails } from '/imports/ui/pages/ProofDetails';
  * - Conditional rendering for loading and empty states.
  * - Detail popup shown on 'View Details' click.
  */
-export const ProofsList = ({ skilltreeId }) => {
+export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
   // Track selected proof to open its detail modal
   const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
@@ -34,7 +34,7 @@ export const ProofsList = ({ skilltreeId }) => {
    * - Subscribes to the 'proof' publication.
    * - Fetches all proofs, sorted by date (latest first).
    */
-  useSubscribeSuspense('proof');
+  useSubscribe('proof');
   const proofs =
     useFind(ProofCollection, [
       { skillTreeId: { $eq: skilltreeId } },
@@ -47,7 +47,9 @@ export const ProofsList = ({ skilltreeId }) => {
           evidenceLink: 1,
           subskill: 1,
           upvotes: 1,
-          downvotes: 1
+          downvotes: 1,
+          expertVerified: 1, // ai double check this extra line is a correct implementation and is valid
+          expertVerifiers: 1 // Added expertVerifiers field
         },
         sort: { date: -1 }
       }
@@ -92,6 +94,12 @@ export const ProofsList = ({ skilltreeId }) => {
     });
   };
 
+  const handleVerify = proofId => {
+    Meteor.call('proof.verify', proofId, error => {
+      if (error) console.error('Verify failed:', error.reason);
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-screen-2xl mx-auto">
@@ -116,14 +124,23 @@ export const ProofsList = ({ skilltreeId }) => {
                     )}
                     <span>{proof.username}</span>
                   </span>
-                  <span className="text-xs italic">
-                    {formatDate(proof.date)}
-                  </span>
+                  {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
+                  <SuspenseHydrated>
+                    <span className="text-xs italic popInEffect">
+                      {formatDate(proof.date)}
+                    </span>
+                  </SuspenseHydrated>
                 </div>
 
                 {/* Subskill Tag */}
                 <div className="text-sm font-bold text-black h-6 mb-2 px-2">
                   {proof.subskill || 'Subskill Placeholder'}
+                  {typeof proof.expertVerified === 'number' &&
+                    proof.expertVerified > 0 && (
+                      <span className="ml-2 text-xs text-green-700 font-semibold">
+                        ✅ Verified by Expert ({proof.expertVerified})
+                      </span>
+                    )}
                 </div>
 
                 {/* Evidence Image Preview */}
@@ -145,6 +162,22 @@ export const ProofsList = ({ skilltreeId }) => {
                 </div>
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
+                  {userRoles.includes('expert') && (
+                    <button
+                      onClick={() => handleVerify(proof._id)}
+                      className={`px-3 py-1 rounded ${
+                        proof.expertVerifiers?.includes(currentUserId)
+                          ? 'bg-green-600 hover:bg-green-700 text-white'
+                          : 'bg-green-600 hover:bg-green-700 text-white'
+                      }`}
+                    >
+                      {proof.expertVerifiers?.includes(currentUserId) ? (
+                        <>⭐ Unverify ({proof.expertVerified || 0})</>
+                      ) : (
+                        <>⭐ Verify ({proof.expertVerified || 0})</>
+                      )}
+                    </button>
+                  )}
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpvote(proof._id)}
@@ -168,7 +201,6 @@ export const ProofsList = ({ skilltreeId }) => {
                     </span>
                     {netVotes < 0 ? 0 : netVotes} / {proofMaxVotes} Net Upvotes
                   </div>
-
                   {/* Show Proof Details Button */}
                   <button
                     onClick={() => setSelectedProofId(proof._id)}

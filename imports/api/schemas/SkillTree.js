@@ -39,6 +39,12 @@ const skillDataSchema = new SimpleSchema({
     label: 'ID of the corresponding proof object for this skill',
     optional: true
   },
+  verified: {
+    type: Boolean,
+    label: 'True if the proof for this skill has been verified',
+    optional: true,
+    defaultValue: false
+  },
   requirements: {
     type: String,
     label: 'Requirements to unlock this skill',
@@ -159,11 +165,6 @@ Schemas.SkillTree = new SimpleSchema({
     label: 'List of skill edges'
   },
   'skillEdges.$': skillEdgeSchema,
-  admins: {
-    type: Array,
-    label: 'User IDs of admins'
-  },
-  'admins.$': String,
   subscribers: {
     type: Array,
     label: 'User IDs of subscribers'

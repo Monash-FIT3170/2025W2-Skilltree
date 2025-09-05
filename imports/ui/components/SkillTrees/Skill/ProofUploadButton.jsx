@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
 
@@ -42,6 +42,20 @@ export const ProofUploadButton = ({
   const [isValidFile, setIsValidFile] = useState(false);
   // Modal Controller
   const [openModal, setOpenModal] = useState(false);
+
+  /**
+   * Closes the upload modal, sending the user back to the Node modal. Resets state so that something new can be uploaded if they hit 'Post Proof' again.
+   * TODO: Long term you probably shouldn't be able to upload again while you have a pending proof for the same skill.
+   */
+  const cleanupAndClose = () => {
+    setOpenModal(false);
+    setFileUploadProgress(undefined);
+    setSelectedFile(null);
+    setResult(null);
+    setPreviewUrl('');
+    setPreviewType('');
+    setIsValidFile(false);
+  };
 
   /**  Helper Functions */
   /**
@@ -113,6 +127,9 @@ export const ProofUploadButton = ({
         uploadPromises
       );
       setResult(res);
+      console.log('Upload complete:', res);
+      alert('Upload complete!');
+      cleanupAndClose();
       return res;
     } catch (error) {
       console.error(error);
@@ -172,7 +189,9 @@ export const ProofUploadButton = ({
       evidenceLink: uploadResults.Location,
       verification: 0,
       skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
-      subskill: skill
+      subskill: skill,
+      expertVerified: 0,
+      expertVerifiers: []
     };
     await insertProof(proof);
     // Uncomment these if you want to close the modal after submission. Should probably just link to the post view instead
@@ -331,7 +350,7 @@ export const ProofUploadButton = ({
                   color="green"
                   className="focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer"
                   type="submit"
-                  disabled={!isValidFile}
+                  disabled={!isValidFile || result}
                 >
                   Post
                 </Button>

@@ -160,11 +160,6 @@ Schemas.UsersProfile = new SimpleSchema({
     label: 'IsProfileComplete',
     optional: true
   },
-  xpTEMP: {
-    type: Number,
-    label: 'TEMP xp field',
-    optional: true
-  },
   commentNumTEMP: {
     type: Number,
     label: 'TEMP no. comments field',
@@ -235,4 +230,6 @@ Schemas.User = new SimpleSchema({
 });
 
 // Attached the schema to Meteor.users
-Meteor.users.attachSchema(Schemas.User);
+Meteor.startup(() => {
+  Meteor.users.attachSchema(Schemas.User);
+});
