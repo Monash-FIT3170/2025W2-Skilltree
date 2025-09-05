@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
-import { useFind } from 'meteor/react-meteor-data/suspense';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { User } from '/imports/utils/User';
 
 // Mongo Collections
@@ -21,7 +20,7 @@ export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
   //Using Set will make all elements unique
   const allUniqueIds = [...new Set([...createdIds])];
   // Get all unique skill tree IDs (created + subscribed)
-  useSubscribeSuspense('skillForests');
+  useSubscribe('skillForests');
   const allSkillForests = useFind(SkillForestCollection, [
     { _id: { $in: allUniqueIds } },
     {

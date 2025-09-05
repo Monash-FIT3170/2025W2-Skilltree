@@ -1,11 +1,10 @@
 import React from 'react';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // Clean SubscribedTrees for popup (no tick circle, no toggle)
 export const SubscribedTreesPopup = ({ skillTreeId }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
 
   const skillTree = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } },
@@ -58,7 +57,7 @@ export const SubscribedTreesPopup = ({ skillTreeId }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1 text-gray-500">
             <svg
-              class="w-6 h-6 text-gray-800 dark:text-white"
+              className="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
