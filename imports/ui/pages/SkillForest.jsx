@@ -36,7 +36,7 @@ export const SkillForest = () => {
         <title>{`${skillForest.title}`} - SkillTree</title>
       </Helmet>
 
-      <div className="p-4 md:p-8 font-sans">
+      <div className="p-4 md:p-8">
         <button
           onClick={() => navigate('/dashboard')}
           className="flex items-center gap-2 cursor-pointer hover:underline mb-4"
@@ -46,7 +46,7 @@ export const SkillForest = () => {
         </button>
 
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-bold text-[#328E6E]">
+          <h1 className="text-4xl font-bold text-[#000000]">
             {skillForest.title}
           </h1>
 
