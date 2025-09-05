@@ -1,11 +1,10 @@
 import React from 'react';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { useSubscribeSuspense } from 'meteor/communitypackages:react-router-ssr';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 // Clean SubscribedTrees for popup (no tick circle, no toggle)
 export const SubscribedTreesPopup = ({ skillTreeId }) => {
-  useSubscribeSuspense('skilltrees');
+  useSubscribe('skilltrees');
 
   const skillTree = useFind(SkillTreeCollection, [
     { _id: { $eq: skillTreeId } },

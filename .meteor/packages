@@ -21,7 +21,7 @@ static-html@1.4.0             # Define static page content in .html files
 react-meteor-data@4.0.0       # React higher-order component for reactively tracking Meteor data
 aldeed:simple-schema
 aldeed:collection2
-communitypackages:react-router-ssr
+communitypackages:fast-render
 accounts-base@3.1.2
 accounts-password@3.2.1
 meteortesting:browser-tests
