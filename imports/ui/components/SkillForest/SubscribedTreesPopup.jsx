@@ -57,7 +57,7 @@ export const SubscribedTreesPopup = ({ skillTreeId }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1 text-gray-500">
             <svg
-              class="w-6 h-6 text-gray-800 dark:text-white"
+              className="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
