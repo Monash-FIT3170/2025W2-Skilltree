@@ -1,4 +1,12 @@
+<div align="center">
+
+![LOGO](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/main/public/images/logo.png?raw=true)
+
 # 2025W2-Skilltree
+
+> "**Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.**"
+
+</div>
 
 ## The Team
 
