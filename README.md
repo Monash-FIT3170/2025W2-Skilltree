@@ -8,13 +8,29 @@
 
 </div>
 
-# Development
+<h2 align="center">⬦ Tech Stack ⬦</h2>
 
-## Tech Stack
+<div align="center">
 
-- **Frontend**: [React](https://react.dev/) [`v18.3.1`](https://18.react.dev/)
-- **Backend**: [Meteor](https://www.meteor.com/) [`v3.3.2`](https://release-3-3-2.docs.meteor.com/)
-- **Database**: [MongoDB](https://www.mongodb.com/) via [Mongo](https://github.com/meteor/meteor/tree/master/packages/mongo) [`v2.1.4`](https://docs.meteor.com/api/collections.html)
+《 **Frontend**: [React](https://react.dev/) [`v18.3.1`](https://18.react.dev/) 》
+
+《 **Backend**: [Meteor](https://www.meteor.com/) [`v3.3.2`](https://release-3-3-2.docs.meteor.com/) 》
+
+《 **Database**: [MongoDB](https://www.mongodb.com/) via [Mongo](https://github.com/meteor/meteor/tree/master/packages/mongo) 》
+
+《 **Schema**: [SimpleSchema](https://github.com/Meteor-Community-Packages/meteor-simple-schema) + [Collection2](https://github.com/Meteor-Community-Packages/meteor-collection2) 》
+
+《 **CSS**: [Tailwind](https://tailwindcss.com/) [`v4.1.13`](https://tailwindcss.com/docs) 》
+
+《 **UI Library**: [Flowbite React](https://www.flowbite-react.com/) [`v0.11.9`](https://flowbite-react.com/docs/getting-started/introduction) 》
+
+《 **Router**: [React Router](https://reactrouter.com/) [`v6.30.1`](https://reactrouter.com/6.30.1) 》
+
+《 **SSR**: [FastRender](https://github.com/Meteor-Community-Packages/meteor-fast-render) & [React](https://react.dev/) [Stream](https://18.react.dev/reference/react-dom/server/renderToNodeStream) + [Suspense](https://react.dev/reference/react/Suspense) & [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data#suspendable-version-of-hooks) 》
+
+《 **Unit Testing**: [Mocha](https://github.com/Meteor-Community-Packages/meteor-mocha) 》
+
+</div>
 
 ## Installation
 
