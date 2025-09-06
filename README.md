@@ -32,29 +32,46 @@
 
 </div>
 
-## Installation
+<h1 align="center">⬥ Installation ⬥</h1>
 
-### Prerequisites
+<h3 align="center">⬦ Prerequisites ⬦</h3>
+
+<div align="center">
+
+[Git](https://git-scm.com/downloads) - _Visit the site for installation instructions._
+
+</div>
+
+> [!TIP]
+>
+> <details>
+> <summary> These extensions for <a href="https://code.visualstudio.com/">Visual Studio Code</a> or <a href="https://vscodium.com/">VSCodium</a> may be useful for the project: </summary> 
+>
+> - [Git Graph v3](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
+> - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+> - [Babel JavaScript](https://marketplace.visualstudio.com/items?itemName=mgmcdermott.vscode-language-babel)
+>   </details>
+>   &emsp; ⋯
 
 - [NodeJS](https://nodejs.org/en/download) - Visit the site for installation instructions.
 
 - [Meteor](https://docs.meteor.com/about/install.html) - Install by running:
 
-  ```
-  npx meteor
-  ```
+>  ```
+>  npx meteor
+>  ```
 
 ### Project Setup
 
-```
-meteor npm run setup
-```
+> ```
+> meteor npm run setup
+> ```
 
 #### Manual Project Setup:
 
-```
-meteor npm install
-```
+> ```
+> meteor npm install
+> ```
 
 Create new file called `settings.json` and copy paste the below code into it.
 This is a dummy `settings.json`, to allow the program to run without errors:
