@@ -113,39 +113,39 @@ Create or edit the file `settings.json`:
 > }
 > ```
 
-## Development Workflow
+<h1 align="center">⬥ Development Workflow ⬥</h1>
 
 ### Run the Development Server
 
-```
-meteor npm run start
-```
+> ```
+> meteor npm run start
+> ```
 
 ### Run Linter
 
-```
-meteor npm run lint
-```
-
-```
-meteor npm run lint:fix
-```
+> ```
+> meteor npm run lint
+> ```
+>
+> ```
+> meteor npm run lint:fix
+> ```
 
 ### Run Unit Tests
 
-```
-meteor npm run test
-```
+>```
+>meteor npm run test
+>```
 ### Run Bundle Visualiser 
 
-```
-meteor npm run visualize
-```
+>```
+>meteor npm run visualize
+>```
 ### Clean Reinstall
 
-```
-meteor npm run ci
-```
+>```
+>meteor npm run ci
+>```
 
 ## Code Architecture
 
