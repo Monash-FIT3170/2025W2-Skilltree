@@ -8,33 +8,6 @@
 
 </div>
 
-## The Team
-
-### System Architects
-
-- Mitchell Hare `33164029` mhar0085@student.monash.edu
-- Romal Patel `32496273` rpat0035@student.monash.edu
-- Jason Sakolkraisorn `33109397` jsak0004@student.monash.edu
-
-### Product Managers
-
-- Jia (Kelly) Tan `32463804` jtan0276@student.monash.edu
-- Aaron See `32505108` asee0014@student.monash.edu
-- Laetitia Teo `32516940` lteo0014@student.monash.edu
-- Samarth Gupta `32472765` sgup0024@student.monash.edu
-- Shaurya Seth `33892180` sset0012@student.monash.edu
-- Amolika Yadav `33745234` ayad0013@student.monash.edu
-
-### Release Train Engineers
-
-- Kelly Li `33088047` klii0057@student.monash.edu
-- Yiyou (Fred) Xu `33113963` yxuu0194@student.monash.edu
-- Marcus Chow `32493568` mcho0083@student.monash.edu
-- Ankush `35102845` aank0004@student.monash.edu
-- Chi Thuan (Ben) Tia `32442777` ctia0007@student.monash.edu
-- Keziah Lang `33878552` klan0018@student.monash.edu
-- Steven Kaing `33155666` skai0008@student.monash.edu
-
 # Development
 
 ## Tech Stack
@@ -258,3 +231,23 @@ Script to enter the screen session for accessing the build console:
 > [!CAUTION]
 > DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
 > Use Ctrl+A then D to detach from the session instead.
+
+<h1 align="center">⬥ Project Team ⬥</h1>
+
+<h3 align="center">【 System Architects 】</h3>
+
+| Mitchell Hare `33164029` &#10; mhar0085@student.monash.edu | Romal Patel `32496273` &#10; rpat0035@student.monash.edu | Jason Sakolkraisorn `33109397` &#10; jsak0004@student.monash.edu |
+| :---------------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------------------: |
+
+<h3 align="center">【 Product Managers 】</h3>
+
+| Jia (Kelly) Tan `32463804` &#10; jtan0276@student.monash.edu |  Aaron See `32505108` &#10; asee0014@student.monash.edu   | Laetitia Teo `32516940` &#10; lteo0014@student.monash.edu  |
+| :----------------------------------------------------------: | :-------------------------------------------------------: | :--------------------------------------------------------: |
+|  Samarth Gupta `32472765` &#10; sgup0024@student.monash.edu  | Shaurya Seth `33892180` &#10; sset0012@student.monash.edu | Amolika Yadav `33745234` &#10; ayad0013@student.monash.edu |
+
+<h3 align="center">【 Release Train Engineers 】</h3>
+
+| Kelly Li `33088047` &#10; klii0057@student.monash.edu |   Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu   | Marcus Chow `32493568` &#10; mcho0083@student.monash.edu |
+| :---------------------------------------------------: | :--------------------------------------------------------------: | :------------------------------------------------------: |
+|  Ankush `35102845` &#10; aank0004@student.monash.edu  | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu | Keziah Lang `33878552` &#10; klan0018@student.monash.edu |
+|                                                       |    Steven Kaing `33155666` &#10; skai0008@student.monash.edu     |                                                          |
