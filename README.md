@@ -61,42 +61,57 @@
 >  npx meteor
 >  ```
 
-### Project Setup
+<h2 align="center">⬦ Project Setup ⬦</h2>
+
+<h3 align="center">Git Repository</h3>
+
+<div align="center">
+
+> ```shell
+> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
+> ```
+>
+> ```shell
+> cd 2025W2-Skilltree
+> ```
+
+</div>
+
+<h3 align="center">Run Setup</h3>
+
+<div align="center">
 
 > ```
 > meteor npm run setup
 > ```
 
-#### Manual Project Setup:
+</div>
+
+<h2 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h2>
+
+Create or edit the file `settings.json`:
 
 > ```
-> meteor npm install
+> {
+>  "public": {
+>    "enableSSR": true
+>  },
+>  "private": {
+>    "AWSAccessKeyId": "",
+>    "AWSSecretAccessKey": "",
+>    "google": {
+>      "clientId": "",
+>      "secret": ""
+>    },
+>    "smtp": {
+>      "username": "your@gmail.com",
+>      "password": "app-password",
+>      "server": "smtp.gmail.com",
+>      "port": 465
+>    }
+>  }
+> }
 > ```
-
-Create new file called `settings.json` and copy paste the below code into it.
-This is a dummy `settings.json`, to allow the program to run without errors:
-
-```
-{
-  "public": {
-    "enableSSR": true
-  },
-  "private": {
-    "AWSAccessKeyId": "",
-    "AWSSecretAccessKey": "",
-    "google": {
-      "clientId": "",
-      "secret": ""
-    },
-    "smtp": {
-      "username": "your@gmail.com",
-      "password": "app-password",
-      "server": "smtp.gmail.com",
-      "port": 465
-    }
-  }
-}
-```
 
 ## Development Workflow
 
