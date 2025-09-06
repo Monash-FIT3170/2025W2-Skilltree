@@ -147,9 +147,9 @@ Create or edit the file `settings.json`:
 >meteor npm run ci
 >```
 
-## Code Architecture
+<h1 align="center">⬥ Architecture ⬥</h1>
 
-### Directory Structure
+<h2 align="center">⬦ Directory Structure ⬦</h2>
 
 ```
 client/                 [Client-side Code]
@@ -185,20 +185,26 @@ tests/
 
 ### Deep Imports
 
->  [!TIP]
->  Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
+> [!TIP]
+> Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
 >
->  ```
->  import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
->  ```
+> ```
+> import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+> ```
 >
->  For example: `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
+> <details>
+> <summary>Example:</summary>
 >
->  ``````
->  import { FiEye } from '@react-icons/all-files/fi/FiEye';
->  import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
->  import { FiLock } from '@react-icons/all-files/fi/FiLock';
->  ``````
+> `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
+>
+> ```
+> import { FiEye } from '@react-icons/all-files/fi/FiEye';
+> import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+> import { FiLock } from '@react-icons/all-files/fi/FiLock';
+> ```
+>
+> </details>
+> &emsp; ⋯
 
 ### Server Side Rendering (SSR)
 
