@@ -47,19 +47,74 @@
 > <details>
 > <summary> These extensions for <a href="https://code.visualstudio.com/">Visual Studio Code</a> or <a href="https://vscodium.com/">VSCodium</a> may be useful for the project: </summary> 
 >
+> - [WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
+> - [devbox by Jetify](https://marketplace.visualstudio.com/items?itemName=jetpack-io.devbox)
 > - [Git Graph v3](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
 > - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 > - [Babel JavaScript](https://marketplace.visualstudio.com/items?itemName=mgmcdermott.vscode-language-babel)
 >   </details>
 >   &emsp; ⋯
 
-- [NodeJS](https://nodejs.org/en/download) - Visit the site for installation instructions.
+<h2 align="center">⬦ Option 1: Reproducible Development Environment (Recommended) ⬦</h2>
 
-- [Meteor](https://docs.meteor.com/about/install.html) - Install by running:
+> [!NOTE]
+>
+> This sets up a reproducible and lightweight Linux environment via [Devbox](https://www.jetify.com/devbox) that uses [Nix](https://nixos.org/) under the hood. It helps address "works on my machine" issues by ensuring consistent development environments and also results in faster Meteor builds than on Windows natively.
 
->  ```
->  npx meteor
->  ```
+<h3 align="center"><u><a href="https://learn.microsoft.com/en-us/windows/wsl">WSL</a> (Windows)</u></h3>
+
+<div align="center">
+
+Requires [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl-command). Open Powershell (as administrator) and enter the following command then reboot afterwards:
+
+> ```powershell
+> wsl --install
+> ```
+>
+> Open the Distro option (Ubuntu) from the start menu then enter a username and password when prompted.
+
+</div>
+
+<h3 align="center"><u><a href="https://www.jetify.com/devbox">Devbox</a> (Unix/MacOS, Linux & Windows)</u></h3>
+
+<div align="center">
+
+To install [Devbox](https://www.jetify.com/docs/devbox/installing_devbox/), open a terminal or [WSL](https://learn.microsoft.com/en-us/windows/wsl) (from the start menu) and run:
+
+> ```shell
+> curl -fsSL https://get.jetify.com/devbox | bash
+> ```
+
+</div>
+
+<h3 align="center"><u><a href="https://nixos.org/">Nix</a> (Unix/MacOS, Linux & Windows)</u></h3>
+
+<div align="center">
+
+If [Nix](https://docs.determinate.systems/) is not installed, prompt its installation by running any [Devbox](https://www.jetify.com/docs/devbox/installing_devbox/) command:
+
+> ```shell
+> devbox install
+> ```
+
+</div>
+
+<h2 align="center">⬦ Option 2: Native Development Environment ⬦</h2>
+
+> [!WARNING]
+>
+> <details>
+> <summary>Option 1 should be preferred for best practises to ensure reproducibility. This is also not recommend on windows due to slower Meteor builds on non UNIX/Linux environments.</summary>
+>
+> - [NodeJS](https://nodejs.org/en/download) - _Visit the site for installation instructions._
+> - [Meteor](https://docs.meteor.com/about/install.html) - _Install by running:_
+>
+>   ```shell
+>   npx meteor
+>   ```
+>
+> </details>
+> ⋯
 
 <h2 align="center">⬦ Project Setup ⬦</h2>
 
@@ -77,49 +132,82 @@
 
 </div>
 
+<h3 align="center">Devbox Shell (Linux Environment)</h3>
+
+<div align="center">
+
+> ```shell
+> devbox shell
+> ```
+
+</div>
+
 <h3 align="center">Run Setup</h3>
 
 <div align="center">
 
-> ```
-> meteor npm run setup
-> ```
+> <table>
+> <tr>
+>  <td><pre lang="shell">devbox run setup &emsp;&emsp;&emsp;&emsp;</pre></td>
+>  <td><pre lang="shell">meteor npm run setup &emsp;&emsp;&emsp;&emsp;</pre></td>
+> </tr>
+> </table>
 
 </div>
 
 <h1 align="center">⬥ Development Workflow ⬥</h1>
 
-### Run the Development Server
+<div align="center">
 
-> ```
-> meteor npm run start
-> ```
+  <table>
+    <tr>
+      <th colspan="2"></th>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Run the Development Server </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run start &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run start &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Run Lint Checker </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run lint &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run lint &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Run Lint Fixer </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run lint:fix &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run lint:fix &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Run Unit Tests </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run test &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run test &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Run Bundle Visualiser </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run visualize &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run visualize &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th colspan="2">⦗<b> Clean Reinstall </b>⦘</th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">devbox run ci &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">meteor npm run ci &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+  </table>
 
-### Run Linter
-
-> ```
-> meteor npm run lint
-> ```
->
-> ```
-> meteor npm run lint:fix
-> ```
-
-### Run Unit Tests
-
->```
->meteor npm run test
->```
-### Run Bundle Visualiser 
-
->```
->meteor npm run visualize
->```
-### Clean Reinstall
-
->```
->meteor npm run ci
->```
+</div>
 
 <h1 align="center">⬥ Architecture ⬥</h1>
 
