@@ -211,80 +211,121 @@ Create or edit the file `settings.json`:
 > }
 > ```
 
-# Deployment
-## Server Hosts
+<h1 align="center">⬥ Deployment ⬥</h1>
 
-### Ubuntu 24.04 LTS (Noble)
+<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
 
 > [!NOTE]
 > Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
 
-## Environment Variables
-`$ENV_HOSTNAME` -- Server hostname or IP address. *Default: current IP address*.
+<h2 align="center">⬦ Environment Variables ⬦</h2>
 
-`$ENV_MONGO_URL` -- MongoDB database URL. *Default: mongodb://localhost:27017/skilltree*
+<div align="center">
 
-`$ENV_PORT` -- Webserver port. *Default: 3000*
+|       Variable        | Description                           | Default Value                         |
+| :-------------------: | :------------------------------------ | :------------------------------------ |
+|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
+|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
+|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
+| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
 
-`$ENV_METEOR_SETTINGS` -- Meteor application settings from JSON. *Default: project's settings.json*
+</div>
 
-### Set Environment Variables
+<h3 align="center">Set Environment Variables</h3>
+
+<div align="center">
+
 Edit `~/.bash_profile`:
-```
-export ENV_VAR="value"
-```
+
+> ```
+> export ENV_VAR="value"
+> ```
+
 To apply changes to the existing terminal session, run:
-```
-. .bash_profile
-```
-## Server Host Setup
-```
-git clone https://github.com/Monash-FIT3170/2025W2-Skilltree
-```
-```
-chmod +x ./2025W2-Skilltree/.deploy/setup.sh
-```
-```
-./2025W2-Skilltree/.deploy/setup.sh
-```
-## Server Host Usage
-Script to start the webserver in the screen session:
 
-```
-./start
-```
-Script to stop the webserver in the screen session:
+> ```
+> . .bash_profile
+> ```
 
-```
-./stop
-```
+</div>
 
-Script to restart (stop + start) webserver in the screen session:
-```
-./restart
-```
-Script to build deployment bundle:
-```
-./build
-```
-Script to enter the screen session for accessing the webserver console:
+<h2 align="center">⬦ Server Setup ⬦</h2>
 
-```
-./console
-```
-Script to enter the screen session for accessing the proxy console:
+<h3 align="center">Git Repository</h3>
 
-```
-./console-proxy
-```
-Script to enter the screen session for accessing the build console:
+<div align="center">
 
-```
-./console-build
-```
+> ```shell
+> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
+> ```
+>
+> ```shell
+> cd 2025W2-Skilltree
+> ```
+
+</div>
+
+<h3 align="center">Server Setup Script</h3>
+
+<div align="center">
+
+> ```shell
+> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+>
+> ```shell
+> ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Usage ⬦</h2>
+
+<div align="center">
+  <table>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <th><b>Start Webserver</b></th>
+      <th><b>Stop Webserver</b></th>
+      <th><b>Restart Webserver</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>Pull Repo Changes</b></th>
+      <th><b>Update Webserver</b></th>
+      <th><b>Build Deployment Bundle</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>Webserver Console</b></th>
+      <th><b>Reverse Proxy Console</b></th>
+      <th><b>Build Console</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+
 > [!CAUTION]
 > DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
 > Use Ctrl+A then D to detach from the session instead.
+      </td>
+    </tr>
+  </table>
+</div>
 
 <h1 align="center">⬥ Project Team ⬥</h1>
 
