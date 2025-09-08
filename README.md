@@ -87,32 +87,6 @@
 
 </div>
 
-<h2 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h2>
-
-Create or edit the file `settings.json`:
-
-> ```
-> {
->  "public": {
->    "enableSSR": true
->  },
->  "private": {
->    "AWSAccessKeyId": "",
->    "AWSSecretAccessKey": "",
->    "google": {
->      "clientId": "",
->      "secret": ""
->    },
->    "smtp": {
->      "username": "your@gmail.com",
->      "password": "app-password",
->      "server": "smtp.gmail.com",
->      "port": 465
->    }
->  }
-> }
-> ```
-
 <h1 align="center">⬥ Development Workflow ⬥</h1>
 
 ### Run the Development Server
@@ -210,6 +184,32 @@ tests/
 
 > [!TIP]
 > _Non useFind, datetime (timezone) or modified data (sorting etc) fetches from the database that gets loaded directly on the page should opt out of SSR such as the DashboardSkillTrees (sort mismatch issue) and ProofsList (datetime timezone mismatch) etc._
+
+<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
+
+Create or edit the file `settings.json`:
+
+> ```
+> {
+>  "public": {
+>    "enableSSR": true
+>  },
+>  "private": {
+>    "AWSAccessKeyId": "",
+>    "AWSSecretAccessKey": "",
+>    "google": {
+>      "clientId": "",
+>      "secret": ""
+>    },
+>    "smtp": {
+>      "username": "your@gmail.com",
+>      "password": "app-password",
+>      "server": "smtp.gmail.com",
+>      "port": 465
+>    }
+>  }
+> }
+> ```
 
 # Deployment
 ## Server Hosts
