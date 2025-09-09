@@ -28,6 +28,8 @@
 
 《 **SSR**: [FastRender](https://github.com/Meteor-Community-Packages/meteor-fast-render) & [React](https://react.dev/) [Stream](https://18.react.dev/reference/react-dom/server/renderToNodeStream) + [Suspense](https://react.dev/reference/react/Suspense) & [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data#suspendable-version-of-hooks) 》
 
+《 **Reproducible Environment**: [Devbox](https://www.jetify.com/devbox) + [Nix](https://nixos.org/) 》
+
 《 **Unit Testing**: [Mocha](https://github.com/Meteor-Community-Packages/meteor-mocha) 》
 
 </div>
