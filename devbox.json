@@ -6,7 +6,7 @@
   "shell": {
     "init_hook": [
       "echo Devbox:",
-      "export PATH=\"$PATH:${DEVBOX_PROJECT_ROOT}/.devbox/.meteor/\""
+      "export PATH=\"$PATH:${DEVBOX_PROJECT_ROOT}/.devbox\""
     ],
     "scripts": {
       "meteor": [
