@@ -216,36 +216,76 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 <h2 align="center">⬦ Directory Structure ⬦</h2>
 
 ```
-client/                 [Client-side Code]
+.deploy/				<Deployment Files>
+.devbox/				<Devbox/Nix Files>
+client/                 [Client-Side Code]
 imports/
-├── api/                  [Backend]
-│   ├── collections/        // MongoDB collections
-│   ├── methods/            // Meteor methods (client calls)
-│   ├── publications/       // Publications for client subscribe
-│   ├── schemas/            // Schemas for validation
-│   ├── Methods.js          // Consolidates methods imports
-│   ├── Publications.js     // Consolidates publications imports
-│   └── Schemas.js          // Consolidates to Schemas array reuse
-├── routes/               [Route definitions] mirrors JSX from ui/
-│   ├── components/
-│   ├── layouts/
-│   └── pages/
-│   └── App.jsx             // Top Level Route /
-├── ui/                   [Frontend]
-│   ├── components/         // Reusable JSX components
-│   ├── layouts/            // Reusable JSX layouts
-│   ├── pages/              // JSX pages
-│   └── App.jsx             // Root JSX container
-├── utils/                // Utility helper functions
-│   ├── contexts/           // React contexts
-│   └── providers/          // React providers
-└── Router.js             // Router loaded on client & server (SSR)
+├── api/                  	[Backend]
+│   ├── auth/        			// Accounts + OAuth
+│   ├── collections/        	// MongoDB Collections
+│   ├── methods/            	// Meteor Methods (Client Calls)
+│   ├── publications/       	// Publications For Client Subscribe
+│   ├── schemas/            	// Schemas for Validation
+│   ├── Methods.js          	// Consolidates Methods Imports
+│   ├── Publications.js     	// Consolidates Publications Imports
+│   └── Schemas.js          	// Schemas (Array Reuse Export)
+├── routes/               	[Route Definitions] Mirrors JSX from ui/
+│   ├── components/				// URL /<page>/<layout>/<component>
+│   ├── layouts/				// URL /<page>/<layout>/
+│   ├── pages/					// URL /<page>/
+│   ├── App.jsx             	// App Routes (LoggedIn)
+│   └── Root.jsx             	// Top Level Route /
+├── ui/                   	[Frontend]
+│   ├── components/         	// Reusable JSX Components
+│   ├── layouts/            	// Reusable JSX Layouts
+│   ├── pages/              	// JSX Pages
+│   ├── App.jsx             	// App JSX Container (Holds NavBar)
+│   └── Root.jsx             	// Root JSX Container
+├── utils/                	<Utility Helper Functions/Hooks>
+│   ├── contexts/          		// React Contexts
+│   └── providers/          	// React Providers
+│   └── RouteGuard.jsx      	// Route Protection & Redirects
+│   └── SuspenseHydrated.jsx	// Suspense Opt Out SSR
+│   └── User.jsx				// User Utils (Fetch LoggedIn User)
+└── Router.js             	// Router on Client (SPA) & Server (SSR)
 private/                <Server Assets>
 public/                 <Client Assets>
-server/                 [Server-side Code]
-tests/
-└── main.js               // Consolidates Tests
+server/                 [Server-Side Code]
+tests/					<Unit Tests>
+└── main.js             	// Consolidates Tests Imports
 ```
+
+> [!NOTE]
+> <details>
+> <summary><b>Initialisation Flow Explanation</b></summary>
+>
+> `package.json` defines:
+>
+> ```
+> "mainModule": {
+>   "client": "client/main.jsx",
+>   "server": "server/main.js"
+> },
+> ```
+>
+> When the webserver is started,  `server/main.js` runs on the server and imports:
+>
+> - `/imports/api/Publications` -- *Loads defined Publications, each imports its*:
+>   - `/imports/api/schemas/...` -- *Attaches the defined Schema, each imports its*:
+>     - `/imports/api/collections/...` -- *Defines the collection to access from other files*.  
+> - `/imports/api/Methods'` -- *Loads defined Meteors Methods*.
+> - `/imports/Router` -- Loads the Router on the server for SSR
+> - `/imports/api/auth/google_oauth` -- Loads Auth (google)
+> - `/imports/api/auth/AccountConfig` -- Loads Meteor accounts reset password link configurations
+>
+> Clients receives `client/main.html,main.css` (instant) and `client/main.jsx` (on hydration/bundle load), imports:
+>
+> - `/imports/Router` -- *Loads the Router on the client for SPA routing/navigation*.
+>
+> *Both the Server (SSR) and Client (Hydration) loads the `/imports/Router`, contains all routes and ui from `/imports/routes,ui`.*
+> 
+> </details>
+> ⋯
 
 ### Deep Imports
 
