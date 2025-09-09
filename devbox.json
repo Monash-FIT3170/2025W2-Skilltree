@@ -1,0 +1,53 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "packages": [
+    "nodejs@24"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo Devbox:",
+      "export PATH=\"$PATH:${DEVBOX_PROJECT_ROOT}/.devbox\""
+    ],
+    "scripts": {
+      "meteor": [
+        ".devbox/meteor \"$@\""
+      ],
+      "install": [
+        ".devbox/meteor npm install"
+      ],
+      "ci": [
+        ".devbox/meteor npm ci"
+      ],
+      "update": [
+        ".devbox/meteor npm update --save"
+      ],
+      "upgrade": [
+        ".devbox/meteor update"
+      ],
+      "setup": [
+        ".devbox/meteor npm run setup"
+      ],
+      "start": [
+        ".devbox/meteor npm run start"
+      ],
+      "test": [
+        ".devbox/meteor npm run test"
+      ],
+      "visualize": [
+        ".devbox/meteor npm run visualize"
+      ],
+      "lint": [
+        ".devbox/meteor npm run lint"
+      ],
+      "lint:fix": [
+        ".devbox/meteor npm run lint:fix"
+      ],
+      "meteor-install": [
+        ".devbox/meteor-install.sh"
+      ],
+      "meteor-uninstall": [
+        ".devbox/meteor-uninstall.sh"
+      ]
+    }
+  }
+}

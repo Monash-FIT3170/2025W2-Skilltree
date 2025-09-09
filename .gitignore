@@ -4,3 +4,8 @@ node_modules/
 settings.json
 .env
 jsconfig.json
+.devbox/*
+.devbox/.*
+!.devbox/meteor
+!.devbox/meteor-install.sh  
+!.devbox/meteor-uninstall.sh
