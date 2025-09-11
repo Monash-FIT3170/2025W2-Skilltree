@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Button, Spinner } from 'flowbite-react';
+import { Spinner } from 'flowbite-react';
 
 export const SubscribeButton = ({ skillTreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -37,7 +37,6 @@ export const SubscribeButton = ({ skillTreeId }) => {
   const subscribeUser = async () => {
     try {
       // Create/activate the subscription document itself
-
       Meteor.callAsync('saveSubscription', skillTreeId);
       console.log('saved base tree');
 
@@ -119,49 +118,25 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-wrap items-start gap-2 w-15/100">
-        <Button className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0">
-          <Spinner
-            size="sm"
-            aria-label="Info spinner example"
-            className="me-3"
-          ></Spinner>
-          Loading ...
-        </Button>
-      </div>
+      <a className="block py-2 pl-3 pr-4 md:p-0">
+        <div className="text-white bg-gray-500 px-3 py-2 rounded flex items-center gap-2">
+          <Spinner size="sm" aria-label="Loading spinner" />
+          Loading...
+        </div>
+      </a>
     );
   }
 
-  // For testing purposes, implement a button for this if you want to manually add/remove xp
-  // const incrementXP = sign => {
-  //   Meteor.callAsync('incrementXP', skillTreeId, sign);
-  // };
-
   return (
-    <div className="flex flex-wrap items-start gap-2 w-15/100">
-      {isSubscribed ? (
-        <>
-          <Button
-            color="green"
-            pill
-            type="submit"
-            onClick={unsubscribeUserFromSkilltree}
-            className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-          >
-            Unsubscribe
-          </Button>
-        </>
-      ) : (
-        <Button
-          color="green"
-          pill
-          type="submit"
-          onClick={subscribeUserToSkilltree}
-          className="cursor-pointer w-full position-relative mt-2 text-white text-2xl font-semibold leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
-        >
-          Subscribe
-        </Button>
-      )}
-    </div>
+    <a
+      className="block py-2 pl-3 pr-4 md:p-0 cursor-pointer"
+      onClick={
+        isSubscribed ? unsubscribeUserFromSkilltree : subscribeUserToSkilltree
+      }
+    >
+      <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+        {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+      </div>
+    </a>
   );
 };

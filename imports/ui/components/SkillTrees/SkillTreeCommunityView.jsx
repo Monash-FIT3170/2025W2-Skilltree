@@ -90,7 +90,7 @@ export const SkillTreeCommunityView = () => {
 
         {/*If the user is the creator of this skill tree community, hide the subscribe button */}
         <div className="flex gap-4 items-center mt-2">
-          {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
+          {/* {userId !== skilltree.owner && <SubscribeButton skillTreeId={id} />}
           <Link to="leaderboard" state={{ background: location }}>
             <Button
               color="green"
@@ -99,11 +99,11 @@ export const SkillTreeCommunityView = () => {
             >
               Leaderboard
             </Button>
-          </Link>
+          </Link> */}
 
           {/*Only admins have access to these mod tools button
            */}
-
+          {/* todo: Move mod tools to nav menu and change subsribe button to have colour */}
           {isUserAdmin && (
             <Link to="admin-tools" state={{ background: location }}>
               <Button
