@@ -64,7 +64,7 @@ export const NavigationMenu = ({ id }) => {
   };
 
   const baseLinkClasses =
-    "flex items-center gap-2 block py-2 px-3 text-white rounded hover:bg-gray-600 transition-all duration-200";
+    'flex items-center gap-2 block py-2 px-3 text-white rounded hover:bg-gray-600 transition-all duration-200';
 
   const menuItems = [
     userId !== skilltree?.owner && {
@@ -162,7 +162,7 @@ export const NavigationMenu = ({ id }) => {
 
         {/* Inline Menu Items aligned to the left */}
         <div className="flex items-center gap-4 ml-6">
-          {menuItems.map(item => (
+          {menuItems.map(item =>
             item.element ? (
               <div key={item.id}>{item.element}</div>
             ) : (
@@ -175,7 +175,7 @@ export const NavigationMenu = ({ id }) => {
                 <span>{item.label}</span>
               </button>
             )
-          ))}
+          )}
         </div>
       </div>
     </div>

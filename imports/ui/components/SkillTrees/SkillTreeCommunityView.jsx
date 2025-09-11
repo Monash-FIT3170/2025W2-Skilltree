@@ -4,7 +4,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
 import { NavigationMenu } from './NavigationMenu';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
-import { SubscribeButton } from './SubscribeButton';
+// import { SubscribeButton } from './SubscribeButton';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
