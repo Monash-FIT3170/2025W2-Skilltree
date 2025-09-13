@@ -287,7 +287,13 @@ tests/					<Unit Tests>
 > </details>
 > ⋯
 
-### Deep Imports
+<h2 align="center">⬦ React ⬦</h2>
+
+> [!note]
+>
+> Front-end JavaScript library for the project, refer to the [docs](https://18.react.dev/learn). JSX React components are used to write HTML in JavaScript as reusable UI components. React hooks are generally used to make data on the page reactive, which is lost on page refresh. Long term data persistence should instead be from the database via Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) for fetching and reactivity (real time changes etc).
+
+## Deep Imports
 
 > [!TIP]
 > Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
