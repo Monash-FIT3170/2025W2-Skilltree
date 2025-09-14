@@ -4,7 +4,6 @@ import { User } from '/imports/utils/User';
 
 export const VoteButtons = ({ proof, skilltreeId }) => {
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
-
   const user = User(['_id']);
   const currentUserId = user?._id ?? '';
 

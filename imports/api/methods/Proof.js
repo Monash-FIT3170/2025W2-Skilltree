@@ -1,7 +1,7 @@
+import { check } from 'meteor/check';
 import { Meteor } from 'meteor/meteor';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
-import { check } from 'meteor/check';
 
 // Define Meteor Methods for ProofCollection (client-side calls)
 Meteor.methods({
@@ -38,31 +38,6 @@ Meteor.methods({
   async removeAllProofs() {
     return await ProofCollection.removeAsync({});
   },
-  //   // UPVOTE without requiring login
-  // async 'post.upvote'(postId) {
-  //   check(postId, String);
-
-  //   const post = await PostCollection.findOneAsync({ _id: postId });
-  //   if (!post) throw new Meteor.Error('Post not found');
-
-  //   return await PostCollection.updateAsync(
-  //     { _id: postId },
-  //     { $inc: { upvotes: 1 } }
-  //   );
-  // },
-
-  // // DOWNVOTE without requiring login
-  // async 'post.downvote'(postId) {
-  //   check(postId, String);
-
-  //   const post = await PostCollection.findOneAsync({ _id: postId });
-  //   if (!post) throw new Meteor.Error('Post not found');
-
-  //   return await PostCollection.updateAsync(
-  //     { _id: postId },
-  //     { $inc: { downvotes: 1 } }
-  //   );
-  // }
 
   async 'proof.upvote'(proofId) {
     check(proofId, String);
@@ -71,6 +46,19 @@ Meteor.methods({
 
     const proof = await ProofCollection.findOneAsync({ _id: proofId });
     if (!proof) throw new Meteor.Error('Post not found');
+
+    /**
+     * Verify user is subscribed to the skilltree before allowing vote
+     */
+    const foundUser = await Meteor.callAsync(
+      'skilltrees.findUser',
+      proof.skillTreeId,
+      userId
+    );
+    const isUserSubscribed = !!foundUser;
+    if (!isUserSubscribed) {
+      throw new Meteor.Error('You must be subscribed to upvote proofs.');
+    }
 
     const isUpvoted = proof.upvoters?.includes(userId);
     const isDownvoted = proof.downvoters?.includes(userId);
@@ -105,6 +93,19 @@ Meteor.methods({
 
     const proof = await ProofCollection.findOneAsync({ _id: proofId });
     if (!proof) throw new Meteor.Error('proof not found');
+
+    /**
+     * Verify user is subscribed to the skilltree before allowing vote
+     */
+    const foundUser = await Meteor.callAsync(
+      'skilltrees.findUser',
+      proof.skillTreeId,
+      userId
+    );
+    const isUserSubscribed = !!foundUser;
+    if (!isUserSubscribed) {
+      throw new Meteor.Error('You must be subscribed to upvote proofs.');
+    }
 
     const isDownvoted = proof.downvoters?.includes(userId);
     const isUpvoted = proof.upvoters?.includes(userId);
