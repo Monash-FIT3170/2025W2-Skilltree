@@ -45,6 +45,8 @@ export const ProofUploadButton = ({
   // Modal Controller
   const [openModal, setOpenModal] = useState(false);
 
+  const [uploadFailed, setUploadFailed] = useState(false);
+
   /**
    * Closes the upload modal, sending the user back to the Node modal. Resets state so that something new can be uploaded if they hit 'Post Proof' again.
    * TODO: Long term you probably shouldn't be able to upload again while you have a pending proof for the same skill.
@@ -69,10 +71,21 @@ export const ProofUploadButton = ({
     setFileUploadProgress(null);
     const key = `${Random.id()}.${_.last(file.name.split('.'))}`;
 
+    // TODO check subscription server-side as well or maybe just here to ensure you cant upload while unsubscribed so long as you have the modal open
     const multipartUpload = await Meteor.callAsync(
       'createMultiPartUpload',
+      skilltreeId,
+      currentUserId,
       key
     );
+    if (!multipartUpload || !multipartUpload.UploadId) {
+      console.log('returned no');
+      setUploadFailed(true);
+      alert(
+        'Upload failed, please refresh and try again. Please ensure you are subscribed to the skilltree.'
+      );
+      throw new Meteor.Error('Failed to create multipart upload');
+    }
     const uploadId = multipartUpload.UploadId;
     const uploadPromises = [];
     const partSize = 10 * 1024 * 1024;
@@ -339,9 +352,11 @@ export const ProofUploadButton = ({
               >
                 {fileUploadProgress !== undefined && (
                   <p>
-                    {fileUploadProgress === null
-                      ? 'Starting upload'
-                      : `${fileUploadProgress}%`}
+                    {uploadFailed
+                      ? 'Upload failed, please refresh and try again.'
+                      : fileUploadProgress === null
+                        ? 'Starting upload'
+                        : `Upload Progress: ${fileUploadProgress}%`}
                   </p>
                 )}
                 {result && <p>Done!</p>}
