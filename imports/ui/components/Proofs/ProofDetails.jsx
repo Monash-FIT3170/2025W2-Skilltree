@@ -9,8 +9,8 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React from 'react';
 import { AddComment } from './Comments/AddComment';
 import { CommentSection } from './Comments/CommentSection';
-import { ProofCollection } from '/imports/api/collections/Proof';
 import { VoteButtons } from './Votes/VoteButtons';
+import { ProofCollection } from '/imports/api/collections/Proof';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -40,16 +40,6 @@ export const ProofDetails = ({ proofId, onClose }) => {
       }
     }
   ])[0];
-
-  /**
-   * Handles upvote action by calling the 'proof.upvote' Meteor method.
-   */
-  const handleUpvote = () => Meteor.call('proof.upvote', proof._id);
-
-  /**
-   * Handles downvote action by calling the 'proof.downvote' Meteor method.
-   */
-  const handleDownvote = () => Meteor.call('proof.downvote', proof._id);
 
   /**
    * Formats a JavaScript Date object into a human-readable string.
