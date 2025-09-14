@@ -1,12 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 
 import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
-import { useFormData } from '/imports/ui/components/Community/hooks/FormDataHook';
 
 export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
-  //use formdata hook
+
   const initialData = useMemo(
     () => ({
       roles: user?.skilltreeRoles || []
@@ -14,8 +13,37 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
     [user?.skilltreeRoles]
   );
 
-  const { formData, updateFormData, isModified } = useFormData(initialData);
+  const [formData, setFormData] = useState(initialData);
+  const [isModified, setIsModified] = useState(false);
   const availableRoles = ['user', 'expert', 'moderator', 'admin'];
+
+
+  useEffect(() => {
+    setFormData(initialData);
+    setIsModified(false);
+  }, [initialData]);
+
+  const updateFormData = (path, value) => {
+    setFormData(prev => {
+      const updated = { ...prev };
+      let current = updated;
+      const keys = Array.isArray(path) ? path : path.split('.');
+
+      for (let i = 0; i < keys.length - 1; i++) {
+        const key = keys[i];
+        current[key] = Array.isArray(current[key])
+          ? [...current[key]]
+          : { ...current[key] };
+        current = current[key];
+      }
+
+      current[keys[keys.length - 1]] = value;
+      return updated;
+    });
+    
+    setIsModified(true);
+  };
+
 
   const addRole = role => {
     if (!formData.roles.includes(role)) {

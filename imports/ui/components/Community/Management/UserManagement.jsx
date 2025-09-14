@@ -1,23 +1,87 @@
+import { Meteor } from 'meteor/meteor';
 import React, { useMemo, useState, useContext } from 'react';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
 import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
 
-import { useSkillTreeUsers } from '/imports/ui/components/Community/services/UserService';
 import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
 import { roleUtils } from '/imports/ui/components/Community/utils/rolesUtils';
 import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
 
-import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const UserManagement = () => {
   const userId = useContext(AuthContext);
   const { id: skilltreeID } = useParams();
 
-  //Services
-  const { users, loading, skillTreeOwner } = useSkillTreeUsers(skilltreeID);
+  //Subscribe to all necessary collections
+  useSubscribe('users');
+  useSubscribe('skilltrees');
+  useSubscribe('subscriptions');
+
+  //Find the target skiltree --> get all subscriber's ids
+  const skilltree = useFind(SkillTreeCollection, [
+    { _id: skilltreeID },
+    { fields: { owner: 1, subscribers: 1 } }
+  ])[0];
+
+  const userIds = skilltree?.subscribers || [];
+  const skillTreeOwner = skilltree.owner;
+
+  //Get all progressRecords for target skilltree
+  const progressRecords = useFind(SubscriptionsCollection, [
+    { skillTreeId: skilltreeID },
+    {
+      fields: {
+        userId: 1,
+        skillTreeId: 1,
+        roles: 1
+      },
+      sort: {userId: 1}
+    }
+  ]);
+
+  const userRecords = useFind(Meteor.users, [
+    { _id: { $in: userIds } },
+    {
+      fields: {
+        _id: 1,
+        username: 1,
+        emails: 1,
+        profile: 1
+      },
+      sort: { _id: 1}
+    }
+  ]);
+
+  // Reactively combine user data with the progress data
+  const users = useMemo(() => {
+    return userRecords.map(user => {
+      const userProgress = progressRecords.find(
+        progress => progress.userId === user._id
+      );
+
+      return {
+        ...user,
+        skilltreeProgress: userProgress,
+        skilltreeRoles: userProgress?.roles || ['user'],
+        skilltreeXP: userProgress?.xpPoints || 0,
+        skilltreeActive: userProgress?.active ?? true,
+        completedNodes:
+          userProgress?.skillNodes?.filter(
+            node => node.type === 'view-node-completed'
+          )?.length || 0,
+        totalNodes: userProgress?.skillNodes?.length || 0,
+        joinedSkilltree: userProgress?.createdAt || 'ACTIVE TODAY',
+        lastActiveSkilltree: userProgress?.lastActive || 'ACTIVE TODAY'
+      };
+    });
+  }, [userRecords, progressRecords]);
+
 
   //Utils
   const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
@@ -85,13 +149,9 @@ export const UserManagement = () => {
     if (user.skilltreeRoles.includes('admin')) {
       return userId === skillTreeOwner;
     }
-
     return true;
   };
 
-  if (loading) {
-    return <LoadingUserManagementTable />;
-  }
 
   return (
     <div
