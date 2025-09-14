@@ -21,6 +21,19 @@ Meteor.methods({
     );
     const { skillTreeId } = proof || {};
 
+    /**
+     * Verify user is subscribed to the skilltree before allowing vote
+     */
+    const foundUser = await Meteor.callAsync(
+      'skilltrees.findUser',
+      proof.skillTreeId,
+      userId
+    );
+    const isUserSubscribed = !!foundUser;
+    if (!isUserSubscribed) {
+      throw new Meteor.Error('User must be subscribed to comment.');
+    }
+
     if (userId) {
       // Update the user's subscription's numComments
       SubscriptionsCollection.updateAsync(

@@ -57,7 +57,7 @@ Meteor.methods({
     );
     const isUserSubscribed = !!foundUser;
     if (!isUserSubscribed) {
-      throw new Meteor.Error('You must be subscribed to upvote proofs.');
+      throw new Meteor.Error('User must be subscribed to upvote proofs.');
     }
 
     const isUpvoted = proof.upvoters?.includes(userId);
@@ -104,7 +104,7 @@ Meteor.methods({
     );
     const isUserSubscribed = !!foundUser;
     if (!isUserSubscribed) {
-      throw new Meteor.Error('You must be subscribed to upvote proofs.');
+      throw new Meteor.Error('User must be subscribed to upvote proofs.');
     }
 
     const isDownvoted = proof.downvoters?.includes(userId);
