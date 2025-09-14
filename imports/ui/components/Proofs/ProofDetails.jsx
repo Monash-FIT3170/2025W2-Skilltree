@@ -10,6 +10,7 @@ import React from 'react';
 import { AddComment } from './Comments/AddComment';
 import { CommentSection } from './Comments/CommentSection';
 import { ProofCollection } from '/imports/api/collections/Proof';
+import { VoteButtons } from './Votes/VoteButtons';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -122,20 +123,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
             </p>
 
             {/* Voting Controls */}
-            <div className="flex space-x-4 mb-6">
-              <button
-                onClick={handleUpvote}
-                className="flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                👍 Upvote ({proof.upvotes || 0})
-              </button>
-              <button
-                onClick={handleDownvote}
-                className="flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                👎 Downvote ({proof.downvotes || 0})
-              </button>
-            </div>
+            <VoteButtons proof={proof} skilltreeId={proof.skillTreeId} />
           </div>
 
           {/* Comment Section */}

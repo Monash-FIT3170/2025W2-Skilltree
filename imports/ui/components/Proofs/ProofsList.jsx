@@ -162,6 +162,8 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                       )}
                     </button>
                   )}
+
+                  {/* Voting Controls */}
                   <VoteButtons proof={proof} skilltreeId={skilltreeId} />
 
                   {/* Net Upvotes Status */}
