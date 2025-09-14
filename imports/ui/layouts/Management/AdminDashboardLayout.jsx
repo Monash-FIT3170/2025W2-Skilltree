@@ -76,9 +76,9 @@ export const AdminDashboardLayout = () => {
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
         <div className="w-full">
-          <Suspense fallback={<LoadingUserManagementTable/>}>
-            <Outlet/>
-          </Suspense>          
+          <Suspense fallback={<LoadingUserManagementTable />}>
+            <Outlet />
+          </Suspense>
         </div>
       </div>
     </div>

@@ -5,7 +5,6 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
 
 export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
-
   const initialData = useMemo(
     () => ({
       roles: user?.skilltreeRoles || []
@@ -16,7 +15,6 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
   const [formData, setFormData] = useState(initialData);
   const [isModified, setIsModified] = useState(false);
   const availableRoles = ['user', 'expert', 'moderator', 'admin'];
-
 
   useEffect(() => {
     setFormData(initialData);
@@ -40,10 +38,9 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
       current[keys[keys.length - 1]] = value;
       return updated;
     });
-    
+
     setIsModified(true);
   };
-
 
   const addRole = role => {
     if (!formData.roles.includes(role)) {

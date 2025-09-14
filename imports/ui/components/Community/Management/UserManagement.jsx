@@ -41,7 +41,7 @@ export const UserManagement = () => {
         skillTreeId: 1,
         roles: 1
       },
-      sort: {userId: 1}
+      sort: { userId: 1 }
     }
   ]);
 
@@ -54,7 +54,7 @@ export const UserManagement = () => {
         emails: 1,
         profile: 1
       },
-      sort: { _id: 1}
+      sort: { _id: 1 }
     }
   ]);
 
@@ -81,7 +81,6 @@ export const UserManagement = () => {
       };
     });
   }, [userRecords, progressRecords]);
-
 
   //Utils
   const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
@@ -151,7 +150,6 @@ export const UserManagement = () => {
     }
     return true;
   };
-
 
   return (
     <div
