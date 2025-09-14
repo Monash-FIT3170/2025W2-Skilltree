@@ -333,6 +333,8 @@ export const UserManagement = () => {
           onClose={closeEditModal}
           user={selectedUser}
           skilltreeId={skilltreeID}
+          skillTreeOwner={skillTreeOwner}
+          loggedInUser={userId}
         />
       </div>
 

@@ -4,7 +4,14 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 
 import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
 
-export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
+export const EditCommunityMember = ({
+  isOpen,
+  onClose,
+  user,
+  skilltreeId,
+  skillTreeOwner,
+  loggedInUser
+}) => {
   const initialData = useMemo(
     () => ({
       roles: user?.skilltreeRoles || []
@@ -15,6 +22,7 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
   const [formData, setFormData] = useState(initialData);
   const [isModified, setIsModified] = useState(false);
   const availableRoles = ['user', 'expert', 'moderator', 'admin'];
+  const isOwner = loggedInUser === skillTreeOwner;
 
   useEffect(() => {
     setFormData(initialData);
@@ -119,17 +127,25 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
                 const IconComponent = config.icon;
                 const isSelected = formData.roles.includes(role);
 
+                //Disable admin role interaction if user is not the owner
+                const isAdminRestricted = role === 'admin' && !isOwner;
+
                 return (
                   <div
                     key={role}
-                    className={`flex items-center gap-2 justify-between p-4 border rounded-lg transition-all cursor-pointer ${
-                      isSelected
-                        ? 'border-[#04BF8A] bg-[#04BF8A]/5'
-                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    className={`flex items-center gap-2 justify-between p-4 border rounded-lg transition-all ${
+                      isAdminRestricted
+                        ? 'opacity-50 cursor-not-allowed border-gray-200 bg-gray-100'
+                        : `cursor-pointer ${
+                            isSelected
+                              ? 'border-[#04BF8A] bg-[#04BF8A]/5'
+                              : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                          }`
                     }`}
-                    onClick={() =>
-                      isSelected ? removeRole(role) : addRole(role)
-                    }
+                    onClick={() => {
+                      if (isAdminRestricted) return;
+                      isSelected ? removeRole(role) : addRole(role);
+                    }}
                   >
                     <div className="flex items-center gap-3">
                       <div
@@ -152,6 +168,12 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
                         Default
                       </div>
                     )}
+
+                    {role === 'admin' && (
+                      <div className="px-2 py-1 border rounded-full bg-[#328E6E] text-white text-sm ">
+                        Owner Only
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -163,7 +185,7 @@ export const EditCommunityMember = ({ isOpen, onClose, user, skilltreeId }) => {
         {isModified && (
           <button
             onClick={handleSave}
-            className="px-2 py-1 border rounded-full bg-[#328E6E] text-white text-sm"
+            className="px-2 py-1 border rounded-full bg-[#328E6E] text-white text-sm cursor-pointer"
           >
             Save
           </button>
