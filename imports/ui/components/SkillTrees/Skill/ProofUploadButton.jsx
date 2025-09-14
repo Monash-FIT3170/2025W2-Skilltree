@@ -1,12 +1,13 @@
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import { Buffer } from 'buffer'; //
 import { Button } from 'flowbite-react';
 import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import React, { useState } from 'react';
-import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
+import { useState } from 'react';
 import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
+import React from 'react';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket
@@ -18,7 +19,8 @@ export const ProofUploadButton = ({
   skilltreeId,
   skill,
   requirements,
-  onUploadProof
+  onUploadProof,
+  disabled = false
 }) => {
   // loggedIn username
   const currentUserId = Meteor.userId();
@@ -258,6 +260,7 @@ export const ProofUploadButton = ({
         color="green"
         className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
         onClick={() => setOpenModal(true)}
+        disabled={disabled}
       >
         Post Proof
       </Button>
