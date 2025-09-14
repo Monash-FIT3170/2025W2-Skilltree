@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 
 // Meteor-specific imports
 import { Meteor } from 'meteor/meteor';
-import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
-import { ProofCollection } from '/imports/api/collections/Proof';
-import { ProofDetails } from '/imports/ui/pages/ProofDetails';
 import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
+import { ProofDetails } from './ProofDetails';
+import { VoteButtons } from './Votes/VoteButtons';
+import { ProofCollection } from '/imports/api/collections/Proof';
+import { User } from '/imports/utils/User';
 
 /**
  * Component: ProofsList
@@ -24,10 +26,12 @@ import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
  * - Detail popup shown on 'View Details' click.
  */
 export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
+  const user = User(['_id']);
+  const currentUserId = user?._id ?? '';
+
   // Track selected proof to open its detail modal
   const proofMaxVotes = 10; // Maximum votes for a proof
   const [selectedProofId, setSelectedProofId] = useState(null);
-  const currentUserId = Meteor.userId();
 
   /**
    * useFind hook:
@@ -71,26 +75,6 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
-    });
-  };
-
-  /**
-   * Calls the Meteor method to upvote a proof.
-   * Errors are logged to console if the call fails.
-   */
-  const handleUpvote = proofId => {
-    Meteor.call('proof.upvote', proofId, error => {
-      if (error) console.error('Upvote failed:', error.reason);
-    });
-  };
-
-  /**
-   * Calls the Meteor method to downvote a proof.
-   * Errors are logged to console if the call fails.
-   */
-  const handleDownvote = proofId => {
-    Meteor.call('proof.downvote', proofId, error => {
-      if (error) console.error('Downvote failed:', error.reason);
     });
   };
 
@@ -178,20 +162,7 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                       )}
                     </button>
                   )}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleUpvote(proof._id)}
-                      className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
-                    >
-                      👍 Upvote ({proof.upvotes || 0})
-                    </button>
-                    <button
-                      onClick={() => handleDownvote(proof._id)}
-                      className="px-3 py-1 bg-[#024059] text-white rounded hover:bg-[#032E3F]"
-                    >
-                      👎 Downvote ({proof.downvotes || 0})
-                    </button>
-                  </div>
+                  <VoteButtons proof={proof} skilltreeId={skilltreeId} />
 
                   {/* Net Upvotes Status */}
                   <div className="text-center mx-2">

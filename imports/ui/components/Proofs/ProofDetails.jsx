@@ -7,8 +7,8 @@
 import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React from 'react';
-import { AddComment } from '../components/Proofs/Comments/AddComment';
-import { CommentSection } from '../components/Proofs/Comments/CommentSection';
+import { AddComment } from './Comments/AddComment';
+import { CommentSection } from './Comments/CommentSection';
 import { ProofCollection } from '/imports/api/collections/Proof';
 
 /**
