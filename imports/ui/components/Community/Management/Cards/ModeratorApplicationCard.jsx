@@ -19,7 +19,8 @@ export const ModeratorApplicationCard = ({ application, onReview }) => {
           </div>
           <p className="text-gray-600 text-sm mb-2">{application.email}</p>
           <p className="text-gray-500 text-sm mb-3">
-            Applied on {new Date(application.createdAt).toLocaleDateString('en-AU')}
+            Applied on{' '}
+            {new Date(application.createdAt).toLocaleDateString('en-AU')}
           </p>
 
           <div className="space-y-2">

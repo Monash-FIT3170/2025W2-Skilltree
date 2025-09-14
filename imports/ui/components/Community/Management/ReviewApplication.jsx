@@ -73,7 +73,7 @@ export const ReviewApplication = ({
               Application Date
             </label>
             <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900">
-              {(selectedApplication.createdAt).toLocaleDateString('en-AU')}
+              {selectedApplication.createdAt.toLocaleDateString('en-AU')}
             </div>
           </div>
         </div>
