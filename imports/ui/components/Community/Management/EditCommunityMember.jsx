@@ -139,14 +139,6 @@ export const EditCommunityMember = ({
     }
   };
 
-  if (!userSubscriptionRecord) {
-    return (
-      <Modal show={isOpen} onClose={onClose} dismissible size="7xl">
-        <div>No User Found</div>
-      </Modal>
-    );
-  }
-
   return (
     <Modal show={isOpen} onClose={handleClose} dismissible size="7xl">
       <ModalHeader className="border-b border-gray-900">

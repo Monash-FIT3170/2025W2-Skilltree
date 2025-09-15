@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import React, { useMemo, useState, useContext } from 'react';
+import React, { useMemo, useState, useContext, Suspense } from 'react';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -11,6 +11,7 @@ import { EditCommunityMember } from '/imports/ui/components/Community/Management
 
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
 
 export const UserManagement = () => {
   const loggedInUserId = useContext(AuthContext);
@@ -392,7 +393,7 @@ export const UserManagement = () => {
       </div>
 
       {/*Edit user modal */}
-      <div>
+      <Suspense fallback={<LoadingUserManagementTable />}>
         <EditCommunityMember
           isOpen={editModalOpen}
           onClose={closeEditModal}
@@ -401,7 +402,7 @@ export const UserManagement = () => {
           skillTreeOwner={skillTreeOwner}
           loggedInUserId={loggedInUserId}
         />
-      </div>
+      </Suspense>
 
       {filteredUsers.length === 0 && (
         <div className="text-center py-8 text-gray-500">
