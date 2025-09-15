@@ -293,6 +293,89 @@ tests/					<Unit Tests>
 >
 > Front-end JavaScript library for the project, refer to the [docs](https://18.react.dev/learn). JSX React components are used to write HTML in JavaScript as reusable UI components. React hooks are generally used to make data on the page reactive, which is lost on page refresh. Long term data persistence should instead be from the database via Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) for fetching and reactivity (real time changes etc).
 
+### JSX
+
+> [!tip]
+>
+> Refer to the [docs](https://18.react.dev/learn/writing-markup-with-jsx). A file should end in `.jsx` rather than `.js` if it contains and returns reusable React components (`<HTML />` elements). The general structures for it would be of the following consisting of a ([arrow](https://www.w3schools.com/Js/js_arrow_function.asp)) function export:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> `COMPONENT_NAME.jsx`
+> >
+> > ``` jsx
+> > import React from 'react';
+> > ```
+>
+> **JSX with just HTML (no const/hooks):**
+> >
+> > ```jsx
+> > export const COMPONENT_NAME = () => (
+> >   <>
+> >     <p>Hello World!</p>
+> >     ...
+> >   </>
+> > );
+> > ```
+> >
+> > - Make sure both the filename and (export) function name are the same to avoid confusion (`COMPONENT_NAME`).
+>
+> **JSX with const/hooks:**
+>
+> > ```jsx
+> > export const NAME_OF_EXPORT = () => { 
+> >   const EXAMPLE_CONST = "Hello World!";
+> > 
+> >   return (
+> >     <>
+> >       <p>{EXAMPLE_CONST}</p>
+> >       ...
+> >     </>
+> >   );
+> > };
+> > ```
+> > 
+> > - Wrap `{` `}` around to use JavaScript within HTML, refer to the [docs](https://18.react.dev/learn/javascript-in-jsx-with-curly-braces).
+>
+> **JSX components can be reused and imported in other files for modularity:**
+> >
+> > ```jsx
+> > import { COMPONENT_NAME } from '/imports/ui/.../COMPONENT_NAME'
+> > 
+> > export const OTHER_COMPONENT_NAME = () => (
+> >   <>
+> >     <p>Welcome!</p>
+> >     <COMPONENT_NAME />
+> >     ...
+> >   </>
+> > );
+> > ```
+> > 
+> > - Refer to the [docs](https://18.react.dev/learn/importing-and-exporting-components).
+> > - Large JSX files should be broken down into smaller components when possible to be reused which reduces code repetition and improves readability.
+>
+> **Rendering Lists (mapping):**
+> > 
+> > `NumberList.jsx`
+> > 
+> > ```jsx
+> > export const NumberList = () => {
+> >   const numbers = [1, 2, 3, 4, 5];
+> > 
+> >   return (
+> >     <ul>
+> >       {numbers.map((num, index) => (
+> >         <li key={index}>{num}</li>
+> >       ))}
+> >     </ul>
+> >   );
+> > };
+> > ```
+> > 
+> > - Refer to the [docs](https://18.react.dev/learn/rendering-lists).
+> </details>
+
 ## Deep Imports
 
 > [!TIP]
