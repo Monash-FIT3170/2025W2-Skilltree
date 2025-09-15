@@ -7,15 +7,13 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
 import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
 
-import { userUtils } from '/imports/ui/components/Community/utils/userUtils';
-import { roleUtils } from '/imports/ui/components/Community/utils/rolesUtils';
 import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
 
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const UserManagement = () => {
-  const userId = useContext(AuthContext);
+  const loggedInUserId = useContext(AuthContext);
   const { id: skilltreeID } = useParams();
 
   //Subscribe to all necessary collections
@@ -32,19 +30,20 @@ export const UserManagement = () => {
   const userIds = skilltree?.subscribers || [];
   const skillTreeOwner = skilltree.owner;
 
-  //Get all progressRecords for target skilltree
-  const progressRecords = useFind(SubscriptionsCollection, [
+  //Get all subscriptionRecords for target skilltree
+  const subscriptionRecords = useFind(SubscriptionsCollection, [
     { skillTreeId: skilltreeID },
     {
       fields: {
         userId: 1,
         skillTreeId: 1,
-        roles: 1
+        roles: 1,
+        active: 1
       },
       sort: { userId: 1 }
     }
   ]);
-
+  //Get all user objects of the skill tree subscribers
   const userRecords = useFind(Meteor.users, [
     { _id: { $in: userIds } },
     {
@@ -52,39 +51,76 @@ export const UserManagement = () => {
         _id: 1,
         username: 1,
         emails: 1,
-        profile: 1
+        'profile.givenName': 1,
+        'profile.familyName': 1
       },
       sort: { _id: 1 }
     }
   ]);
 
-  // Reactively combine user data with the progress data
-  const users = useMemo(() => {
-    return userRecords.map(user => {
-      const userProgress = progressRecords.find(
-        progress => progress.userId === user._id
-      );
-
-      return {
-        ...user,
-        skilltreeProgress: userProgress,
-        skilltreeRoles: userProgress?.roles || ['user'],
-        skilltreeXP: userProgress?.xpPoints || 0,
-        skilltreeActive: userProgress?.active ?? true,
-        completedNodes:
-          userProgress?.skillNodes?.filter(
-            node => node.type === 'view-node-completed'
-          )?.length || 0,
-        totalNodes: userProgress?.skillNodes?.length || 0,
-        joinedSkilltree: userProgress?.createdAt || 'ACTIVE TODAY',
-        lastActiveSkilltree: userProgress?.lastActive || 'ACTIVE TODAY'
-      };
+  //Create a hash map finding the user's skilltree progress/subscription
+  //Just for easier o(1) fetching instead of using find()
+  const subscriptionRecordByUserId = useMemo(() => {
+    const map = new Map();
+    subscriptionRecords.forEach(record => {
+      map.set(record.userId, record);
     });
-  }, [userRecords, progressRecords]);
+    return map;
+  }, [subscriptionRecords]);
+
+  //Retrive user's subscription progress
+  const getUserSubscription = userId => subscriptionRecordByUserId.get(userId);
 
   //Utils
-  const { getInitials, getDisplayName, getPrimaryEmail } = userUtils;
-  const { getRoleColour, getStatusColour } = roleUtils;
+  const getInitials = user => {
+    const givenName = user.profile?.givenName || '';
+    const familyName = user.profile?.familyName || '';
+
+    if (givenName && familyName) {
+      return (givenName[0] + familyName[0]).toUpperCase();
+    } else if (givenName) {
+      return givenName[0].toUpperCase();
+    } else if (user.username) {
+      return user.username[0].toUpperCase();
+    }
+    return '?';
+  };
+
+  const getDisplayName = user => {
+    if (user.profile?.givenName && user.profile?.familyName) {
+      return `${user.profile.givenName} ${user.profile.familyName}`;
+    } else if (user.profile?.givenName) {
+      return user.profile.givenName;
+    } else if (user.username) {
+      return user.username;
+    }
+    return 'Unknown User';
+  };
+
+  const getPrimaryEmail = user => {
+    return user.emails && user.emails.length > 0
+      ? user.emails[0].address
+      : 'No email';
+  };
+
+  const getRoleColour = role => {
+    switch (role) {
+      case 'admin':
+        return 'bg-red-100 text-red-700 border-red-200';
+      case 'expert':
+        return 'bg-purple-100 text-purple-700 border-purple-200';
+      case 'moderator':
+        return 'bg-blue-100 text-blue-700 border-blue-200';
+      default:
+        return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+  };
+
+  const getStatusColour = isActive => {
+    return isActive
+      ? 'bg-green-100 text-green-700 border-green-200'
+      : 'bg-gray-100 text-gray-700 border-gray-200';
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
@@ -106,9 +142,13 @@ export const UserManagement = () => {
   };
 
   // Filter users based on search term and role filter
+  // filteredUsers: [userRecords]
   // need to do useMemo for filtering: Only recompute value if its dependencies change. Otherwise, reuse the last cached value.
   const filteredUsers = useMemo(() => {
-    return users.filter(user => {
+    return userRecords.filter(user => {
+      //get the user's subscription progress
+      const userSubscription = getUserSubscription(user._id);
+
       const matchesSearch =
         searchTerm === '' ||
         getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -116,11 +156,12 @@ export const UserManagement = () => {
 
       const matchesRole =
         roleFilter === 'all' ||
-        (user.skilltreeRoles && user.skilltreeRoles.includes(roleFilter));
+        (userSubscription?.roles &&
+          userSubscription.roles.includes(roleFilter));
 
       return matchesSearch && matchesRole;
     });
-  }, [users, searchTerm, roleFilter]);
+  }, [userRecords, searchTerm, roleFilter, subscriptionRecordByUserId]);
 
   const handleEditAction = user => {
     setEditModalOpen(true);
@@ -133,20 +174,24 @@ export const UserManagement = () => {
   };
 
   const canEditUser = user => {
-    if (!user?.skilltreeRoles || !user._id) {
+    //Get users subscription
+    const userSubscription = getUserSubscription(user._id);
+    const userRoles = userSubscription?.roles || [];
+
+    if (!userRoles.length || !user._id) {
       return false;
     }
 
     //Cannot edit yourself
-    if (user._id === userId) {
+    if (user._id === loggedInUserId) {
       return false;
     }
 
     //If you are an admin accessing the admin dashboard --> if the user row in the table is either yourself or another admin, then do not
     // display the edit button
     //Only owner can modify admins
-    if (user.skilltreeRoles.includes('admin')) {
-      return userId === skillTreeOwner;
+    if (userRoles.includes('admin')) {
+      return loggedInUserId === skillTreeOwner;
     }
     return true;
   };
@@ -165,7 +210,7 @@ export const UserManagement = () => {
           </p>
         </div>
         <div className="text-sm text-gray-500">
-          {filteredUsers.length} of {users.length} users
+          {filteredUsers.length} of {userRecords.length} users
         </div>
       </div>
 
@@ -220,108 +265,128 @@ export const UserManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user, index) => (
-              <tr
-                key={user._id}
-                className={`border-b hover:bg-gray-50 transition-colors`}
-              >
-                <td className="py-4 px-4">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#04BF8A] to-[#025940] rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        {getInitials(user)}
-                      </div>
-                      {index < 3 && (
-                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-yellow-800">
-                          {index + 1}
+            {filteredUsers.map((user, index) => {
+              // user = userRecord
+              // Get user's subscription data for roles and status
+              const userSubscription = getUserSubscription(user._id);
+              const userRoles = userSubscription?.roles || [];
+              const userStatus = userSubscription?.active;
+
+              return (
+                <tr
+                  key={user._id}
+                  className={`border-b hover:bg-gray-50 transition-colors`}
+                >
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="w-10 h-10 bg-gradient-to-br from-[#04BF8A] to-[#025940] rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          {getInitials(user)}
                         </div>
-                      )}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">
-                        {getDisplayName(user)}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {getPrimaryEmail(user)}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-2 px-2 w-32 sm:w-48 lg:w-64">
-                  <div className="flex flex-wrap gap-1 sm:gap-1.5">
-                    {/* Always show first role */}
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(user.skilltreeRoles[0]) || getRoleColour('user')} whitespace-nowrap`}
-                    >
-                      {user.skilltreeRoles[0]}
-                    </span>
-
-                    {/* Depending on your screen size, display the roles of the user in this skilltree */}
-                    {user.skilltreeRoles.length > 1 && (
-                      <>
-                        {/* Desktop - show all the roles (this is starting from index 1, not including the first role) */}
-                        <div className="hidden sm:flex sm:flex-wrap sm:gap-1.5">
-                          {user.skilltreeRoles.slice(1).map((role, index) => (
-                            <span
-                              key={index + 1}
-                              className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
-                            >
-                              {role}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Mobile - show the rest of the roles */}
-                        <button
-                          onClick={() => toggleRoleExpansion(user._id)}
-                          className="sm:hidden text-xs text-gray-500 hover:text-gray-700 px-1 cursor-pointer"
-                        >
-                          {expandedRoles.has(user._id)
-                            ? `Hide (${user.skilltreeRoles.length - 1})`
-                            : `+${user.skilltreeRoles.length - 1}`}
-                        </button>
-
-                        {/* Mobile: expanded additional roles */}
-                        {expandedRoles.has(user._id) && (
-                          <div className="sm:hidden flex flex-wrap gap-1 w-full mt-2">
-                            {user.skilltreeRoles.slice(1).map((role, index) => (
-                              <span
-                                key={index + 1}
-                                className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
-                              >
-                                {role}
-                              </span>
-                            ))}
+                        {index < 3 && (
+                          <div className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-yellow-800">
+                            {index + 1}
                           </div>
                         )}
-                      </>
-                    )}
-                  </div>
-                </td>
+                      </div>
+                      <div>
+                        <div className="font-semibold text-gray-900">
+                          {getDisplayName(user)}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          {getPrimaryEmail(user)}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 w-32 sm:w-48 lg:w-64">
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                      {/* Show roles if user has any, otherwise show default 'user' role */}
+                      {userRoles.length > 0 ? (
+                        <>
+                          {/* Always show first role */}
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(userRoles[0]) || getRoleColour('user')} whitespace-nowrap`}
+                          >
+                            {userRoles[0]}
+                          </span>
 
-                <td className="py-4 px-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColour(user.skilltreeActive)}`}
-                  >
-                    {user.skilltreeActive ? 'Active' : 'Inactive'}
-                  </span>
-                </td>
+                          {/* Depending on your screen size, display the roles of the user in this skilltree */}
+                          {userRoles.length > 1 && (
+                            <>
+                              {/* Desktop - show all the roles (this is starting from index 1, not including the first role) */}
+                              <div className="hidden sm:flex sm:flex-wrap sm:gap-1.5">
+                                {userRoles.slice(1).map((role, roleIndex) => (
+                                  <span
+                                    key={roleIndex + 1}
+                                    className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
+                                  >
+                                    {role}
+                                  </span>
+                                ))}
+                              </div>
 
-                <td className="py-4 px-4">
-                  <div className="flex justify-end gap-1">
-                    {canEditUser(user) && (
-                      <button
-                        onClick={() => handleEditAction(user)}
-                        className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
-                        title="Edit User"
-                      >
-                        <FiEdit3 className="w-4 h-4" />
-                      </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+                              {/* Mobile - show the rest of the roles */}
+                              <button
+                                onClick={() => toggleRoleExpansion(user._id)}
+                                className="sm:hidden text-xs text-gray-500 hover:text-gray-700 px-1 cursor-pointer"
+                              >
+                                {expandedRoles.has(user._id)
+                                  ? `Hide (${userRoles.length - 1})`
+                                  : `+${userRoles.length - 1}`}
+                              </button>
+
+                              {/* Mobile: expanded additional roles */}
+                              {expandedRoles.has(user._id) && (
+                                <div className="sm:hidden flex flex-wrap gap-1 w-full mt-2">
+                                  {userRoles.slice(1).map((role, roleIndex) => (
+                                    <span
+                                      key={roleIndex + 1}
+                                      className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour(role)} whitespace-nowrap`}
+                                    >
+                                      {role}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        // Default role if no subscription roles found
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-xs font-medium border ${getRoleColour('user')} whitespace-nowrap`}
+                        >
+                          user
+                        </span>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="py-4 px-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColour(userStatus)}`}
+                    >
+                      {userStatus ? 'Active' : 'Inactive'}
+                    </span>
+                  </td>
+
+                  <td className="py-4 px-4">
+                    <div className="flex justify-end gap-1">
+                      {canEditUser(user) && (
+                        <button
+                          onClick={() => handleEditAction(user)}
+                          className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
+                          title="Edit User"
+                        >
+                          <FiEdit3 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -331,10 +396,10 @@ export const UserManagement = () => {
         <EditCommunityMember
           isOpen={editModalOpen}
           onClose={closeEditModal}
-          user={selectedUser}
+          selectedUserId={selectedUser?._id}
           skilltreeId={skilltreeID}
           skillTreeOwner={skillTreeOwner}
-          loggedInUser={userId}
+          loggedInUserId={loggedInUserId}
         />
       </div>
 

@@ -2,27 +2,48 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 
-import { ROLE_CONFIG } from '/imports/ui/components/Community/utils/rolesUtils';
+import { FiUser } from '@react-icons/all-files/fi/FiUser';
+import { FiStar } from '@react-icons/all-files/fi/FiStar';
+import { FiUserCheck } from '@react-icons/all-files/fi/FiUserCheck';
+import { FiSettings } from '@react-icons/all-files/fi/FiSettings';
+
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const EditCommunityMember = ({
   isOpen,
   onClose,
-  user,
+  selectedUserId,
   skilltreeId,
   skillTreeOwner,
-  loggedInUser
+  loggedInUserId
 }) => {
+  //Subscribe to any collections
+  useSubscribe('subscriptions');
+
+  //Get the selected user's subscription progress
+  const userSubscriptionRecord = useFind(SubscriptionsCollection, [
+    { userId: selectedUserId, skillTreeId: skilltreeId },
+    {
+      fields: {
+        userId: 1,
+        skillTreeId: 1,
+        roles: 1
+      }
+    }
+  ])[0];
+
   const initialData = useMemo(
     () => ({
-      roles: user?.skilltreeRoles || []
+      roles: userSubscriptionRecord?.roles || []
     }),
-    [user?.skilltreeRoles]
+    [userSubscriptionRecord?.roles]
   );
 
   const [formData, setFormData] = useState(initialData);
   const [isModified, setIsModified] = useState(false);
   const availableRoles = ['user', 'expert', 'moderator', 'admin'];
-  const isOwner = loggedInUser === skillTreeOwner;
+  const isOwner = loggedInUserId === skillTreeOwner;
 
   useEffect(() => {
     setFormData(initialData);
@@ -77,7 +98,7 @@ export const EditCommunityMember = ({
       */
       await Meteor.callAsync(
         'saveEditCommunityMemberModal',
-        user._id,
+        selectedUserId,
         skilltreeId,
         formData
       );
@@ -92,7 +113,33 @@ export const EditCommunityMember = ({
     onClose(); //call the onCLose method provided intially
   };
 
-  if (!user) {
+  const ROLE_CONFIG = {
+    user: {
+      icon: FiUser,
+      colour: 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200',
+      description:
+        'Basic access to community features. Note: everyone is a user!',
+      removable: false
+    },
+    expert: {
+      icon: FiStar,
+      colour:
+        'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200',
+      description: 'Expert role with greater weightage in voting'
+    },
+    moderator: {
+      icon: FiUserCheck,
+      colour: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200',
+      description: 'Can moderate discussions and content in the community'
+    },
+    admin: {
+      icon: FiSettings,
+      colour: 'bg-red-100 text-red-700 border-red-200 hover:bg-red-200',
+      description: 'Give full administrative access of this skilltree'
+    }
+  };
+
+  if (!userSubscriptionRecord) {
     return (
       <Modal show={isOpen} onClose={onClose} dismissible size="7xl">
         <div>No User Found</div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 
 /*
 The fields and questions asked to the user in the moderator/expert form will be refactored later.
@@ -19,10 +20,18 @@ export const ExpertApplicationCard = ({ application, onReview }) => {
             </span>
           </div>
           <p className="text-gray-600 text-sm mb-2">{application.email}</p>
-          <p className="text-gray-500 text-sm mb-3">
+          <div className="text-gray-500 text-sm mb-3">
             Applied on{' '}
-            {new Date(application.createdAt).toLocaleDateString('en-AU')}
-          </p>
+            <SuspenseHydrated>
+              {new Date(application.createdAt).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </SuspenseHydrated>
+          </div>
 
           <div className="space-y-2">
             <div>
