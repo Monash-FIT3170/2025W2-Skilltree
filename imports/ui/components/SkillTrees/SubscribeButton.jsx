@@ -134,9 +134,15 @@ export const SubscribeButton = ({ skillTreeId }) => {
         isSubscribed ? unsubscribeUserFromSkilltree : subscribeUserToSkilltree
       }
     >
-      <div className="text-white hover:bg-gray-600 px-3 py-2 rounded">
+      <div
+        className={`px-3 py-2 rounded ${isSubscribed
+            ? 'bg-red-600/85 hover:bg-red-700 text-white'
+            : 'bg-white hover:bg-gray-200 text-black'
+          }`}
+      >
         {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
       </div>
+
     </a>
   );
 };
