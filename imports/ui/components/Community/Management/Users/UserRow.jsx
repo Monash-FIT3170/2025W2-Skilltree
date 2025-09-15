@@ -3,13 +3,16 @@ import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import {
+  getDisplayName,
+  getPrimaryEmail
+} from '/imports/ui/components/Community/Management/Users/userUtils';
 
 export const UserRow = ({
   userId,
   skilltreeId,
   skillTreeOwner,
   loggedInUserId,
-  searchTerm,
   index,
   onEditUser
 }) => {
@@ -62,23 +65,6 @@ export const UserRow = ({
     return '?';
   };
 
-  const getDisplayName = () => {
-    if (user.profile?.givenName && user.profile?.familyName) {
-      return `${user.profile.givenName} ${user.profile.familyName}`;
-    } else if (user.profile?.givenName) {
-      return user.profile.givenName;
-    } else if (user.username) {
-      return user.username;
-    }
-    return 'Unknown User';
-  };
-
-  const getPrimaryEmail = () => {
-    return user.emails && user.emails.length > 0
-      ? user.emails[0].address
-      : 'No email';
-  };
-
   const getRoleColour = role => {
     switch (role) {
       case 'admin':
@@ -112,15 +98,8 @@ export const UserRow = ({
   };
 
   //Apply search filter
-  const displayName = getDisplayName();
-  const primaryEmail = getPrimaryEmail();
-  const matchesSearch =
-    !searchTerm ||
-    displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    primaryEmail.toLowerCase().includes(searchTerm.toLowerCase());
-
-  if (!matchesSearch) return null;
-
+  const displayName = getDisplayName(user);
+  const primaryEmail = getPrimaryEmail(user);
   const userRoles = userSubscription?.roles || [];
   const userStatus = userSubscription?.active;
 

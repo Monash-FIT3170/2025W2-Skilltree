@@ -1,9 +1,14 @@
 // UserTable.jsx - Table Container
 import React, { useMemo, Suspense } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { UserRow } from '/imports/ui/components/Community/Management/Users/UserRow';
 import { LoadingUserManagementRow } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementRow';
+import {
+  getDisplayName,
+  getPrimaryEmail
+} from '/imports/ui/components/Community/Management/Users/userUtils';
 
 export const UserTable = ({
   userIds,
@@ -28,6 +33,20 @@ export const UserTable = ({
     }
   ]);
 
+  //Get the skilltree user's records
+  const userRecords = useFind(Meteor.users, [
+    { _id: { $in: userIds } },
+    {
+      fields: {
+        _id: 1,
+        username: 1,
+        emails: 1,
+        'profile.givenName': 1,
+        'profile.familyName': 1
+      }
+    }
+  ]);
+
   //Create a hash map finding the user's skilltree progress/subscription
   //Just for easier o(1) fetching instead of using find()
   const subscriptionRecordByUserId = useMemo(() => {
@@ -38,19 +57,28 @@ export const UserTable = ({
     return map;
   }, [subscriptionRecords]);
 
+  const userMap = useMemo(() => {
+    const map = new Map();
+    userRecords.forEach(user => {
+      map.set(user._id, user);
+    });
+    return map;
+  }, [userRecords]);
+
   //Retrive user's subscription progress
   const getUserSubscription = userId => subscriptionRecordByUserId.get(userId);
+  const getUser = userId => userMap.get(userId);
 
   //Filter users based on search term and role filter
   //filteredUserIds: [userId]
   const filteredUserIds = useMemo(() => {
-    if (!searchTerm && roleFilter === 'all') {
-      return userIds;
-    }
-
     return userIds.filter(userId => {
+      const user = getUser(userId);
       const subscription = getUserSubscription(userId);
 
+      if (!user) return false;
+
+      //MAtching role
       if (roleFilter !== 'all') {
         const userRoles = subscription?.roles || [];
         if (!userRoles.includes(roleFilter)) {
@@ -58,11 +86,20 @@ export const UserTable = ({
         }
       }
 
-      // Note: Search filter will be handled in UserRow part
-      // since we need user data for name/email matching
+      //Matching the search term we got
+      if (searchTerm) {
+        const displayName = getDisplayName(user);
+        const primaryEmail = getPrimaryEmail(user);
+        const matchesSearch =
+          displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          primaryEmail.toLowerCase().includes(searchTerm.toLowerCase());
+
+        if (!matchesSearch) return false;
+      }
+
       return true;
     });
-  }, [userIds, roleFilter, subscriptionRecordByUserId]);
+  }, [userIds, roleFilter, searchTerm, userMap, subscriptionRecordByUserId]);
 
   if (filteredUserIds.length === 0) {
     return (
@@ -101,7 +138,6 @@ export const UserTable = ({
                 skilltreeId={skilltreeId}
                 skillTreeOwner={skillTreeOwner}
                 loggedInUserId={loggedInUserId}
-                searchTerm={searchTerm}
                 index={index}
                 onEditUser={onEditUser}
               />
