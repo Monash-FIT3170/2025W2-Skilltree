@@ -3,7 +3,7 @@ import React, { useMemo, Suspense } from 'react';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { UserRow } from '/imports/ui/components/Community/Management/Users/UserRow';
-import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
+import { LoadingUserManagementRow } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementRow';
 
 export const UserTable = ({
   userIds,
@@ -95,10 +95,7 @@ export const UserTable = ({
         </thead>
         <tbody>
           {filteredUserIds.map((currUserId, index) => (
-            <Suspense
-              key={currUserId}
-              fallback={<LoadingUserManagementTable />}
-            >
+            <Suspense key={currUserId} fallback={<LoadingUserManagementRow />}>
               <UserRow
                 userId={currUserId}
                 skilltreeId={skilltreeId}
