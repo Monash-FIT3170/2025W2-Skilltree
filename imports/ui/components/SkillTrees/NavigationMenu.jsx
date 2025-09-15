@@ -75,6 +75,18 @@ export const NavigationMenu = ({ id }) => {
         </div>
       )
     },
+    isUserAdmin && {
+      id: 'mod-tool',
+      element: (
+        <Link
+          to="admin-tools"
+          state={{ background: location }}
+          className={baseLinkClasses}
+        >
+          <span>Mod Tools</span>
+        </Link>
+      )
+    },
     {
       id: 'leaderboard',
       element: (
