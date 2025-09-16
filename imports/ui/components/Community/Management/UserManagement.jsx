@@ -1,15 +1,9 @@
-import React, { useState, Suspense } from 'react';
+import React from 'react';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 
-import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
-
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
-import { UserFilters } from '/imports/ui/components/Community/Management/Users/UserFilters';
 import { UserTable } from '/imports/ui/components/Community/Management/Users/UserTable';
-
-//Filter, Table and the row. nOTE THAT USERMANAGEMENT IS THE CONTAINER, not the table
 
 export const UserManagement = () => {
   const { id: skilltreeID } = useParams();
@@ -27,23 +21,6 @@ export const UserManagement = () => {
 
   const userIds = skilltree?.subscribers || [];
   const skillTreeOwner = skilltree.owner;
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState('all');
-
-  //Edit community modal
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
-
-  const handleEditAction = userId => {
-    setEditModalOpen(true);
-    setSelectedUserId(userId);
-  };
-
-  const closeEditModal = () => {
-    setEditModalOpen(false);
-    setSelectedUserId(null);
-  };
 
   return (
     <div
@@ -63,36 +40,12 @@ export const UserManagement = () => {
         </div>
       </div>
 
-      {/*Filters */}
-      <UserFilters
-        searchTerm={searchTerm}
-        roleFilter={roleFilter}
-        onSearchChange={setSearchTerm}
-        onRoleFilterChange={setRoleFilter}
-      />
-
       {/*User Table */}
       <UserTable
         userIds={userIds}
         skilltreeId={skilltreeID}
         skillTreeOwner={skillTreeOwner}
-        searchTerm={searchTerm}
-        roleFilter={roleFilter}
-        onEditUser={handleEditAction}
       />
-
-      {/*Edit Modal */}
-      {editModalOpen && (
-        <Suspense fallback={<LoadingUserManagementTable />}>
-          <EditCommunityMember
-            isOpen={editModalOpen}
-            onClose={closeEditModal}
-            selectedUserId={selectedUserId}
-            skilltreeId={skilltreeID}
-            skillTreeOwner={skillTreeOwner}
-          />
-        </Suspense>
-      )}
     </div>
   );
 };

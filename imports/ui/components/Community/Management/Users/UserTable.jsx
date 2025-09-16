@@ -1,23 +1,17 @@
 // UserTable.jsx - Table Container
-import React, { useMemo, Suspense } from 'react';
+import React, { useMemo, Suspense, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { UserRow } from '/imports/ui/components/Community/Management/Users/UserRow';
+import { UserFilters } from '/imports/ui/components/Community/Management/Users/UserFilters';
 import { LoadingUserManagementRow } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementRow';
 import {
   getDisplayName,
   getPrimaryEmail
 } from '/imports/utils/ui/Profile/userUtils';
 
-export const UserTable = ({
-  userIds,
-  skilltreeId,
-  skillTreeOwner,
-  searchTerm,
-  roleFilter,
-  onEditUser
-}) => {
+export const UserTable = ({ userIds, skilltreeId, skillTreeOwner }) => {
   //Get all subscription records for filtering
   const subscriptionRecords = useFind(SubscriptionsCollection, [
     { skillTreeId: skilltreeId },
@@ -69,6 +63,9 @@ export const UserTable = ({
   const getUser = userId => userMap.get(userId);
 
   //Filter users based on search term and role filter
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('all');
+
   //filteredUserIds: [userId]
   const filteredUserIds = useMemo(() => {
     return userIds.filter(userId => {
@@ -116,6 +113,14 @@ export const UserTable = ({
 
   return (
     <div className="overflow-x-auto">
+      {/*Filters */}
+      <UserFilters
+        searchTerm={searchTerm}
+        roleFilter={roleFilter}
+        onSearchChange={setSearchTerm}
+        onRoleFilterChange={setRoleFilter}
+      />
+
       <table className="w-full">
         <thead className="bg-gray-50">
           <tr>
@@ -141,7 +146,6 @@ export const UserTable = ({
                 skilltreeId={skilltreeId}
                 skillTreeOwner={skillTreeOwner}
                 index={index}
-                onEditUser={onEditUser}
               />
             </Suspense>
           ))}

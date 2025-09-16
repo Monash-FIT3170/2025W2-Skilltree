@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, Suspense } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
@@ -9,15 +9,26 @@ import {
   getPrimaryEmail
 } from '/imports/utils/ui/Profile/userUtils';
 
-export const UserRow = ({
-  userId,
-  skilltreeId,
-  skillTreeOwner,
-  index,
-  onEditUser
-}) => {
+import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
+import { LoadingUserManagementTable } from '/imports/ui/components/Community/Fallbacks/LoadingUserManagementTable';
+
+export const UserRow = ({ userId, skilltreeId, skillTreeOwner, index }) => {
   const loggedInUserId = useContext(AuthContext);
   const [expandedRoles, setExpandedRoles] = useState(false);
+
+  //Edit community modal
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
+  const handleEditAction = userId => {
+    setEditModalOpen(true);
+    setSelectedUserId(userId);
+  };
+
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+    setSelectedUserId(null);
+  };
 
   //Get the user account record. Only specify needed fields
   const user = useFind(Meteor.users, [
@@ -200,7 +211,7 @@ export const UserRow = ({
         <div className="flex justify-end gap-1">
           {canEditUser() && (
             <button
-              onClick={() => onEditUser(user._id)}
+              onClick={() => handleEditAction(user._id)}
               className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
               title="Edit User"
             >
@@ -209,6 +220,19 @@ export const UserRow = ({
           )}
         </div>
       </td>
+
+      {/*Edit Modal */}
+      {editModalOpen && (
+        <Suspense fallback={<LoadingUserManagementTable />}>
+          <EditCommunityMember
+            isOpen={editModalOpen}
+            onClose={closeEditModal}
+            selectedUserId={selectedUserId}
+            skilltreeId={skilltreeId}
+            skillTreeOwner={skillTreeOwner}
+          />
+        </Suspense>
+      )}
     </tr>
   );
 };
