@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useContext } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'flowbite-react';
 
@@ -9,15 +9,16 @@ import { FiSettings } from '@react-icons/all-files/fi/FiSettings';
 
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 export const EditCommunityMember = ({
   isOpen,
   onClose,
   selectedUserId,
   skilltreeId,
-  skillTreeOwner,
-  loggedInUserId
+  skillTreeOwner
 }) => {
+  const loggedInUserId = useContext(AuthContext);
   //Subscribe to any collections
   useSubscribe('subscriptions');
 

@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useFind } from 'meteor/react-meteor-data/suspense';
 import { FiEdit3 } from '@react-icons/all-files/fi/FiEdit3';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 import {
   getDisplayName,
   getPrimaryEmail
-} from '/imports/ui/components/Community/Management/Users/userUtils';
+} from '/imports/utils/ui/Profile/userUtils';
 
 export const UserRow = ({
   userId,
   skilltreeId,
   skillTreeOwner,
-  loggedInUserId,
   index,
   onEditUser
 }) => {
+  const loggedInUserId = useContext(AuthContext);
   const [expandedRoles, setExpandedRoles] = useState(false);
 
   //Get the user account record. Only specify needed fields
@@ -98,8 +99,12 @@ export const UserRow = ({
   };
 
   //Apply search filter
-  const displayName = getDisplayName(user);
-  const primaryEmail = getPrimaryEmail(user);
+  const displayName = getDisplayName(
+    user.profile?.givenName,
+    user.profile?.familyName,
+    user.username
+  );
+  const primaryEmail = getPrimaryEmail(user.emails);
   const userRoles = userSubscription?.roles || [];
   const userStatus = userSubscription?.active;
 

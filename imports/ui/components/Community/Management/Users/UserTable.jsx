@@ -8,13 +8,12 @@ import { LoadingUserManagementRow } from '/imports/ui/components/Community/Fallb
 import {
   getDisplayName,
   getPrimaryEmail
-} from '/imports/ui/components/Community/Management/Users/userUtils';
+} from '/imports/utils/ui/Profile/userUtils';
 
 export const UserTable = ({
   userIds,
   skilltreeId,
   skillTreeOwner,
-  loggedInUserId,
   searchTerm,
   roleFilter,
   onEditUser
@@ -88,8 +87,12 @@ export const UserTable = ({
 
       //Matching the search term we got
       if (searchTerm) {
-        const displayName = getDisplayName(user);
-        const primaryEmail = getPrimaryEmail(user);
+        const displayName = getDisplayName(
+          user.profile?.givenName,
+          user.profile?.familyName,
+          user.username
+        );
+        const primaryEmail = getPrimaryEmail(user.emails);
         const matchesSearch =
           displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           primaryEmail.toLowerCase().includes(searchTerm.toLowerCase());
@@ -137,7 +140,6 @@ export const UserTable = ({
                 userId={currUserId}
                 skilltreeId={skilltreeId}
                 skillTreeOwner={skillTreeOwner}
-                loggedInUserId={loggedInUserId}
                 index={index}
                 onEditUser={onEditUser}
               />

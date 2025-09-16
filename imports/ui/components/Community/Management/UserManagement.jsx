@@ -1,7 +1,6 @@
-import React, { useState, useContext, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
-import { AuthContext } from '/imports/utils/contexts/AuthContext';
 
 import { EditCommunityMember } from '/imports/ui/components/Community/Management/EditCommunityMember';
 
@@ -13,7 +12,6 @@ import { UserTable } from '/imports/ui/components/Community/Management/Users/Use
 //Filter, Table and the row. nOTE THAT USERMANAGEMENT IS THE CONTAINER, not the table
 
 export const UserManagement = () => {
-  const loggedInUserId = useContext(AuthContext);
   const { id: skilltreeID } = useParams();
 
   //Subscribe to all necessary collections
@@ -78,7 +76,6 @@ export const UserManagement = () => {
         userIds={userIds}
         skilltreeId={skilltreeID}
         skillTreeOwner={skillTreeOwner}
-        loggedInUserId={loggedInUserId}
         searchTerm={searchTerm}
         roleFilter={roleFilter}
         onEditUser={handleEditAction}
@@ -93,7 +90,6 @@ export const UserManagement = () => {
             selectedUserId={selectedUserId}
             skilltreeId={skilltreeID}
             skillTreeOwner={skillTreeOwner}
-            loggedInUserId={loggedInUserId}
           />
         </Suspense>
       )}
