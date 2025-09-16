@@ -376,6 +376,54 @@ tests/					<Unit Tests>
 > > - Refer to the [docs](https://18.react.dev/learn/rendering-lists).
 > </details>
 
+### Props
+
+> [!tip]
+>
+> Refer to the [docs](https://18.react.dev/learn/passing-props-to-a-component). It allows for passing data from one component (parent) to another (child). It also enables merging similar JSX components together where props are used to handle the differences ([ternary operator](https://www.w3schools.com/java/java_conditions_shorthand.asp) etc, refer to the [docs](https://18.react.dev/learn/conditional-rendering)).
+>
+> <details>
+> <summary>⋯</summary>
+>
+> **Passing Props via Parent JSX:**
+> > 
+> > `PARENT_COMPONENT.jsx`
+> > 
+> > ```jsx
+> > import React from 'react';
+> > import { CHILD_COMPONENT } from '/imports/ui/.../CHILD_COMPONENT'
+> > 
+> > export const PARENT_COMPONENT = () => { 
+> >   const EXAMPLE_CONST = "World!";
+> > 
+> >   return (
+> >     <>
+> >       <CHILD_COMPONENT message={EXAMPLE_CONST} isPerson={false} />
+> >       ...
+> >     </>
+> >   );
+> > };
+> > ```
+>
+> **Accessing & Destructuring Props via Child JSX:**
+> > 
+> > `CHILD_COMPONENT.jsx`
+> > 
+> > ```jsx
+> > import React from 'react';
+> > ...
+> > export const CHILD_COMPONENT = ({ message, isPerson }) => (
+> >   <>
+> >     <p>Hello {message}</p>
+> >     {isPerson ? <PersonJSX /> : <ObjectJSX />}
+> >     ...
+> >   </>
+> > );
+> > ```
+> > 
+> > - Try to avoid 'prop drilling' when possible. Instead of passing database fetches across different component levels, use props to pass the IDs and only fetch the relevant data fields that are used in the component it is in. Provider component + useContext hook, is an alternative approach for data that is commonly used across different levels of components such as the userId for the loggedIn user.  Refer to the [docs](https://18.react.dev/learn/passing-data-deeply-with-context).
+> </details>
+
 ## Deep Imports
 
 > [!TIP]
