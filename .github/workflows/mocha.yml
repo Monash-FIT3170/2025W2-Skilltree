@@ -12,19 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.12.0
 
-      - name: Install Meteor
-        run: curl https://install.meteor.com/ | sh
-
-      - name: Install dependencies
-        run: meteor npm run setup
+      - name: Run Setup
+        run: devbox run setup
 
       - name: Run Meteor tests
-        run: meteor npm run test
+        run: devbox run test
 
       - name: Run Meteor test-start
-        run: meteor npm run test-start
+        run: devbox run test-start
