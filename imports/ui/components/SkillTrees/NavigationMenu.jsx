@@ -63,15 +63,22 @@ export const NavigationMenu = ({ id }) => {
     }
   };
 
-  const baseLinkClasses =
-    'flex items-center gap-2 block py-2 px-3 text-white rounded hover:bg-gray-600 transition-all duration-200';
+  const getLinkClasses = link => {
+    const isActive =
+      location.pathname === link ||
+      (link === `/skilltree/${id}` && location.pathname === `/skilltree/${id}`); // Default active for Community Tree
+
+    return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${
+      isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
+    }`;
+  };
 
   const menuItems = [
     userId !== skilltree?.owner && {
       id: 'subscribe',
       element: (
         <div key="subscribe">
-          <SubscribeButton skillTreeId={id} className={baseLinkClasses} />
+          <SubscribeButton skillTreeId={id} />
         </div>
       )
     },
@@ -81,7 +88,7 @@ export const NavigationMenu = ({ id }) => {
         <Link
           to="admin-tools"
           state={{ background: location }}
-          className={baseLinkClasses}
+          className={getLinkClasses(`/skilltree/${id}/admin-tools`)}
         >
           <span>Mod Tools</span>
         </Link>
@@ -93,7 +100,7 @@ export const NavigationMenu = ({ id }) => {
         <Link
           to={`leaderboard`}
           state={{ background: location }}
-          className={baseLinkClasses}
+          className={getLinkClasses(`/skilltree/${id}/leaderboard`)}
         >
           <span>Leaderboard</span>
         </Link>
@@ -105,7 +112,7 @@ export const NavigationMenu = ({ id }) => {
         <Link
           to={`application`}
           state={{ background: location }}
-          className={baseLinkClasses}
+          className={getLinkClasses(`/skilltree/${id}/application`)}
         >
           <span>Help our Community</span>
         </Link>
@@ -181,7 +188,7 @@ export const NavigationMenu = ({ id }) => {
               <button
                 key={item.id}
                 onClick={() => handleMenuItemClick(item.id)}
-                className={baseLinkClasses}
+                className={getLinkClasses(item.link)}
               >
                 {/* {item.icon} */}
                 <span>{item.label}</span>
