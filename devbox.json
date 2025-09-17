@@ -33,6 +33,9 @@
       "test": [
         ".devbox/meteor npm run test"
       ],
+      "test-start": [
+        ".devbox/meteor npm run test-start"
+      ],
       "visualize": [
         ".devbox/meteor npm run visualize"
       ],
@@ -41,6 +44,9 @@
       ],
       "lint:fix": [
         ".devbox/meteor npm run lint:fix"
+      ],
+        "format": [
+        ".devbox/meteor npm run format"
       ],
       "meteor-install": [
         ".devbox/meteor-install.sh"
