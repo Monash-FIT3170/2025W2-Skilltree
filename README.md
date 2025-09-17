@@ -424,6 +424,62 @@ tests/					<Unit Tests>
 > > - Try to avoid 'prop drilling' when possible. Instead of passing database fetches across different component levels, use props to pass the IDs and only fetch the relevant data fields that are used in the component it is in. Provider component + useContext hook, is an alternative approach for data that is commonly used across different levels of components such as the userId for the loggedIn user.  Refer to the [docs](https://18.react.dev/learn/passing-data-deeply-with-context).
 > </details>
 
+### Hooks
+
+> [!tip]
+>
+> Refer to the [docs](https://18.react.dev/reference/react/hooks). Hooks are generally used to manage reactive state and side effects in JSX components for any data that needs to be [reactively](https://18.react.dev/learn/adding-interactivity) [updated](https://18.react.dev/learn/managing-state) on the page. It is usually not needed for database fetches (which already provide reactivity) except for useContext to share a computation of a common fetch with the exact same fields once (does not change often) across several components such as the loggedIn userId.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - **Responding to Events** ([docs](https://18.react.dev/learn/responding-to-events))
+>
+> - **useState** ([docs](https://18.react.dev/reference/react/useState))
+> 
+> - **useEffect** ([docs](https://18.react.dev/reference/react/useEffect))
+> 
+> - **useMemo** ([docs](https://18.react.dev/reference/react/useMemo))
+> 
+> - **useRef** ([docs](https://18.react.dev/reference/react/useRef))
+> 
+> - **useContext** ([docs](https://react.dev/reference/react/useContext))
+> </details>
+
+### Components
+
+> [!tip]
+>
+> Refer to the [docs](https://18.react.dev/reference/react-dom/components).
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - **Fragment**  ([docs](https://18.react.dev/reference/react/Fragment))
+>
+>   > ```jsx
+>   > return (
+>   >   <>
+>   >     ...
+>   >   </>
+>   > );
+>   > ```
+>   >
+>   > - used to wrap around if there are multiple HTML elements at the top level instead of using uneeded `<div>...</div>`
+>
+> - **Provider** ([docs](https://18.react.dev/reference/react/createContext#provider))
+>
+> - **Suspense** ([docs](https://18.react.dev/reference/react/Suspense))
+>
+>   > ```jsx
+>   > <Suspense fallback={<Fallback />}>
+>   >   <COMPONENT_THAT_FETCHES_DB />
+>   > </Suspense>
+>   > ```
+>   >
+>   > - Suspense should be used around a component that fetches from the database to work with server side rendering (SSR) and to handle the fallback instead of managing `isLoading` states from Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) hooks. 
+> </details>
+
 ## Deep Imports
 
 > [!TIP]
