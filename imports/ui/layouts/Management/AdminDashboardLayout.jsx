@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import { ImExit } from '@react-icons/all-files/im/ImExit';
+import { LoadingUserManagementTable } from '../../components/Community/Fallbacks/LoadingUserManagementTable';
 
 export const AdminDashboardLayout = () => {
   const { id: skilltreeID } = useParams();
@@ -75,7 +76,9 @@ export const AdminDashboardLayout = () => {
 
         {/*React Router v6+ provides a unique location.key for every navigation*/}
         <div className="w-full">
-          <Outlet />
+          <Suspense fallback={<LoadingUserManagementTable />}>
+            <Outlet />
+          </Suspense>
         </div>
       </div>
     </div>
