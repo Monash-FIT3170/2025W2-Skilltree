@@ -1,5 +1,8 @@
-import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { useEffect, useState } from 'react';
 import { ProofUploadButton } from './ProofUploadButton';
+import { User } from '/imports/utils/User';
+import React from 'react';
 
 export const SkillViewForm = ({
   skilltreeId,
@@ -7,6 +10,36 @@ export const SkillViewForm = ({
   onCancel,
   onUploadProof
 }) => {
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
+
+  const user = User(['_id']);
+  const userId = user?._id ?? '';
+
+  useEffect(() => {
+    if (!skilltreeId || !userId) return;
+
+    const checkStatus = async () => {
+      const isSubscribed = await checkUserIsSubscribed();
+      setIsUserSubscribed(isSubscribed);
+    };
+    checkStatus();
+  }, [skilltreeId, userId]);
+
+  const checkUserIsSubscribed = async () => {
+    try {
+      const foundUser = await Meteor.callAsync(
+        'skilltrees.findUser',
+        skilltreeId,
+        userId
+      );
+      return !!foundUser;
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      return false;
+    }
+  };
+
+  // Skilltree progress
   const progress = Math.floor(
     (editingNode.currentNetUpvotes / editingNode.netUpvotesRequired) * 100
   );
@@ -73,15 +106,27 @@ export const SkillViewForm = ({
           </div>
           <br />
           <div className="mt-2.5 flex w-full justify-between">
-            <button type="button" onClick={onCancel} className="ml-2.5">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="ml-2.5 hover:cursor-pointer"
+            >
               Cancel
             </button>
-            <ProofUploadButton
-              skilltreeId={skilltreeId}
-              skill={editingNode.label}
-              requirements={editingNode.requirements}
-              onUploadProof={onUploadProof}
-            />
+            <div className="flex flex-col items-end">
+              <ProofUploadButton
+                skilltreeId={skilltreeId}
+                skill={editingNode.label}
+                requirements={editingNode.requirements}
+                onUploadProof={onUploadProof}
+                disabled={!isUserSubscribed}
+              />
+              {!isUserSubscribed && (
+                <span className="text-gray-500">
+                  Please subscribe to post proofs.
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>

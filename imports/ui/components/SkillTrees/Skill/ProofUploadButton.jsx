@@ -1,12 +1,13 @@
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import { Buffer } from 'buffer'; //
 import { Button } from 'flowbite-react';
 import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
-import React, { useState } from 'react';
-import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
+import { useState } from 'react';
 import { Dropzone } from '../../Utility/Dropzone';
 import { User } from '/imports/utils/User';
+import React from 'react';
 
 /** A button that opens a form for a user to upload proof of progression in the SkillTree.
  * Uploads proof photo/videos to an Amazon Web Services S3 storage bucket
@@ -18,7 +19,8 @@ export const ProofUploadButton = ({
   skilltreeId,
   skill,
   requirements,
-  onUploadProof
+  onUploadProof,
+  disabled = false
 }) => {
   // loggedIn username
   const currentUserId = Meteor.userId();
@@ -42,6 +44,8 @@ export const ProofUploadButton = ({
   const [isValidFile, setIsValidFile] = useState(false);
   // Modal Controller
   const [openModal, setOpenModal] = useState(false);
+
+  const [uploadFailed, setUploadFailed] = useState(false);
 
   /**
    * Closes the upload modal, sending the user back to the Node modal. Resets state so that something new can be uploaded if they hit 'Post Proof' again.
@@ -67,10 +71,21 @@ export const ProofUploadButton = ({
     setFileUploadProgress(null);
     const key = `${Random.id()}.${_.last(file.name.split('.'))}`;
 
+    // TODO check subscription server-side as well or maybe just here to ensure you cant upload while unsubscribed so long as you have the modal open
     const multipartUpload = await Meteor.callAsync(
       'createMultiPartUpload',
+      skilltreeId,
+      currentUserId,
       key
     );
+    if (!multipartUpload || !multipartUpload.UploadId) {
+      console.log('returned no');
+      setUploadFailed(true);
+      alert(
+        'Upload failed, please refresh and try again. Please ensure you are subscribed to the skilltree.'
+      );
+      throw new Meteor.Error('Failed to create multipart upload');
+    }
     const uploadId = multipartUpload.UploadId;
     const uploadPromises = [];
     const partSize = 10 * 1024 * 1024;
@@ -258,6 +273,7 @@ export const ProofUploadButton = ({
         color="green"
         className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
         onClick={() => setOpenModal(true)}
+        disabled={disabled}
       >
         Post Proof
       </Button>
@@ -336,9 +352,11 @@ export const ProofUploadButton = ({
               >
                 {fileUploadProgress !== undefined && (
                   <p>
-                    {fileUploadProgress === null
-                      ? 'Starting upload'
-                      : `${fileUploadProgress}%`}
+                    {uploadFailed
+                      ? 'Upload failed, please refresh and try again.'
+                      : fileUploadProgress === null
+                        ? 'Starting upload'
+                        : `Upload Progress: ${fileUploadProgress}%`}
                   </p>
                 )}
                 {result && <p>Done!</p>}

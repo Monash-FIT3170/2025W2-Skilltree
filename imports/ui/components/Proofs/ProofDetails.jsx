@@ -7,8 +7,9 @@
 import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React from 'react';
-import { AddComment } from '../components/Proofs/Comments/AddComment';
-import { CommentSection } from '../components/Proofs/Comments/CommentSection';
+import { AddComment } from './Comments/AddComment';
+import { CommentSection } from './Comments/CommentSection';
+import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
 
 /**
@@ -39,16 +40,6 @@ export const ProofDetails = ({ proofId, onClose }) => {
       }
     }
   ])[0];
-
-  /**
-   * Handles upvote action by calling the 'proof.upvote' Meteor method.
-   */
-  const handleUpvote = () => Meteor.call('proof.upvote', proof._id);
-
-  /**
-   * Handles downvote action by calling the 'proof.downvote' Meteor method.
-   */
-  const handleDownvote = () => Meteor.call('proof.downvote', proof._id);
 
   /**
    * Formats a JavaScript Date object into a human-readable string.
@@ -122,20 +113,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
             </p>
 
             {/* Voting Controls */}
-            <div className="flex space-x-4 mb-6">
-              <button
-                onClick={handleUpvote}
-                className="flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                👍 Upvote ({proof.upvotes || 0})
-              </button>
-              <button
-                onClick={handleDownvote}
-                className="flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                👎 Downvote ({proof.downvotes || 0})
-              </button>
-            </div>
+            <VoteButtons proof={proof} skilltreeId={proof.skillTreeId} />
           </div>
 
           {/* Comment Section */}
