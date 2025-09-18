@@ -89,50 +89,56 @@ export const CreateSkillTree = () => {
   };
 
   const handleSaveSkillTree = async skilltreeToSave => {
-    try {
-      let skillTreeId = skillTree._id;
+  console.log("save clicked");
+  console.log("Data to save:", skilltreeToSave);
+  
+  try {
+    let skillTreeId = skillTree._id;
 
-      if (!skillTreeId) {
-        // First save: insert new SkillTree
-        const newSkillTreeId = await Meteor.callAsync(
-          'skilltrees.insert',
-          skilltreeToSave
-        );
-        // Store the new ID
-        setSkillTree(prev => ({ ...prev, _id: newSkillTreeId })); 
-        skillTreeId = newSkillTreeId;
+    if (!skillTreeId) {
+      // First save: insert new SkillTree
+      const newSkillTreeId = await Meteor.callAsync(
+        'skilltrees.insert',
+        skilltreeToSave
+      );
+      // Store the new ID
+      setSkillTree(prev => ({ ...prev, _id: newSkillTreeId }));
+      skillTreeId = newSkillTreeId;
 
-      //Update the owner's created communities list
+     //Update the owner's created communities list
       await Meteor.callAsync('updateCreatedCommunities', skillTreeId);
       //Update the owner's subscribed communities list
       await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
       //Add skilltree progress --> this will execute the else condition
       await Meteor.callAsync('saveSubscription', skillTreeId);
-      //Add admin role to skilltree progression
-      const updateOperation = {
-        $addToSet: { roles: 'admin' }
-
-      };
-
+      
+      // Add admin role
+      const updateOperation = { $addToSet: { roles: 'admin' } };
       toast.success('Successfully created SkillTree!');
-      } else {
-        // Subsequent saves: update existing SkillTree
-        const { _id, ...updateData } = skilltreeToSave; // Exclude _id from update data
-        await Meteor.callAsync('skilltrees.update', skillTreeId, updateData);
+    } else {
+      // Subsequent saves: update existing SkillTree
+      const updateData = { ...skilltreeToSave };      
+      console.log("Updating with data:", updateData);
+      
+      await Meteor.callAsync('skilltrees.update', skillTreeId, updateData);
 
-        setSkillTree(prev => ({
-          ...prev,
-          ...updateData,
-          updatedAt: new Date()
-        }));
-
-        toast.success('SkillTree updated!');
-      }
-    } catch (error) {
-      console.error('Error saving skill tree:', error);
-      toast.error('Error saving SkillTree!');
+      // Update local state
+      setSkillTree(prev => ({
+        ...prev,
+        ...updateData,
+        updatedAt: new Date()
+      }));
+      // await Meteor.callAsync('updateCreatedCommunities', skillTreeId);
+      // await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
+      await Meteor.callAsync('saveSubscription', skillTreeId);
+      console.log("SkillTree updated successfully");
+      toast.success('SkillTree updated!');
     }
-  };
+  } catch (error) {
+    console.error('Error saving skill tree:', error);
+    toast.error('Error saving SkillTree!');
+  }
+};
 
   return (
     <>
@@ -155,6 +161,8 @@ export const CreateSkillTree = () => {
         {/* Conditionally render add skills form, Only pass nodes and edges if they exist*/}
         {showAddSkillsForm && skillTree.skillNodes.length > 0 && (
           <>
+            {console.log("Skilltree found and loaded")}
+            {/* {console.log(skilltreeToSave)} */}
             <SkillTreeEdit
               isAdmin={true}
               onSave={updateNodesAndEdges}
@@ -166,6 +174,8 @@ export const CreateSkillTree = () => {
         )}
         {showAddSkillsForm && skillTree.skillNodes.length == 0 && (
           <>
+            {console.log("0 Skill tree found")}
+            {/* {console.log(skilltreeToSave)} */}
             <SkillTreeEdit
               isAdmin={true}
               onSave={updateNodesAndEdges}
