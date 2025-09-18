@@ -9,11 +9,12 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 import { CreateTreeForm } from '../components/SkillTrees/CreateTreeForm';
 import { SkillTreeEdit } from '../components/SkillTrees/SkillTree';
 import { ToastContainer, toast, Flip } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateSkillTree = () => {
   //Current user id logged in
   const userId = useContext(AuthContext); // Reactive when value changes
-
+  const navigate = useNavigate();
   const [showAddDetailsForm, setShowAddDetailsForm] = useState(true);
   const [showAddSkillsForm, setShowAddSkillsForm] = useState(false);
   const [skillTree, setSkillTree] = useState({
@@ -103,6 +104,7 @@ export const CreateSkillTree = () => {
       //Add admin role to skilltree progression
       const updateOperation = {
         $addToSet: { roles: 'admin' }
+
       };
 
       await Meteor.callAsync(
@@ -111,6 +113,8 @@ export const CreateSkillTree = () => {
         userId,
         updateOperation
       );
+
+      navigate('/dashboard', { state: { showSkillTreeCreatedToast: true } });
 
       console.log('Skill Tree saved successfully');
     } catch (error) {
