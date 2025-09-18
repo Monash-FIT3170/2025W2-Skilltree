@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { ProofsList } from '../components/Proofs/ProofsList';
+import { EventCard } from '../components/RankedEvents/EventCard';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
@@ -58,9 +58,9 @@ export const RankedEvent = () => {
       </Helmet>
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
-        {/* Responsive container for ProofsList */}
+        {/* Responsive container for EventCard */}
         <Suspense>
-          <ProofsList skilltreeId={skilltreeId} />
+          <EventCard skilltreeId={skilltreeId} />
         </Suspense>
       </div>
     </>
