@@ -1,8 +1,7 @@
 // React imports
-import React, { useState } from 'react';
+import React from 'react';
 
 // Meteor-specific imports
-import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
@@ -121,7 +120,6 @@ export const EventCard = ({ skilltreeId, filter = 'default' }) => {
                 </div>
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
-
                   {/* Voting Controls */}
                   <VoteUpButton proof={proof} skilltreeId={skilltreeId} />
                 </div>

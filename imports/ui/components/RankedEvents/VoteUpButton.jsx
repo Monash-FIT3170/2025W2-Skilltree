@@ -45,7 +45,6 @@ export const VoteUpButton = ({ proof, skilltreeId }) => {
     });
   };
 
-
   return (
     <div className="flex gap-2">
       <button

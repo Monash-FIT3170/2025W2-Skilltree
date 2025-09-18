@@ -47,7 +47,6 @@ export const RankedEvent = () => {
     console.log('No roles found for user in this skilltree.');
   }
 
-
   // Filter state: 'default' or 'upvotes'
   const [filter, setFilter] = useState('default');
 
@@ -70,15 +69,39 @@ export const RankedEvent = () => {
                 value={filter}
                 onChange={e => setFilter(e.target.value)}
                 className="block w-full rounded-lg px-3 py-2 bg-[#328E6E] text-white font-semibold border border-[#328E6E] focus:outline-none focus:ring-2 focus:ring-[#328E6E] appearance-none shadow"
-                style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
+                style={{
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  appearance: 'none'
+                }}
               >
-                <option value="default" className="bg-white text-[#328E6E] font-semibold">Default (by date)</option>
-                <option value="upvotes" className="bg-white text-[#328E6E] font-semibold">Most Upvoted</option>
+                <option
+                  value="default"
+                  className="bg-white text-[#328E6E] font-semibold"
+                >
+                  Default (by date)
+                </option>
+                <option
+                  value="upvotes"
+                  className="bg-white text-[#328E6E] font-semibold"
+                >
+                  Most Upvoted
+                </option>
               </select>
               {/* Dropdown arrow */}
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>
