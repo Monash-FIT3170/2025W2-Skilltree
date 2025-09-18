@@ -4,7 +4,25 @@ import { Schemas } from '/imports/api/Schemas';
 //Import the Followers collection
 import { FollowersCollection } from '/imports/api/collections/Followers';
 
-Schemas.Followers = new SimpleSchema({});
+Schemas.Followers = new SimpleSchema({
+  followerUserId: {
+    type: String,
+    label: 'Who is Following'
+  },
+  followingUserId: {
+    type: String,
+    label: 'Who is being followed'
+  },
+  createdAt: {
+    type: Date,
+    label: 'Followship creation date'
+  }
+});
+/*
+FollowersCollection.createIndex({ followerId: 1, followingId: 1 }, { unique: true });
+FollowersCollection.createIndex({ followerId: 1, createdAt: -1 });
+FollowersCollection.createIndex({ followingId: 1, createdAt: -1 });
+*/
 
 //Attach schema to collection
 FollowersCollection.attachSchema(Schemas.Followers);
