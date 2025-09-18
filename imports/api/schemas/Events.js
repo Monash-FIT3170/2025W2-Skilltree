@@ -34,3 +34,5 @@ Schemas.Events = new SimpleSchema({
         type: String,
     },
 })
+
+EventCollection.attachSchema(Schemas.Events)
