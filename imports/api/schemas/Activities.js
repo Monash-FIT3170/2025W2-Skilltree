@@ -23,7 +23,9 @@ export const ACTIVITY_TYPES = {
   PROOF_SUBMITTED: 'proof_submitted'
 };
 
-// Enhanced ActivityData schema to support all your planned activities
+/*
+There are multiple fields in this ActivityData. Depending on the type of activity,
+*/
 Schemas.ActivityData = new SimpleSchema({
   //Skilltree-related fields
   skillId: {
@@ -53,11 +55,6 @@ Schemas.ActivityData = new SimpleSchema({
     label: 'ID of user being followed',
     optional: true
   },
-  followedUserName: {
-    type: String,
-    label: 'Name of user being followed',
-    optional: true
-  },
 
   //Proof of practice upload fields
   postId: {
@@ -72,6 +69,7 @@ Schemas.Activities = new SimpleSchema({
     type: String,
     label: 'The current userId'
   },
+  //Depending on the type of activity, it will render a specific "dashboard/feed card"
   type: {
     type: String,
     label: 'Activity type',
