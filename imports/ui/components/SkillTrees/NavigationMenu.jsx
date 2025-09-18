@@ -50,6 +50,18 @@ export const NavigationMenu = ({ id }) => {
         />
       ),
       link: `/pendingproofs/${id}`
+    },
+    {
+      id: 'events',
+      label: 'Events',
+      icon: (
+        <img
+          src="/images/EventIcon.jpg"
+          alt="Logo"
+          className="w-6 h-6 object-contain"
+        />
+      ),
+      link: `/rankedevents/${id}`
     }
   ];
 
