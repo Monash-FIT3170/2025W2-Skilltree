@@ -15,8 +15,9 @@ import { User } from '/imports/utils/User';
  * Component: EventCard
  * Displays a list of events.
  * Currently uses the proofs as event cards as a placeholder
+ * Accepts a filter prop to sort by date or upvotes
  */
-export const EventCard = ({ skilltreeId }) => {
+export const EventCard = ({ skilltreeId, filter = 'default' }) => {
   const user = User(['_id']);
   const currentUserId = user?._id ?? '';
   /**
@@ -25,6 +26,8 @@ export const EventCard = ({ skilltreeId }) => {
    * - Fetches all proofs, sorted by date (latest first).
    */
   useSubscribe('proof');
+
+  // Always fetch by date descending for consistency, then sort in-memory if needed
   const proofs =
     useFind(ProofCollection, [
       { skillTreeId: { $eq: skilltreeId } },
@@ -45,8 +48,19 @@ export const EventCard = ({ skilltreeId }) => {
       }
     ]) ?? [];
 
+  // Sort proofs based on filter
+  let sortedProofs = proofs;
+  if (filter === 'upvotes') {
+    sortedProofs = [...proofs].sort((a, b) => {
+      // Sort descending by upvotes (highest first)
+      const upA = typeof a.upvotes === 'number' ? a.upvotes : 0;
+      const upB = typeof b.upvotes === 'number' ? b.upvotes : 0;
+      return upB - upA;
+    });
+  }
+
   // Empty state UI
-  if (proofs.length === 0) return <div>No proofs found.</div>;
+  if (sortedProofs.length === 0) return <div>No proofs found.</div>;
 
   /**
    * Formats a given date into a human-readable string.
@@ -69,7 +83,7 @@ export const EventCard = ({ skilltreeId }) => {
       <div className="w-full max-w-screen-2xl mx-auto">
         {/* Grid Layout for Event Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {proofs.map(proof => {
+          {sortedProofs.map(proof => {
             return (
               <div key={proof._id} className="p-4 bg-[#D2EAD1] rounded-xl">
                 {/* Header: User and Date */}

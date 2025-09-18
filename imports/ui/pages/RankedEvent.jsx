@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
 
@@ -47,20 +47,47 @@ export const RankedEvent = () => {
     console.log('No roles found for user in this skilltree.');
   }
 
-  // ...existing code...
+
+  // Filter state: 'default' or 'upvotes'
+  const [filter, setFilter] = useState('default');
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   return (
     <>
       <Helmet>
-        <title>SkillTree - Pending Proofs</title>
+        <title>SkillTree - Ranked Events</title>
       </Helmet>
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
+        {/* Header with title and filter dropdown */}
+        {/* Header with filter dropdown styled and aligned */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="flex flex-col gap-2 w-full sm:w-auto">
+            <div className="relative w-60">
+              <select
+                id="event-filter"
+                value={filter}
+                onChange={e => setFilter(e.target.value)}
+                className="block w-full rounded-lg px-3 py-2 bg-[#328E6E] text-white font-semibold border border-[#328E6E] focus:outline-none focus:ring-2 focus:ring-[#328E6E] appearance-none shadow"
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none' }}
+              >
+                <option value="default" className="bg-white text-[#328E6E] font-semibold">Default (by date)</option>
+                <option value="upvotes" className="bg-white text-[#328E6E] font-semibold">Most Upvoted</option>
+              </select>
+              {/* Dropdown arrow */}
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Responsive container for EventCard */}
         <Suspense>
-          <EventCard skilltreeId={skilltreeId} />
+          <EventCard skilltreeId={skilltreeId} filter={filter} />
         </Suspense>
       </div>
     </>
