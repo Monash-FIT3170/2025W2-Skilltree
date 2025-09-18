@@ -108,7 +108,7 @@ export const SkillTreeLogic = ({
 
   const initialEdges = savedEdges ?? [];
 
-  const idRef = useRef(1);
+  const idRef = useRef(initialNodes.length);
   const getId = () => `${idRef.current++}`;
   const nodeOrigin = [0.5, 0];
 
