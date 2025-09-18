@@ -9,12 +9,13 @@ import { AuthContext } from '/imports/utils/contexts/AuthContext';
 import { CreateTreeForm } from '../components/SkillTrees/CreateTreeForm';
 import { SkillTreeEdit } from '../components/SkillTrees/SkillTree';
 import { ToastContainer, toast, Flip } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { update } from 'lodash';
+//import { useNavigate } from 'react-router-dom';
 
 export const CreateSkillTree = () => {
   //Current user id logged in
   const userId = useContext(AuthContext); // Reactive when value changes
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [showAddDetailsForm, setShowAddDetailsForm] = useState(true);
   const [showAddSkillsForm, setShowAddSkillsForm] = useState(false);
   const [skillTree, setSkillTree] = useState({
@@ -89,11 +90,17 @@ export const CreateSkillTree = () => {
 
   const handleSaveSkillTree = async skilltreeToSave => {
     try {
-      //Insert the new skilltree into the collection
-      const skilltreeId = await Meteor.callAsync(
-        'skilltrees.insert',
-        skilltreeToSave
-      );
+      let skilltreeId = skillTree._id;
+
+      if (!skilltreeId) {
+        // First save: insert new SkillTree
+        const newSkillTreeId = await Meteor.callAsync(
+          'skilltrees.insert',
+          skilltreeToSave
+        );
+        // Store the new ID
+        setSkillTree(prev => ({ ...prev, _id: newSkillTreeId })); 
+        skilltreeId = newSkillTreeId;
 
       //Update the owner's created communities list
       await Meteor.callAsync('updateCreatedCommunities', skilltreeId);
@@ -117,11 +124,24 @@ export const CreateSkillTree = () => {
       navigate('/dashboard', { state: { showSkillTreeCreatedToast: true } });
 
       console.log('Skill Tree saved successfully');
+      toast.success('Successfully created SkillTree!');
+      } else {
+        // Subsequent saves: update existing SkillTree
+        const { _id, ...updateData } = skilltreeToSave; // Exclude _id from update data
+        await Meteor.callAsync('skilltrees.update', skillTreeId, updateData);
+
+        setSkillTree(prev => ({
+          ...prev,
+          ...updateData,
+          updatedAt: new Date()
+        }));
+
+        toast.success('SkillTree updated!');
+      }
     } catch (error) {
       console.error('Error saving skill tree:', error);
+      toast.error('Error saving SkillTree!');
     }
-    // Show confirmation popup
-    toast.success('Successfully created SkillTree!');
   };
 
   return (
