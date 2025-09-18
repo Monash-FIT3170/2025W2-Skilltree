@@ -7,7 +7,7 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // Collections & Components
 import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
-import { VoteButtons } from '../Proofs/Votes/VoteButtons';
+import { VoteUpButton } from './VoteUpButton';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { User } from '/imports/utils/User';
 
@@ -123,7 +123,7 @@ export const EventCard = ({ skilltreeId, filter = 'default' }) => {
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
 
                   {/* Voting Controls */}
-                  <VoteButtons proof={proof} skilltreeId={skilltreeId} />
+                  <VoteUpButton proof={proof} skilltreeId={skilltreeId} />
                 </div>
               </div>
             );
