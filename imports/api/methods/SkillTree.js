@@ -45,20 +45,23 @@ Meteor.methods({
     return await SkillTreeCollection.insertAsync(processedSkillTree);
   },
 
-  'skilltrees.update'(skilltreeId, skilltree) {
+  async 'skilltrees.update'(skilltreeId, skilltree) {
     // Schemas.SkillTree.validate(skilltree);
 
-    if (!SkillTreeCollection.findOne(skilltreeId)) {
+    if (!SkillTreeCollection.findOneAsync(skilltreeId)) {
       throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
     }
 
+    // Remove _id if present
+    const { _id, ...rest } = skilltree;
+
     // Add updatedAt timestamp
     const updateData = {
-      ...skilltree,
+      ...rest,
       updatedAt: new Date()
     };
 
-    return SkillTreeCollection.update(skilltreeId, { $set: updateData });
+    return SkillTreeCollection.updateAsync(skilltreeId, { $set: updateData });
   },
 
   'skilltrees.remove'(skilltreeId) {
