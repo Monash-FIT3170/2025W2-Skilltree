@@ -92,20 +92,4 @@ Schemas.Activities = new SimpleSchema({
   }
 });
 
-/*just an idea: Implement createIndex for faster/speeds up query pre-computation
-
-ActivitiesCollection.createIndex({ userId: 1, createdAt: -1 });
-ActivitiesCollection.createIndex({ userId: 1, isPublic: 1, createdAt: -1 });
-ActivitiesCollection.createIndex({ type: 1, createdAt: -1 });
-ActivitiesCollection.createIndex({ isPublic: 1, createdAt: -1 });
-
-
-For example, we will probably be calling these actions across the application
-ActivitiesCollection.find(
-  { userId: someUserId },
-  { sort: { createdAt: -1 }, limit: 20 }
-)
-retrieves the latest activities for this specific user
-*/
-
 ActivitiesCollection.attachSchema(Schemas.Activities);

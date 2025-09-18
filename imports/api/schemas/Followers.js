@@ -18,11 +18,6 @@ Schemas.Followers = new SimpleSchema({
     label: 'Followship creation date'
   }
 });
-/*
-FollowersCollection.createIndex({ followerId: 1, followingId: 1 }, { unique: true });
-FollowersCollection.createIndex({ followerId: 1, createdAt: -1 });
-FollowersCollection.createIndex({ followingId: 1, createdAt: -1 });
-*/
 
 //Attach schema to collection
 FollowersCollection.attachSchema(Schemas.Followers);

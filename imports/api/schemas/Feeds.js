@@ -23,9 +23,4 @@ Schemas.Feeds = new SimpleSchema({
   }
 });
 
-/*
-FeedsCollection.createIndex({ userId: 1, createdAt: -1 });
-FeedsCollection.createIndex({ activityId: 1 });
-*/
-
 FeedsCollection.attachSchema(Schemas.Feeds);
