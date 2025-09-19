@@ -64,11 +64,12 @@ export const NavigationMenu = ({ id }) => {
   };
 
   const getLinkClasses = link => {
-  const isActive = location.pathname === link || location.pathname.endsWith(link);
-  return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${
-    isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
-  }`;
-};
+    const isActive =
+      location.pathname === link || location.pathname.endsWith(link);
+    return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${
+      isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
+    }`;
+  };
 
   const menuItems = [
     userId !== skilltree?.owner && {
@@ -92,17 +93,17 @@ export const NavigationMenu = ({ id }) => {
       )
     },
     {
-  id: 'leaderboard',
-  element: (
-    <Link
-      to={`/skilltree/${id}/leaderboard`}
-      state={{ background: location }}
-      className={getLinkClasses(`/skilltree/${id}/leaderboard`)}
-    >
-      <span>Leaderboard</span>
-    </Link>
-  )
-},
+      id: 'leaderboard',
+      element: (
+        <Link
+          to={`/skilltree/${id}/leaderboard`}
+          state={{ background: location }}
+          className={getLinkClasses(`/skilltree/${id}/leaderboard`)}
+        >
+          <span>Leaderboard</span>
+        </Link>
+      )
+    },
 
     isUserSubscribed && {
       id: 'help-community',
