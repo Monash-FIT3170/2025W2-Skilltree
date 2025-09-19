@@ -15,7 +15,8 @@ Schemas.Followers = new SimpleSchema({
   },
   createdAt: {
     type: Date,
-    label: 'Followship creation date'
+    label: 'Followship creation date',
+    defaultValue: new Date()
   }
 });
 
