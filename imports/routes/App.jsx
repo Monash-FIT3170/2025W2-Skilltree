@@ -21,6 +21,7 @@ import { AdminDashboardRoutes } from '/imports/routes/pages/Community/AdminDashb
 import { ApplicationRoutes } from '/imports/routes/pages/Community/Application';
 import { SkillForestRoutes } from '/imports/routes/pages/SkillForest';
 import { CreateSkillForestRoutes } from './pages/CreateSkillForest';
+import { RankedEventRoutes } from '/imports/routes/pages/RankedEvents';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -52,6 +53,7 @@ export const AppRoutes = [
       ...GeneralForumRoutes,
       ...SkillForestRoutes,
       ...CreateSkillForestRoutes,
+      ...RankedEventRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }
