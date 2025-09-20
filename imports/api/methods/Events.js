@@ -2,14 +2,34 @@ import { Meteor } from 'meteor/meteor';
 import { EventCollection } from '/imports/api/collections/Events';
 import { ProofCollection } from '../collections/Proof';
 import { SubscriptionsCollection } from '../collections/Subscriptions';
+import { SkillTreeCollection } from '../collections/SkillTree';
+import { check } from 'meteor/check';
 
 Meteor.methods({
+    async getEvent(eventId){
+        return await EventCollection.findOneAsync(
+            {_id: eventId}
+        )
+    },
+
+    async createEvent(event){
+        const skilltree = await SkillTreeCollection.findOneAsync(
+            {_id: event.skilltreeId}
+        )
+        if (!skilltree){
+            throw new Meteor.Error('skilltree-not-found', "Skilltree does not exist")
+        }
+
+        return await EventCollection.insertAsync(event)
+    },
+
     async addUser(userId,eventId) {
         check(userId, String)
         check(eventId, String)
 
         // check user exists
         const user = await Meteor.users.findOneAsync({_id: userId})
+
         if (!user){
             throw new Meteor.Error('user-not-found', "User does not exist")
         }
@@ -85,7 +105,7 @@ Meteor.methods({
             throw new Meteor.Error('event-not-found', "Event does not exist")
         }
 
-        await EventCollection.updateAsync({_id: eventId},{$set: {active: false}})
+        const res = await EventCollection.updateAsync({_id: eventId},{$set: {active: false}})
 
         // distribute trophies if ranked event
         if (eventObject.maxTrophies > 0){
@@ -107,9 +127,9 @@ Meteor.methods({
 
                 calc -= 1
             }
-
-            return
         }
+
+        return res
     },
 
     async addProof(proof,eventId) {
