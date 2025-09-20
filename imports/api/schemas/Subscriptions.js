@@ -173,7 +173,7 @@ Schemas.Subscription = new SimpleSchema({
   trophies: {
     type: SimpleSchema.Integer,
     label: 'Trophies earned from ranked events',
-    defaultValue: 0,
+    defaultValue: 0
   }
 });
 
