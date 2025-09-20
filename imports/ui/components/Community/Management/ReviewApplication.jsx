@@ -1,4 +1,5 @@
 import React from 'react';
+import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 
 export const ReviewApplication = ({
   selectedApplication,
@@ -73,14 +74,15 @@ export const ReviewApplication = ({
               Application Date
             </label>
             <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900">
-              {new Date(selectedApplication.createdAt).toLocaleDateString(
-                'en-US',
-                {
+              <SuspenseHydrated>
+                {selectedApplication.createdAt.toLocaleDateString(undefined, {
                   year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                }
-              )}
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </SuspenseHydrated>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ const Step1 = () => {
 
     if (!usernamePattern.test(formData.username)) {
       newErrors.username =
-        'Username must be 3–20 characters. Use letters, numbers, - or _.';
+        'No Special Characters. Username must be 3–20 characters. Use letters, numbers, - or _';
       isError = true;
     }
 

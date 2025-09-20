@@ -25,7 +25,21 @@ const s3 = new S3Client({
 });
 
 Meteor.methods({
-  async createMultiPartUpload(key) {
+  async createMultiPartUpload(skilltreeId, userId, key) {
+    /**
+     * Verify user is subscribed to the skilltree before allowing upload
+     */
+    const foundUser = await Meteor.callAsync(
+      'skilltrees.findUser',
+      skilltreeId,
+      userId
+    );
+    const isUserSubscribed = !!foundUser;
+    console.log('isUserSubscribed', isUserSubscribed);
+    if (!isUserSubscribed) {
+      return null; // Return null to tell the frontend that something went wrong
+    }
+
     const multipartUpload = await s3.send(
       new CreateMultipartUploadCommand({
         Bucket: AWS_BUCKET,
