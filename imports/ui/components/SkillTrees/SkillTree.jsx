@@ -56,7 +56,10 @@ export const SkillTreeLogic = ({
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
   //For creating a fresh new tree
+  console.log('Check if admin');
+  console.log(isAdmin);
   if (isAdmin) {
+    console.log('I am admin');
     if (!savedNodes) {
       initialNodes = [
         {
@@ -67,13 +70,10 @@ export const SkillTreeLogic = ({
         }
       ];
     }
-  }
-  //load user tree + check for parents
-  //load user tree + check for parents
-  else {
-    console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
-    console.log('saved node root:', initialNodes[0]);
-
+  } else {
+    // console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
+    // console.log('saved node root:', initialNodes[0]);
+    console.log('Non admin path taken');
     //check each parent
     for (let i = 0; i < initialNodes.length; i++) {
       // Ensure children exists and is an array
@@ -84,7 +84,7 @@ export const SkillTreeLogic = ({
 
         //check each child by ID
         for (let j = 0; j < children.length; j++) {
-          const childNode = children[j];
+          const childNode = initialNodes[Number(children[j])];
 
           // Check if child node exists and is verified
           if (!childNode.data.verified) {

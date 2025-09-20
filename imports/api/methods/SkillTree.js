@@ -54,6 +54,7 @@ Meteor.methods({
 
     // Remove _id if present
     const { _id, ...rest } = skilltree;
+    void _id; // explicitly mark unused for linter to pass
 
     // Add updatedAt timestamp
     const updateData = {
