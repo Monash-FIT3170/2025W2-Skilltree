@@ -6,12 +6,24 @@ import { SkillTreeCollection } from '../collections/SkillTree';
 import { check } from 'meteor/check';
 
 Meteor.methods({
+    /**
+     * Method to get an event by its unique _id
+     * 
+     * @param {String} eventId _id of event
+     * @returns document containing event from query
+     */
     async getEvent(eventId){
         return await EventCollection.findOneAsync(
             {_id: eventId}
         )
     },
 
+    /**
+     * Create an event given an event object
+     * 
+     * @param {Object} event event object with data
+     * @returns _id of the newly created event
+     */
     async createEvent(event){
         const skilltree = await SkillTreeCollection.findOneAsync(
             {_id: event.skilltreeId}
@@ -23,6 +35,13 @@ Meteor.methods({
         return await EventCollection.insertAsync(event)
     },
 
+    /**
+     * Adds a user to an event 
+     * 
+     * @param {String} userId _id of user being added
+     * @param {String} eventId _id of event where user is being added
+     * @returns number of documents affected
+     */
     async addUser(userId,eventId) {
         check(userId, String)
         check(eventId, String)
@@ -84,6 +103,12 @@ Meteor.methods({
         )
     },
 
+    /**
+     * Starts an event
+     * 
+     * @param {String} eventId _id of event
+     * @returns number of documents affected
+     */
     async startEvent(eventId) {
         check(eventId, String)
 
@@ -96,6 +121,13 @@ Meteor.methods({
         return await EventCollection.updateAsync({_id: eventId},{$set: {active: true}})
     },
 
+    /**
+     * Stops event and awards trophies if the event is ranked
+     * Currently takes maxTrophies and gives 1 less to each lower position (min 1)
+     * 
+     * @param {String} eventId _id of event
+     * @returns number of documents affected
+     */
     async stopEvent(eventId) {
         check(eventId, String)
 
@@ -132,6 +164,13 @@ Meteor.methods({
         return res
     },
 
+    /**
+     * Add proof for an event 
+     * 
+     * @param {Object} proof proof to be inserted
+     * @param {String} eventId _id of event
+     * @returns _id of proof inserted
+     */
     async addProof(proof,eventId) {
         check(proof.user, String);
         check(eventId, String);
