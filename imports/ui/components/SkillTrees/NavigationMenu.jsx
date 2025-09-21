@@ -65,9 +65,7 @@ export const NavigationMenu = ({ id }) => {
 
   const getLinkClasses = link => {
     const isActive =
-      location.pathname === link ||
-      (link === `/skilltree/${id}` && location.pathname === `/skilltree/${id}`); // Default active for Community Tree
-
+      location.pathname === link || location.pathname.endsWith(link);
     return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${
       isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
     }`;
@@ -98,7 +96,7 @@ export const NavigationMenu = ({ id }) => {
       id: 'leaderboard',
       element: (
         <Link
-          to={`leaderboard`}
+          to={`/skilltree/${id}/leaderboard`}
           state={{ background: location }}
           className={getLinkClasses(`/skilltree/${id}/leaderboard`)}
         >
@@ -106,6 +104,7 @@ export const NavigationMenu = ({ id }) => {
         </Link>
       )
     },
+
     isUserSubscribed && {
       id: 'help-community',
       element: (
