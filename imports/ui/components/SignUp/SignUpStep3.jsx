@@ -159,6 +159,7 @@ const Step3 = () => {
                 value={formData.profile.dateOfBirth || ''}
                 onChange={handleChange}
                 required
+                max={new Date().toISOString().split('T')[0]}
                 className={`w-full px-4 py-3 rounded-full border border-gray-300 outline-none text-black bg-white ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
               />
 
