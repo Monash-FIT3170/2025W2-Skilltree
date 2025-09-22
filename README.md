@@ -46,8 +46,9 @@
 
 > [!TIP]
 >
+> These extensions for <a href="https://code.visualstudio.com/">Visual Studio Code</a> or <a href="https://vscodium.com/">VSCodium</a> may be useful for the project:
 > <details>
-> <summary> These extensions for <a href="https://code.visualstudio.com/">Visual Studio Code</a> or <a href="https://vscodium.com/">VSCodium</a> may be useful for the project: </summary> 
+> <summary>⋯</summary>
 >
 > - [WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 > - [devbox by Jetify](https://marketplace.visualstudio.com/items?itemName=jetpack-io.devbox)
@@ -55,7 +56,6 @@
 > - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 > - [Babel JavaScript](https://marketplace.visualstudio.com/items?itemName=mgmcdermott.vscode-language-babel)
 >   </details>
->   &emsp; ⋯
 
 <h2 align="center">⬦ Option 1: Reproducible Development Environment (Recommended) ⬦</h2>
 
@@ -105,8 +105,9 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 
 > [!WARNING]
 >
+> Option 1 should be preferred for best practices to ensure reproducibility. This is also not recommend on windows due to slower Meteor builds on non UNIX/Linux environments:
 > <details>
-> <summary>Option 1 should be preferred for best practises to ensure reproducibility. This is also not recommend on windows due to slower Meteor builds on non UNIX/Linux environments.</summary>
+> <summary>⋯</summary>
 >
 > - [NodeJS](https://nodejs.org/en/download) - _Visit the site for installation instructions._
 > - [Meteor](https://docs.meteor.com/about/install.html) - _Install by running:_
@@ -116,7 +117,6 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 >   ```
 >
 > </details>
-> ⋯
 
 <h2 align="center">⬦ Project Setup ⬦</h2>
 
@@ -149,6 +149,7 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 <div align="center">
 
 > <table>
+> <tr></tr>
 > <tr>
 >  <td><pre lang="shell">devbox run setup &emsp;&emsp;&emsp;&emsp;</pre></td>
 >  <td><pre lang="shell">meteor npm run setup &emsp;&emsp;&emsp;&emsp;</pre></td>
@@ -162,9 +163,6 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 <div align="center">
 
   <table>
-    <tr>
-      <th colspan="2"></th>
-    </tr>
     <tr>
       <th colspan="2">⦗<b> Run the Development Server </b>⦘</th>
     </tr>
@@ -256,8 +254,10 @@ tests/					<Unit Tests>
 ```
 
 > [!NOTE]
+>
+> **Initialisation Flow Explanation**:
 > <details>
-> <summary><b>Initialisation Flow Explanation</b></summary>
+> <summary>⋯</summary>
 >
 > `package.json` defines:
 >
@@ -285,7 +285,6 @@ tests/					<Unit Tests>
 > *Both the Server (SSR) and Client (Hydration) loads the `/imports/Router`, contains all routes and ui from `/imports/routes,ui`.*
 > 
 > </details>
-> ⋯
 
 <h2 align="center">⬦ React ⬦</h2>
 
@@ -297,7 +296,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/learn/writing-markup-with-jsx). A file should end in `.jsx` rather than `.js` if it contains and returns reusable React components (`<HTML />` elements). The general structures for it would be of the following consisting of a ([arrow](https://www.w3schools.com/Js/js_arrow_function.asp)) function export:
+> Refer to the [docs](https://18.react.dev/learn/writing-markup-with-jsx). A file should end in `.jsx` rather than `.js` if it contains and returns reusable React components (`<HTML />` elements). The general structures for it would be of the following consisting of an ([arrow](https://www.w3schools.com/Js/js_arrow_function.asp)) function export:
 >
 > <details>
 > <summary>⋯</summary>
@@ -465,7 +464,7 @@ tests/					<Unit Tests>
 >   > );
 >   > ```
 >   >
->   > - used to wrap around if there are multiple HTML elements at the top level instead of using uneeded `<div>...</div>`
+>   > - used to wrap around if there are multiple HTML elements at the top level instead of using unneeded `<div>...</div>`
 >
 > - **Provider** ([docs](https://18.react.dev/reference/react/createContext#provider))
 >
@@ -483,14 +482,14 @@ tests/					<Unit Tests>
 ## Deep Imports
 
 > [!TIP]
-> Ensure all react-icon usage are **deep imports** so that only imported icons are included in the bundle:
+> Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
 >
 > ```
 > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
 > ```
->
+> Example:
 > <details>
-> <summary>Example:</summary>
+> <summary>⋯</summary>
 >
 > `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
 >
@@ -501,7 +500,6 @@ tests/					<Unit Tests>
 > ```
 >
 > </details>
-> &emsp; ⋯
 
 ### Server Side Rendering (SSR)
 
@@ -607,12 +605,9 @@ To apply changes to the existing terminal session, run:
 <div align="center">
   <table>
     <tr>
-      <td colspan="3"></td>
-    </tr>
-    <tr>
-      <th><b>Start Webserver</b></th>
-      <th><b>Stop Webserver</b></th>
-      <th><b>Restart Webserver</b></th>
+      <th><b>⦗ Start Webserver ⦘</b></th>
+      <th><b>⦗ Stop Webserver ⦘</b></th>
+      <th><b>⦗ Restart Webserver ⦘</b></th>
     </tr>
     <tr>
       <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
@@ -620,9 +615,9 @@ To apply changes to the existing terminal session, run:
       <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
     </tr>
     <tr>
-      <th><b>Pull Repo Changes</b></th>
-      <th><b>Update Webserver</b></th>
-      <th><b>Build Deployment Bundle</b></th>
+      <th><b>⦗ Pull Repo Changes ⦘</b></th>
+      <th><b>⦗ Update Webserver ⦘</b></th>
+      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
     </tr>
     <tr>
       <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
@@ -630,9 +625,9 @@ To apply changes to the existing terminal session, run:
       <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
     </tr>
     <tr>
-      <th><b>Webserver Console</b></th>
-      <th><b>Reverse Proxy Console</b></th>
-      <th><b>Build Console</b></th>
+      <th><b>⦗ Webserver Console ⦘</b></th>
+      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
+      <th><b>⦗ Build Console ⦘</b></th>
     </tr>
     <tr>
       <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
@@ -644,7 +639,7 @@ To apply changes to the existing terminal session, run:
 
 > [!CAUTION]
 > DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
-> Use Ctrl+A then D to detach from the session instead.
+> **Use Ctrl+A then D to detach** from the session instead.
       </td>
     </tr>
   </table>
