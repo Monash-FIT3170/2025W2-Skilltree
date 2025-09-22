@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { SkillForestCollection } from '/imports/api/collections/SkillForest';
+
 
 // Method to search for SkillTree's by title and tag filters (Removed description search)
 Meteor.methods({
@@ -35,5 +37,21 @@ Meteor.methods({
     }
 
     return SkillTreeCollection.find(query).fetch();
+  }
+});
+
+// Method to search for SkillForests by title only
+Meteor.methods({
+  searchSkillForests(titleKeyword) {
+    // No keyword provided, return empty array
+    if (!titleKeyword || !titleKeyword.trim()) {
+      return [];
+    }
+
+    const titleRegex = new RegExp(titleKeyword.trim(), 'i'); // case insensitive
+
+    return SkillForestCollection.find({
+      title: { $regex: titleRegex }
+    }).fetch();
   }
 });
