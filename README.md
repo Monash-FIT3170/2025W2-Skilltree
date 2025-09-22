@@ -256,17 +256,18 @@ tests/					<Unit Tests>
 > [!NOTE]
 >
 > **Initialisation Flow Explanation**:
+>
 > <details>
 > <summary>⋯</summary>
 >
 > `package.json` defines:
 >
-> ```
-> "mainModule": {
->   "client": "client/main.jsx",
->   "server": "server/main.js"
-> },
-> ```
+> > ```json
+> > "mainModule": {
+> >     "client": "client/main.jsx",
+> >     "server": "server/main.js"
+> > },
+> > ```
 >
 > When the webserver is started,  `server/main.js` runs on the server and imports:
 >
@@ -283,7 +284,7 @@ tests/					<Unit Tests>
 > - `/imports/Router` -- *Loads the Router on the client for SPA routing/navigation*.
 >
 > *Both the Server (SSR) and Client (Hydration) loads the `/imports/Router`, contains all routes and ui from `/imports/routes,ui`.*
-> 
+>
 > </details>
 
 <h2 align="center">⬦ User Interface (UI) ⬦</h2>
@@ -302,7 +303,7 @@ tests/					<Unit Tests>
 >
 > <details>
 > <summary>⋯</summary>
->
+> 
 > `COMPONENT_NAME.jsx`
 > >
 > > ``` jsx
@@ -387,7 +388,6 @@ tests/					<Unit Tests>
 > <summary>⋯</summary>
 >
 > **Passing Props via Parent JSX:**
-> > 
 > > `PARENT_COMPONENT.jsx`
 > > 
 > > ```jsx
@@ -396,7 +396,7 @@ tests/					<Unit Tests>
 > > 
 > > export const PARENT_COMPONENT = () => { 
 > >   const EXAMPLE_CONST = "World!";
-> > 
+> >   
 > >   return (
 > >     <>
 > >       <CHILD_COMPONENT message={EXAMPLE_CONST} isPerson={false} />
@@ -405,7 +405,7 @@ tests/					<Unit Tests>
 > >   );
 > > };
 > > ```
->
+> 
 > **Accessing & Destructuring Props via Child JSX:**
 > > 
 > > `CHILD_COMPONENT.jsx`
@@ -492,24 +492,26 @@ tests/					<Unit Tests>
 > [!TIP]
 > `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
 >
-> ```
-> import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
-> ```
-> Example:
+> > ```jsx
+> > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+> > ```
+>
+> **Example**:
+>
 > <details>
 > <summary>⋯</summary>
->
-> `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
->
-> ```
-> import { FiEye } from '@react-icons/all-files/fi/FiEye';
-> import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
-> import { FiLock } from '@react-icons/all-files/fi/FiLock';
-> ```
+> 
+> > `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
+> >
+> > ```jsx
+> > import { FiEye } from '@react-icons/all-files/fi/FiEye';
+> > import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+> > import { FiLock } from '@react-icons/all-files/fi/FiLock';
+> > ```
 >
 > </details>
 
-### Server Side Rendering (SSR)
+## Server Side Rendering (SSR)
 
 > [!TIP]
 > _Non useFind, datetime (timezone) or modified data (sorting etc) fetches from the database that gets loaded directly on the page should opt out of SSR such as the DashboardSkillTrees (sort mismatch issue) and ProofsList (datetime timezone mismatch) etc._
@@ -520,23 +522,23 @@ Create or edit the file `settings.json`:
 
 > ```
 > {
->  "public": {
->    "enableSSR": true
->  },
->  "private": {
->    "AWSAccessKeyId": "",
->    "AWSSecretAccessKey": "",
->    "google": {
->      "clientId": "",
->      "secret": ""
->    },
->    "smtp": {
->      "username": "your@gmail.com",
->      "password": "app-password",
->      "server": "smtp.gmail.com",
->      "port": 465
->    }
->  }
+>   "public": {
+>     "enableSSR": true
+>   },
+>   "private": {
+>     "AWSAccessKeyId": "",
+>     "AWSSecretAccessKey": "",
+>     "google": {
+>       "clientId": "",
+>       "secret": ""
+>     },
+>     "smtp": {
+>       "username": "your@gmail.com",
+>       "password": "app-password",
+>       "server": "smtp.gmail.com",
+>       "port": 465
+>     }
+>   }
 > }
 > ```
 
