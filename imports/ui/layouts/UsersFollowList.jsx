@@ -12,15 +12,19 @@ export const UsersFollowList = ({
   followingIds = '',
   followersIds = ''
 }) => {
-  const outletContext = useOutletContext();
-  const contextFollowingIds = outletContext?.followingIds || [];
-  const contextFollowersIds = outletContext?.followersIds || [];
-
-  //If the props are provided (like used outside of the outlet as a reusable component), otherwise use context
+  // Check if props are omitted ('' as default val), then use passed context values if so.
   const finalFollowingIds =
-    followingIds !== '' ? followingIds : contextFollowingIds;
+    followingIds === '' ? useOutletContext()?.followingIds || [] : followingIds;
   const finalFollowersIds =
-    followersIds !== '' ? followersIds : contextFollowersIds;
+    followersIds === '' ? useOutletContext()?.followersIds || [] : followersIds;
 
-  return <div></div>;
+  // The userIds list to use based on given 'type' prop value.
+  const userIds = type == 'following' ? finalFollowingIds : finalFollowersIds;
+
+  return (
+    <>
+      {/* List structure UI goes here (table/container? etc) */}
+      {/* TODO: Map userIds (userId -> <UserCard ids={userIds}>, (row?) etc */}
+    </>
+  );
 };

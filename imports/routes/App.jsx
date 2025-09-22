@@ -22,7 +22,7 @@ import { ApplicationRoutes } from '/imports/routes/pages/Community/Application';
 import { SkillForestRoutes } from '/imports/routes/pages/SkillForest';
 import { CreateSkillForestRoutes } from './pages/CreateSkillForest';
 import { RankedEventRoutes } from '/imports/routes/pages/RankedEvents';
-import { ProfileContentRoutes } from '/imports/routes/layouts/ProfileContent';
+import { ProfileRoutes } from '/imports/routes/pages/Profile';
 
 // Define Routes for App JSX layout
 export const AppRoutes = [
@@ -55,7 +55,7 @@ export const AppRoutes = [
       ...SkillForestRoutes,
       ...CreateSkillForestRoutes,
       ...RankedEventRoutes,
-      ...ProfileContentRoutes,
+      ...ProfileRoutes,
       ...NotFoundRoutes // * Last for Page not found
     ]
   }

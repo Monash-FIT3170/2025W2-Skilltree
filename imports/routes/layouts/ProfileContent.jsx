@@ -14,11 +14,11 @@ export const ProfileContentRoutes = [
         element: <ProfileOverview />
       },
       {
-        path: 'following',
+        path: 'following/',
         element: <UsersFollowList type="following" />
       },
       {
-        path: 'followers',
+        path: 'followers/',
         element: <UsersFollowList type="followers" />
       }
     ]

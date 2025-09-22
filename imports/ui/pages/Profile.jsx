@@ -3,8 +3,10 @@ import { Outlet } from 'react-router-dom';
 
 export const Profile = () => {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <>
+      {/* Profile Page*/}
+      {/* TODO: Anything consistent among all profiles goes here */}
+      <Outlet /> {/* switches ProfileContent by /profile/:profileUsername/ */}
+    </>
   );
 };
