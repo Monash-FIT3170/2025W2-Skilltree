@@ -286,13 +286,15 @@ tests/					<Unit Tests>
 > 
 > </details>
 
-<h2 align="center">⬦ React ⬦</h2>
+<h2 align="center">⬦ User Interface (UI) ⬦</h2>
+
+### React
 
 > [!note]
 >
 > Front-end JavaScript library for the project, refer to the [docs](https://18.react.dev/learn). JSX React components are used to write HTML in JavaScript as reusable UI components. React hooks are generally used to make data on the page reactive, which is lost on page refresh. Long term data persistence should instead be from the database via Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) for fetching and reactivity (real time changes etc).
 
-### JSX
+#### JSX
 
 > [!tip]
 >
@@ -375,7 +377,7 @@ tests/					<Unit Tests>
 > > - Refer to the [docs](https://18.react.dev/learn/rendering-lists).
 > </details>
 
-### Props
+#### Props
 
 > [!tip]
 >
@@ -423,7 +425,7 @@ tests/					<Unit Tests>
 > > - Try to avoid 'prop drilling' when possible. Instead of passing database fetches across different component levels, use props to pass the IDs and only fetch the relevant data fields that are used in the component it is in. Provider component + useContext hook, is an alternative approach for data that is commonly used across different levels of components such as the userId for the loggedIn user.  Refer to the [docs](https://18.react.dev/learn/passing-data-deeply-with-context).
 > </details>
 
-### Hooks
+#### Hooks
 
 > [!tip]
 >
@@ -445,7 +447,7 @@ tests/					<Unit Tests>
 > - **useContext** ([docs](https://react.dev/reference/react/useContext))
 > </details>
 
-### Components
+#### Components
 
 > [!tip]
 >
@@ -479,10 +481,16 @@ tests/					<Unit Tests>
 >   > - Suspense should be used around a component that fetches from the database to work with server side rendering (SSR) and to handle the fallback instead of managing `isLoading` states from Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) hooks. 
 > </details>
 
-## Deep Imports
+### Deep Imports
+
+> [!note]
+>
+> As of [Meteor](https://www.meteor.com/) [`v3.3.2`](https://release-3-3-2.docs.meteor.com/), [tree shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) is not supported by the bundler where some unused imports don't get excluded in the bundle. This can lead to large libraries such as react-icons (2.29 MB) including the entire icon library, which unnecessarily bloats the bundle size that may cause noticeable slowdown on initial bundle load at first page load/refresh. Deep imports can be used to only explicitly import needed parts without bundling the entire library as a workaround to the lack of tree shaking support.
+
+#### React Icons
 
 > [!TIP]
-> Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
+> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
 >
 > ```
 > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
