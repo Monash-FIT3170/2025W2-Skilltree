@@ -753,6 +753,104 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+#### URL Navigation
+
+> [!TIP]
+>
+> Client side navigation (without page reload) requires the usage of `<Link>`, `<Navigate>` or `useNavigate()`.
+>
+>  **`<Link>` Component**
+>
+> Refer to the [docs](). Element that lets the user navigate to another page when clicking on it (href `<a>` equivalent):
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `COMPONENT_NAME.jsx`
+> >
+> > ```jsx
+> > import { Link } from "react-router-dom";
+> > ...
+> > export const COMPONENT_NAME = () => (
+> >   <>
+> >     <Link to={"page1/"}>
+> >       <p>Go to Page1!</p>
+> >     </Link>
+> >     ...
+> >   </>
+> > );
+> > ```
+> </details>
+>
+>  **`<Navigate>` Component**
+>
+>  Refer to the [docs](https://reactrouter.com/6.30.1/components/navigate#navigate).  Element that changes the current location when it is rendered. Primarily used for redirecting default path/index route. 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > ...  
+> >   index: true,
+> >   element: <Navigate to={'/redirect/url/path'} replace />
+> > ...
+> > ```
+> >
+> > *`replace` will make the navigation replace the current entry in the history stack instead of adding a new one. Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-navigate#optionsreplace).*
+> </details>
+>
+> **useNavigate Hook**
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-navigate#usenavigate). Similar to <Navigate> component but as a hook to navigate programmatically (conditionally):
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `COMPONENT_NAME.jsx`
+> >
+> > ```jsx
+> > import { useNavigate } from "react-router-dom";
+> > import { useState } from "react";
+> > ...
+> > export const COMPONENT_NAME = () => {
+> >   const navigate = useNavigate();
+> >   const [counter, setCounter] = useState(0); // Initialise counter to 0
+> > 
+> >   const incrementCounter = () => {
+> >     const newCounter = counter + 1; // Increment counter
+> >     setCounter(newCounter); // Update Counter Value
+> > 
+> >     if (newCounter > 5) {
+> >       navigate('/'); // Navigate to home if counter > 5
+> >     }
+> >   };
+> > 
+> >   return (
+> >     <>
+> >       <Button onClick={incrementCounter}>+1</Button>
+> >       <p>Counter: {counter}</p>
+> >       ...
+> >     </>
+> >   );
+> > };
+> > ```
+> </details>
+>
+> **useLocation Hook**
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-location).  It returns the current URL path from the location object:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { useLocation } from 'react-router-dom';
+> > ...
+> >   const current_url = useLocation().pathname;
+> > ...
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
