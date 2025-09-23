@@ -611,6 +611,72 @@ tests/					<Unit Tests>
 > *The full URL becomes `/` `...` `/` `PARENT_ROUTE_URL_PART/` `ROUTE_URL_PART`, for example if the `PARENT_NAME_Routes` was a page child of App.jsx `/` then it would be `/` `PARENT_ROUTE_URL_PART/` `ROUTE_URL_PART/`*.
 > </details>
 
+#### Default Paths
+
+> [!TIP]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/route/route#index). A child route can be set as the default path for the parent by replacing the `path: '...'` with [`index: true`](https://reactrouter.com/6.30.1/start/tutorial#index-routes) or by using empty path `''`:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > ...
+> >   path: '',
+> >   element: <ROUTE_ELEMENT />,
+> > ...
+> > ```
+> >
+> > ```jsx
+> > ...
+> >   index: true,
+> >   element: <ROUTE_ELEMENT />,
+> > ...
+> > ```
+> </details>
+
+#### Dynamic Segments (:Params)
+
+> [!TIP]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#dynamic-segments). A dynamic value in the URL can be set by prefixing `:` on the path as `:param` that can be used to pass values such as database IDs for fetches in the URL to any of its deeper nested elements that has it preceding its path:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > ...
+> > 	path: ':PARAM_NAME',
+> >     element: <ROUTE_ELEMENT />,
+> > ...
+> > ```
+></details>
+>
+> **useParams Hook**
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-params). In order to retrieve the parameter value from the URL at the JSX UI element, `useParams()` hook can be used where the defined `':PARAM_NAME'` should be unique to avoid conflicts for reusability:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `COMPONENT_NAME.jsx` (URL: `/.../:PARAM_NAME`)
+> >
+> > ```jsx
+> > import { useParams } from 'react-router-dom';
+> > ...
+> > export const COMPONENT_NAME = () => { 
+> >   const { PARAM_NAME } = useParams(); // Get the PARAM_NAME param from the URL.
+> > 
+> >   return (
+> >     <>
+> >       <p>{PARAM_NAME}</p>
+> >       ...
+> >     </>
+> >   );
+> > };
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
