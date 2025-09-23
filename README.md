@@ -545,6 +545,72 @@ tests/					<Unit Tests>
 > Overall idea is to define decoupled routes in each .jsx within `routes/`, corresponding to the same `ui/` JSX directory structure as the UI element to render. Children are nested routes that the parent UI JSX element can switch its `<Outlet />` into one of its `<Child />` JSX depending on the matching URL route. It starts from `Root.jsx` + `App.jsx` `/` with `/nested` children routes that can have its own & be `/nested/more`. The splitting follows SoC, code reuse, avoids long files to scale better and that its structure allows to refresh/bookmark the page to keep the same content from the URL without it 'resetting' to the default state.
 > </details>
 
+<h2 align="center">⬦ Routing ⬦</h2>
+
+### React Router
+
+> [!note]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1). Router library to provide client side routing/navigation for faster single page application (SPA) experience where the first page load (or refresh) loads the initial bundle from the server that provides subsequent navigation on the client side without requiring a full page reload. It is also used along with [FastRender](https://github.com/Meteor-Community-Packages/meteor-fast-render), [React](https://react.dev/) ([Stream](https://18.react.dev/reference/react-dom/server/renderToNodeStream)  + [Suspense](https://react.dev/reference/react/Suspense)) and [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data#suspendable-version-of-hooks) to provide server side rendering (SSR) on the initial page load which gives the illusion of instantaneous page load before the bundle fully loads that makes the page reactive. 
+
+#### Route Definition 
+
+> [!TIP]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/routers/create-browser-router#routes).
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/routes/.../` `ROUTE_NAME.jsx`
+> >
+> > ```jsx
+> > import { ROUTE_ELEMENT } from '/imports/ui/.../ROUTE_ELEMENT'; // The UI element JSX, contains the outlet
+> > 
+> > // Nested (Children) Routes
+> > import { NESTED_1_Routes } from '/imports/routes/.../NESTED_1'; // Follows the same structure
+> > import { NESTED_2_Routes } from '/imports/routes/.../NESTED_2'; // May have further nested children or not
+> > 
+> > // Define Routes for ROUTE_NAME's ROUTE_ELEMENT JSX
+> > export const ROUTE_NAME_Routes = [
+> >   {
+> >     path: 'ROUTE_URL_PART/', // Not the full URL, ROUTE_NAME's ROUTE_ELEMENT JSX URL part
+> >     element: <ROUTE_ELEMENT />, // The JSX element to render when the path matches
+> >     children: [
+> >       // Extends children array with nested routes via spread operator (...)
+> >       ...NESTED_1_Routes,
+> >       ...NESTED_2_Routes
+> >     ]
+> >   }
+> > ];
+> > ```
+>
+> **Modify the parent route to include in its children:**
+>
+> > `/imports/routes/.../` `PARENT_NAME.jsx`
+> > ```jsx
+> > import { PARENT_ELEMENT } from '/imports/ui/.../PARENT_ELEMENT'; // The Parent UI element, contains the outlet
+> > 
+> > // Nested (Children) Routes
+> > import { PARENT_NESTED_1_Routes } from '/imports/routes/.../.PARENT_NESTED_1'; // Follows the same structure
+> > import { ROUTE_NAME_Routes } from '/imports/routes/.../ROUTE_NAME'; // New Route
+> > 
+> > export const PARENT_NAME_Routes = [
+> >   {
+> >     path: 'PARENT_ROUTE_URL_PART/', // Not the full URL, PARENT_ROUTE_NAME's PARENT_ELEMENT JSX URL part
+> >     element: <PARENT_ELEMENT />, // The PARENT JSX element to render when the path matches
+> >     children: [
+> >       // Extends children array with nested routes via spread operator (...)
+> >       ...PARENT_NESTED_1_Routes,
+> >       ...ROUTE_NAME_Routes // Newly defined route
+> >     ]
+> >   }
+> > ];
+> > ```
+>
+> *The full URL becomes `/` `...` `/` `PARENT_ROUTE_URL_PART/` `ROUTE_URL_PART`, for example if the `PARENT_NAME_Routes` was a page child of App.jsx `/` then it would be `/` `PARENT_ROUTE_URL_PART/` `ROUTE_URL_PART/`*.
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
