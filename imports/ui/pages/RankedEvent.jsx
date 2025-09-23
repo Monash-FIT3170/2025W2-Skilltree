@@ -9,12 +9,14 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { EventCard } from '../components/RankedEvents/EventCard';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
+import { NewEventModal } from '../components/RankedEvents/NewEventForm'; 
 
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useSubscribe('skilltrees');
   const skilltree = useFind(
@@ -115,9 +117,7 @@ export const RankedEvent = () => {
               ℹ️ Info
             </button>
             <button
-              onClick={() =>
-                alert('Placeholder for adding a new event/image upload.')
-              }
+                onClick={() => setIsAddModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
             >
               + Add Event
@@ -134,6 +134,11 @@ export const RankedEvent = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         skilltree={skilltree}
+      />
+      <NewEventModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        skilltreeId={skilltreeId}
       />
     </>
   );
