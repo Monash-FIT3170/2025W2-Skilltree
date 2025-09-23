@@ -511,6 +511,40 @@ tests/					<Unit Tests>
 >
 > </details>
 
+<h2 align="center">⬦ Nested Structure (UI & Routing) ⬦</h2>
+
+> [!NOTE]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#nested-routes).
+>
+> <details>
+> <summary>⋯</summary>
+> 
+> > ```jsx
+> > ...
+> > ├── ui/ & routes/
+> > │   ├── components/         	// Reusable JSX Components | URL /<page>/<layout>/<component>
+> > │   ├── layouts/            	// Reusable JSX Layouts | URL /<page>/<layout>/
+> > │   ├── pages/              	// JSX Pages | URL /<page>/
+> > │   ├── App.jsx             	// App JSX Container (Holds NavBar) | App Routes (LoggedIn)
+> > │   └── Root.jsx             	// Root JSX Container | Top Level Route /
+> > ...
+> > ```
+>
+> Routes mirrors UI where it follows a nested structure that begins with the Root JSX Container (`Root.jsx`) corresponding to the top level route `/`.  When the URL matches its path `/` that holds further deeper/nested routes as its children, it renders its element ` <Root />` JSX containing an `<Outlet>` to allow it to be switched into based on its children paths' element when the URL matches. The children of Root (`/`) JSX consists of **SignIn**Routes, **SignUp**Routes and **App**Routes where RouteGuard initially redirects to **SignIn**Routes' `/` `login/` while allowing **SignUp**Routes access such as `/` `signup/` before logging in which renders the App JSX. From there, it follows `/` -> `<page>/` -> `<layout>/` -> `<compoment>/`  where each `layout/` could nest further `/layout` or instead end at `component/` such as `/` `page/` `layout/` `layout/` `layout/` `compoment/` etc  or `/` `page/` and  `/` `page/`  `compoment/`.
+>
+> As a rule of thumb, the page -> layout -> component structure should be followed to modularise when it makes sense or on similar patterns instead of having everything inside one large JSX that is more difficult to read and may result in repeated code and larger bundle size. Similar repeated patterns of code are likely candidates to be its own JSX layout/compoment that is modularised by using its props to handle differing values across similar code patterns. Layouts are generally containers/groups `ids.map => id` of components `useFind(... _id: { $eq: id }...)` to __allow reuse across pages__ and make page code more tidy to have an easier glance of its content.
+>
+> For nested routing visualisation, visit this [link](https://remix.run/_docs/routing) where URL `/page/layout/component` can nest further `/page/layout/layout/component` and so on etc:
+>
+> - `<Root>` is  `Root.jsx` + `App.jsx`  (Top level /, contains navbar + `<outlet>` for page)
+> - `<Sales>` is `pages/` (Dashboard etc)
+> - `<Invoices>` is `layouts/` (DashboardSkillTrees etc)
+> - `<Invoice id={id}>` is `components/` (SkillTreeCard etc)
+>
+> Overall idea is to define decoupled routes in each .jsx within `routes/`, corresponding to the same `ui/` JSX directory structure as the UI element to render. Children are nested routes that the parent UI JSX element can switch its `<Outlet />` into one of its `<Child />` JSX depending on the matching URL route. It starts from `Root.jsx` + `App.jsx` `/` with `/nested` children routes that can have its own & be `/nested/more`. The splitting follows SoC, code reuse, avoids long files to scale better and that its structure allows to refresh/bookmark the page to keep the same content from the URL without it 'resetting' to the default state.
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
