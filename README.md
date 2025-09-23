@@ -677,6 +677,82 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+#### Outlet
+
+> [!TIP]
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/components/outlet). An `<Outlet>` is used in the parent route's element to render its child route elements when the URL matches the path:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `COMPONENT_NAME.jsx`
+> >
+> > ```jsx
+> > import { Outlet } from 'react-router-dom';
+> > ...
+> > export const COMPONENT_NAME = () => (
+> >   <>
+> >     <p>Hello World!</p>
+> >     <Outlet />
+> >     ...
+> >   </>
+> > );
+> > ```
+> </details>
+>
+> **OutletContext (Props Equivalent)**
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-outlet-context#useoutletcontext). Outlet context are used to pass values (props equivalent) from the parent to all of its outlet's children element:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `PARENT_COMPONENT.jsx`
+> >
+> > ```jsx
+> > import { Outlet } from 'react-router-dom';
+> > ...
+> > export const PARENT_COMPONENT = () => {
+> >   const value1 = value1_to_pass_from_parent
+> >   const value2 = value2_to_pass_from_parent
+> > 
+> >   return (
+> >     <>
+> >       <p>Hello World from parent!</p>
+> >       <Outlet context={ {value1, value2} }/>
+> >       ...
+> >     </>
+> >   );
+> > }
+> > ```
+> </details>
+>
+> **useOutletContext Hook**
+>
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-outlet-context#useoutletcontext). The value from the parent's outlet context can be retrieved through the `useOutletContext()` hook:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `CHILD_COMPONENT.jsx`
+> >
+> > ```jsx
+> > import { useOutletContext } from "react-router-dom";
+> > ...
+> > export const CHILD_COMPONENT = () => {
+> >   const { value1 } = useOutletContext();
+> > 
+> >   return (
+> >     <>
+> >       <p>Parent's value is {value1}</p>
+> >       ...
+> >     </>
+> >   );
+> > }
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
