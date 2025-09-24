@@ -56,112 +56,84 @@ export const EmailUserNameStage = ({ formData, setFormData, nextStep }) => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
+    <>
+      {/* RIGHT SECTION: Form */}
+      <form
+        onSubmit={handleNext}
+        className="w-full lg:w-1/2 flex flex-col justify-center lg:pl-6"
       >
-        {/* LEFT SECTION: Logo + Text */}
-        <div className="w-1/2 flex items-center pr-4">
-          <div className="relative flex items-center">
-            <img
-              src="/images/colouredLogo.png"
-              alt="SkillTree Logo"
-              className="w-80 h-80 object-contain shrink-0"
+        <div className="flex flex-col space-y-4 sm:space-y-6 w-full max-w-[400px] mx-auto lg:mx-0">
+          <h3 className="text-xl sm:text-2xl font-semibold text-black text-center lg:text-left">
+            Account Details
+          </h3>
+
+          {/* Email */}
+          <div className="space-y-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-semibold text-black"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="jane@example.com"
+              className={`w-full px-4 py-3 border ${
+                errors.email ? 'border-red-500' : 'border-gray-300'
+              } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none text-sm sm:text-base`}
             />
-            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
-              SKILLTREE
-            </h2>
+
+            <div className="min-h-[1.25rem] pl-2">
+              {errors.email && (
+                <p className="text-xs sm:text-sm text-red-500">
+                  {errors.email}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Username */}
+          <div className="space-y-1">
+            <label
+              htmlFor="username"
+              className="block text-sm font-semibold text-black"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className={`w-full px-4 py-3 border ${
+                errors.username ? 'border-red-500' : 'border-gray-300'
+              } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none text-sm sm:text-base`}
+            />
+            <div className="min-h-[1.25rem] pl-2">
+              {errors.username && (
+                <p className="text-xs sm:text-sm text-red-500">
+                  {errors.username}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation Button */}
+          <div className="flex justify-center lg:justify-end pt-2">
+            <button
+              type="submit"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
+            >
+              →
+            </button>
           </div>
         </div>
-
-        {/* RIGHT SECTION: Form */}
-        <form
-          onSubmit={handleNext}
-          className="w-1/2 flex flex-col justify-center pl-6"
-        >
-          <div className="flex flex-col space-y-6 w-full max-w-[400px]">
-            {/* Step Bar - 4 steps */}
-            <div className="flex items-center justify-between w-full">
-              <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-black">
-              Account Details
-            </h3>
-
-            {/* Email */}
-            <div className="space-y-1">
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-black"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="jane@example.com"
-                className={`w-full px-4 py-3 border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none`}
-              />
-
-              <div className="min-h-[1.25rem] pl-2">
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Username */}
-            <div className="space-y-1">
-              <label
-                htmlFor="username"
-                className="block text-sm font-semibold text-black"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className={`w-full px-4 py-3 border ${
-                  errors.username ? 'border-red-500' : 'border-gray-300'
-                } rounded-full placeholder:text-gray-500 text-black bg-white focus:ring-2 focus:ring-green-400 outline-none`}
-              />
-              <div className="min-h-[1.25rem] pl-2">
-                {errors.username && (
-                  <p className="text-sm text-red-500">{errors.username}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Navigation Button */}
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
-              >
-                →
-              </button>
-            </div>
-          </div>
-        </form>
-      </motion.div>
-    </div>
+      </form>
+    </>
   );
 };

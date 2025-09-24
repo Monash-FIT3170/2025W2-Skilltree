@@ -107,182 +107,154 @@ export const CreatePasswordStage = ({
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center bg-white px-6 py-10">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-12"
+    <>
+      {/* RIGHT SECTION: Form */}
+      <form
+        onSubmit={handleNext}
+        className="w-full lg:w-1/2 flex flex-col justify-center lg:pl-6"
       >
-        {/* LEFT SECTION: Logo + Text */}
-        <div className="w-1/2 flex items-center pr-4">
-          <div className="relative flex items-center">
-            <img
-              src="/images/colouredLogo.png"
-              alt="SkillTree Logo"
-              className="w-80 h-80 object-contain shrink-0"
-            />
-            <h2 className="text-5xl font-bold text-[#025940] absolute left-[74%]">
-              SKILLTREE
-            </h2>
-          </div>
-        </div>
+        <div className="flex flex-col space-y-4 sm:space-y-6 w-full max-w-[400px] mx-auto lg:mx-0">
+          <h3 className="text-xl sm:text-2xl font-semibold text-black text-center lg:text-left">
+            Create Password
+          </h3>
 
-        {/* RIGHT SECTION: Form */}
-        <form
-          onSubmit={handleNext}
-          className="w-1/2 flex flex-col justify-center pl-6"
-        >
-          <div className="flex flex-col space-y-6 w-full max-w-[400px]">
-            {/* Step Bar - 4 steps */}
-            <div className="flex items-center justify-between w-full">
-              <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-[#04BF8A] rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-2"></div>
-              <div className="w-4 h-4 bg-white border border-white rounded-full"></div>
-            </div>
-
-            <h3 className="text-2xl font-semibold text-black">
-              Create Password
-            </h3>
-
-            {/* Password */}
-            <div className="space-y-1">
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-black"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className={`pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full text-black bg-white placeholder:text-gray-500 ${errors.lengthPass ? 'border-red-500' : 'border-gray-300'}`}
-                />
-                <button
-                  type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-
-              <div className="text-xs space-y-1">
-                <div className="flex gap-2">
-                  {passMinMaxChar ? (
-                    <FaCheckCircle className="text-green-500" />
-                  ) : (
-                    <BsXCircleFill className="text-red-500" />
-                  )}{' '}
-                  <span>Must be 8-64 characters long </span>
-                </div>
-                <div className="flex gap-2">
-                  {passUpperCase ? (
-                    <FaCheckCircle className="text-green-500" />
-                  ) : (
-                    <BsXCircleFill className="text-red-500" />
-                  )}{' '}
-                  <span> At least 1 uppercase letter </span>
-                </div>
-                <div className="flex gap-2">
-                  {passLowerCase ? (
-                    <FaCheckCircle className="text-green-500" />
-                  ) : (
-                    <BsXCircleFill className="text-red-500" />
-                  )}{' '}
-                  <span>At least 1 lowercase letter </span>
-                </div>
-                <div className="flex gap-2">
-                  {passSpecialChar ? (
-                    <FaCheckCircle className="text-green-500" />
-                  ) : (
-                    <BsXCircleFill className="text-red-500" />
-                  )}{' '}
-                  <span>At least 1 special character</span>
-                </div>
-                <div className="flex gap-2">
-                  {passNumber ? (
-                    <FaCheckCircle className="text-green-500" />
-                  ) : (
-                    <BsXCircleFill className="text-red-500" />
-                  )}{' '}
-                  <span>At least 1 number</span>
-                </div>
-              </div>
-
-              <div className="min-h-[1.25rem] pl-2">
-                {errors.lengthPass && (
-                  <p className="text-sm text-red-500">{errors.lengthPass}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Confirm Password */}
-            <div className="space-y-1">
-              <label
-                htmlFor="repeatPass"
-                className="block text-sm font-semibold text-black"
-              >
-                Confirm Password
-              </label>
-              <div className="relative">
-                <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  id="repeatPass"
-                  name="repeatPass"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  value={repeatPass}
-                  onChange={e => setRepeatPass(e.target.value)}
-                  placeholder="Re-enter your password"
-                  required
-                  className={`pl-10 pr-10 py-3 w-full rounded-full text-black bg-white placeholder:text-gray-500 ${errors.password ? 'border-red-500' : 'border-gray-300'} border`}
-                />
-                <button
-                  type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
-                >
-                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-              <div className="min-h-[1.25rem] pl-2">
-                {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <div className="flex justify-between pt-2">
+          {/* Password */}
+          <div className="space-y-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-semibold text-black"
+            >
+              Password
+            </label>
+            <div className="relative">
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className={`pl-10 pr-10 py-3 w-full border border-gray-300 rounded-full text-black bg-white placeholder:text-gray-500 text-sm sm:text-base ${errors.lengthPass ? 'border-red-500' : 'border-gray-300'}`}
+              />
               <button
                 type="button"
-                onClick={() => prevStep()}
-                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
+                tabIndex={-1}
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
               >
-                ←
-              </button>
-              <button
-                type="submit"
-                className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
-              >
-                →
+                {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
+
+            <div className="text-xs space-y-1 px-2">
+              <div className="flex items-center gap-2">
+                {passMinMaxChar ? (
+                  <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                ) : (
+                  <BsXCircleFill className="text-red-500 flex-shrink-0" />
+                )}{' '}
+                <span>Must be 8-64 characters long</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {passUpperCase ? (
+                  <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                ) : (
+                  <BsXCircleFill className="text-red-500 flex-shrink-0" />
+                )}{' '}
+                <span>At least 1 uppercase letter</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {passLowerCase ? (
+                  <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                ) : (
+                  <BsXCircleFill className="text-red-500 flex-shrink-0" />
+                )}{' '}
+                <span>At least 1 lowercase letter</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {passSpecialChar ? (
+                  <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                ) : (
+                  <BsXCircleFill className="text-red-500 flex-shrink-0" />
+                )}{' '}
+                <span>At least 1 special character</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {passNumber ? (
+                  <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                ) : (
+                  <BsXCircleFill className="text-red-500 flex-shrink-0" />
+                )}{' '}
+                <span>At least 1 number</span>
+              </div>
+            </div>
+
+            <div className="min-h-[1.25rem] pl-2">
+              {errors.lengthPass && (
+                <p className="text-xs sm:text-sm text-red-500">
+                  {errors.lengthPass}
+                </p>
+              )}
+            </div>
           </div>
-        </form>
-      </motion.div>
-    </div>
+
+          {/* Confirm Password */}
+          <div className="space-y-1">
+            <label
+              htmlFor="repeatPass"
+              className="block text-sm font-semibold text-black"
+            >
+              Confirm Password
+            </label>
+            <div className="relative">
+              <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                id="repeatPass"
+                name="repeatPass"
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={repeatPass}
+                onChange={e => setRepeatPass(e.target.value)}
+                placeholder="Re-enter your password"
+                required
+                className={`pl-10 pr-10 py-3 w-full rounded-full text-black bg-white placeholder:text-gray-500 text-sm sm:text-base ${errors.password ? 'border-red-500' : 'border-gray-300'} border`}
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+              >
+                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
+            <div className="min-h-[1.25rem] pl-2">
+              {errors.password && (
+                <p className="text-xs sm:text-sm text-red-500">
+                  {errors.password}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="flex justify-between items-center pt-2">
+            <button
+              type="button"
+              onClick={() => prevStep()}
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
+            >
+              ←
+            </button>
+            <button
+              type="submit"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
+            >
+              →
+            </button>
+          </div>
+        </div>
+      </form>
+    </>
   );
 };
