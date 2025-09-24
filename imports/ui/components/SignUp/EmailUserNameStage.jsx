@@ -1,11 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const Step1 = () => {
-  const navigate = useNavigate();
-  const { formData, setFormData } = useOutletContext();
+export const EmailUserNameStage = ({ formData, setFormData, nextStep }) => {
   const [errors, setErrors] = useState({ email: '', username: '' });
 
   const handleChange = e => {
@@ -39,7 +36,10 @@ const Step1 = () => {
     }
 
     try {
-      const result = await Meteor.callAsync('validateStep1', formData);
+      const result = await Meteor.callAsync(
+        'validateEmailUserNameStage',
+        formData
+      );
 
       if (!result.success) {
         setErrors({
@@ -49,7 +49,7 @@ const Step1 = () => {
         return;
       }
       setErrors({ email: '', username: '' });
-      navigate('/signup/step2');
+      nextStep();
     } catch (error) {
       console.error(error.reason || 'An unexpected error occurred!');
     }
@@ -165,5 +165,3 @@ const Step1 = () => {
     </div>
   );
 };
-
-export default Step1;

@@ -374,7 +374,7 @@ export const SignIn = () => {
                     to="/signup"
                     className="text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors"
                   >
-                    Create one
+                    Create Account
                   </Link>
                 </p>
               </div>

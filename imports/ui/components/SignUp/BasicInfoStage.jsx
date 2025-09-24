@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const Step3 = () => {
+export const BasicInfoStage = ({ formData, setFormData, prevStep }) => {
   const navigate = useNavigate();
-  const { formData, setFormData } = useOutletContext();
+
   const [errors, setErrors] = useState({
     givenName: '',
     familyName: '',
@@ -29,7 +29,7 @@ const Step3 = () => {
     e.preventDefault();
 
     try {
-      const result = await Meteor.callAsync('validateStep3', formData);
+      const result = await Meteor.callAsync('validateBasicInfoStage', formData);
 
       if (!result.success) {
         setErrors({
@@ -173,7 +173,7 @@ const Step3 = () => {
             <div className="flex justify-between pt-2">
               <button
                 type="button"
-                onClick={() => navigate('/signup/step2')}
+                onClick={() => prevStep()}
                 className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
               >
                 ←
@@ -211,5 +211,3 @@ const Step3 = () => {
     </div>
   );
 };
-
-export default Step3;

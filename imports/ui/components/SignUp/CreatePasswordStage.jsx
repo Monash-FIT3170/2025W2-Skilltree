@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React, { useEffect } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
 import { FiEye } from '@react-icons/all-files/fi/FiEye';
 import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
 import { FiLock } from '@react-icons/all-files/fi/FiLock';
@@ -11,7 +10,12 @@ import { motion } from 'framer-motion';
 
 import { Regex } from '/imports/utils/Regex';
 
-const Step2 = () => {
+export const CreatePasswordStage = ({
+  formData,
+  setFormData,
+  nextStep,
+  prevStep
+}) => {
   const [repeatPass, setRepeatPass] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -23,9 +27,6 @@ const Step2 = () => {
   const [passLowerCase, setPassLowerCase] = useState(false);
   const [passSpecialChar, setPassSpecialChar] = useState(false);
   const [passNumber, setPassNumber] = useState(false);
-
-  const navigate = useNavigate();
-  const { formData, setFormData } = useOutletContext();
 
   const passwordChecks = password => {
     // Check minimum 8 and max of 64 characters
@@ -87,7 +88,10 @@ const Step2 = () => {
     }
 
     try {
-      const result = await Meteor.callAsync('validateStep2', formData);
+      const result = await Meteor.callAsync(
+        'validateCreatePasswordStage',
+        formData
+      );
 
       if (!result.success) {
         setErrors({
@@ -96,7 +100,7 @@ const Step2 = () => {
         return;
       }
 
-      navigate('/signup/step3');
+      nextStep();
     } catch (error) {
       console.error(error.reason || 'An unexpected error occurred!');
     }
@@ -264,7 +268,7 @@ const Step2 = () => {
             <div className="flex justify-between pt-2">
               <button
                 type="button"
-                onClick={() => navigate('/signup/step1')}
+                onClick={() => prevStep()}
                 className="w-10 h-10 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all"
               >
                 ←
@@ -282,5 +286,3 @@ const Step2 = () => {
     </div>
   );
 };
-
-export default Step2;
