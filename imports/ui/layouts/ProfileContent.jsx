@@ -7,11 +7,13 @@ export const ProfileContent = () => {
   const followersIds = []; // Result of fetch
   const followingIds = []; // Result of fetch
 
-  return (
-    <>
-      {/* Profile content goes here, profile details, header etc */}
-      {/* switches overview/following/followers by url, pass IDs */}
-      <Outlet context={{ followingIds, followersIds }} />;
-    </>
-  );
+ return (
+  <>
+    <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+      {profileUsername}
+    </h2>
+    {/* Profile content goes here, profile details, header etc */}
+    <Outlet context={{ followingIds, followersIds }} />
+  </>
+);
 };
