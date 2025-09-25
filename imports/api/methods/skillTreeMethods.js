@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { SkillForestCollection } from '/imports/api/collections/SkillForest';
 
-
 // Method to search for SkillTree's by title and tag filters (Removed description search)
 Meteor.methods({
   searchSkillTrees(titleKeyword, tagFilters = []) {
