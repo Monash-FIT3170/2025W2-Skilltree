@@ -49,41 +49,26 @@ export const SignUp = () => {
   /*
   Which step to render in the component. We may add more steps in the future
   */
+
+  const signUpStageProps = {
+    formData,
+    setFormData,
+    currentStep,
+    totalSteps,
+    nextStep,
+    prevStep
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <EmailUserNameStage
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-          />
-        );
+        return <EmailUserNameStage {...signUpStageProps} />;
       case 2:
-        return (
-          <CreatePasswordStage
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        );
+        return <CreatePasswordStage {...signUpStageProps} />;
       case 3:
-        return (
-          <BasicInfoStage
-            formData={formData}
-            setFormData={setFormData}
-            prevStep={prevStep}
-          />
-        );
+        return <BasicInfoStage {...signUpStageProps} />;
       default:
-        return (
-          <EmailUserNameStage
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-          />
-        );
+        return <EmailUserNameStage {...signUpStageProps} />;
     }
   };
 
@@ -120,6 +105,19 @@ export const SignUp = () => {
 
             {/* RIGHT SECTION: Form */}
             {renderStep()}
+          </div>
+
+          {/*Help, Privacy, Terms */}
+          <div className="w-full max-w-6xl flex items-center justify-end gap-3 mt-4">
+            <button className="rounded-lg p-2 cursor-pointer hover:bg-gray-300">
+              Help
+            </button>
+            <button className="rounded-lg p-2 cursor-pointer hover:bg-gray-300">
+              Privacy
+            </button>
+            <button className="rounded-lg p-2 cursor-pointer hover:bg-gray-300">
+              Terms
+            </button>
           </div>
         </motion.div>
       </div>

@@ -1,10 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { SignUpNavigationButtons } from '/imports/ui/components/SignUp/SignUpNavigationButtons';
 
-export const BasicInfoStage = ({ formData, setFormData, prevStep }) => {
+export const BasicInfoStage = ({
+  formData,
+  setFormData,
+  currentStep,
+  totalSteps,
+  prevStep
+}) => {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
@@ -145,22 +151,12 @@ export const BasicInfoStage = ({ formData, setFormData, prevStep }) => {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="flex justify-between items-center pt-2">
-            <button
-              type="button"
-              onClick={() => prevStep()}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
-            >
-              ←
-            </button>
 
-            <button
-              type="submit"
-              className="px-4 py-2 sm:px-5 sm:py-2 rounded-full bg-[#04BF8A] text-white text-sm font-semibold hover:bg-[#03a57e] transition-all"
-            >
-              Create
-            </button>
-          </div>
+          <SignUpNavigationButtons
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            prevStep={prevStep}
+          />
 
           <div>
             <p className="text-xs text-center text-gray-700">

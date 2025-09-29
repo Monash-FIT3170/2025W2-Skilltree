@@ -6,13 +6,15 @@ import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
 import { FiLock } from '@react-icons/all-files/fi/FiLock';
 import { FaCheckCircle } from '@react-icons/all-files/fa/FaCheckCircle';
 import { BsXCircleFill } from '@react-icons/all-files/bs/BsXCircleFill';
-import { motion } from 'framer-motion';
 
+import { SignUpNavigationButtons } from '/imports/ui/components/SignUp/SignUpNavigationButtons';
 import { Regex } from '/imports/utils/Regex';
 
 export const CreatePasswordStage = ({
   formData,
   setFormData,
+  currentStep,
+  totalSteps,
   nextStep,
   prevStep
 }) => {
@@ -141,7 +143,7 @@ export const CreatePasswordStage = ({
                 type="button"
                 tabIndex={-1}
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black cursor-pointer"
               >
                 {showPassword ? <FiEyeOff /> : <FiEye />}
               </button>
@@ -223,7 +225,7 @@ export const CreatePasswordStage = ({
                 type="button"
                 tabIndex={-1}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black cursor-pointer"
               >
                 {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
               </button>
@@ -238,21 +240,11 @@ export const CreatePasswordStage = ({
           </div>
 
           {/* Navigation Arrows */}
-          <div className="flex justify-between items-center pt-2">
-            <button
-              type="button"
-              onClick={() => prevStep()}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
-            >
-              ←
-            </button>
-            <button
-              type="submit"
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
-            >
-              →
-            </button>
-          </div>
+          <SignUpNavigationButtons
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            prevStep={prevStep}
+          />
         </div>
       </form>
     </>

@@ -1,8 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { SignUpNavigationButtons } from '/imports/ui/components/SignUp/SignUpNavigationButtons';
 
-export const EmailUserNameStage = ({ formData, setFormData, nextStep }) => {
+export const EmailUserNameStage = ({
+  formData,
+  setFormData,
+  currentStep,
+  totalSteps,
+  nextStep
+}) => {
   const [errors, setErrors] = useState({ email: '', username: '' });
 
   const handleChange = e => {
@@ -19,21 +25,6 @@ export const EmailUserNameStage = ({ formData, setFormData, nextStep }) => {
 
   const handleNext = async e => {
     e.preventDefault();
-    const usernamePattern = /^[a-zA-Z0-9_-]{3,20}$/;
-
-    const newErrors = { email: '', username: '' };
-    let isError = false;
-
-    if (!usernamePattern.test(formData.username)) {
-      newErrors.username =
-        'No Special Characters. Username must be 3–20 characters. Use letters, numbers, - or _';
-      isError = true;
-    }
-
-    setErrors(newErrors);
-    if (isError) {
-      return;
-    }
 
     try {
       const result = await Meteor.callAsync(
@@ -123,15 +114,10 @@ export const EmailUserNameStage = ({ formData, setFormData, nextStep }) => {
             </div>
           </div>
 
-          {/* Navigation Button */}
-          <div className="flex justify-center lg:justify-end pt-2">
-            <button
-              type="submit"
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-black text-black flex items-center justify-center hover:bg-black hover:text-white transition-all text-lg sm:text-xl"
-            >
-              →
-            </button>
-          </div>
+          <SignUpNavigationButtons
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+          />
         </div>
       </form>
     </>

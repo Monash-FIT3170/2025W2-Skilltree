@@ -3,10 +3,6 @@ import React from 'react';
 export const StepBar = ({ currentStep, totalSteps }) => {
   const stepIndexes = Array.from({ length: totalSteps }, (_, i) => i);
 
-  console.log(currentStep);
-  console.log(totalSteps);
-  console.log(stepIndexes);
-
   return (
     <div className="flex items-center justify-between w-full">
       {stepIndexes.map(stepIndex => {
@@ -16,7 +12,7 @@ export const StepBar = ({ currentStep, totalSteps }) => {
 
         return (
           <React.Fragment key={stepIndex}>
-            {/* Step Dot */}
+            {/*Step Dot */}
             <div
               className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold transition-all duration-300 ${
                 isCompleted
@@ -29,7 +25,7 @@ export const StepBar = ({ currentStep, totalSteps }) => {
               {stepIndex + 1}
             </div>
 
-            {/* Connecting Line (don't show after last step) */}
+            {/*Connecting Line (don't show after last step) */}
             {!isLast && (
               <div
                 className={`h-1 flex-grow mx-2 sm:mx-4 transition-all duration-300 ${
