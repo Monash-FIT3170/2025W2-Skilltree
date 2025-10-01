@@ -154,7 +154,11 @@ export const RankedEvent = () => {
 
         {/* Responsive container for EventCard */}
         <Suspense>
-          <EventCard skilltreeId={skilltreeId} filter={filter} />
+          <EventCard
+            eventId={eventId}
+            skilltreeId={skilltreeId}
+            filter={filter}
+          />
         </Suspense>
       </div>
       <EventInfoModal
