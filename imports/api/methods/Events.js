@@ -207,8 +207,6 @@ Meteor.methods({
       );
     }
 
-    // add proof with event id
-    proof.skillTreeId = eventId;
     return await ProofCollection.insertAsync(proof);
   }
 });

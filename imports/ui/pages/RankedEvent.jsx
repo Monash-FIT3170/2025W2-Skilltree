@@ -13,6 +13,7 @@ import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
 import { EventCollection } from '/imports/api/collections/Events';
+import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
@@ -125,6 +126,14 @@ export const RankedEvent = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <ProofUploadButton
+              skilltreeId={skilltreeId}
+              eventId={eventId}
+              onUploadProof={() => {
+                console.log('onUploadProof');
+              }}
+            />
+
             <JoinEventButton eventId={eventId} skillTreeId={skilltreeId} />
             <button
               onClick={() => setIsModalOpen(true)}
