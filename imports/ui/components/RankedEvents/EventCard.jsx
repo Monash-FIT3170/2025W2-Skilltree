@@ -116,7 +116,7 @@ export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
 
                 {/* Description Caption */}
                 <div className="text-sm text-black mb-4 px-2 py-1 rounded">
-                  {proof.description || 'No caption'}
+                  {proof.description || 'Event submission'}
                 </div>
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">
