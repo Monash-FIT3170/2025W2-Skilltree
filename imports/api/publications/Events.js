@@ -16,6 +16,14 @@ Meteor.startup(async () => {
       maxTrophies: 55,
       active: true,
       participants: []
+    },
+    {
+      skilltreeId: 'Climbing',
+      title: 'Speedclimbing contest',
+      description: 'Climb the wall as fast as you can',
+      maxTrophies: 55,
+      active: true,
+      participants: []
     }
   ];
 
