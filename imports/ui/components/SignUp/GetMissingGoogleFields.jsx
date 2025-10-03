@@ -99,13 +99,6 @@ export const GetMissingGoogleFields = () => {
           className="w-full lg:w-1/2 flex flex-col justify-center lg:pl-6"
         >
           <div className="flex flex-col space-y-4 sm:space-y-6 w-full max-w-[400px] mx-auto lg:mx-0">
-            {/* Step Bar */}
-            <div className="flex items-center justify-between w-full">
-              <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#04BF8A] rounded-full"></div>
-              <div className="h-1 bg-white flex-grow mx-1 sm:mx-2"></div>
-              <div className="w-3 h-3 sm:w-4 sm:h-4 bg-[#04BF8A] rounded-full"></div>
-            </div>
-
             <h3 className="text-lg sm:text-2xl font-semibold text-black text-center lg:text-left">
               Almost there! Let's complete your profile.
             </h3>
