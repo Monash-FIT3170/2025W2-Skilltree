@@ -68,7 +68,7 @@ export const PrivateRoute = ({ children, redirectUrl = '/login' }) => {
 // ProfileCompleteRoute Helper JSX
 export const ProfileCompleteRoute = ({
   children,
-  redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
+  redirectUrl = '/login/complete-profile', // Redirect url can be specified otherwise goes to /login/complete-profile
   requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) => {
   useSubscribe('users'); // Needed to workaround SSR

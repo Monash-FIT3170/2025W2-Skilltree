@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { StepBar } from '/imports/ui/components/SignUp/StepBar';
-import { SignUpFooter } from '../../components/SignUp/SignUpFooter';
-import { SignUpLogoSection } from '../../components/SignUp/SignUpLogoSection';
+import { SignUpFooter } from '/imports/ui/components/SignUp/SignUpFooter';
+import { SignUpLogoSection } from '/imports/ui/components/SignUp/SignUpLogoSection';
 
 export const AuthLayout = ({
   children,

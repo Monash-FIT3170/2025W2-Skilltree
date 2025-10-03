@@ -22,7 +22,7 @@ export const SignInRoutes = [
     )
   },
   {
-    path: 'login/extraStep1',
+    path: 'login/complete-profile',
     element: (
       <PrivateRoute redirect="/login">
         {/* Route requires isProfileComplete to be false to access otherwise redirects to / */}
