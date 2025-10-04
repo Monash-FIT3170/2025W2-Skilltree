@@ -76,6 +76,7 @@ export const SignUp = () => {
       showStepBar={true}
       currentStep={currentStep}
       totalSteps={totalSteps}
+      showFooter={true}
     >
       {renderStep()}
     </AuthLayout>
