@@ -9,6 +9,7 @@ import { Avatar} from 'flowbite-react';
 import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
+import { FollowersCollection } from '/imports/api/collections/Followers';
 
 
 export const Profile = () => {
@@ -20,17 +21,10 @@ export const Profile = () => {
   useSubscribe('users');
   const loggedInUser = User(['username']);
   const loggedInUsername = loggedInUser?.username;
-  
-  // Find user by _id - handle null case properly
-  // const users = useFind(() => {
-  //   if (!loggedInUserId) return [];
-  //   return Meteor.users.find({ _id: loggedInUserId });
-  // }, [loggedInUserId]);
-  
-  // const user = users[0];
-  // const loggedInUsername = user?.username;
 
   const [finalUserId, setFinalUserId] = useState(null);
+
+  const profileUser = User(['username', 'profile.avatarUrl'], finalUserId); // Gets a specific user's data
   
     // If it's blank → fallback to logged in user
     // If it's a username → look up the real ID
@@ -44,23 +38,55 @@ export const Profile = () => {
       }
     }, [profileUsername, loggedInUsername]);
 
-  // const profileUser = useFind(() =>
-  //   Meteor.users.find(
-  //     { username: finalUserId }),
-  //   [finalUserId]
-  // )[0];
+    // follower logic
+    useSubscribe('followers');
+
+    console.log("collection is:", FollowersCollection);
+
+    const followers = useFind(() => {
+      if (!finalUserId) return [];
+      return FollowersCollection.find({ followedUserId: finalUserId });
+    }, [finalUserId]);
+
+    // const following = useFind(() => {
+    //   if (!finalUserId) return [];
+    //   return FollowersCollection.find({ followerUserId: finalUserId });
+    // }, [finalUserId]);
+
+    // // Get counts
+    // const followerCount = followers.length;
+    // const followingCount = following.length;
+
   
   
   return (
     <>
       {/* Profile Page*/}
       {/* TODO: Anything consistent among all profiles goes here */}
-      <div>
-        <h1>Profile Page</h1>
-        <p>Showing profile for user ID: {finalUserId}</p>
-        <p>Logged in as user ID: {finalUserId}</p>
+      {/* <div className="max-w-3xl mx-auto px-4"> */}
+
+
+
+
+      <div className="bg-green-400 p-8 lg mb-4 flex justify-start" >
+       <Avatar
+        alt="User Profile Picture"
+        size="lg"
+        icon={
+          <svg>
+            <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 16a6 6 0 1112 0H2z" />
+          </svg>
+        }
+        rounded
+        />
+        <p className="text-2xl font-bold text-white pl-5">{finalUserId}</p>
+
+        {/* <p className="text-white pl-5">Followers: {followerCount} | Following: {followingCount}</p> */}
+        </div>
+
         {/* later you’ll plug in followers/following/overview here */}
-      </div>
+
+      {/* </div> */}
       <Outlet /> {/* switches ProfileContent by /profile/:profileUsername/ */}
     </>
   );
