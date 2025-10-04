@@ -39,23 +39,36 @@ export const Profile = () => {
     }, [profileUsername, loggedInUsername]);
 
     // follower logic
-    useSubscribe('followers');
+  useSubscribe('followers');
 
-    console.log("collection is:", FollowersCollection);
+   // Get all followers (people following this user)
+  const followers = useFind(FollowersCollection, [
+    { followingUserId: { $eq: finalUserId } },
+    {
+      fields: {
+        _id: 1,
+        followerUserId: 1,
+        followingUserId: 1,
+        createdAt: 1
+      }
+    }
+  ]);
 
-    const followers = useFind(() => {
-      if (!finalUserId) return [];
-      return FollowersCollection.find({ followedUserId: finalUserId });
-    }, [finalUserId]);
+  // Get all following (people this user follows)
+  const following = useFind(FollowersCollection, [
+    { followerUserId: { $eq: finalUserId } },
+    {
+      fields: {
+        _id: 1,
+        followerUserId: 1,
+        followingUserId: 1,
+        createdAt: 1
+      }
+    }
+  ]);
 
-    // const following = useFind(() => {
-    //   if (!finalUserId) return [];
-    //   return FollowersCollection.find({ followerUserId: finalUserId });
-    // }, [finalUserId]);
-
-    // // Get counts
-    // const followerCount = followers.length;
-    // const followingCount = following.length;
+  const followerCount = followers.length;
+  const followingCount = following.length;
 
   
   
@@ -69,20 +82,21 @@ export const Profile = () => {
 
 
       <div className="bg-green-400 p-8 lg mb-4 flex justify-start" >
-       <Avatar
-        alt="User Profile Picture"
-        size="lg"
-        icon={
-          <svg>
-            <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 16a6 6 0 1112 0H2z" />
-          </svg>
-        }
-        rounded
+        <Avatar
+          alt="User Profile Picture"
+          size="lg"
+          icon={
+            <svg>
+              <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 16a6 6 0 1112 0H2z" />
+            </svg>
+          }
+          rounded
         />
-        <p className="text-2xl font-bold text-white pl-5">{finalUserId}</p>
-
-        {/* <p className="text-white pl-5">Followers: {followerCount} | Following: {followingCount}</p> */}
+        <div className="pl-5">
+          <p className="text-2xl font-bold text-white">{finalUserId}</p>
+          <p className="text-white">Followers: <strong>{followerCount}</strong>  <span className="ml-4">  </span>Following: <strong>{followingCount}</strong></p>
         </div>
+      </div>
 
         {/* later you’ll plug in followers/following/overview here */}
 
