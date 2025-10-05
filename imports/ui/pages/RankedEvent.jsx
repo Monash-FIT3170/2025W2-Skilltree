@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Meteor } from 'meteor/meteor';
 
@@ -12,6 +12,8 @@ import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
 import { NewEventModal } from '../components/RankedEvents/NewEventForm'; 
 
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
+import { EventCollection } from '/imports/api/collections/Events';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
@@ -19,6 +21,21 @@ export const RankedEvent = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useSubscribe('skilltrees');
+  useSubscribe('events');
+
+  /**
+   * Get the ID of the current active event for this skilltree
+   */
+  const currentEventId = useFind(
+    EventCollection,
+    [
+      { skilltreeId: { $eq: skilltreeId }, active: { $eq: true } },
+      { fields: { _id: 1 } }
+    ],
+    [skilltreeId]
+  );
+  const eventId = currentEventId[0]?._id || '';
+
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -110,6 +127,7 @@ export const RankedEvent = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <JoinEventButton eventId={eventId} skillTreeId={skilltreeId} />
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
