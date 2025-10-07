@@ -588,6 +588,7 @@ tests/					<Unit Tests>
 > **Modify the parent route to include in its children:**
 >
 > > `/imports/routes/.../` `PARENT_NAME.jsx`
+> >
 > > ```jsx
 > > import { PARENT_ELEMENT } from '/imports/ui/.../PARENT_ELEMENT'; // The Parent UI element, contains the outlet
 > > 
@@ -596,15 +597,15 @@ tests/					<Unit Tests>
 > > import { ROUTE_NAME_Routes } from '/imports/routes/.../ROUTE_NAME'; // New Route
 > > 
 > > export const PARENT_NAME_Routes = [
-> >   {
-> >     path: 'PARENT_ROUTE_URL_PART/', // Not the full URL, PARENT_ROUTE_NAME's PARENT_ELEMENT JSX URL part
-> >     element: <PARENT_ELEMENT />, // The PARENT JSX element to render when the path matches
-> >     children: [
-> >       // Extends children array with nested routes via spread operator (...)
-> >       ...PARENT_NESTED_1_Routes,
-> >       ...ROUTE_NAME_Routes // Newly defined route
-> >     ]
-> >   }
+> > {
+> >  path: 'PARENT_ROUTE_URL_PART/', // Not the full URL, PARENT_ROUTE_NAME's PARENT_ELEMENT JSX URL part
+> >  element: <PARENT_ELEMENT />, // The PARENT JSX element to render when the path matches
+> >  children: [
+> >    // Extends children array with nested routes via spread operator (...)
+> >    ...PARENT_NESTED_1_Routes,
+> >    ...ROUTE_NAME_Routes // Newly defined route
+> >  ]
+> > }
 > > ];
 > > ```
 >
@@ -847,6 +848,54 @@ tests/					<Unit Tests>
 > > import { useLocation } from 'react-router-dom';
 > > ...
 > >   const current_url = useLocation().pathname;
+> > ...
+> > ```
+> </details>
+
+### Route Protection (RouteGuard)
+
+> [!note]
+>
+> React router does not provide route protection or route guard functionality to control access to routes thereby a custom implementation is used and defined from `imports/utils/RouteGuard.jsx`.
+
+#### useRouteGuard Hook (custom)
+
+> [!TIP] 
+>
+> Custom hook implementation that conditionally renders or redirects based on given `AccessCondition` used in defining custom protected routes components to selectively restrict route access when wrapping around routes element once that affects all its deeper nested children:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `imports/utils/RouteGuard.jsx`
+> >
+> > ```jsx
+> > export const CUSTOM_PROTECTED_Route = ({ children, redirectUrl = '/URL_TO_REDIRECT' }) => {
+> >   const AccessCondition = true; // AccessCondition to allow route access
+> > 
+> >   return useRouteGuard({
+> >     AccessCondition, // Boolean condition to allow route access
+> >     replace: false, // Whether redirect replaces current entry in history stack rather than adding new
+> >     state: {}, // To store extra data in route state (current URL for previous etc)
+> >     relativePath: false, // Whether relative .. should go up by path instead of parent route
+> >     redirectUrl, // Url to redirect to when AccessCondition is false
+> >     children, // The element (wrapped inside)
+> >     fallback: <></> // Fallback element displayed before redirect happens or element rendered
+> >   })
+> > };
+> > ```
+> >
+> > `/imports/routes/.../` `PROTECTED_ROUTE.jsx`
+> >
+> > ```jsx
+> > import { CUSTOM_PROTECTED_Route } from '/imports/utils/RouteGuard';
+> > ...
+> >   path: 'PROTECTED_URL_PART/',
+> >   element: (
+> >     <CUSTOM_PROTECTED_Route redirect="OVERIDE_REDIRECT_URL">
+> >       <PROTECTED_JSX_ELEMENT />
+> >     </CUSTOM_PROTECTED_Route>
+> >   )
 > > ...
 > > ```
 > </details>
