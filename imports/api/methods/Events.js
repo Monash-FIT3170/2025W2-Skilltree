@@ -206,7 +206,7 @@ Meteor.methods({
         'User is not subscribed to Skilltree'
       );
     }
- 
+
     proof.eventId = eventId;
     return await ProofCollection.insertAsync(proof);
   }
