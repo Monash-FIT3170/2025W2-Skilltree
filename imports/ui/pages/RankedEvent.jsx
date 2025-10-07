@@ -86,6 +86,14 @@ export const RankedEvent = () => {
 
   const isUserSubscribed = !!subscription;
 
+  const checkJoined =
+    useFind(EventCollection, [
+      { _id: { $eq: eventId }, participants: { $in: [userId] } },
+      { fields: { _id: 1 } }
+    ])[0] ?? null;
+
+  const isUserJoined = !!checkJoined;
+
   if (!skilltree) return <div>Skill Tree not found</div>;
 
   return (
@@ -148,12 +156,11 @@ export const RankedEvent = () => {
               onUploadProof={() => {
                 console.log('onUploadProof');
               }}
-              disabled={!isUserSubscribed}
+              disabled={!isUserSubscribed || !isUserJoined}
             />
-
             <JoinEventButton
               eventId={eventId}
-              skillTreeId={skilltreeId}
+              isUserJoined={isUserJoined}
               disabled={!isUserSubscribed}
             />
             <button
