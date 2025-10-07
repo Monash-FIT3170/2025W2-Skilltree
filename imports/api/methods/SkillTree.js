@@ -49,7 +49,10 @@ Meteor.methods({
     // Schemas.SkillTree.validate(skilltree);
 
     if (!SkillTreeCollection.findOne(skilltreeId)) {
-      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+      throw new Meteor.Error(
+        'skilltree-not-found',
+        'SkillTree not found when updating SkillTree'
+      );
     }
 
     // Add updatedAt timestamp
@@ -70,7 +73,10 @@ Meteor.methods({
       _id: skilltreeId
     });
     if (!skilltree) {
-      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+      throw new Meteor.Error(
+        'skilltree-not-found',
+        'SkillTree not found when getting SkillTree'
+      );
     }
     return skilltree;
   },
@@ -86,7 +92,10 @@ Meteor.methods({
     });
 
     if (!skilltree) {
-      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+      throw new Meteor.Error(
+        'skilltree-not-found',
+        'SkillTree not found when subscribing user'
+      );
     }
 
     // set async if needed
@@ -109,7 +118,10 @@ Meteor.methods({
     });
 
     if (!skilltree) {
-      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+      throw new Meteor.Error(
+        'skilltree-not-found',
+        'SkillTree not found when unsubscribing user'
+      );
     }
 
     return await SkillTreeCollection.updateAsync(
@@ -130,7 +142,10 @@ Meteor.methods({
       _id: skilltreeId
     });
     if (!skilltree) {
-      throw new Meteor.Error('skilltree-not-found', 'SkillTree not found');
+      throw new Meteor.Error(
+        'skilltree-not-found',
+        'SkillTree not found when finding user'
+      );
     }
 
     // select the document where subscribers contains desired user OR null if none are found
