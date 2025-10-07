@@ -26,9 +26,7 @@ export const ProfileContent = () => {
 
  return (
   <>
-    <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-      {finalUserId}'s Profile
-    </h2>
+   
     {/* Profile content goes here, profile details, header etc */}
     <Outlet context={{ followingIds, followersIds }} />
   </>
