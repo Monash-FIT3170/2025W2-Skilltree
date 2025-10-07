@@ -245,7 +245,18 @@ describe('Events Methods', function () {
   describe('addProof', function () {
     it('adds proof to event', async function () {
       testProof1.user = testUser;
-      const res = await Meteor.callAsync('addProof', testProof1, TEST_ID_1);
+      await Meteor.callAsync(
+        'skilltrees.subscribeUser',
+        skillTreeId1,
+        testUser
+      );
+
+      const resUser = await Meteor.callAsync('addUser', testUser, TEST_ID_1);
+      const resProof = await Meteor.callAsync(
+        'addProof',
+        testProof1,
+        TEST_ID_1
+      );
       const proof = await ProofCollection.findOneAsync({ _id: TEST_ID_2 });
       assert.strictEqual(proof.eventId, TEST_ID_1);
     });
