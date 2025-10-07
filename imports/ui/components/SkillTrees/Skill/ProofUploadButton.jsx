@@ -217,7 +217,6 @@ export const ProofUploadButton = ({
         evidenceLink: uploadResults.Location,
         verification: 0,
         skillTreeId: skilltreeId,
-        eventId: eventId,
         expertVerified: 0,
         expertVerifiers: []
       };
