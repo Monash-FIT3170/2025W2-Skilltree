@@ -900,6 +900,54 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+#### PublicRoute
+
+> [!TIP]
+>
+> Custom protected route component to allow public (logged out) access to routes while optionally denying private (logged in) access (`hideForLoggedIn`) for the path and all further nested children used for public routes such as login and signup:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/routes/.../` `PUBLIC_ROUTE.jsx`
+> >
+> > ```jsx
+> > import { PublicRoute } from '/imports/utils/RouteGuard';
+> > ...
+> >   path: 'PUBLIC_URL_PART/',
+> >   element: (
+> >     <PublicRoute hideForLoggedIn={true} redirect="OVERIDE_REDIRECT_URL/">
+> >       <PROTECTED_JSX_ELEMENT />
+> >     </PublicRoute>
+> >   )
+> > ...
+> > ```
+> </details>
+
+#### PrivateRoute
+
+> [!TIP]
+>
+> Custom protected route component to only allow private (logged in) access to routes while denying public (logged out) access for the path and all further nested children primarily used once for private AppRoutes:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/routes/.../` `PRIVATE_ROUTE.jsx`
+> >
+> > ```jsx
+> > import { PrivateRoute } from '/imports/utils/RouteGuard';
+> > ...
+> >   path: 'PRIVATE_URL_PART/',
+> >   element: (
+> >     <PrivateRoute redirect="/login">
+> >       <PROTECTED_JSX_ELEMENT >
+> >     </PrivateRoute>
+> >   )
+> > ...
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
