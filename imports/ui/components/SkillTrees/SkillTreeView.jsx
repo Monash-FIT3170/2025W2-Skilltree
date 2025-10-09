@@ -83,7 +83,6 @@ export const SkillTreeView = ({ id, onBack }) => {
                 };
                 if (netUpvotes >= node.data.netUpvotesRequired) {
                   updatedNodeData.verified = true;
-                  updatedNodeData.progressXp = node.data.xpPoints;
                   updatedTotalXp += node.data.xpPoints;
                 }
                 updatedNodes[index] = { ...node, data: updatedNodeData };
