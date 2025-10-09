@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthLayout } from '/imports/ui/layouts/Auth/AuthLayout';
+import { AccountSetup } from '/imports/ui/layouts/Auth/AccountSetup';
 import { SignUpNavigationButtons } from '/imports/ui/components/SignUp/SignUpNavigationButtons';
 
 export const GetMissingGoogleFields = () => {
@@ -73,7 +73,7 @@ export const GetMissingGoogleFields = () => {
     }
   };
   return (
-    <AuthLayout showStepBar={false}>
+    <AccountSetup showStepBar={false}>
       <form
         onSubmit={handleNext}
         className="w-full lg:w-1/2 flex flex-col justify-center lg:pl-6"
@@ -129,6 +129,6 @@ export const GetMissingGoogleFields = () => {
           <SignUpNavigationButtons currentStep={1} totalSteps={1} />
         </div>
       </form>
-    </AuthLayout>
+    </AccountSetup>
   );
 };
