@@ -57,10 +57,10 @@ export const SkillTreeLogic = ({
     }));
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
-  
+
   // Determine effective mode: admins can switch between edit and view
   const effectiveMode = isAdmin && viewMode === 'view' ? 'view' : (isAdmin ? 'edit' : 'view');
-  
+
   if (effectiveMode === 'edit') {
     console.log('Edit mode');
     if (!savedNodes) {
@@ -137,20 +137,20 @@ export const SkillTreeLogic = ({
   // Update node types when view mode changes
   useEffect(() => {
     if (!isAdmin) return; // Only applies to admins
-    
+
     if (viewMode === 'view') {
       // Save current working nodes before switching to view mode
       setWorkingNodes(nodes);
-      
+
       // Switch to user view: update node types to locked/unlocked
       const updatedNodes = nodes.map((node, index) => {
         if (node.id === '0') {
           return { ...node, type: 'root', draggable: false };
         }
-        
+
         const children = node.data.children || [];
         let unlocked = true;
-        
+
         if (children.length > 0) {
           for (const childId of children) {
             const childNode = nodes.find(n => n.id === childId);
@@ -160,7 +160,7 @@ export const SkillTreeLogic = ({
             }
           }
         }
-        
+
         return {
           ...node,
           type: unlocked ? 'view-node-unlocked' : 'view-node-locked',
@@ -260,7 +260,8 @@ export const SkillTreeLogic = ({
             children: [],
             verified: false,
             xpPoints: 0,
-            progressXp: 0,
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             onOpenEditor: () => handleOpenEditor(id)
           },
           origin: nodeOrigin
@@ -343,7 +344,7 @@ export const SkillTreeLogic = ({
             <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
               {viewMode === 'edit' ? 'Add Skills' : 'Preview User View'}
             </h2>
-            
+
             <div className="flex gap-2">
               <Button
                 pill

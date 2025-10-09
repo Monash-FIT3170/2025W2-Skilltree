@@ -3,7 +3,7 @@ import React from 'react';
 
 export function ViewNode({ data, isUnlocked }) {
   const progress = isUnlocked
-    ? Math.floor((data.progressXp / data.xpPoints) * 100)
+    ? Math.floor((data.currentNetUpvotes / data.netUpvotesRequired) * 100)
     : 0;
 
   const displayColour = isUnlocked ? '#328E6E' : '#8C8C8C';
@@ -34,16 +34,26 @@ export function ViewNode({ data, isUnlocked }) {
           {data.label || 'Untitled'}
         </strong>
         <br />
-        {isUnlocked && (
-          <div className="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div
-              className="bg-[#FBBC05] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-              style={{ width: `${progress}%` }}
-            >
-              {`${data.progressXp || 0} / ${data.xpPoints}`}
-            </div>
+        {isUnlocked ? (
+          <div className="w-full bg-gray-200 dark:bg-gray-700 relative">
+            {progress > 0 && (
+              <div
+                className="bg-[#FBBC05] absolute left-0 top-0 bottom-0 rounded-half"
+                style={{ width: `${progress}%` }}
+              />
+            )}
+            <span className="relative text-xs text-white block text-center p-0.5">
+              {`${data.currentNetUpvotes || 0} / ${data.netUpvotesRequired}`}
+            </span>
           </div>
-        )}
+        ) :
+          (
+            <div className="text-gray-300 text-xs text-center">
+              Locked
+            </div>
+          )
+        }
+
       </div>
       <Handle
         type="source"
