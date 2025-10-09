@@ -38,11 +38,12 @@ const initialFormData = {
 export const AccountSetup = ({
   showStepBar = false,
   currentStep: externalCurrentStep,
-  totalSteps = 3,
+  totalSteps = 1,
   showFooter = false
 }) => {
   //When the user refreshes the page and component remounts, we will go back to step 1
-  const [currentStep, setCurrentStep] = useState(externalCurrentStep || 1);
+  const [currentStep, setCurrentStep] = useState(externalCurrentStep ?? 1);
+
   const [formData, setFormData] = useImmer(initialFormData);
 
   const nextStep = () => {

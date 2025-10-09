@@ -7,9 +7,9 @@ import {
 
 //Sign In UI page component
 import { SignIn } from '/imports/ui/pages/SignIn';
-import { GetMissingGoogleFields } from '../../ui/components/SignUp/GetMissingGoogleFields';
 import { ForgotPasswordForm } from '../../ui/pages/ForgotPasswordForm';
 import { ResetPasswordForm } from '../../ui/pages/ResetPasswordForm';
+import { AccountSetup } from '../../ui/layouts/Auth/AccountSetup';
 
 export const SignInRoutes = [
   {
@@ -27,7 +27,11 @@ export const SignInRoutes = [
       <PrivateRoute redirect="/login">
         {/* Route requires isProfileComplete to be false to access otherwise redirects to / */}
         <ProfileCompleteRoute redirectUrl="/" requireComplete={false}>
-          <GetMissingGoogleFields />
+          <AccountSetup
+            currentStep={0}
+            showStepBar={false}
+            showFooter={false}
+          />
         </ProfileCompleteRoute>
       </PrivateRoute>
     )
