@@ -70,6 +70,13 @@ export const SkillTreeLogic = ({
         }
       ];
     }
+    else {
+      console.log("setting type to edit");
+      initialNodes = initialNodes.map(node => ({
+        ...node,
+        type: node.id === '0' ? 'root' : 'new-populated'
+      }));
+    }
   } else {
     // console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
     // console.log('saved node root:', initialNodes[0]);
