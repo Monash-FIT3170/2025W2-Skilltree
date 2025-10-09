@@ -293,6 +293,12 @@ Meteor.startup(async () => {
   await Meteor.callAsync(
     'skilltrees.subscribeUser',
     'basketball',
+    sampleId
+  );
+
+  await Meteor.callAsync(
+    'skilltrees.subscribeUser',
+    'basketball',
     communityMemberA
   );
 
