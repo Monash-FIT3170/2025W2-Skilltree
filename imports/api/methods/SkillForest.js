@@ -83,6 +83,10 @@ Meteor.methods({
 
     let subscriptionsCreated = 0;
 
+  // Subscribe to the SkillForest
+  await Meteor.callAsync('updateSubscribedCommunities', skillForestId);
+  console.log('Added skill forest to user subscriptions:', skillForestId);
+
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
       for (const skillTreeId of skillForest.skilltreeIds) {
         console.log('skillTreeId:', skillTreeId, 'Type:', typeof skillTreeId);
