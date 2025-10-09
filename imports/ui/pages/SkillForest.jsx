@@ -8,12 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 // Import Collections
 import { SkillForestCollection } from '../../api/collections/SkillForest';
-// import { SkillTreeCollection } from '../../api/collections/SkillTree';
 
 // Import UI Components
-// import { SkillTreeView } from '../components/SkillTrees/SkillTreeView';
 import { SkillForestUnifiedView } from '../components/SkillForest/SkillForestUnifiedView';
 import { SkillForestSplitView } from '../components/SkillForest/SkillForestSplitView';
+import { SkillForestSubscribeButton } from '../components/SkillForest/SusbcribeButton';
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
@@ -47,8 +46,15 @@ export const SkillForest = () => {
 
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold text-[#000000]">
-            {skillForest.title}
+            {skillForest?.title}
           </h1>
+
+          <div className="flex items-center gap-4">
+            {/* Subscribe Button */}
+            <SkillForestSubscribeButton 
+              skillForestId={skillForestId}
+              skillTreeIds={skillForest?.skilltreeIds || []}
+            />
 
           {/* View Toggle Buttons */}
           <div className="flex gap-2">
@@ -72,6 +78,7 @@ export const SkillForest = () => {
             >
               Split View
             </button>
+          </div>
           </div>
         </div>
 
