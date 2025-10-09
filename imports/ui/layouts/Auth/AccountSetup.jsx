@@ -2,41 +2,38 @@ import React, { Suspense, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { motion } from 'framer-motion';
 
-
-
 import { StepBar } from '/imports/ui/components/SignUp/StepBar';
 import { SignUpFooter } from '/imports/ui/components/SignUp/SignUpFooter';
 import { SignUpLogoSection } from '/imports/ui/components/SignUp/SignUpLogoSection';
 
 //Sign up step components
-import { GetMissingGoogleFields} from '/imports/ui/components/SignUp/GetMissingGoogleFields';
+import { GetMissingGoogleFields } from '/imports/ui/components/SignUp/GetMissingGoogleFields';
 import { EmailUserNameStage } from '/imports/ui/components/SignUp/EmailUserNameStage';
 import { CreatePasswordStage } from '/imports/ui/components/SignUp/CreatePasswordStage';
 import { BasicInfoStage } from '/imports/ui/components/SignUp/BasicInfoStage';
 
 const initialFormData = {
-    username: '',
-    password: '',
-    email: '',
-    profile: {
-      givenName: '',
-      familyName: '',
-      avatarUrl: '',
-      bio: '',
-      dateOfBirth: '',
-      subscribedCommunities: [],
-      roles: ['user'],
-      isActive: true,
-      lastLogin: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      proof_of_practice_uploads: [],
-      expertise_areas: [],
-      membership_tier: 'Community',
-      isProfileComplete: false
-    }
-  };
-
+  username: '',
+  password: '',
+  email: '',
+  profile: {
+    givenName: '',
+    familyName: '',
+    avatarUrl: '',
+    bio: '',
+    dateOfBirth: '',
+    subscribedCommunities: [],
+    roles: ['user'],
+    isActive: true,
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    proof_of_practice_uploads: [],
+    expertise_areas: [],
+    membership_tier: 'Community',
+    isProfileComplete: false
+  }
+};
 
 export const AccountSetup = ({
   showStepBar = false,
@@ -44,7 +41,6 @@ export const AccountSetup = ({
   totalSteps = 3,
   showFooter = false
 }) => {
-
   //When the user refreshes the page and component remounts, we will go back to step 1
   const [currentStep, setCurrentStep] = useState(externalCurrentStep || 1);
   const [formData, setFormData] = useImmer(initialFormData);
@@ -58,7 +54,6 @@ export const AccountSetup = ({
   };
 
   const renderStep = () => {
-
     const signUpStageProps = {
       formData,
       setFormData,
@@ -70,7 +65,7 @@ export const AccountSetup = ({
 
     switch (currentStep) {
       case 0:
-        return <GetMissingGoogleFields />
+        return <GetMissingGoogleFields />;
       case 1:
         return <EmailUserNameStage {...signUpStageProps} />;
       case 2:
@@ -81,7 +76,6 @@ export const AccountSetup = ({
         return <EmailUserNameStage {...signUpStageProps} />;
     }
   };
-
 
   return (
     <Suspense
