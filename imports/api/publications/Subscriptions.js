@@ -18,7 +18,6 @@ Meteor.startup(async () => {
           data: {
             label: 'root',
             description: 'root',
-            progressXp: null,
             requirements: 'root',
             xpPoints: null
           },
@@ -60,7 +59,7 @@ Meteor.startup(async () => {
             description: 'Learn how to do a spin move.',
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 15,
-            currentNetUpvotes: 3,
+            currentNetUpvotes: 0,
             xpPoints: 15
           },
           position: { x: 200, y: 100 }
@@ -148,8 +147,8 @@ Meteor.startup(async () => {
     }
   ];
 
-  // Insert dummy data
-  for (const progressTree of dummyProgressTree) {
-    await SubscriptionsCollection.insertAsync(progressTree);
-  }
+  // // Insert dummy data
+  // for (const progressTree of dummyProgressTree) {
+  //   await SubscriptionsCollection.insertAsync(progressTree);
+  // }
 });
