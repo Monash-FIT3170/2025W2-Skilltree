@@ -76,6 +76,34 @@ Meteor.methods({
     );
   },
 
+  /**
+   * Finds whether a user is participating in an event
+   * @param {String} userId
+   * @param {String} eventId
+   * @returns {} true if user is participating, false otherwise
+   */
+  async findUser(userId, eventId) {
+    check(userId, String);
+    check(eventId, String);
+
+    // check event exists
+    const eventExists = await EventCollection.findOneAsync({ _id: eventId });
+    if (!eventExists) {
+      throw new Meteor.Error('event-not-found', 'Event does not exist');
+    }
+
+    // check user participating in event
+    const user = await EventCollection.findOneAsync({
+      _id: eventId,
+      participants: { $in: [userId] }
+    });
+    if (!user) {
+      return false;
+    }
+
+    return true;
+  },
+
   async removeUser(userId, eventId) {
     check(userId, String);
     check(eventId, String);
@@ -207,8 +235,17 @@ Meteor.methods({
       );
     }
 
-    // add proof with event id
-    proof.skillTreeId = eventId;
+    const joined = await Meteor.callAsync('findUser', proof.user, eventId);
+    if (!joined) {
+      throw new Meteor.Error(
+        'user-not-joined',
+        'User is not participating in event'
+      );
+    }
+
+    // insert proof
+
+    proof.eventId = eventId;
     return await ProofCollection.insertAsync(proof);
   }
 });

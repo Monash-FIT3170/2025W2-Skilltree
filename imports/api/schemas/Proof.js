@@ -49,6 +49,11 @@ Schemas.Proof = new SimpleSchema({
     max: 1000,
     optional: true
   },
+  eventId: {
+    type: String,
+    label: 'Event ID',
+    optional: true
+  },
   upvotes: {
     type: SimpleSchema.Integer,
     defaultValue: 0,
