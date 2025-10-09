@@ -19,23 +19,27 @@ export const SkillForestSubscribeButton = ({ skillForestId, skillTreeIds }) => {
 
   useEffect(() => {
     // User is considered subscribed if they're in any skill tree's subscribers
-    const hasSubscriptions = skillTrees.some(skillTree => 
-      skillTree.subscribers && skillTree.subscribers.includes(userId)
+    const hasSubscriptions = skillTrees.some(
+      skillTree =>
+        skillTree.subscribers && skillTree.subscribers.includes(userId)
     );
     setIsSubscribed(hasSubscriptions);
   }, [skillTrees, userId]);
 
   // Subscribe user to skill forest
-  const subscribeToSkillForest = async (e) => {
+  const subscribeToSkillForest = async e => {
     e.preventDefault();
-    
+
     if (!userId) {
       console.log('User must be logged in to subscribe');
       return;
     }
 
     try {
-      const result = await Meteor.callAsync('subscribeToSkillForest', skillForestId);
+      const result = await Meteor.callAsync(
+        'subscribeToSkillForest',
+        skillForestId
+      );
       console.log(result.message);
     } catch (error) {
       console.error('Error subscribing to skill forest:', error);

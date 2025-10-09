@@ -51,34 +51,34 @@ export const SkillForest = () => {
 
           <div className="flex items-center gap-4">
             {/* Subscribe Button */}
-            <SkillForestSubscribeButton 
+            <SkillForestSubscribeButton
               skillForestId={skillForestId}
               skillTreeIds={skillForest?.skilltreeIds || []}
             />
 
-          {/* View Toggle Buttons */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setIsUnifiedView(true)}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                isUnifiedView
-                  ? 'bg-[#328E6E] text-white'
-                  : 'bg-white text-[#328E6E] border border-[#328E6E]'
-              }`}
-            >
-              Unified View
-            </button>
-            <button
-              onClick={() => setIsUnifiedView(false)}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                !isUnifiedView
-                  ? 'bg-[#328E6E] text-white'
-                  : 'bg-white text-[#328E6E] border border-[#328E6E]'
-              }`}
-            >
-              Split View
-            </button>
-          </div>
+            {/* View Toggle Buttons */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsUnifiedView(true)}
+                className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  isUnifiedView
+                    ? 'bg-[#328E6E] text-white'
+                    : 'bg-white text-[#328E6E] border border-[#328E6E]'
+                }`}
+              >
+                Unified View
+              </button>
+              <button
+                onClick={() => setIsUnifiedView(false)}
+                className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                  !isUnifiedView
+                    ? 'bg-[#328E6E] text-white'
+                    : 'bg-white text-[#328E6E] border border-[#328E6E]'
+                }`}
+              >
+                Split View
+              </button>
+            </div>
           </div>
         </div>
 
