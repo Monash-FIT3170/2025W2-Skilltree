@@ -90,9 +90,8 @@ Meteor.methods({
       // Check if user is already subscribed to this specific skill tree
         const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
 
-          skillTree &&
-          (!skillTree.subscribers ||
-            !skillTree.subscribers.includes(this.userId))
+          if (skillTree && (!skillTree.subscribers ||
+            !skillTree.subscribers.includes(this.userId))) {
 
           // Add user to SkillTree subscribers array
           await SkillTreeCollection.updateAsync(
