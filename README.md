@@ -980,6 +980,72 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+#### Collection Methods
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections). Primarily used on the server within Meteor methods, publications and unit tests for database modification operations.
+> 
+> <details>
+> <summary>⋯</summary>
+> 
+> **Collection.find**()
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find). Primarily used in Meteor methods, publications or unit tests to fetch documents from a collection. Returns a cursor used for useFind whereas appending `.fetchAsync()` returns the array result.
+>
+> <details>
+> <summary>⋯</summary>
+> 
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const fetchResult = COLLECTION_NAME.find(
+> >   MongoSelector,  // this param is optional 
+> >   options,  // this param is optional 
+> > );
+> > ```
+> >
+> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> >
+> > ***Examples:***
+> >
+> > ```jsx
+> > const RESULT_1 = COLLECTION_NAME.find({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
+> > const RESULT_2 = COLLECTION_NAME.find({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }); // Shorthand $eq
+> > const RESULT_3 = COLLECTION_NAME.find({}, { sort: { createdAt: -1 } }); // Sort result of all (option)
+> > ```
+> </details>
+>
+> **Collection.findOneAsync**()
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync).  Primarily used in Meteor methods or unit tests to fetch a single document from a collection. Returns an object as the first document that matches the selector.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const fetchResult = COLLECTION_NAME.findOneAsync(
+> >   MongoSelector,  // this param is optional 
+> >   options,  // this param is optional 
+> > );
+> > ```
+> >
+> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns first document in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync) (open option table).
+> >
+> > ***Examples:***
+> >
+> > ```jsx
+> > const RESULT_1 = COLLECTION_NAME.findOneAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
+> > const RESULT_2 = COLLECTION_NAME.findOneAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }); // Shorthand $eq
+> > ```
+> </details>
+>
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
