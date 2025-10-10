@@ -14,6 +14,7 @@ import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton
 import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 import { EventCollection } from '/imports/api/collections/Events';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
@@ -162,6 +163,9 @@ export const RankedEvent = () => {
               eventId={eventId}
               isUserJoined={isUserJoined}
               disabled={!isUserSubscribed}
+            />
+            <EventLeaderboardModal
+              eventId={eventId}
             />
             <button
               onClick={() => setIsModalOpen(true)}
