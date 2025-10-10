@@ -9,16 +9,16 @@ import { ProofCollection } from '/imports/api/collections/Proof';
 
 /**
  * EventLeaderboardList.jsx
- * 
+ *
  * Render a leaderboard component displaying a podium with ranks of users in the event
- * 
+ *
  * @component
  * @example
  * // Example usage
  * <EventLeaderboardList eventId = {eventId}/>
- * 
+ *
  * @param {String} eventId _id of event
- * 
+ *
  * @returns Component containing leaderboard
  */
 export const EventLeaderboardList = ({ eventId }) => {
