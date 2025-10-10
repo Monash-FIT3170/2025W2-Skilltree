@@ -10,6 +10,20 @@ import {
 
 import { EventLeaderboardList } from './EventLeaderboadList';
 
+/**
+ * EventLeaderboardModal.jsx
+ * 
+ * Render a modal component which contains the leaderboard for an event
+ * 
+ * @component
+ * @example
+ * // Example usage
+ * <EventLeaderboardModal eventId = {eventId}/>
+ * 
+ * @param {eventId} eventId _id of event
+ * 
+ * @returns Button which shows the modal
+ */
 export const EventLeaderboardModal = ({ eventId }) => {
   const [isOpen, setIsOpen] = useState(false);
 

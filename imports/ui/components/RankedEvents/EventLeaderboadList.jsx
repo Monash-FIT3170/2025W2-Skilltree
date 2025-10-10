@@ -7,6 +7,20 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 import { ProofCollection } from '/imports/api/collections/Proof';
 
+/**
+ * EventLeaderboardList.jsx
+ * 
+ * Render a leaderboard component displaying a podium with ranks of users in the event
+ * 
+ * @component
+ * @example
+ * // Example usage
+ * <EventLeaderboardList eventId = {eventId}/>
+ * 
+ * @param {eventId} eventId _id of event
+ * 
+ * @returns Component containing leaderboard
+ */
 export const EventLeaderboardList = ({ eventId }) => {
   // find all proofs with event ID
   useSubscribe('proof');
