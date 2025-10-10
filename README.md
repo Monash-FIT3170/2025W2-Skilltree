@@ -1044,6 +1044,59 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 >
+> **Collection.insertAsync**() 
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-insertAsync). Primarily used in Meteor methods or unit tests to insert a single document into a collection. Returns its unique _id.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const INSERTED_ID = COLLECTION_NAME.insertAsync(doc);
+> > ```
+> >
+> > - <u>doc</u> is the object as the document to insert into the collection. If no '_id' is provided in the object document, it will be auto generated.
+> >
+> > ***Examples:***
+> >
+> > ```  jsx
+> > const doc = { FIELD_1: 'VAL_1', FIELD_2: 'VAL_2' }
+> > COLLECTION_NAME.insertAsync(doc);
+> > COLLECTION_NAME.insertAsync({ FIELD_3: 'VAL_3' });
+> > ```
+> </details>
+> 
+> **Collection.updateAsync**()
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync). Primarily used in Meteor methods or unit tests to update  documents in a collection. Returns the number of matched documents.
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const RESULT_COUNT = COLLECTION_NAME.updateAsync(
+> >   MongoSelector,
+> >   MongoModifier, 
+> >   options,  // this param is optional 
+> > );
+> > ```
+> >
+> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync) (open option table).
+> >
+> > ***Examples:***
+> >
+> > ```jsx
+> > COLLECTION_NAME.updateAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
+> > COLLECTION_NAME.updateAsync({ FIELD_2: 'FIELD_VALUE_TO_MATCH' }, { $inc: { FIELD_3_COUNTER: 1 } });
+> > ```
+> </details>
+>
 > </details>
 
 ## Server Side Rendering (SSR)
