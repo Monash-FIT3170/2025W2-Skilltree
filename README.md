@@ -949,6 +949,37 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+<h2 align="center">⬦ Database ⬦</h2>
+
+> [!NOTE] 
+>
+> Meteor follows a pub/sub architecture that provides real-time data changes between the server (database) and the client which is tightly integrated with MongoDB (Mongo), Meteor methods and react-meteor-data (useFind/useTracker). SimpleSchema is used for providing schema functionality attached to Mongo Collections via Collection2, that are published to be subscribed by connected clients for fetching data from the database with real-time changes via react-meteor-data useFind hook (DB -> client). Meteor methods allow clients to call defined functions on the server for database modifications (client -> DB).
+
+### Mongo Collections
+
+> [!NOTE]
+>
+> Long term data persistence are stored in the database via Mongo collections as MongoDB documents. Database modification are done on the server within meteor methods that are called from the client to update data (client -> DB). Database fetches to client should instead be done via react-meteor-data useFind (DB -> client).
+
+#### Collection Definition
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html). Declaring a Mongo collection export provides a wrapper object reference to a MongoDB collection that can be accessed in other files with collection.methods (on the server) to fetch, insert, update, upset, and remove etc.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/api/collections/COLLECTION_NAME.js`
+> >
+> > ``` js
+> > import { Mongo } from 'meteor/mongo';
+> > 
+> > // Create & export a new MongoDB collection named 'COLLECTION_NAME'
+> > export const COLLECTION_NAME_Collection = new Mongo.Collection('COLLECTION_NAME');
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
