@@ -20,7 +20,7 @@ import { EventLeaderboardList } from './EventLeaderboadList';
  * // Example usage
  * <EventLeaderboardModal eventId = {eventId}/>
  * 
- * @param {eventId} eventId _id of event
+ * @param {String} eventId _id of event
  * 
  * @returns Button which shows the modal
  */

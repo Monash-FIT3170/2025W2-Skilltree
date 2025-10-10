@@ -17,7 +17,7 @@ import { ProofCollection } from '/imports/api/collections/Proof';
  * // Example usage
  * <EventLeaderboardList eventId = {eventId}/>
  * 
- * @param {eventId} eventId _id of event
+ * @param {String} eventId _id of event
  * 
  * @returns Component containing leaderboard
  */
