@@ -19,28 +19,29 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    try {
-      // Make sure the end date is after start date
-      if (new Date(formData.endDate) < new Date(formData.startDate)) {
-        throw new Error('End date must be after start date.');
-      }
-
-      await Meteor.callAsync('events.insert', {
-        ...formData,
-        skillTreeId: skilltreeId,
-        createdAt: new Date()
-      });
-      onClose();
-    } catch (err) {
-      console.error(err);
-      setError(err.reason || err.message || 'Failed to create event.');
-    } finally {
-      setIsSubmitting(false);
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError('');
+  try {
+    if (new Date(formData.endDate) < new Date(formData.startDate)) {
+      throw new Error('End date must be after start date.');
     }
-  };
+
+    await Meteor.callAsync('createEvent', {
+      ...formData,
+      skilltreeId,
+      createdAt: new Date()
+    });
+
+    onClose();
+  } catch (err) {
+    console.error(err);
+    setError(err.reason || err.message || 'Failed to create event.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">

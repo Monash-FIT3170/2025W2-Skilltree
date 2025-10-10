@@ -30,6 +30,17 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'Skilltree does not exist');
     }
 
+    const existingEvent = await EventCollection.findOneAsync({
+      skilltreeId: event.skilltreeId,
+      active: true
+    });
+    if (existingEvent) {
+      throw new Meteor.Error(
+        'event-exists',
+        'There is already an active event for this Skilltree.'
+      );
+    }
+
     return await EventCollection.insertAsync(event);
   },
 
@@ -171,6 +182,7 @@ Meteor.methods({
 
     return res;
   },
+
 
   /**
    * Add proof for an event
