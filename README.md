@@ -405,8 +405,9 @@ tests/					<Unit Tests>
 > >   );
 > > };
 > > ```
-> 
+>
 > **Accessing & Destructuring Props via Child JSX:**
+>
 > > 
 > > `CHILD_COMPONENT.jsx`
 > > 
@@ -492,14 +493,14 @@ tests/					<Unit Tests>
 > [!TIP]
 > `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
 >
+> <details>
+> <summary>⋯</summary>
+>
 > > ```jsx
 > > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
 > > ```
 >
 > **Example**:
->
-> <details>
-> <summary>⋯</summary>
 > 
 > > `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
 > >
@@ -597,15 +598,15 @@ tests/					<Unit Tests>
 > > import { ROUTE_NAME_Routes } from '/imports/routes/.../ROUTE_NAME'; // New Route
 > > 
 > > export const PARENT_NAME_Routes = [
-> > {
-> >  path: 'PARENT_ROUTE_URL_PART/', // Not the full URL, PARENT_ROUTE_NAME's PARENT_ELEMENT JSX URL part
-> >  element: <PARENT_ELEMENT />, // The PARENT JSX element to render when the path matches
-> >  children: [
-> >    // Extends children array with nested routes via spread operator (...)
-> >    ...PARENT_NESTED_1_Routes,
-> >    ...ROUTE_NAME_Routes // Newly defined route
-> >  ]
-> > }
+> >   {
+> >     path: 'PARENT_ROUTE_URL_PART/', // Not the full URL, PARENT_ROUTE_NAME's PARENT_ELEMENT JSX URL part
+> >     element: <PARENT_ELEMENT />, // The PARENT JSX element to render when the path matches
+> >     children: [
+> >       // Extends children array with nested routes via spread operator (...)
+> >       ...PARENT_NESTED_1_Routes,
+> >       ...ROUTE_NAME_Routes // Newly defined route
+> >     ]
+> >   }
 > > ];
 > > ```
 >
@@ -802,7 +803,7 @@ tests/					<Unit Tests>
 >
 > **useNavigate Hook**
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-navigate#usenavigate). Similar to <Navigate> component but as a hook to navigate programmatically (conditionally):
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-navigate#usenavigate). Similar to `<Navigate>` component but as a hook to navigate programmatically (conditionally):
 >
 > <details>
 > <summary>⋯</summary>
@@ -856,7 +857,7 @@ tests/					<Unit Tests>
 
 > [!note]
 >
-> React router does not provide route protection or route guard functionality to control access to routes thereby a custom implementation is used and defined from `imports/utils/RouteGuard.jsx`.
+> React router does not provide route protection or route guard functionality to control access to routes thereby a custom implementation is used and defined from `/imports/utils/RouteGuard.jsx`.
 
 #### useRouteGuard Hook (custom)
 
@@ -867,7 +868,7 @@ tests/					<Unit Tests>
 > <details>
 > <summary>⋯</summary>
 >
-> > `imports/utils/RouteGuard.jsx`
+> > `/imports/utils/RouteGuard.jsx`
 > >
 > > ```jsx
 > > export const CUSTOM_PROTECTED_Route = ({ children, redirectUrl = '/URL_TO_REDIRECT' }) => {
