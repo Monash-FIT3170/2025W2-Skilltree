@@ -164,9 +164,7 @@ export const RankedEvent = () => {
               isUserJoined={isUserJoined}
               disabled={!isUserSubscribed}
             />
-            <EventLeaderboardModal
-              eventId={eventId}
-            />
+            <EventLeaderboardModal eventId={eventId} />
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
