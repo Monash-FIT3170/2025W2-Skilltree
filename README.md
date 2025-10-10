@@ -1097,6 +1097,59 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 >
+> **Collection.upsertAsync**()
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync). Primarily used in Meteor methods or unit tests to modify or insert documents (if none matched) in a collection. Returns an object of `{ numberAffected, insertedId }`.
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const { numberAffected, insertedId } = COLLECTION_NAME.upsertAsync(
+> >   MongoSelector,
+> >   MongoModifier,
+> >   options,  // this param is optional 
+> > );
+> > ```
+> >
+> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync) (open option table).
+> >
+> > ***Examples:***
+> >
+> > ```jsx
+> > COLLECTION_NAME.upsertAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
+> > COLLECTION_NAME.upsertAsync({ FIELD_2: 'FIELD_VALUE_TO_MATCH' }, { $inc: { FIELD_3_COUNTER: 1 } });
+> > ```
+> </details>
+>
+> **Collection.removeAsync**()
+>
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-removeAsync). Primarily used in Meteor methods or unit tests to remove documents from a collection. Returns the removed document object.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { COLLECTION_NAME } from '/imports/collections/COLLECTION_NAME';
+> > ...
+> > const REMOVED_DOCUMENT_OBJECT = COLLECTION_NAME.removeAsync(MongoSelector);
+> > ```
+> >
+> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` removes all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> >
+> > ***Examples:***
+> >
+> > ```jsx
+> > const RESULT_1 = COLLECTION_NAME.removeAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
+> > const RESULT_2 = COLLECTION_NAME.removeAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }); // Shorthand $eq
+> > const RESULT_3 = COLLECTION_NAME.removeAsync({}); // Remove all (drop collection), avoid in production...
+> > ```
+> </details>
+>
 > </details>
 
 ## Server Side Rendering (SSR)
