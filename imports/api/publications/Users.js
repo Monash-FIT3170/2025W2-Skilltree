@@ -332,8 +332,6 @@ Meteor.startup(async () => {
       await SubscriptionsCollection.insertAsync(copyProgressTree);
     }
 
-    await Meteor.callAsync('getEvent', 'dribbling_basketball');
-
     if (i % 6 == 0) {
       const dummyProof = {
         title: 'Dribbling',
