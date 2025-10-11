@@ -304,7 +304,7 @@ export const SignIn = () => {
                     </span>
                   </label>
                   <Link
-                    to="/login/password-recovery"
+                    to="/password-recovery"
                     className="text-sm text-[#04BF8A] hover:text-[#025940] font-semibold transition-colors sm:text-right"
                   >
                     Forgot password?
