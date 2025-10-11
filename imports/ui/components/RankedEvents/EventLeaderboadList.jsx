@@ -49,9 +49,9 @@ export const EventLeaderboardList = ({ eventId }) => {
   }));
 
   const podiumStyle = [
-    { bg: '#AAA9AD', text: '🥈', height: '60' },
-    { bg: '#D3AF37', text: '🥇', height: '85' },
-    { bg: '#A97142', text: '🥉', height: '50' }
+    { bg: 'bg-[#AAA9AD]', text: '🥈', height: 'h-60' },
+    { bg: 'bg-[#D3AF37]', text: '🥇', height: 'h-85' },
+    { bg: 'bg-[#A97142]', text: '🥉', height: 'h-50' }
   ];
 
   // filter podium users
@@ -69,12 +69,10 @@ export const EventLeaderboardList = ({ eventId }) => {
     <div>
       <div className="grid grid-cols-3 gap-1 w-full justify-end-safe items-end">
         {podium.map((entry, index) => {
-          console.log(entry);
-
           return (
             <div
               className="flex flex-col items-center gap-2.5"
-              key={entry.user ? entry.user : ''}
+              key={entry.user || `podium-${index}`}
             >
               <Avatar
                 img={entry.profile?.avatarUrl}
@@ -86,7 +84,7 @@ export const EventLeaderboardList = ({ eventId }) => {
                 <div>{`${entry.username ? entry.username : ''}`}</div>
               </div>
               <div
-                className={`h-${podiumStyle[index].height} flex w-full flex-col items-center justify-center rounded-t-xl bg-[${podiumStyle[index].bg}] font-semibold`}
+                className={`flex w-full flex-col items-center justify-center rounded-t-xl font-semibold ${podiumStyle[index].height} ${podiumStyle[index].bg}`}
               >
                 <div className="text-4xl">{podiumStyle[index].text}</div>
                 <div className="text-2xl">{`${entry.upvotes ? entry.upvotes + ' upvotes' : ''}`}</div>
