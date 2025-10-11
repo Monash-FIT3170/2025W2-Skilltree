@@ -1201,11 +1201,11 @@ tests/					<Unit Tests>
 > >   },
 > >   FIELD_3: {
 > >     type: SimpleSchema.Integer,
-> >     label: 'FIELD_3 (Integer)',
+> >     label: 'FIELD_3 (Integer)'
 > >   },
 > >   FIELD_NESTED_OBJECT: {
 > >     type: Schemas.SCHEMA_NESTED_OBJECT_NAME,
-> >     label: 'FIELD_NESTED_OBJECT (Object)',
+> >     label: 'FIELD_NESTED_OBJECT (Object)'
 > >   },
 > >   FIELD_ARRAY: {
 > >     type: Array, // The field type is array
@@ -1214,7 +1214,7 @@ tests/					<Unit Tests>
 > >   },
 > >   'FIELD_ARRAY.$': {
 > >     type: String, // FIELD_ARRAY.$ = an item (ID string) in FIELD_ARRAY
-> >     label: 'ANOTHER_COLLECTION ID',
+> >     label: 'ANOTHER_COLLECTION ID'
 > >   }
 > > });
 > >   
@@ -1234,6 +1234,57 @@ tests/					<Unit Tests>
 > [!TIP]
 >
 > Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-collection2?tab=readme-ov-file#validation-contexts). Collection2 along with attached SimpleSchema automatically handles validating data on inserts and modification operations (not on existing data). As of Collection2 `v4.1.4`, only certain operators/modifiers are supported (see this [list](https://github.com/Meteor-Community-Packages/meteor-simple-schema/issues/9)) where some will not be automatically validated such as `$inc`, `$push`, `$pull` and `$pop` (see this [list](https://github.com/Meteor-Community-Packages/meteor-collection2/issues/12)) which would require either manual validation or using alternative supported operators/modifiers.
+
+### Meteor Publications
+
+> [!NOTE]
+>
+> Meteor will 'publish' (Mongo) collections from the server where connected client can 'subscribe' to for real-time changes (DB -> client) and reactivity (websockets) whenever data from the database are modified from Meteor methods calls (client -> DB) or the server. 
+
+#### Publication definition
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#Meteor-publish). The schema should be imported to be attached to the collection before it is published within the publication file.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ``/imports/api/publications/PUBLICATION_NAME.js``
+> >
+> > ```jsx
+> > import { Meteor } from 'meteor/meteor';
+> > import { COLLECTION_NAME_Collection } from '/imports/api/collections/COLLECTION_NAME'; // Collection to publish
+> > 
+> > // Schema
+> > import '/imports/api/schemas/SCHEMA_NAME'; // Enable corresponding schema functionality + validation
+> > 
+> > // Publish the publication named as "PUBLICATION_NAME" from the backend, lets clients (front-end JSX) subscribe to the data in the COLLECTION_NAME_Collection for real time changes
+> > Meteor.publish('PUBLICATION_NAME', () => COLLECTION_NAME_Collection.find());
+> > ...
+> > ```
+> >
+> > **Mock Data**
+> >
+> > ```jsx
+> > ...
+> > Meteor.startup(async () => { // [Mock Data] via Meteor Startup (same file as its publication)
+> >   await COLLECTION_NAME_Collection.insertAsync({ // Insert mock document with schema validation
+> >     FIELD: VALUE,
+> >     ...
+> >   });
+> > });
+> > ```
+> >   
+> > **Add publication import to `Publications.js` to consolidate for server startup**
+> > 
+> >``/imports/api/Publications.js``
+> > 
+> >```jsx
+> > ...
+> >import '/imports/api/publications/PUBLICATION_NAME';
+> > ```
+> > </details>
 
 ## Server Side Rendering (SSR)
 
