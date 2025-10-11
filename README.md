@@ -1158,6 +1158,71 @@ tests/					<Unit Tests>
 >
 > Mongo collections lacks built-in schema functionality for MongoDB. SimpleSchema is used to provide consistent document structure, default values and validation. Collection2 is used to explicitly 'attach' the defined schema to a Mongo collection for seamless integration of validation and default values functionality etc.
 
+#### Schema Definition 
+
+> [!TIP]
+>
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#defining-a-schema). Each schema defines a document structure object (or a nested part) of `field: { type: ..., Rules... }` pairs where a field may nest deeper objects in its full structure. For better readability, such nested definitions are explicitly avoided by instead extending the (exported) 'Schemas' object (that holds all defined schema) with each single level of an object structure individually (no direct nesting) where   the nesting is done by setting a field type to its reference from it (`type: Schemas.NAME_OF_SCHEMA`). Schema parts or structures that are common to multiple collections are likely candidates to be moved out into its own collection to avoid duplication by storing an array of IDs representing its collection instead of it directly.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/api/schemas/SCHEMA_NAME.js`
+> >
+> > ```js
+> > import SimpleSchema from 'meteor/aldeed:simple-schema';
+> > import { Schemas } from '/imports/api/Schemas'; // Schemas object that holds all defined schema 
+> > import { COLLECTION_NAME_Collection } from '/imports/api/collections/COLLECTION_NAME'; // Schema's Collection
+> > 
+> > // Define the schema for a FIELD_NESTED_OBJECT
+> > Schemas.SCHEMA_NESTED_OBJECT_NAME = new SimpleSchema({
+> >   FIELD: {
+> >     type: RULE_TYPE,
+> >     label: 'LABEL_FOR_FIELD',
+> >     optional: true
+> >   },
+> >   FIELD_NESTED_OBJECT: {
+> >     type: Schemas.SCHEMA_ANOTHER_NESTED_OBJECT_NAME, // Can be further nested etc
+> >     label: 'FIELD_NESTED_OBJECT (Object)',
+> >   },
+> > });
+> > 
+> > // Define the SCHEMA_NAME schema for the COLLECTION_NAME_Collection using SimpleSchema to Schemas
+> > Schemas.SCHEMA_NAME = new SimpleSchema({
+> >   FIELD: {
+> >     type: RULE_TYPE,
+> >     label: 'LABEL_FOR_FIELD',
+> >     optional: true
+> >     // See Schema Rules for more...
+> >   },
+> >   FIELD_2: {
+> >     type: String,
+> >     label: 'FIELD_2 (String)'
+> >   },
+> >   FIELD_3: {
+> >     type: SimpleSchema.Integer,
+> >     label: 'FIELD_3 (Integer)',
+> >   },
+> >   FIELD_NESTED_OBJECT: {
+> >     type: Schemas.SCHEMA_NESTED_OBJECT_NAME,
+> >     label: 'FIELD_NESTED_OBJECT (Object)',
+> >   },
+> >   FIELD_ARRAY: {
+> >     type: Array, // The field type is array
+> >     label: 'Array of ANOTHER_COLLECTION IDs',
+> >     defaultValue: []
+> >   },
+> >   'FIELD_ARRAY.$': {
+> >     type: String, // FIELD_ARRAY.$ = an item (ID string) in FIELD_ARRAY
+> >     label: 'ANOTHER_COLLECTION ID',
+> >   }
+> > });
+> >   
+> > // Attach the defined SCHEMA_NAME schema (from Schemas) to the COLLECTION_NAME_Collection which the publication file would import and call
+> > COLLECTION_NAME_Collection.attachSchema(Schemas.SCHEMA_NAME);
+> > ```
+> > </details>
+
 #### Schema Rules
 
 > [!TIP]
