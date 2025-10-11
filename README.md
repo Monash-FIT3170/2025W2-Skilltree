@@ -1152,6 +1152,24 @@ tests/					<Unit Tests>
 >
 > </details>
 
+### Schema
+
+> [!NOTE]
+>
+> Mongo collections lacks built-in schema functionality for MongoDB. SimpleSchema is used to provide consistent document structure, default values and validation. Collection2 is used to explicitly 'attach' the defined schema to a Mongo collection for seamless integration of validation and default values functionality etc.
+
+#### Schema Rules
+
+> [!TIP]
+>
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#schema-rules) for the full list. Each defined field can have set rules such as type (String, Number, SimpleSchema.Integer, Boolean, Array... etc), a label (used in validation error messages), optional (whether the field is not required), min, max, defaultValue etc.    
+
+#### Validating Data
+
+> [!TIP]
+>
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-collection2?tab=readme-ov-file#validation-contexts). Collection2 along with attached SimpleSchema automatically handles validating data on inserts and modification operations (not on existing data). As of Collection2 `v4.1.4`, only certain operators/modifiers are supported (see this [list](https://github.com/Meteor-Community-Packages/meteor-simple-schema/issues/9)) where some will not be automatically validated such as `$inc`, `$push`, `$pull` and `$pop` (see this [list](https://github.com/Meteor-Community-Packages/meteor-collection2/issues/12)) which would require either manual validation or using alternative supported operators/modifiers.
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
