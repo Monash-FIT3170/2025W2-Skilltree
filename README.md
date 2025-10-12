@@ -1418,6 +1418,75 @@ tests/					<Unit Tests>
 >
 > useTracker hook currently does not work properly in most cases as the suspendable version freezes with errors and the regular version breaks SSR, so it should be avoided where the useFind hook instead should be sufficient for most cases.
 
+### User Data
+
+> [!NOTE]
+>
+> [Meteor Accounts](https://docs.meteor.com/api/accounts.html) manages user documents in a built-in Mongo collection that is accessed via `Meteor.users`. Fetching data for the loggedIn user to the client is done through the custom 'AuthContext' (userId) and 'User' utils (data). Fetching any users data that is not from the loggedIn user is done via the useFind hook but with `Meteor.users` as the collection first argument on the `'users'` publication subscription.
+
+#### useContext(AuthContext) Hook (for fetching loggedIn userId)
+
+> [!TIP]
+>
+> The method to obtain the loggedIn userId is computed once reactively (after logging in/out) within the top level AuthProvider accessed and reused from anywhere via useContext hook on AuthContext. If the user is not loggedIn, the userId value would be `undefined` which also provides the method to check for the loggedIn state. This loggedIn userId would be used for many queries in database fetches such as user content data. 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { AuthContext } from '/imports/utils/contexts/AuthContext';
+> > ...
+> > const loggedInUserId = useContext(AuthContext); // Computed once from top level
+> > const loggedIn = useContext(AuthContext); // Same way to check if loggedIn (id == true, undefined == false)
+> > ```
+> </details>
+
+#### User Utils (for fetching loggedIn userdata)
+
+> [!TIP]
+>
+> A custom User utils helper utility function is used to fetch data more than just the userId for the loggedIn user. **Ensure only the needed fields are specified** in every User utils otherwise it would end up being incredibly inefficient to fetch entire user document across many places repeatedly.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> `User([...], options)`
+>
+> - The 1st User utils parameter is the list `[...]` of fields to specify for the fetch, it's important to only include the needed fields.
+> - The 2nd User utils parameter (optional) is additional options for the query except for fields (do not pass fields here), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+>
+> > ```jsx
+> > import { User } from '/imports/utils/User';
+> > ...
+> > const userData = User(fields = [], options = {});
+> > const field_1 = userData.field_1;
+> > const field_2 = userData.field_2 ?? 'fallback_value'; // Set optional ?? fallback value
+> > 
+> > // Or direct fields destructuring
+> > { field_1, field_n...} = User(fields = [], options = {});
+> > { field_1 = 'fallback_val', field_n = 'fallback_val'...} = User(fields = [], options = {});
+> > ```
+> >
+> > - Fallback value for User isn't strictly needed as the RouteGuard should prevent rendering before it is ready but it might be good practice to deal with undefined, should it occur for a brief moment.
+> >
+> > Examples:
+> >
+> > ```jsx
+> > const user = User(['_id', 'username', 'emails.address']); // Array of fields to fetch
+> > const username = user?.username;
+> > const email = user?.emails?.[0].address ?? 'fallback_value';
+> > const userId = user?._id ?? ''; // Only fetch _id if also fetching other fields to replace AuthContext
+> > ```
+> >
+> > ```jsx
+> > const { _id, username = 'fallback', emails } = User(['_id', 'username', 'emails.address']);
+> > ```
+> >
+> > ```jsx
+> > const { _id, username, emails: { address } } = User(['_id', 'username', 'emails.address']);
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
