@@ -1487,6 +1487,65 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+#### UseFind Hook with `Meteor.users` (for fetching users data)
+
+> [!TIP]
+>
+> Fetching any users data that is not from the loggedIn user is done through the useSubscribe hook on `'users'` publication with useFind hook  where `Meteor.users` is the collection as the first argument. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being incredibly inefficient to fetch entire users documents across many places repeatedly.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> >   `useFind(Meteor.users, [MongoSelector, options])`:
+> >
+> > ```jsx
+> > import { Meteor } from 'meteor/meteor';
+> > import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+> > ...
+> > useSubscribe('users'); // Subscribe to the 'users' publication, suspense waits for subscribed data in SSR
+> > const fetchResultArray = useFind(Meteor.users, [
+> >   MongoSelector, // The selection query operators where {} returns all documents
+> >   options // Ensure to specify {..., fields: { FIELD_1: 1, ...} }
+> > ]);
+> > ```
+> >
+> > - The 1st useFind parameter is `Meteor.users` as the collection to fetch from.
+> > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
+> >   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> >   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> >
+> > Examples:
+> >
+> > ```jsx
+> > useSubscribe('users');
+> > ...
+> > ```
+> >
+> > ```jsx
+> > const RESULT_1 = useFind(Meteor.users, [
+> >   {},
+> >   { 
+> >     sort: { createdAt: -1 },
+> >     fields: { FIELD_1: 1, FIELD_2: 1 }
+> >   }
+> > ]); // Fetch all users (sorted) with specified fields of FIELD_1, FIELD_2
+> > ```
+> >
+> > ```jsx
+> > const RESULT_2 = useFind(Meteor.users, [
+> >   { FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ]); // Full $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> >
+> > ```jsx
+> > const RESULT_2 = useFind(Meteor.users, [
+> >   { FIELD_1: 'FIELD_VALUE_TO_MATCH' },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ]); // Shorthand $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> </details>
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
