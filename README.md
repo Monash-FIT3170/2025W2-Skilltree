@@ -1286,6 +1286,48 @@ tests/					<Unit Tests>
 > > ```
 > > </details>
 
+### Meteor Subscriptions + useFind (react-meteor-data)
+
+> [!NOTE]
+>
+> [`meteor/react-meteor-data/suspense`](https://docs.meteor.com/packages/react-meteor-data#suspendable-version-of-hooks) provides the suspendable useSubscribe and useFind hooks that allows connected clients to subscribe to publications for fetching data from the database (DB -> client) with real time changes and reactivity. It is important to use the suspendable version of `react-meteor-data` to work with SSR and ensure the component with the useFind fetch is wrapped under `<Suspense> <JSX /> </Suspense>` at the parent which also handles the fallback instead of managing `isLoading` states. It also suspends the rendering (to fallback state) until the subscription with useFind fetch is ready where SSR fetches on the server side render before it is sent to the client and hydrated.
+
+#### useSubscribe Hook
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usesubscribe). Before the useFind hook, the client first must subscribe via useSubscribe hook (suspendable) to the collection's publication that will be fetched from.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> ```jsx
+> import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
+> ...
+> useSubscribe('PUBLICATION_NAME');
+> ```
+> </details>
+
+#### useFind Hook
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usefind). Fetches data from the database with real-time changes and reactivity that returns an array of the fetch result. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being very inefficient to fetch the entire document across many places repeatedly! To make it easier, fetch the entire document first then add the specifics after by finding all the fields via ctrl+f on `data.` etc. 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> It should generally be used at the bottom level (deepest nest) on fetching the fields it needs at the file. This ensures easier JSX reuse and less re-renders (when a field used in a component changes, it won't cause any other deeper components to re-render unlike passing data across props which affects the entire chain). It would also make it easier to avoid dealing with specifying required fields at the top level component that may pass unneeded fields across props down many levels and may be messy to keep track on finding the parent useFind over managing its specified fields each time for a nested child to use. 
+>
+> > "The general approach is to treat useFind for getting the needed fields at the JSX it's in to decouple from other files by only passing any id via props or route params to children instead of the fetch content itself so that each JSX file does the fetching it needs using the given id via props or `route/:params/`"
+>
+> `useFind(COLLECTION, [MongoSelector, options])`:
+>
+> - The 1st useFind parameter is the COLLECTION to fetch from `import { <COLLECTION> } from '/imports/api/collections/<COLLECTION>'`
+> - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
+>   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+>   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+
 ## Server Side Rendering (SSR)
 
 > [!TIP]
