@@ -1327,6 +1327,96 @@ tests/					<Unit Tests>
 > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
 >   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
 >   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+>
+> **Collection.find().fetch() equivalent**:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+> > import { COLLECTION_NAME_Collection } from '/imports/api/collections/COLLECTION_NAME';
+> > ...
+> > useSubscribe('PUBLICATION_NAME'); // Subscribe to the publication, suspense waits for subscribed data in SSR
+> > const fetchResultArray = useFind(COLLECTION_NAME_Collection, [
+> >   MongoSelector, // The selection query operators where {} returns all documents
+> >   options // Ensure to specify {..., fields: { FIELD_1: 1, ...} }
+> > ]);
+> > ```
+> >
+> > Examples: 
+> >
+> > `Collection.find({...}, {..., fields: { FIELD: 1, ...} )` ->
+> >
+> > ```jsx
+> > const RESULT_1 = useFind(COLLECTION_NAME_Collection, [
+> >   {},
+> >   { 
+> >     sort: { createdAt: -1 },
+> >     fields: { FIELD_1: 1, FIELD_2: 1 }
+> >   }
+> > ]); // Fetch all (sorted) with specified fields of FIELD_1, FIELD_2
+> > ```
+> > ```jsx
+> > const RESULT_2 = useFind(COLLECTION_NAME_Collection, [
+> >   { FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ]); // Full $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> > ```jsx
+> > const RESULT_2 = useFind(COLLECTION_NAME_Collection, [
+> >   { FIELD_1: 'FIELD_VALUE_TO_MATCH' },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ]); // Shorthand $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> </details>
+>
+> **Collection.findOne().fetch() equivalent**:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+> > import { COLLECTION_NAME_Collection } from '/imports/api/collections/COLLECTION_NAME';
+> > ...
+> > useSubscribe('PUBLICATION_NAME'); // Subscribe to the publication, suspense waits for subscribed data in SSR
+> > const fetchResultOne = useFind(COLLECTION_NAME_Collection, [
+> >   MongoSelector, // The selection query operators where {} returns all documents
+> >   options // Ensure to specify {..., fields: { FIELD: 1, ...} }
+> > ])[0] ?? null; // Take the first result [0] else fallback ?? with null or anything in its place
+> > ```
+> >
+> > Examples:
+> >
+> > `Collection.findOne({...}, {..., fields: { FIELD: 1, ...} )` ->
+> >
+> > ```jsx
+> > const RESULT_1 = useFind(COLLECTION_NAME_Collection, [
+> >   {},
+> >   { fields: { FIELD_1: 1, FIELD_2: 1 } }
+> > ])[0] ?? null;; // Fetch all with specified fields of FIELD_1, FIELD_2
+> > ```
+> > ```jsx
+> > const RESULT_2 = useFind(COLLECTION_NAME_Collection, [
+> >   { FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ])[0] ?? null;; // Full $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> > ```jsx
+> > const RESULT_2 = useFind(COLLECTION_NAME_Collection, [
+> >   { FIELD_1: 'FIELD_VALUE_TO_MATCH' },
+> >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
+> > ])[0] ?? null;; // Shorthand $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> </details>
+> </details>
+
+#### useTracker Hook
+
+> [!CAUTION]
+>
+> useTracker hook currently does not work properly in most cases as the suspendable version freezes with errors and the regular version breaks SSR, so it should be avoided where the useFind hook instead should be sufficient for most cases.
 
 ## Server Side Rendering (SSR)
 
