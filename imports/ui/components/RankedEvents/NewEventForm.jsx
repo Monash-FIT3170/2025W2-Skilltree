@@ -13,35 +13,34 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
 
   if (!isOpen) return null;
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setError('');
-  try {
-    if (new Date(formData.endDate) < new Date(formData.startDate)) {
-      throw new Error('End date must be after start date.');
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+    try {
+      if (new Date(formData.endDate) < new Date(formData.startDate)) {
+        throw new Error('End date must be after start date.');
+      }
+
+      await Meteor.callAsync('createEvent', {
+        ...formData,
+        skilltreeId,
+        createdAt: new Date()
+      });
+
+      onClose();
+    } catch (err) {
+      console.error(err);
+      setError(err.reason || err.message || 'Failed to create event.');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    await Meteor.callAsync('createEvent', {
-      ...formData,
-      skilltreeId,
-      createdAt: new Date()
-    });
-
-    onClose();
-  } catch (err) {
-    console.error(err);
-    setError(err.reason || err.message || 'Failed to create event.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -86,7 +85,6 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
             required
             className="border p-2 rounded"
           />
-
 
           <div className="flex justify-end gap-2 mt-4">
             <button

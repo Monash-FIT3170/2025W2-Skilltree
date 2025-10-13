@@ -183,7 +183,6 @@ Meteor.methods({
     return res;
   },
 
-
   /**
    * Add proof for an event
    *
