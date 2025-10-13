@@ -1282,7 +1282,7 @@ tests/					<Unit Tests>
 > > 
 > >```jsx
 > > ...
-> >import '/imports/api/publications/PUBLICATION_NAME';
+> > import '/imports/api/publications/PUBLICATION_NAME';
 > > ```
 > > </details>
 
@@ -1543,6 +1543,68 @@ tests/					<Unit Tests>
 > >   { FIELD_1: 'FIELD_VALUE_TO_MATCH' },
 > >   { fields: { FIELD_2: 1, FIELD_3: 1 } }
 > > ]); // Shorthand $eq, fetch all matching FIELD_1 value with specified fields of FIELD_2, FIELD_3
+> > ```
+> </details>
+
+### Meteor Methods (Client->DB)
+
+> [!NOTE]
+>
+> Meteor methods allow clients to call defined functions on the server for database modifications (client -> DB) or other API uses. The defined meteor methods function can contain Mongo collection methods for operations on the database. Avoid using meteor methods for fetching data from the database to the client, the useFind hook should be used instead in most cases.
+
+#### Method definition
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). Ensure each method name is unique to avoid conflicts, the same name would be used on the client to call. 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > `/imports/api/methods/METHODS_GROUP_NAME.js`
+> >
+> > ```jsx
+> > import { Meteor } from "meteor/meteor";
+> > 
+> > Meteor.methods({
+> >   async METHOD_1(PARAMETER_1, PARAMETER_N...) {
+> >     // Do stuff on the server when called from client, async for await on promises...
+> >     return ...;
+> >   },
+> > 
+> >   METHOD_2() {
+> >     // Do other stuff on the server when called from client...
+> >     return ...;
+> >   }
+> > });
+> > ```
+> > **Add methods import to `Methods.js` to consolidate for server startup**
+> > 
+> >``/imports/api/Methods.js``
+> > 
+> >```jsx
+> > ...
+> > import '/imports/api/methods/METHODS_GROUP_NAME';
+> > ```
+> </details>
+
+#### Method call
+
+> [!TIP]
+>
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). On the client (`/imports/ui/...`), defined meteor methods can be called by its name to run the function on the server for database operations or other API use. The first argument for `Meteor.callAsync('NAME', ...)` is the defined meteor method name while the rest are the function's arguments.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { Meteor } from "meteor/meteor";
+> > ...
+> > const result = Meteor.call(
+> >   "METHOD_1",
+> >   "ARGUMENT_1_VALUE",
+> >   "ARGUMENT_N_VALUE"
+> > );
 > > ```
 > </details>
 
