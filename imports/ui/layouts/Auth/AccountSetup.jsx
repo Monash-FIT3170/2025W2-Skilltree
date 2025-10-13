@@ -4,13 +4,12 @@ import { motion } from 'framer-motion';
 
 import { StepBar } from '/imports/ui/components/SignUp/StepBar';
 import { SignUpFooter } from '/imports/ui/components/SignUp/SignUpFooter';
-import { SignUpLogoSection } from '/imports/ui/components/SignUp/SignUpLogoSection';
 
 //Sign up step components
-import { GetMissingGoogleFields } from '/imports/ui/components/SignUp/GetMissingGoogleFields';
 import { EmailUserNameStage } from '/imports/ui/components/SignUp/EmailUserNameStage';
 import { CreatePasswordStage } from '/imports/ui/components/SignUp/CreatePasswordStage';
 import { BasicInfoStage } from '/imports/ui/components/SignUp/BasicInfoStage';
+import { AccountSetupBox } from './AccountSetUpBox';
 
 const initialFormData = {
   username: '',
@@ -35,14 +34,10 @@ const initialFormData = {
   }
 };
 
-export const AccountSetup = ({
-  showStepBar = false,
-  currentStep: externalCurrentStep,
-  totalSteps = 1,
-  showFooter = false
-}) => {
+export const AccountSetup = () => {
+  const totalSteps = 3;
   //When the user refreshes the page and component remounts, we will go back to step 1
-  const [currentStep, setCurrentStep] = useState(externalCurrentStep ?? 1);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const [formData, setFormData] = useImmer(initialFormData);
 
@@ -65,8 +60,6 @@ export const AccountSetup = ({
     };
 
     switch (currentStep) {
-      case 0:
-        return <GetMissingGoogleFields />;
       case 1:
         return <EmailUserNameStage {...signUpStageProps} />;
       case 2:
@@ -90,23 +83,14 @@ export const AccountSetup = ({
           className="flex flex-col items-center w-full"
         >
           {/*Step Bar Component */}
-
-          {showStepBar && (
-            <div className="w-full max-w-md mb-8">
-              <StepBar currentStep={currentStep} totalSteps={totalSteps} />
-            </div>
-          )}
-
-          <div className="flex flex-col lg:flex-row max-w-6xl w-full bg-[#D9D9D9] rounded-xl shadow-lg overflow-hidden p-6 sm:p-8 lg:p-12">
-            {/* LEFT SECTION: Logo + Text */}
-            <SignUpLogoSection />
-
-            {/* RIGHT SECTION: Form */}
-            {renderStep()}
+          <div className="w-full max-w-md mb-8">
+            <StepBar currentStep={currentStep} totalSteps={totalSteps} />
           </div>
 
+          <AccountSetupBox>{renderStep()}</AccountSetupBox>
+
           {/*Footer*/}
-          {showFooter && <SignUpFooter />}
+          <SignUpFooter />
         </motion.div>
       </div>
     </Suspense>
