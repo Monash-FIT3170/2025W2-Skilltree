@@ -1610,8 +1610,62 @@ tests/					<Unit Tests>
 
 ## Server Side Rendering (SSR)
 
+> [!NOTE]
+>
+> React's single page application (SPA) may be notorious for being 'bloated' and 'slow' along with Meteor and its library regarding the bundle size impacting the initial load times as the project's complexity grows where Server Side Rendering (SSR) is used to help alleviate this issue.
+>
+> <details>
+> <summary>⋯</summary>
+>
+> A custom implementation of Server Side Rendering via [FastRender](https://github.com/Meteor-Community-Packages/meteor-fast-render), [React](https://react.dev/) [Stream](https://18.react.dev/reference/react-dom/server/renderToNodeStream) + [Suspense](https://react.dev/reference/react/Suspense), [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data#suspendable-version-of-hooks) (useFind hook) in `/imports/Router.jsx` provides the illusion of instantaneous page load before the bundle fully loads on the client that makes the page reactive. This is achieved through pre-rendering any Meteor pub/sub fetch content on the server before it is sent to the client (unreactively) where the client loads instantaneously while the bundle is loading then 'hydrates' the pre-render to provide React's 'reactivity', Meteor pub/sub real-time connectivity and SPA experience with client side navigation. It is important that `<Suspense>` is used around a component that fetches from the database through useFind hooks to work with SSR and to handle the fallback instead of managing `isLoading` states from Meteor's [react-meteor-data](https://docs.meteor.com/packages/react-meteor-data) hooks. 
+> </details>
+
+### SSR Caveats 
+
+> [!WARNING]
+>
+> The current custom SSR implementation has the following caveats:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - `renderToNodeStream` ([React Stream](https://18.react.dev/reference/react-dom/server/renderToNodeStream)) is deprecated which locks the project's React version to `v18` with the following warnings (that can be ignored...):
+>
+>   ```shell
+>   Warning: renderToNodeStream is deprecated. Use renderToPipeableStream instead.
+>   ```
+>
+>   The custom implementation uses `renderToNodeStream` to work with React suspense on Meteor's pub/sub because `renderToPipeableStream` does not work with Meteor `v3.3.2` yet [[1](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/2)] [[2](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/4)] [[3](https://forums.meteor.com/t/ssr-with-meteor-callasync/60979/24)]. This may change in the future but it is the only option at this time.
+>
+> - Hydration mismatches. See the next section SuspenseHydrated (SSR Opt-Out) for details.
+> </details>
+
+#### SuspenseHydrated (SSR Opt-Out)
+
 > [!TIP]
-> _Non useFind, datetime (timezone) or modified data (sorting etc) fetches from the database that gets loaded directly on the page should opt out of SSR such as the DashboardSkillTrees (sort mismatch issue) and ProofsList (datetime timezone mismatch) etc._
+>
+> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition.
+>
+> There are 2-3 edge cases with SSR of hydration mismatches which should opt-out:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - *Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly. All such usage should opt-out of SSR as a stopgap where it should ideally be transitioned to useFind if possible*.
+> - Modifying fetch result data from useFind such as sorting the array of IDs will result in a mismatch between the server (non modified) and client (modified on hydration, sorted etc). All such usage should be done via [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/) when possible otherwise opt-out of SSR.
+> - Datetime locale mismatches on server and client due to timezone differences, all such usage should opt-out of SSR.
+>
+> > ```jsx
+> > import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
+> > ...
+> > <SuspenseHydrated fallback={'Loading'}>
+> >   <div className="fadeInEffect">
+> >     { new Date().toLocaleString(); }
+> >     ...
+> >   </div>
+> > </SuspenseHydrated>
+> > ```
+> </details>
 
 <h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
 
