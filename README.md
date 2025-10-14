@@ -1,6 +1,6 @@
 <div align="center">
 
-![LOGO](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/main/public/images/logo.png?raw=true)
+![LOGO](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/main/public/images/logoColoured.png?raw=true)
 
 # 2025W2-Skilltree
 
