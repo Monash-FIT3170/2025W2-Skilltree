@@ -9,6 +9,7 @@ Meteor.startup(async () => {
 
   const dummyEvents = [
     {
+      _id: 'dribbling_basketball',
       skilltreeId: 'basketball',
       title: 'Dribbling contest',
       description:
