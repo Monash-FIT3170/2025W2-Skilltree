@@ -10,6 +10,7 @@ import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
 import { FollowersCollection } from '/imports/api/collections/Followers';
+import FollowingButton from '../components/Profile/FollowingButton';
 
 
 export const Profile = () => {
@@ -19,6 +20,21 @@ export const Profile = () => {
   
   // Subscribe to users data
   useSubscribe('users');
+
+  // Get profileUsername's Id
+  // const profileUserId = useFind(Meteor.users, [
+  //       {
+  //         fields: {
+  //           _id: 1
+  //         }
+  //       }
+  //     ]); // Gets a specific user's data
+  
+ 
+
+
+
+
   const loggedInUser = User(['username']);
   const loggedInUsername = loggedInUser?.username;
 
@@ -38,12 +54,30 @@ export const Profile = () => {
       }
     }, [profileUsername, loggedInUsername]);
 
+
+  const profileUserInfo = useFind(Meteor.users, [
+      { username: finalUserId },
+      {
+        fields: {
+          _id: 1,
+          username: 1,
+          emails: 1,
+        }
+      }
+    ])[0];
+
+    
+  const profileUserId = profileUserInfo?._id;
+
+  console.log("Profile user ID:", profileUserInfo);
+  console.log("Profile userId:", profileUserId);
+
     // follower logic
   useSubscribe('followers');
 
    // Get all followers (people following this user)
   const followers = useFind(FollowersCollection, [
-    { followingUserId: { $eq: finalUserId } },
+    { followingUserId: { $eq: profileUserId } },
     {
       fields: {
         _id: 1,
@@ -56,7 +90,7 @@ export const Profile = () => {
 
   // Get all following (people this user follows)
   const following = useFind(FollowersCollection, [
-    { followerUserId: { $eq: finalUserId } },
+    { followerUserId: { $eq: profileUserId } },
     {
       fields: {
         _id: 1,
@@ -95,6 +129,12 @@ export const Profile = () => {
         <div className="pl-5">
           <p className="text-2xl font-bold text-white">{finalUserId}</p>
           <p className="text-white">Followers: <strong>{followerCount}</strong>  <span className="ml-4">  </span>Following: <strong>{followingCount}</strong></p>
+        </div>
+
+        <div className="pl-5">
+          {loggedInUserId && loggedInUserId !== profileUserId && (
+            <FollowingButton userId={loggedInUserId} toFollowId={profileUserId} />
+          )}
         </div>
       </div>
 
