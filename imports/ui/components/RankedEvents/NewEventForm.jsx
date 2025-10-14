@@ -55,14 +55,17 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
             value={formData.title}
             onChange={handleChange}
             required
+            maxLength={20} // restrict title to 20 characters
             className="border p-2 rounded"
           />
+
           <textarea
             name="description"
             placeholder="Event Description"
             value={formData.description}
             onChange={handleChange}
             required
+            maxLength={100} // restrict description to 100 characters
             className="border p-2 rounded"
           />
 
@@ -74,6 +77,7 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
             onChange={handleChange}
             required
             className="border p-2 rounded"
+            min={new Date().toISOString().split('T')[0]} // today's date in YYYY-MM-DD
           />
 
           <label className="text-sm font-semibold">End Date (Expiration)</label>
@@ -84,6 +88,7 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
             onChange={handleChange}
             required
             className="border p-2 rounded"
+            min={formData.startDate || new Date().toISOString().split('T')[0]}
           />
 
           <div className="flex justify-end gap-2 mt-4">
