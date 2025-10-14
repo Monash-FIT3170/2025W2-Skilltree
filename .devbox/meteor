@@ -1,0 +1,7 @@
+#!/bin/sh
+
+INSTALL_PATH="$(dirname "$(realpath "$0")")"
+HOME="${INSTALL_PATH}" # Use project's local meteor
+
+"$INSTALL_PATH/meteor-install.sh" # Installs meteor if not present
+exec "$INSTALL_PATH/.meteor/meteor" "$@" # Meteor CMD

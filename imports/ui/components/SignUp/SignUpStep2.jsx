@@ -80,11 +80,6 @@ const Step2 = () => {
       isErrors = true;
     }
 
-    if (formData.password.length < 8) {
-      newErrors.lengthPass = 'Weak password: Minimum 8 characters';
-      isErrors = true;
-    }
-
     setErrors(newErrors);
 
     if (isErrors) {
