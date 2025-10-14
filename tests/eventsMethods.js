@@ -1,9 +1,37 @@
 import assert from 'assert';
+import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import '/imports/api/methods/SkillTree';
+import '/imports/api/methods/Events';
+import { EventCollection } from '/imports/api/collections/Events';
+import { ProofCollection } from '../imports/api/collections/Proof';
+import { SkillTreeCollection } from '../imports/api/collections/SkillTree';
 
-const skilltreeId1 = 'dfasdfasdfdsf';
+const TEST_ID_1 = 'abcd1234';
+
+const TEST_ID_2 = '1234abcd';
+
+const skilltreeId1 = 'abcdefghijklmnop';
+
+var testUser;
+
+const testEvent = {
+  _id: TEST_ID_1,
+  skilltreeId: skilltreeId1,
+  title: 'Dribbling',
+  description: 'Demonstrate your dribbling skills',
+  maxTrophies: 5,
+  active: false,
+  participants: []
+};
+
+const testProof1 = {
+  _id: TEST_ID_2,
+  title: 'Test Proof 1',
+  description: 'Desc',
+  verification: 1,
+  user: testUser,
+  date: new Date()
+};
 
 const skillTree1 = {
   _id: skilltreeId1,
@@ -141,61 +169,100 @@ const skillTree1 = {
   subscribers: ['playerA', 'playerB']
 };
 
-const SkillTreeGet = async skilltreeId => {
-  return await Meteor.callAsync('skilltrees.get', skilltreeId);
-};
-
 const SkillTreeInsert = async skillTree => {
   return await Meteor.callAsync('skilltrees.insertAsync', skillTree);
 };
 
-describe('SkillTree Methods', function () {
-  describe('#skilltrees.insertAsync', function () {
-    it('should insert the skilltree', async function () {
-      await SkillTreeCollection.removeAsync({});
-      const res = await SkillTreeInsert(skillTree1);
-      assert.strictEqual(res, skilltreeId1);
+const EventGet = async eventId => {
+  return await Meteor.callAsync('getEvent', eventId);
+};
+
+before(async function () {
+  testUser = await Accounts.createUserAsync({
+    username: 'Test'
+  });
+});
+
+describe('Events Methods', function () {
+  describe('createEvent', function () {
+    it('creates an event in the Skilltree', async function () {
+      await SkillTreeInsert(skillTree1);
+      const res = await Meteor.callAsync('createEvent', testEvent);
+      assert.strictEqual(res, TEST_ID_1);
     });
   });
-  describe('#skilltrees.get', function () {
-    it('should return the skilltree', async function () {
-      const res = await SkillTreeGet(skilltreeId1);
-      assert.strictEqual(res.title, 'Basketball');
+
+  describe('getEvent', function () {
+    it('retrieves event with eventId', async function () {
+      const res = await Meteor.callAsync('getEvent', TEST_ID_1);
+      assert.deepStrictEqual(res, testEvent);
     });
   });
-  describe('#skilltrees.subscribeUser', function () {
-    it('should subscribe the user to the SkillTree', async function () {
-      const res = await Meteor.callAsync(
+
+  describe('addUser', function () {
+    it('adds a user to an event', async function () {
+      await Meteor.callAsync(
         'skilltrees.subscribeUser',
         skilltreeId1,
-        'usertest'
+        testUser
       );
-      assert.strictEqual(1, res);
+
+      const res = await Meteor.callAsync('addUser', testUser, TEST_ID_1);
+      const eventObject = await EventGet(TEST_ID_1);
+      assert.strictEqual(res, 1);
+      assert.ok(eventObject.participants.includes(testUser));
     });
   });
-  describe('#skilltrees.findUser', function () {
-    it('should return that a user is in the SkillTree', async function () {
-      const res = await Meteor.callAsync(
-        'skilltrees.findUser',
-        skilltreeId1,
-        'usertest'
-      );
-      assert.strictEqual(res._id, skilltreeId1);
+
+  describe('removeUser', function () {
+    it('removes user from an event', async function () {
+      const res = await Meteor.callAsync('removeUser', testUser, TEST_ID_1);
+      const eventObject = await EventGet(TEST_ID_1);
+      assert.strictEqual(res, 1);
+      const containsUser = eventObject.participants.includes(testUser);
+      assert.ok(!containsUser);
     });
   });
-  describe('#skilltrees.unsubscribeUser', function () {
-    it('should unsubscribe a user from the skillTree', async function () {
+
+  describe('startEvent', function () {
+    it('starts the event', async function () {
+      const res = await Meteor.callAsync('startEvent', TEST_ID_1);
+      assert.strictEqual(res, 1);
+      const eventObject = await EventGet(TEST_ID_1);
+      assert.ok(eventObject.active);
+    });
+  });
+
+  describe('stopEvent', function () {
+    it('stops the event', async function () {
+      const res = await Meteor.callAsync('stopEvent', TEST_ID_1);
+      assert.strictEqual(res, 1);
+      const eventObject = await EventGet(TEST_ID_1);
+      assert.ok(!eventObject.active);
+    });
+  });
+
+  describe('addProof', function () {
+    it('adds proof to event', async function () {
+      testProof1.user = testUser;
       await Meteor.callAsync(
-        'skilltrees.unsubscribeUser',
+        'skilltrees.subscribeUser',
         skilltreeId1,
-        'usertest'
+        testUser
       );
-      const res = await Meteor.callAsync(
-        'skilltrees.findUser',
-        skilltreeId1,
-        'usertest'
+
+      const resUser = await Meteor.callAsync('addUser', testUser, TEST_ID_1);
+      const resProof = await Meteor.callAsync(
+        'addProof',
+        testProof1,
+        TEST_ID_1
       );
-      assert.strictEqual(!!res, false);
+      const proof = await ProofCollection.findOneAsync({ _id: TEST_ID_2 });
+      assert.strictEqual(proof.eventId, TEST_ID_1);
     });
   });
+});
+
+after(async function () {
+  SkillTreeCollection.removeAsync({ _id: skilltreeId1 });
 });

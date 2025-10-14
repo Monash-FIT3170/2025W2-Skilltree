@@ -131,7 +131,7 @@ Schemas.Subscription = new SimpleSchema({
     type: String,
     label: 'Unique User ID'
   },
-  skillTreeId: {
+  skilltreeId: {
     type: String,
     label: 'Unique Skill Tree ID'
   },
@@ -168,6 +168,11 @@ Schemas.Subscription = new SimpleSchema({
     type: Number,
     label:
       'Total number of comments made on pending proofs by the user for this skilltree',
+    defaultValue: 0
+  },
+  trophies: {
+    type: SimpleSchema.Integer,
+    label: 'Trophies earned from ranked events',
     defaultValue: 0
   }
 });

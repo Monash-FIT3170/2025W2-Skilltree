@@ -17,9 +17,9 @@ Meteor.methods({
     // Get the skilltreeId through the proof the comment is on
     const proof = await ProofCollection.findOneAsync(
       { _id: comment.proofId },
-      { fields: { skillTreeId: 1 } }
+      { fields: { skilltreeId: 1 } }
     );
-    const { skillTreeId } = proof || {};
+    const { skilltreeId } = proof || {};
 
     if (userId) {
       /**
@@ -27,7 +27,7 @@ Meteor.methods({
        */
       const foundUser = await Meteor.callAsync(
         'skilltrees.findUser',
-        proof.skillTreeId,
+        proof.skilltreeId,
         userId
       );
       const isUserSubscribed = !!foundUser;
@@ -38,7 +38,7 @@ Meteor.methods({
       // Update the user's subscription's numComments
       SubscriptionsCollection.updateAsync(
         {
-          skillTreeId: skillTreeId,
+          skilltreeId: skilltreeId,
           userId: userId
         },
         {
@@ -68,14 +68,14 @@ Meteor.methods({
     // Get the skilltreeId through the proof the comment is on
     const proof = await ProofCollection.findOneAsync(
       { _id: comment.proofId },
-      { fields: { skillTreeId: 1 } }
+      { fields: { skilltreeId: 1 } }
     );
-    const { skillTreeId } = proof;
+    const { skilltreeId } = proof;
     if (userId) {
       // Update the user's subcsription's numComments
       SubscriptionsCollection.updateAsync(
         {
-          skillTreeId: skillTreeId,
+          skilltreeId: skilltreeId,
           userId: userId
         },
         {

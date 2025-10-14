@@ -6,7 +6,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { UserTable } from '/imports/ui/components/Community/Management/Users/UserTable';
 
 export const UserManagement = () => {
-  const { id: skilltreeID } = useParams();
+  const { id: skilltreeId } = useParams();
 
   //Subscribe to all necessary collections
   useSubscribe('users');
@@ -15,7 +15,7 @@ export const UserManagement = () => {
 
   //Find the target skiltree --> get all subscriber's ids
   const skilltree = useFind(SkillTreeCollection, [
-    { _id: skilltreeID },
+    { _id: skilltreeId },
     { fields: { owner: 1, subscribers: 1 } }
   ])[0];
 
@@ -43,7 +43,7 @@ export const UserManagement = () => {
       {/*User Table */}
       <UserTable
         userIds={userIds}
-        skilltreeId={skilltreeID}
+        skilltreeId={skilltreeId}
         skillTreeOwner={skillTreeOwner}
       />
     </div>

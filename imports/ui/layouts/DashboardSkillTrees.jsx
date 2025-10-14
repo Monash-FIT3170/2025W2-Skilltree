@@ -53,7 +53,7 @@ export const DashboardSkillTrees = () => {
             {displayedSkillTrees.map(skillTree => (
               <SkillTreeCard
                 key={skillTree._id}
-                skillTreeId={skillTree._id}
+                skilltreeId={skillTree._id}
                 showSubscribers={true}
                 currentUserId={user._id}
               />

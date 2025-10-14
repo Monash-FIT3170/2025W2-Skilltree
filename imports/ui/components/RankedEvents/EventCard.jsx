@@ -16,7 +16,7 @@ import { User } from '/imports/utils/User';
  * Currently uses the proofs as event cards as a placeholder
  * Accepts a filter prop to sort by date or upvotes
  */
-export const EventCard = ({ skilltreeId, filter = 'default' }) => {
+export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
   const user = User(['_id']);
   const currentUserId = user?._id ?? '';
   /**
@@ -29,7 +29,7 @@ export const EventCard = ({ skilltreeId, filter = 'default' }) => {
   // Always fetch by date descending for consistency, then sort in-memory if needed
   const proofs =
     useFind(ProofCollection, [
-      { skillTreeId: { $eq: skilltreeId } },
+      { eventId: { $eq: eventId } },
       {
         fields: {
           description: 1,
@@ -116,7 +116,7 @@ export const EventCard = ({ skilltreeId, filter = 'default' }) => {
 
                 {/* Description Caption */}
                 <div className="text-sm text-black mb-4 px-2 py-1 rounded">
-                  {proof.description || 'No caption'}
+                  {proof.description || 'Event submission'}
                 </div>
                 {/* Controls: Voting, Status, and View Details */}
                 <div className="flex items-center justify-between mt-4 text-sm gap-4 flex-wrap">

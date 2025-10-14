@@ -88,11 +88,11 @@ export const AdminRoute = ({
   redirectUrl = '..' // Redirect url can be specified otherwise goes to /
 }) => {
   const userId = useContext(AuthContext); // Computed once from top level
-  const { id: skilltreeID } = useParams(); // Get skilltreeID from route
+  const { id: skilltreeId } = useParams(); // Get skilltreeId from route
 
   useSubscribe('subscriptions');
   const skilltree = useFind(SubscriptionsCollection, [
-    { skillTreeId: skilltreeID, userId: userId }, // fetch loggedIn user's subscriptions data for the matching skillTreeId
+    { skilltreeId: skilltreeId, userId: userId }, // fetch loggedIn user's subscriptions data for the matching skilltreeId
     {
       fields: {
         roles: 1 // Only fetch the roles array field to determine if loggedIn user is admin for the skilltree

@@ -6,7 +6,7 @@ import { ImExit } from '@react-icons/all-files/im/ImExit';
 import { LoadingUserManagementTable } from '../../components/Community/Fallbacks/LoadingUserManagementTable';
 
 export const AdminDashboardLayout = () => {
-  const { id: skilltreeID } = useParams();
+  const { id: skilltreeId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,7 +39,7 @@ export const AdminDashboardLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
       <button
-        onClick={() => navigate(`/skilltree/${skilltreeID}`)}
+        onClick={() => navigate(`/skilltree/${skilltreeId}`)}
         className="flex items-center gap-2 cursor-pointer hover:underline"
       >
         <ImExit className="w-4 h-4" />
