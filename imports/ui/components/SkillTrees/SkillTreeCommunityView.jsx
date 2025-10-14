@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SkillTreeView } from './SkillTreeView';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { useParams, Outlet, Link, useLocation } from 'react-router-dom';
+import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { NavigationMenu } from './NavigationMenu';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 // import { SubscribeButton } from './SubscribeButton';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
-import { Button } from 'flowbite-react';
 import { Meteor } from 'meteor/meteor';
 
 export const SkillTreeCommunityView = () => {
