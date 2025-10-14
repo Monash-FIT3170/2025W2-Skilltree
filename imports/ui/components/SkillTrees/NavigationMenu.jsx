@@ -76,7 +76,7 @@ export const NavigationMenu = ({ id }) => {
       id: 'subscribe',
       element: (
         <div key="subscribe">
-          <SubscribeButton skillTreeId={id} />
+          <SubscribeButton skilltreeId={id} />
         </div>
       )
     },

@@ -11,11 +11,11 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
-export const UserList = ({ skillTreeId }) => {
+export const UserList = ({ skilltreeId }) => {
   // Code to extract a skilltree from the database
-  useSubscribe('skilltrees', skillTreeId);
+  useSubscribe('skilltrees', skilltreeId);
   const skillTrees = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } }
+    { _id: { $eq: skilltreeId } }
   ]);
   const targetSkillTree = skillTrees[0];
   const [openModal, setOpenModal] = useState(false);

@@ -39,7 +39,7 @@ Meteor.publish('usernames', function (userIds) {
 const dummyProgressTree = [
   {
     userId: 123123,
-    skillTreeId: 'basketball',
+    skilltreeId: 'basketball',
     skillNodes: [
       {
         id: '0',
@@ -342,7 +342,7 @@ Meteor.startup(async () => {
         evidenceLink:
           'https://pbs.twimg.com/card_img/1975252080320520198/0VebYBGO?format=jpg&name=4096x4096',
         verification: 10,
-        skillTreeId: 'basketball',
+        skilltreeId: 'basketball',
         eventId: 'dribbling_basketball',
         upvotes: i
       };

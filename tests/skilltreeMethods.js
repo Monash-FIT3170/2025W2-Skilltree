@@ -3,10 +3,10 @@ import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import '/imports/api/methods/SkillTree';
 
-const skillTreeId1 = 'dfasdfasdfdsf';
+const skilltreeId1 = 'dfasdfasdfdsf';
 
 const skillTree1 = {
-  _id: skillTreeId1,
+  _id: skilltreeId1,
   title: 'Basketball',
   image:
     'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
@@ -141,8 +141,8 @@ const skillTree1 = {
   subscribers: ['playerA', 'playerB']
 };
 
-const SkillTreeGet = async skillTreeId => {
-  return await Meteor.callAsync('skilltrees.get', skillTreeId);
+const SkillTreeGet = async skilltreeId => {
+  return await Meteor.callAsync('skilltrees.get', skilltreeId);
 };
 
 const SkillTreeInsert = async skillTree => {
@@ -154,12 +154,12 @@ describe('SkillTree Methods', function () {
     it('should insert the skilltree', async function () {
       await SkillTreeCollection.removeAsync({});
       const res = await SkillTreeInsert(skillTree1);
-      assert.strictEqual(res, skillTreeId1);
+      assert.strictEqual(res, skilltreeId1);
     });
   });
   describe('#skilltrees.get', function () {
     it('should return the skilltree', async function () {
-      const res = await SkillTreeGet(skillTreeId1);
+      const res = await SkillTreeGet(skilltreeId1);
       assert.strictEqual(res.title, 'Basketball');
     });
   });
@@ -167,7 +167,7 @@ describe('SkillTree Methods', function () {
     it('should subscribe the user to the SkillTree', async function () {
       const res = await Meteor.callAsync(
         'skilltrees.subscribeUser',
-        skillTreeId1,
+        skilltreeId1,
         'usertest'
       );
       assert.strictEqual(1, res);
@@ -177,22 +177,22 @@ describe('SkillTree Methods', function () {
     it('should return that a user is in the SkillTree', async function () {
       const res = await Meteor.callAsync(
         'skilltrees.findUser',
-        skillTreeId1,
+        skilltreeId1,
         'usertest'
       );
-      assert.strictEqual(res._id, skillTreeId1);
+      assert.strictEqual(res._id, skilltreeId1);
     });
   });
   describe('#skilltrees.unsubscribeUser', function () {
     it('should unsubscribe a user from the skillTree', async function () {
       await Meteor.callAsync(
         'skilltrees.unsubscribeUser',
-        skillTreeId1,
+        skilltreeId1,
         'usertest'
       );
       const res = await Meteor.callAsync(
         'skilltrees.findUser',
-        skillTreeId1,
+        skilltreeId1,
         'usertest'
       );
       assert.strictEqual(!!res, false);

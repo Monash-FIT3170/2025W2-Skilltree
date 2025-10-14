@@ -22,7 +22,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-01T10:00:00Z'),
       evidenceLink: '/images/pic1.jpg',
       verification: 1,
-      skillTreeId: 'Climbing', // should eventually be a community/skillTree ID
+      skilltreeId: 'Climbing', // should eventually be a community/skillTree ID
       subskill: 'Footwork',
       upvotes: 1,
       downvotes: 0
@@ -36,7 +36,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-02T11:30:00Z'),
       evidenceLink: '/images/pic3.png',
       verification: 5,
-      skillTreeId: 'Climbing',
+      skilltreeId: 'Climbing',
       subskill: 'Handholds',
       upvotes: 5,
       downvotes: 0
@@ -51,7 +51,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-03T15:45:00Z'),
       evidenceLink: '/images/pic4.png',
       verification: 3,
-      skillTreeId: 'Climbing',
+      skilltreeId: 'Climbing',
       subskill: 'Balance',
       upvotes: 3,
       downvotes: 0
@@ -66,7 +66,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-04T09:20:00Z'),
       evidenceLink: '/images/pic5.png',
       verification: 10,
-      skillTreeId: 'Climbing',
+      skilltreeId: 'Climbing',
       subskill: 'Dynamic Movement',
       upvotes: 10,
       downvotes: 0
@@ -81,7 +81,7 @@ Meteor.startup(async () => {
       date: new Date('2025-05-05T14:10:00Z'),
       evidenceLink: '/images/pic6.png',
       verification: 4,
-      skillTreeId: 'Climbing',
+      skilltreeId: 'Climbing',
       subskill: 'Resting',
       upvotes: 0,
       downvotes: 0

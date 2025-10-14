@@ -48,12 +48,12 @@ Meteor.methods({
     );
   },
 
-  async updateSkillforestSkilltreeIds(skillforestId, newSkilltreeIds) {
+  async updateSkillforestskilltreeIds(skillforestId, newskilltreeIds) {
     check(skillforestId, String);
-    check(newSkilltreeIds, [String]);
+    check(newskilltreeIds, [String]);
     return await SkillForestCollection.updateAsync(
       { _id: skillforestId },
-      { $set: { skilltreeIds: newSkilltreeIds } }
+      { $set: { skilltreeIds: newskilltreeIds } }
     );
   },
 

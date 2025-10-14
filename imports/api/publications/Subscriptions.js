@@ -9,7 +9,7 @@ Meteor.startup(async () => {
   const dummyProgressTree = [
     {
       userId: 123123,
-      skillTreeId: 'dummySkillTreeID',
+      skilltreeId: 'dummyskilltreeId',
       totalXp: 10,
       skillNodes: [
         {

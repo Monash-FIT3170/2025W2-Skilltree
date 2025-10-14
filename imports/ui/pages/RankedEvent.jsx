@@ -56,7 +56,7 @@ export const RankedEvent = () => {
   const userProgress = useFind(
     SubscriptionsCollection,
     [
-      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { userId: { $eq: userId }, skilltreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
     ],
     [userId, skilltreeId]
@@ -77,7 +77,7 @@ export const RankedEvent = () => {
     [
       {
         userId: { $eq: userId },
-        skillTreeId: { $eq: skilltreeId },
+        skilltreeId: { $eq: skilltreeId },
         active: { $eq: true }
       },
       { fields: { _id: 1 } }

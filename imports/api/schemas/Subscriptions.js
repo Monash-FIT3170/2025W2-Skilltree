@@ -131,7 +131,7 @@ Schemas.Subscription = new SimpleSchema({
     type: String,
     label: 'Unique User ID'
   },
-  skillTreeId: {
+  skilltreeId: {
     type: String,
     label: 'Unique Skill Tree ID'
   },
