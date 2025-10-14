@@ -73,7 +73,7 @@ export const ProfileCompleteRoute = ({
 }) => {
   useSubscribe('users'); // Needed to workaround SSR
   const user = User(['profile.isProfileComplete']); // Suspense waits until data is ready to avoid undefined data
-  const isProfileComplete = user?.profile?.isProfileComplete;
+  const isProfileComplete = user?.profile?.isProfileComplete ?? false;
 
   return useRouteGuard({
     AccessCondition: isProfileComplete === requireComplete,
