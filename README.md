@@ -1546,7 +1546,7 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-### Meteor Methods (Client->DB)
+### Meteor Methods (Client->Server/DB)
 
 > [!NOTE]
 >
@@ -1806,22 +1806,30 @@ To apply changes to the existing terminal session, run:
   </table>
 </div>
 
-<h1 align="center">⬥ Project Team ⬥</h1>
+<h1 align="center">⬥ Original Project Team ⬥</h1>
+
+<table>
+  <tr>
+    <th width="500px">⦗ Group 1: Mystic ⦘</th>
+    <th width="500px">⦗ Group 2: Valor ⦘</th>
+    <th width="500px">⦗ Group 3: Instinct ⦘</th>
+  </tr>
+</table>
 
 <h3 align="center">【 System Architects 】</h3>
 
-| Mitchell Hare `33164029` &#10; mhar0085@student.monash.edu | Romal Patel `32496273` &#10; rpat0035@student.monash.edu | Jason Sakolkraisorn `33109397` &#10; jsak0004@student.monash.edu |
-| :---------------------------------------------------: | :------------------------------------------------: | :--------------------------------------------------------------: |
+| Jason Sakolkraisorn `33109397` &#10; jsak0004@student.monash.edu | Romal Patel `32496273` &#10; rpat0035@student.monash.edu | Mitchell Hare `33164029` &#10; mhar0085@student.monash.edu |
+| :--------------------------------------------------------------: | :------------------------------------------------------: | :--------------------------------------------------------: |
 
 <h3 align="center">【 Product Managers 】</h3>
 
-| Jia (Kelly) Tan `32463804` &#10; jtan0276@student.monash.edu |  Aaron See `32505108` &#10; asee0014@student.monash.edu   | Laetitia Teo `32516940` &#10; lteo0014@student.monash.edu  |
-| :----------------------------------------------------------: | :-------------------------------------------------------: | :--------------------------------------------------------: |
-|  Samarth Gupta `32472765` &#10; sgup0024@student.monash.edu  | Shaurya Seth `33892180` &#10; sset0012@student.monash.edu | Amolika Yadav `33745234` &#10; ayad0013@student.monash.edu |
+| Shaurya Seth `33892180` &#10; sset0012@student.monash.edu  | Laetitia Teo `32516940` &#10; lteo0014@student.monash.edu | Amolika Yadav `33745234` &#10; ayad0013@student.monash.edu   |
+| :--------------------------------------------------------: | :-------------------------------------------------------: | :----------------------------------------------------------: |
+| Samarth Gupta `32472765` &#10; sgup0024@student.monash.edu | Aaron See `32505108` &#10; asee0014@student.monash.edu    | Jia (Kelly) Tan `32463804` &#10; jtan0276@student.monash.edu |
 
 <h3 align="center">【 Release Train Engineers 】</h3>
 
-| Kelly Li `33088047` &#10; klii0057@student.monash.edu |   Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu   | Marcus Chow `32493568` &#10; mcho0083@student.monash.edu |
-| :---------------------------------------------------: | :--------------------------------------------------------------: | :------------------------------------------------------: |
-|  Ankush `35102845` &#10; aank0004@student.monash.edu  | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu | Keziah Lang `33878552` &#10; klan0018@student.monash.edu |
-|                                                       |    Steven Kaing `33155666` &#10; skai0008@student.monash.edu     |                                                          |
+| Kelly Li `33088047` &#10; klii0057@student.monash.edu     | Marcus Chow `32493568` &#10; mcho0083@student.monash.edu         | Keziah Lang `33878552` &#10; klan0018@student.monash.edu     |
+| :-------------------------------------------------------: | :--------------------------------------------------------------: | :----------------------------------------------------------: |
+| Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
+|                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
