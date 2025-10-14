@@ -41,7 +41,7 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
   useSubscribe('proof');
   const proofs =
     useFind(ProofCollection, [
-      { skillTreeId: { $eq: skilltreeId } },
+      { skillTreeId: { $eq: skilltreeId }, eventId: { $exists: false } },
       {
         fields: {
           description: 1,
