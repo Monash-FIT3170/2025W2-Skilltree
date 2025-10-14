@@ -10,13 +10,13 @@ const TEST_ID_1 = 'abcd1234';
 
 const TEST_ID_2 = '1234abcd';
 
-const skillTreeId1 = 'abcdefghijklmnop';
+const skilltreeId1 = 'abcdefghijklmnop';
 
 var testUser;
 
 const testEvent = {
   _id: TEST_ID_1,
-  skilltreeId: skillTreeId1,
+  skilltreeId: skilltreeId1,
   title: 'Dribbling',
   description: 'Demonstrate your dribbling skills',
   maxTrophies: 5,
@@ -34,7 +34,7 @@ const testProof1 = {
 };
 
 const skillTree1 = {
-  _id: skillTreeId1,
+  _id: skilltreeId1,
   title: 'Basketball',
   image:
     'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
@@ -203,7 +203,7 @@ describe('Events Methods', function () {
     it('adds a user to an event', async function () {
       await Meteor.callAsync(
         'skilltrees.subscribeUser',
-        skillTreeId1,
+        skilltreeId1,
         testUser
       );
 
@@ -247,7 +247,7 @@ describe('Events Methods', function () {
       testProof1.user = testUser;
       await Meteor.callAsync(
         'skilltrees.subscribeUser',
-        skillTreeId1,
+        skilltreeId1,
         testUser
       );
 
@@ -264,5 +264,5 @@ describe('Events Methods', function () {
 });
 
 after(async function () {
-  SkillTreeCollection.removeAsync({ _id: skillTreeId1 });
+  SkillTreeCollection.removeAsync({ _id: skilltreeId1 });
 });

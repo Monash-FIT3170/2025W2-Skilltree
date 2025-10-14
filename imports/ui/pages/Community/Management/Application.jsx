@@ -14,7 +14,7 @@ export const Application = () => {
   //Current userid logged in
   const user = User(['_id', 'emails', 'username']);
 
-  const { id: skilltreeID } = useParams();
+  const { id: skilltreeId } = useParams();
   const navigate = useNavigate();
 
   const [applicationType, setApplicationType] = useState('');
@@ -56,7 +56,7 @@ export const Application = () => {
       email: user.emails.at(0).address,
       applicationType: applicationType,
       status: 'pending',
-      skillTreeId: skilltreeID,
+      skilltreeId: skilltreeId,
       qualifications: qualifications,
       motivation: motivation
     };
@@ -75,7 +75,7 @@ export const Application = () => {
     <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <button
-          onClick={() => navigate(`/skilltree/${skilltreeID}`)}
+          onClick={() => navigate(`/skilltree/${skilltreeId}`)}
           className="flex items-center gap-2 cursor-pointer hover:underline"
         >
           <ImExit className="w-4 h-4" />

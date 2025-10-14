@@ -20,7 +20,7 @@ export const SkillTreeView = ({ id, isAdmin, onBack }) => {
     [id]
   )[0];
   const userSubscription = useFind(
-    () => SubscriptionsCollection.find({ userId, skillTreeId: id }),
+    () => SubscriptionsCollection.find({ userId, skilltreeId: id }),
     [userId, id]
   )[0];
 

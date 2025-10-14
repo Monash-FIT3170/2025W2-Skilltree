@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 Meteor.methods({
-  async saveEditCommunityMemberModal(userId, skillTreeId, formData) {
+  async saveEditCommunityMemberModal(userId, skilltreeId, formData) {
     if (!this.userId) {
       throw new Meteor.Error(
         'not-authorised',
@@ -17,7 +17,7 @@ Meteor.methods({
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
     const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId: skillTreeId
+      skilltreeId: skilltreeId
     });
 
     if (
@@ -39,7 +39,7 @@ Meteor.methods({
     const currentSkillTreeProgress = await SubscriptionsCollection.findOneAsync(
       {
         userId: userId,
-        skillTreeId: skillTreeId
+        skilltreeId: skilltreeId
       }
     );
 
@@ -52,7 +52,7 @@ Meteor.methods({
 
     //Update user's skilltreeprogress colllection
     await SubscriptionsCollection.updateAsync(
-      { userId: userId, skillTreeId: skillTreeId },
+      { userId: userId, skilltreeId: skilltreeId },
       { $set: { roles: formData.roles } }
     );
 

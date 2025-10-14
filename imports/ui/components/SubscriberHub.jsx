@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const SubscriberHub = ({ skilltreeID }) => {
-  console.log(skilltreeID);
+export const SubscriberHub = ({ skilltreeId }) => {
+  console.log(skilltreeId);
 };

@@ -216,7 +216,7 @@ export const ProofUploadButton = ({
         date: new Date(),
         evidenceLink: uploadResults.Location,
         verification: 0,
-        skillTreeId: skilltreeId,
+        skilltreeId: skilltreeId,
         expertVerified: 0,
         expertVerifiers: []
       };
@@ -232,7 +232,7 @@ export const ProofUploadButton = ({
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
-      skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
+      skilltreeId: skilltreeId, // should eventually be a community/skillTree ID
       subskill: skill,
       expertVerified: 0,
       expertVerifiers: []

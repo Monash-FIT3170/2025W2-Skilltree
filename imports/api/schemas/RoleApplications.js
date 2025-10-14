@@ -26,7 +26,7 @@ Schemas.application = new SimpleSchema({
     defaultValue: 'pending',
     label: 'Application Status'
   },
-  skillTreeId: {
+  skilltreeId: {
     type: String,
     optional: true,
     label: 'Skill Tree ID'
