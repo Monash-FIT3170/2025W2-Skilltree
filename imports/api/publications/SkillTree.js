@@ -303,7 +303,7 @@ Meteor.startup(async () => {
       skillEdges: [
         { id: 'e1', source: '0', target: '1' },
         { id: 'e2', source: '0', target: '2' },
-        { id: 'e3', source: '0', target: '3' },
+        { id: 'e3', source: '0', target: '3' }
       ],
       admins: ['cricketpro'],
       subscribers: ['user1', 'user2']
@@ -401,7 +401,7 @@ Meteor.startup(async () => {
             description: 'root',
             requirements: 'root',
             xpPoints: null,
-            children: ['1','2']
+            children: ['1', '2']
           },
           position: { x: 0, y: 0 }
         },

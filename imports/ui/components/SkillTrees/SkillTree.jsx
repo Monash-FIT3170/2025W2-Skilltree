@@ -59,7 +59,8 @@ export const SkillTreeLogic = ({
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
 
   // Determine effective mode: admins can switch between edit and view
-  const effectiveMode = isAdmin && viewMode === 'view' ? 'view' : (isAdmin ? 'edit' : 'view');
+  const effectiveMode =
+    isAdmin && viewMode === 'view' ? 'view' : isAdmin ? 'edit' : 'view';
 
   if (effectiveMode === 'edit') {
     console.log('Edit mode');
@@ -72,9 +73,8 @@ export const SkillTreeLogic = ({
           position: { x: 0, y: 0 }
         }
       ];
-    }
-    else {
-      console.log("setting type to edit");
+    } else {
+      console.log('setting type to edit');
       initialNodes = initialNodes.map(node => ({
         ...node,
         type: node.id === '0' ? 'root' : 'new-populated'

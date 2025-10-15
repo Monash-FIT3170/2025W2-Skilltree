@@ -158,9 +158,12 @@ export const SkillTreeView = ({ id, onBack }) => {
       }));
       // await Meteor.callAsync('updateCreatedCommunities', skillTreeId);
       // await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
-      await Meteor.callAsync('saveSubscription', id,
+      await Meteor.callAsync(
+        'saveSubscription',
+        id,
         skilltreeToSave.skillNodes,
-        skilltreeToSave.skillEdges);
+        skilltreeToSave.skillEdges
+      );
       console.log('SkillTree updated successfully');
       toast.success('SkillTree updated!');
     } catch (error) {

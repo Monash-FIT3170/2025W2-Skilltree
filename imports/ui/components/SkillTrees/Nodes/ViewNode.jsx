@@ -46,14 +46,9 @@ export function ViewNode({ data, isUnlocked }) {
               {`${data.currentNetUpvotes || 0} / ${data.netUpvotesRequired}`}
             </span>
           </div>
-        ) :
-          (
-            <div className="text-gray-300 text-xs text-center">
-              Locked
-            </div>
-          )
-        }
-
+        ) : (
+          <div className="text-gray-300 text-xs text-center">Locked</div>
+        )}
       </div>
       <Handle
         type="source"

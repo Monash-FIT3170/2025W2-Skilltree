@@ -185,7 +185,6 @@ const dummyProgressTree = [
   }
 ];
 
-
 // [Mock Data] via Meteor Startup
 Meteor.startup(async () => {
   // Remove existing users to avoid duplicates (debug only)
@@ -290,11 +289,7 @@ Meteor.startup(async () => {
     }
   });
 
-  await Meteor.callAsync(
-    'skilltrees.subscribeUser',
-    'basketball',
-    sampleId
-  );
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
 
   await Meteor.callAsync(
     'skilltrees.subscribeUser',
