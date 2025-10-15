@@ -68,12 +68,12 @@ export const PrivateRoute = ({ children, redirectUrl = '/login' }) => {
 // ProfileCompleteRoute Helper JSX
 export const ProfileCompleteRoute = ({
   children,
-  redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
+  redirectUrl = '/login/complete-profile', // Redirect url can be specified otherwise goes to /login/complete-profile
   requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) => {
   useSubscribe('users'); // Needed to workaround SSR
   const user = User(['profile.isProfileComplete']); // Suspense waits until data is ready to avoid undefined data
-  const isProfileComplete = user?.profile?.isProfileComplete;
+  const isProfileComplete = user?.profile?.isProfileComplete ?? false;
 
   return useRouteGuard({
     AccessCondition: isProfileComplete === requireComplete,

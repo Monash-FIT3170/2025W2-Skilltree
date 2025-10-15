@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
-  async validateStep1(userOptions) {
+  async validateEmailUserNameStage(userOptions) {
     const errors = {};
 
     // Validate the email
