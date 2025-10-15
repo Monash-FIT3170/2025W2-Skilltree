@@ -4,9 +4,44 @@
 
 # 2025W2-Skilltree
 
+<div align="center">
+    <kbd><strong>[TODO] (KDB) FORMAT</strong></kbd>
+    <kbd><strong>KEYWORD</strong></kbd>
+    <kbd><strong>SHORT SENTENCE?</strong></kbd>
+    <kbd><strong>KEY</strong></kbd>
+    <kbd><strong>FEATURE</strong></kbd>
+    <kbd><strong>FEAT_1</strong></kbd>
+    <kbd><strong>FEAT_2</strong></kbd>
+    <kbd><strong>FEAT_3</strong></kbd>
+    <kbd><strong>FEAT_4</strong></kbd>
+    <kbd><strong>FEAT_5</strong></kbd>
+    <kbd><strong>FEAT_6</strong></kbd>
+    <kbd><strong>FEAT_7</strong></kbd>
+    <kbd><strong>FEAT_8</strong></kbd>
+    <kbd><strong>FEAT_9</strong></kbd>
+    <kbd><strong>FEAT_10</strong></kbd>
+    <kbd><strong>FEAT_11</strong></kbd>
+    <kbd><strong>FEAT_12</strong></kbd>
+    <kbd><strong>FEAT_13</strong></kbd>
+    <kbd><strong>FEAT_14</strong></kbd>
+    <kbd><strong>FEAT_15</strong></kbd>
+    <kbd><strong>FEAT_16</strong></kbd>
+    <kbd><strong>FEAT_17</strong></kbd>
+    <kbd><strong>FEAT_18</strong></kbd>
+    <kbd><strong>FEAT_19</strong></kbd>
+    <kbd><strong>FEAT_20</strong></kbd>
+  
+</div>
+
+<br />
+
 > "**Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.**"
 
 </div>
+<h2 align="center">⬦ Key Features ⬦</h2>
+
+
+- [TODO] (LIST FORMAT)
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
 
@@ -208,6 +243,9 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
   </table>
 
 </div>
+
+<h1 align="center">⬥ Known Issues ⬥</h1>
+- [TODO] (LIST FORMAT) -- Change To Table Format?
 
 <h1 align="center">⬥ Architecture ⬥</h1>
 
@@ -1667,6 +1705,66 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
+## Unit Tests (Mocha)
+> [!NOTE]
+> [TODO]
+
+#### Test definition
+
+> [!TIP]
+>
+> Refer to the [docs](). [TODO]
+> <details>
+> <summary>⋯</summary>
+>
+> > `/tests/TESTS_GROUP_NAME.js`
+> >
+> > ```jsx
+> > import { Meteor } from "meteor/meteor";
+> > import assert from 'assert';
+> > import '/imports/api/methods/...';
+> > ... [TODO]
+> > ```
+> > **Add test import to `main.js` to consolidate for unit test runs**
+> > 
+> >``/tests/main.js``
+> > 
+> >```js
+> > ...
+> > import '/tests/TESTS_GROUP_NAME'
+> > ```
+> </details>
+
+## CI/CD (Pipeline)
+  > [!NOTE]
+  > [TODO] 
+
+### Continuous Integration (CI)
+> [!NOTE]
+> [TODO]
+
+#### GitHub Workflows
+> [!TIP]
+> [TODO]
+>
+> **Automated Mocha tests**
+>
+> [TODO]
+> 
+> **Automated Lint Check**
+>
+> [TODO]
+
+#### Merging Review & Checks on Protected Branches
+> [!IMPORTANT]
+>
+> [TODO] -- PR required on `main`, `mX-sprintX` branches. Merging is blocked: Review Approval Required + Checks... 
+
+### Continuous Deployment (CD)
+  > [!NOTE]
+  >
+  > [TODO] (Production Server Cronjob Automatically Pulls for changes then rebuilds bundle and restarts webserver...) 
+
 <h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
 
 Create or edit the file `settings.json`:
@@ -1805,6 +1903,22 @@ To apply changes to the existing terminal session, run:
     </tr>
   </table>
 </div>
+
+<h1 align="center">⬥ Contributor Guidelines ⬥</h1>
+
+> [!NOTE]
+>
+> [TODO]
+
+## Versioning Strategy
+> [!NOTE]
+>
+> [TODO]
+  
+## Pull Request (PR) Strategy
+> [!NOTE]
+>
+> [TODO]
 
 <h1 align="center">⬥ Original Project Team ⬥</h1>
 
