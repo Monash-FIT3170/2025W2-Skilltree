@@ -186,7 +186,7 @@ Accounts.emailTemplates.resetPassword = {
 
 Meteor.startup(() => {
   // Configure SMTP settings
-  const smtp = Meteor.settings.private?.smtp;
+  const smtp = Meteor.settings?.private?.smtp;
 
   if (smtp) {
     process.env.MAIL_URL = `smtps://${encodeURIComponent(smtp.username)}:${encodeURIComponent(smtp.password)}@${smtp.server}:${smtp.port}`;

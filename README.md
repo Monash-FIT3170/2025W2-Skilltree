@@ -1693,6 +1693,20 @@ Create or edit the file `settings.json`:
 > }
 > ```
 
+### SSR
+> [!NOTE]
+> Set `enableSSR: false` to explicitly disable SSR. 
+
+### AWS
+> [!NOTE]
+>
+> [TODO]
+
+### Google
+> [!NOTE]
+>
+> [TODO]
+
 <h1 align="center">⬥ Deployment ⬥</h1>
 
 <h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
