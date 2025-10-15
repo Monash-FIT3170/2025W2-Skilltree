@@ -1646,13 +1646,13 @@ tests/					<Unit Tests>
 >
 > Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition.
 >
-> There are 2-3 edge cases with SSR of hydration mismatches which should opt-out:
+> There are 3 possible edge cases known with SSR on hydration mismatches which should opt-out if the suggested resolution does not work:
 >
 > <details>
 > <summary>⋯</summary>
 >
-> - *Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly. All such usage should opt-out of SSR as a stopgap where it should ideally be transitioned to useFind if possible*.
-> - Modifying fetch result data from useFind such as sorting the array of IDs will result in a mismatch between the server (non modified) and client (modified on hydration, sorted etc). All such usage should be done via [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/) when possible otherwise opt-out of SSR.
+> - Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly and mismatch. *All such usage should opt-out of SSR as a stopgap where* **it should ideally be transitioned to useFind if possible as the resolution**.
+> - Displaying a list of fetch result data (map IDs) from useFind may mismatch between the server (reversed order) and client (natural order). **The resolution is to explicitly sort in the useFind options via `useFind(COLLECTION, { MongoSelector... }, { options..., sort: { _id: 1 } })`** *otherwise opt-out of SSR if it does not resolve the issue.*
 > - Datetime locale mismatches on server and client due to timezone differences, all such usage should opt-out of SSR.
 >
 > > ```jsx
