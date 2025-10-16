@@ -18,33 +18,44 @@ export const SkillForestSubscribeButton = ({ skillForestId, skillTreeIds }) => {
   );
 
   useEffect(() => {
-    // User is considered subscribed if they're in any skill tree's subscribers
-    const hasSubscriptions = skillTrees.some(
-      skillTree =>
-        skillTree.subscribers && skillTree.subscribers.includes(userId)
-    );
-    setIsSubscribed(hasSubscriptions);
-  }, [skillTrees, userId]);
+  if (!userId || !skillTreeIds || skillTreeIds.length === 0) {
+    setIsSubscribed(false);
+    return;
+  }
 
-  // Subscribe user to skill forest
-  const subscribeToSkillForest = async e => {
-    e.preventDefault();
+  if (skillTrees.length !== skillTreeIds.length) {
+    setIsSubscribed(false);
+    return;
+  }
 
-    if (!userId) {
-      console.log('User must be logged in to subscribe');
-      return;
+  // Count how many trees user is subscribed to
+  const subscribedCount = skillTrees.reduce((acc, tree) => {
+    return acc + (Array.isArray(tree.subscribers) && tree.subscribers.includes(userId) ? 1 : 0);
+  }, 0);
+
+  // User is fully subscribed if subscribed to ALL trees
+  setIsSubscribed(subscribedCount === skillTreeIds.length);
+}, [skillTrees, userId, skillTreeIds]);
+
+  // Subscribe and unsubscribe user to skill forest
+  const handleSubscription = async e => {
+  e.preventDefault();
+
+  if (!userId) {
+    console.log('User must be logged in to subscribe/unsubscribe');
+    return;
+  }
+
+  try {
+    if (isSubscribed) {
+      await Meteor.callAsync('unsubscribeFromSkillForest', skillForestId);
+    } else {
+      await Meteor.callAsync('subscribeToSkillForest', skillForestId);
     }
-
-    try {
-      const result = await Meteor.callAsync(
-        'subscribeToSkillForest',
-        skillForestId
-      );
-      console.log(result.message);
-    } catch (error) {
-      console.error('Error subscribing to skill forest:', error);
-    }
-  };
+  } catch (error) {
+    console.error('Error with subscription:', error);
+  }
+};
 
   if (!userId) {
     return (
@@ -56,15 +67,14 @@ export const SkillForestSubscribeButton = ({ skillForestId, skillTreeIds }) => {
 
   return (
     <button
-      onClick={subscribeToSkillForest}
-      disabled={isSubscribed}
+      onClick={handleSubscription}
       className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
         isSubscribed
-          ? 'bg-gray-400 text-white cursor-not-allowed'
+          ? 'bg-red-400 text-white hover:bg-red-500'
           : 'bg-[#328E6E] text-white hover:bg-[#2a7a5e]'
       }`}
     >
-      {isSubscribed ? 'Subscribed to Forest' : 'Subscribe to Forest'}
+      {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
     </button>
   );
 };

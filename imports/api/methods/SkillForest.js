@@ -85,11 +85,9 @@ Meteor.methods({
 
   // Subscribe to the SkillForest
   await Meteor.callAsync('updateSubscribedCommunities', skillForestId);
-  console.log('Added skill forest to user subscriptions:', skillForestId);
 
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
       for (const skillTreeId of skillForest.skilltreeIds) {
-        console.log('skillTreeId:', skillTreeId, 'Type:', typeof skillTreeId);
 
       // Check if user is already subscribed to this specific skill tree
         const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
@@ -113,7 +111,6 @@ Meteor.methods({
           await Meteor.callAsync('saveSubscription', skillTreeId);
 
           subscriptionsCreated++;
-          console.log('Successfully subscribed to:', skillTreeId);
         } else {
           console.log('Already subscribed to:', skillTreeId);
         }
@@ -129,10 +126,55 @@ Meteor.methods({
     };
   },
 
-  async subscriptionsDebug() {
-    if (!this.userId) return [];
-    return await SubscriptionsCollection.find({
-      userId: this.userId
-    }).fetchAsync();
+  // Unsubscribe from a SkillForest
+  async unsubscribeFromSkillForest(skillForestId) {
+    check(skillForestId, String);
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    const skillForest = await SkillForestCollection.findOneAsync(skillForestId);
+    if (!skillForest) {
+      throw new Meteor.Error('skill-forest-not-found');
+    }
+
+    let unsubscriptions = 0;
+
+    // Unsubscribe from the SkillForest itself
+    await Meteor.callAsync('removeSubscribedCommunities', skillForestId);
+
+    // Unsubscribe from all skill trees in the forest
+    if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
+      for (const skillTreeId of skillForest.skilltreeIds) {
+
+        const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
+
+        if (skillTree && skillTree.subscribers && skillTree.subscribers.includes(this.userId)) {
+          
+          await SkillTreeCollection.updateAsync(
+            { _id: skillTreeId },
+            {
+              $pull: { subscribers: this.userId },
+              $set: { updatedAt: new Date() }
+            }
+          );
+
+          await Meteor.callAsync('removeSubscribedCommunities', skillTreeId);
+
+          await SubscriptionsCollection.removeAsync({
+            userId: this.userId,
+            skillTreeId: skillTreeId
+          });
+
+          unsubscriptions++;
+        } else {
+          console.log('Not subscribed to:', skillTreeId);
+        }
+      }
+    }
+
+    return {
+      success: true
+    };
   }
 });
