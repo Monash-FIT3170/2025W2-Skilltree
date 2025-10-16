@@ -4,8 +4,10 @@ import React from 'react';
 // Meteor-specific imports
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
+// Utils imports
+import { toLocale } from '/imports/utils/Locale.jsx';
+
 // Collections & Components
-import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
 import { VoteUpButton } from './VoteUpButton';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { User } from '/imports/utils/User';
@@ -61,22 +63,6 @@ export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
   // Empty state UI
   if (sortedProofs.length === 0) return <div>No proofs found.</div>;
 
-  /**
-   * Formats a given date into a human-readable string.
-   * E.g., "28 May 2025, 03:15 PM"
-   */
-  const formatDate = date => {
-    if (!date) return '';
-    const d = new Date(date);
-    return d.toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   return (
     <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-screen-2xl mx-auto">
@@ -93,12 +79,9 @@ export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
                     )}
                     <span>{proof.username}</span>
                   </span>
-                  {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
-                  <SuspenseHydrated>
-                    <span className="text-xs italic popInEffect">
-                      {formatDate(proof.date)}
-                    </span>
-                  </SuspenseHydrated>
+                  <span className="text-xs italic popInEffect">
+                    {toLocale(proof.date, 'DateTimeShort')}
+                  </span>
                 </div>
 
                 {/* Evidence Image Preview */}
