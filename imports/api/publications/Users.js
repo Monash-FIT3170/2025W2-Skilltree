@@ -287,6 +287,9 @@ Meteor.startup(async () => {
     communityMemberA
   );
 
+  // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree1 = { ...progressTree };
