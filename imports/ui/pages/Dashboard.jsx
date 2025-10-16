@@ -1,7 +1,6 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
 import { ToastContainer, Flip } from 'react-toastify';
-import { SuspenseHydrated } from '../../utils/SuspenseHydrated';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { Link } from 'react-router-dom';
@@ -9,8 +8,6 @@ import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevro
 
 // JSX UI
 import { DashboardSkillTrees } from '/imports/ui/layouts/DashboardSkillTrees';
-import { DashboardLoadingState } from '../components/Dashboard/LoadingState';
-import { GreetingLoadingState } from '../components/Dashboard/GreetingLoadingState';
 import {
   getGreetingIcon,
   getGreetingMessage
@@ -70,15 +67,12 @@ export const Dashboard = () => {
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
         {/* Intro message */}
         <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
-          {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
-          <SuspenseHydrated fallback={<GreetingLoadingState />}>
-            <div className="flex items-center gap-3 mb-2 popInEffect">
-              <span className="text-3xl">{greetingIcon}</span>
-              <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
-                {greeting}, {user?.profile?.givenName}!
-              </h1>
-            </div>
-          </SuspenseHydrated>
+          <div className="flex items-center gap-3 mb-2 popInEffect">
+            <span className="text-3xl">{greetingIcon}</span>
+            <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
+              {greeting}, {user?.profile?.givenName}!
+            </h1>
+          </div>
           <p className="text-gray-600 ml-12">
             Ready to continue your learning journey?
           </p>
@@ -152,16 +146,13 @@ export const Dashboard = () => {
           )}
         </div>
         {/* My Skill Trees Section */}
-        {/* Opt out of SSR due to processing (sort) useFind data causing mismatch on hydration */}
         <div className="mb-8">
           {currentView === 'skillForest' && (
             <div className="mb-8 w-full">
-              <Suspense fallback={<DashboardLoadingState />}>
-                <DashboardSkillForest
-                  key={user._id}
-                  setCommunitiesCount={setCommunitiesCount}
-                />
-              </Suspense>
+              <DashboardSkillForest
+                key={user._id}
+                setCommunitiesCount={setCommunitiesCount}
+              />
             </div>
           )}
 
