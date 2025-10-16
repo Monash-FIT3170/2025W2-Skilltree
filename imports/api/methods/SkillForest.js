@@ -72,7 +72,7 @@ Meteor.methods({
   async subscribeToSkillForest(skillForestId) {
     check(skillForestId, String);
 
-  if (!this.userId) {
+    if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
 
@@ -83,18 +83,19 @@ Meteor.methods({
 
     let subscriptionsCreated = 0;
 
-  // Subscribe to the SkillForest
-  await Meteor.callAsync('updateSubscribedCommunities', skillForestId);
+    // Subscribe to the SkillForest
+    await Meteor.callAsync('updateSubscribedCommunities', skillForestId);
 
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
       for (const skillTreeId of skillForest.skilltreeIds) {
-
-      // Check if user is already subscribed to this specific skill tree
+        // Check if user is already subscribed to this specific skill tree
         const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
 
-          if (skillTree && (!skillTree.subscribers ||
-            !skillTree.subscribers.includes(this.userId))) {
-
+        if (
+          skillTree &&
+          (!skillTree.subscribers ||
+            !skillTree.subscribers.includes(this.userId))
+        ) {
           // Add user to SkillTree subscribers array
           await SkillTreeCollection.updateAsync(
             { _id: skillTreeId },
@@ -117,11 +118,11 @@ Meteor.methods({
       }
     }
 
-
-  return {
-    success: true,
-    message: subscriptionsCreated > 0
-      ? `Subscribed to ${subscriptionsCreated} new skill trees in the forest`
+    return {
+      success: true,
+      message:
+        subscriptionsCreated > 0
+          ? `Subscribed to ${subscriptionsCreated} new skill trees in the forest`
           : 'Already subscribed to all skill trees in this forest'
     };
   },
@@ -138,19 +139,19 @@ Meteor.methods({
       throw new Meteor.Error('skill-forest-not-found');
     }
 
-    let unsubscriptions = 0;
-
     // Unsubscribe from the SkillForest itself
     await Meteor.callAsync('removeSubscribedCommunities', skillForestId);
 
     // Unsubscribe from all skill trees in the forest
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
       for (const skillTreeId of skillForest.skilltreeIds) {
-
         const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
 
-        if (skillTree && skillTree.subscribers && skillTree.subscribers.includes(this.userId)) {
-          
+        if (
+          skillTree &&
+          skillTree.subscribers &&
+          skillTree.subscribers.includes(this.userId)
+        ) {
           await SkillTreeCollection.updateAsync(
             { _id: skillTreeId },
             {
@@ -165,8 +166,6 @@ Meteor.methods({
             userId: this.userId,
             skillTreeId: skillTreeId
           });
-
-          unsubscriptions++;
         } else {
           console.log('Not subscribed to:', skillTreeId);
         }

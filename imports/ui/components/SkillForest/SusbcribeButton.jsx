@@ -18,44 +18,49 @@ export const SkillForestSubscribeButton = ({ skillForestId, skillTreeIds }) => {
   );
 
   useEffect(() => {
-  if (!userId || !skillTreeIds || skillTreeIds.length === 0) {
-    setIsSubscribed(false);
-    return;
-  }
+    if (!userId || !skillTreeIds || skillTreeIds.length === 0) {
+      setIsSubscribed(false);
+      return;
+    }
 
-  if (skillTrees.length !== skillTreeIds.length) {
-    setIsSubscribed(false);
-    return;
-  }
+    if (skillTrees.length !== skillTreeIds.length) {
+      setIsSubscribed(false);
+      return;
+    }
 
-  // Count how many trees user is subscribed to
-  const subscribedCount = skillTrees.reduce((acc, tree) => {
-    return acc + (Array.isArray(tree.subscribers) && tree.subscribers.includes(userId) ? 1 : 0);
-  }, 0);
+    // Count how many trees user is subscribed to
+    const subscribedCount = skillTrees.reduce((acc, tree) => {
+      return (
+        acc +
+        (Array.isArray(tree.subscribers) && tree.subscribers.includes(userId)
+          ? 1
+          : 0)
+      );
+    }, 0);
 
-  // User is fully subscribed if subscribed to ALL trees
-  setIsSubscribed(subscribedCount === skillTreeIds.length);
-}, [skillTrees, userId, skillTreeIds]);
+    // User is fully subscribed if subscribed to ALL trees
+    setIsSubscribed(subscribedCount === skillTreeIds.length);
+  }, [skillTrees, userId, skillTreeIds]);
 
   // Subscribe and unsubscribe user to skill forest
   const handleSubscription = async e => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!userId) {
-    console.log('User must be logged in to subscribe/unsubscribe');
-    return;
-  }
-
-  try {
-    if (isSubscribed) {
-      await Meteor.callAsync('unsubscribeFromSkillForest', skillForestId);
-    } else {
-      await Meteor.callAsync('subscribeToSkillForest', skillForestId);
+    if (!userId) {
+      console.log('User must be logged in to subscribe/unsubscribe');
+      return;
     }
-  } catch (error) {
-    console.error('Error with subscription:', error);
-  }
-};
+
+    try {
+      if (isSubscribed) {
+        await Meteor.callAsync('unsubscribeFromSkillForest', skillForestId);
+      } else {
+        await Meteor.callAsync('subscribeToSkillForest', skillForestId);
+      }
+    } catch (error) {
+      console.error('Error with subscription:', error);
+    }
+  };
 
   if (!userId) {
     return (
