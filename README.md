@@ -1768,17 +1768,29 @@ tests/					<Unit Tests>
 > The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early.
 > Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices.
 > Developers can also run lint checks locally using:
+>
 > `npm run lint`
 
 #### Merging Review & Checks on Protected Branches
 > [!IMPORTANT]
->
-> [TODO] -- PR required on `main`, `mX-sprintX` branches. Merging is blocked: Review Approval Required + Checks... 
+> The main branch is protected, enforcing strict merging policies.
+> All milestone PRs are to be merged to the current mX-sprintX branch which is merged to main branch by an SA end of milestone.
+> Key rules:
+> - All merges must go through a Pull Request (PR).
+> - At least one reviewer approval is required before merging.
+> - All CI checks (tests, linting, build) must pass successfully.
+> - Direct commits to protected branches are blocked.
+> This review process ensures code integrity, collaboration, and accountability before integration into production-level branches. 
 
 ### Continuous Deployment (CD)
-  > [!NOTE]
-  >
-  > [TODO] (Production Server Cronjob Automatically Pulls for changes then rebuilds bundle and restarts webserver...) 
+> [!NOTE]
+> SkillTree’s Continuous Deployment process automates updates to the production server after successful integration.
+> A cron job on the production server:
+> - Periodically pulls the latest changes from the main branch
+> - Rebuilds the project bundle
+> - Restarts the web server to apply the latest updates seamlessly
+> This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while
+> maintaining uptime and reliability.
 
 <h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
 
