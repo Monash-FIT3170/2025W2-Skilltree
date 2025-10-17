@@ -1739,23 +1739,36 @@ tests/					<Unit Tests>
 
 ## CI/CD (Pipeline)
   > [!NOTE]
-  > [TODO] 
+  > SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and 
+  > deployment through github workflows. 
+  > The pipeline ensures that every code change is automatically tested and validated before being merged or deployed
+  > maintaining high code quality and reliability throughout the development process.
 
 ### Continuous Integration (CI)
 > [!NOTE]
-> [TODO]
+> Every pull request triggers automated workflows that validate the integrity of new code before integration.
+> The CI process includes:
+> - Running unit tests via Mocha:
+> - Performing lint checks to enforce code style and consistency
+> - Building the project to confirm that all dependencies and configurations are functional
+> This process guarantees that no faulty or untested code is merged into the main branch.
 
 #### GitHub Workflows
 > [!TIP]
-> [TODO]
+> SkillTree leverages GitHub Actions to automate build and test pipelines.
 >
 > **Automated Mocha tests**
->
-> [TODO]
+> [!NOTE]
+> All Mocha test suites are executed automatically as part of the CI pipeline.
+> If any test fails, the workflow halts immediately, preventing merges until all issues are resolved.
+> This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
 > 
 > **Automated Lint Check**
->
-> [TODO]
+> [!NOTE]
+> The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early.
+> Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices.
+> Developers can also run lint checks locally using:
+> `npm run lint`
 
 #### Merging Review & Checks on Protected Branches
 > [!IMPORTANT]
