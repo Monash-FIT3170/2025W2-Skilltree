@@ -1,7 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
-import { injectPreHydration } from '/imports/utils/PreHydration';
 
 import { ToastContainer, Flip } from 'react-toastify';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
