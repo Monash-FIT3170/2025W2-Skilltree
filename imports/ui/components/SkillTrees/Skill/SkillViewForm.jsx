@@ -43,9 +43,10 @@ export const SkillViewForm = ({
   const requiredUpvotes = editingNode.netUpvotesRequired || 0;
 
   // Calculate progress, ensuring we don't divide by zero
-  const progress = requiredUpvotes > 0
-    ? Math.floor((currentUpvotes / requiredUpvotes) * 100)
-    : 100; // If 0 required, consider it 100% complete
+  const progress =
+    requiredUpvotes > 0
+      ? Math.floor((currentUpvotes / requiredUpvotes) * 100)
+      : 100; // If 0 required, consider it 100% complete
 
   const remainder = Math.max(0, requiredUpvotes - currentUpvotes);
   const isComplete = currentUpvotes >= requiredUpvotes;
@@ -80,7 +81,7 @@ export const SkillViewForm = ({
             </svg>
           </button>
         </div>
-        
+
         <div>
           <label
             htmlFor="description"
@@ -121,27 +122,32 @@ export const SkillViewForm = ({
             </strong>
             :
           </label>
-          
+
           <div className="flex items-center gap-4">
             {/* Progress Bar Container: Uses SkillTree palette (Gray base, Light Emerald in-progress, Dark Emerald complete) */}
             <div className="w-full bg-gray-300 rounded-full h-8 relative shadow-inner">
               <div
                 className={`text-xs font-semibold text-white h-full flex items-center justify-center transition-all duration-500 ease-out 
                 ${isComplete ? 'bg-emerald-500' : 'bg-emerald-300'}`}
-                style={{ width: progressBarWidth, borderRadius: isComplete ? '9999px' : '9999px 0 0 9999px' }}
+                style={{
+                  width: progressBarWidth,
+                  borderRadius: isComplete ? '9999px' : '9999px 0 0 9999px'
+                }}
               >
                 {/* Display text inside the bar if wide enough (or complete) */}
                 {progress > 20 || isComplete ? (
                   <span className="text-center w-full truncate px-2">
-                    {isComplete ? (
-                      'VERIFIED! Goal Reached.'
-                    ) : (
-                      `${remainder} upvotes to go (${progress}%)`
-                    )}
+                    {isComplete
+                      ? 'VERIFIED! Goal Reached.'
+                      : `${remainder} upvotes to go (${progress}%)`}
                   </span>
                 ) : (
                   // Display fallback percentage if very small progress
-                  progress > 0 && <span className="absolute right-2 text-gray-800">{progress}%</span>
+                  progress > 0 && (
+                    <span className="absolute right-2 text-gray-800">
+                      {progress}%
+                    </span>
+                  )
                 )}
               </div>
 
@@ -152,14 +158,17 @@ export const SkillViewForm = ({
                 </span>
               )}
             </div>
-            
+
             {/* Current/Required Upvotes Display */}
-            <div className="font-semibold text-lg text-emerald-700" style={{ minWidth: 'fit-content' }}>
+            <div
+              className="font-semibold text-lg text-emerald-700"
+              style={{ minWidth: 'fit-content' }}
+            >
               {currentUpvotes}/{requiredUpvotes}
             </div>
           </div>
           <br />
-          
+
           <div className="mt-2.5 flex w-full justify-between">
             <button
               type="button"
