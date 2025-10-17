@@ -14,11 +14,11 @@ import {
 export const UserTable = ({ userIds, skilltreeId, skillTreeOwner }) => {
   //Get all subscription records for filtering
   const subscriptionRecords = useFind(SubscriptionsCollection, [
-    { skillTreeId: skilltreeId },
+    { skilltreeId: skilltreeId },
     {
       fields: {
         userId: 1,
-        skillTreeId: 1,
+        skilltreeId: 1,
         roles: 1,
         active: 1
       },

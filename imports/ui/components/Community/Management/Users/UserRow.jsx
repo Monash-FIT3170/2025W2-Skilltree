@@ -51,11 +51,11 @@ export const UserRow = ({ userId, skilltreeId, skillTreeOwner, index }) => {
 
   //Get user's subscription progress
   const userSubscription = useFind(SubscriptionsCollection, [
-    { userId, skillTreeId: skilltreeId },
+    { userId, skilltreeId: skilltreeId },
     {
       fields: {
         userId: 1,
-        skillTreeId: 1,
+        skilltreeId: 1,
         roles: 1,
         active: 1
       }

@@ -61,7 +61,7 @@ export const SkillForestPopup = ({
           {selectedSkillTrees.map(tree => (
             <div key={tree._id} className="flex justify-center">
               <SubscribedTreesPopup
-                skillTreeId={tree._id}
+                skilltreeId={tree._id}
                 className="w-48 h-40" // smaller card size
               />
             </div>

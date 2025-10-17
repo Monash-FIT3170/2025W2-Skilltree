@@ -52,7 +52,7 @@ Meteor.methods({
      */
     const foundUser = await Meteor.callAsync(
       'skilltrees.findUser',
-      proof.skillTreeId,
+      proof.skilltreeId,
       userId
     );
     const isUserSubscribed = !!foundUser;
@@ -99,7 +99,7 @@ Meteor.methods({
      */
     const foundUser = await Meteor.callAsync(
       'skilltrees.findUser',
-      proof.skillTreeId,
+      proof.skilltreeId,
       userId
     );
     const isUserSubscribed = !!foundUser;
@@ -133,7 +133,7 @@ Meteor.methods({
     return await ProofCollection.updateAsync({ _id: proofId }, update);
   },
 
-  // Verify a proof: only users with 'expert' role for the same skillTreeId can verify
+  // Verify a proof: only users with 'expert' role for the same skilltreeId can verify
   async 'proof.verify'(proofId) {
     check(proofId, String);
     const userId = this.userId;
@@ -145,7 +145,7 @@ Meteor.methods({
     // Ensure expert role for this proof's skill tree
     const progress = await SubscriptionsCollection.findOneAsync({
       userId,
-      skillTreeId: proof.skillTreeId
+      skilltreeId: proof.skilltreeId
     });
     const roles = progress?.roles ?? [];
     const isExpert = roles.includes('expert');

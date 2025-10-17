@@ -39,7 +39,7 @@ Meteor.publish('usernames', function (userIds) {
 const dummyProgressTree = [
   {
     userId: 123123,
-    skillTreeId: 'basketball',
+    skilltreeId: 'basketball',
     skillNodes: [
       {
         id: '0',
@@ -287,6 +287,9 @@ Meteor.startup(async () => {
     communityMemberA
   );
 
+  // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree1 = { ...progressTree };
@@ -315,7 +318,11 @@ Meteor.startup(async () => {
       username: memberUsername,
       profile: {
         xpTEMP: Math.floor(Math.random() * 100),
-        commentNumTEMP: Math.floor(Math.random() * 10)
+        commentNumTEMP: Math.floor(Math.random() * 10),
+        avatarUrl:
+          i === 42
+            ? 'https://i.pinimg.com/736x/c2/1e/7e/c21e7e2976743369ca7f86349aeb22a9.jpg'
+            : null
       }
     });
 
@@ -326,6 +333,24 @@ Meteor.startup(async () => {
       const copyProgressTree = { ...progressTree, userId: memberId };
 
       await SubscriptionsCollection.insertAsync(copyProgressTree);
+    }
+
+    if (i % 6 == 0) {
+      const dummyProof = {
+        title: 'Dribbling',
+        description: 'chat',
+        user: memberId,
+        username: memberUsername,
+        date: new Date(),
+        evidenceLink:
+          'https://pbs.twimg.com/card_img/1975252080320520198/0VebYBGO?format=jpg&name=4096x4096',
+        verification: 10,
+        skilltreeId: 'basketball',
+        eventId: 'dribbling_basketball',
+        upvotes: i
+      };
+
+      await Meteor.callAsync('insertProof', dummyProof);
     }
   }
 });

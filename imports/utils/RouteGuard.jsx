@@ -68,12 +68,12 @@ export const PrivateRoute = ({ children, redirectUrl = '/login' }) => {
 // ProfileCompleteRoute Helper JSX
 export const ProfileCompleteRoute = ({
   children,
-  redirectUrl = '/login/extraStep1', // Redirect url can be specified otherwise goes to /login/extraStep1
+  redirectUrl = '/login/complete-profile', // Redirect url can be specified otherwise goes to /login/complete-profile
   requireComplete = true // Whether route requires isProfileComplete to be true or false
 }) => {
   useSubscribe('users'); // Needed to workaround SSR
   const user = User(['profile.isProfileComplete']); // Suspense waits until data is ready to avoid undefined data
-  const isProfileComplete = user?.profile?.isProfileComplete;
+  const isProfileComplete = user?.profile?.isProfileComplete ?? false;
 
   return useRouteGuard({
     AccessCondition: isProfileComplete === requireComplete,
@@ -88,11 +88,11 @@ export const AdminRoute = ({
   redirectUrl = '..' // Redirect url can be specified otherwise goes to /
 }) => {
   const userId = useContext(AuthContext); // Computed once from top level
-  const { id: skilltreeID } = useParams(); // Get skilltreeID from route
+  const { id: skilltreeId } = useParams(); // Get skilltreeId from route
 
   useSubscribe('subscriptions');
   const skilltree = useFind(SubscriptionsCollection, [
-    { skillTreeId: skilltreeID, userId: userId }, // fetch loggedIn user's subscriptions data for the matching skillTreeId
+    { skilltreeId: skilltreeId, userId: userId }, // fetch loggedIn user's subscriptions data for the matching skilltreeId
     {
       fields: {
         roles: 1 // Only fetch the roles array field to determine if loggedIn user is admin for the skilltree

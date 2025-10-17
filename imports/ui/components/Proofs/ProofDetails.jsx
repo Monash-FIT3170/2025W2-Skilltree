@@ -33,7 +33,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
         username: 1,
         date: 1,
         evidenceLink: 1,
-        skillTreeId: 1,
+        skilltreeId: 1,
         subskill: 1,
         upvotes: 1,
         downvotes: 1
@@ -113,7 +113,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
             </p>
 
             {/* Voting Controls */}
-            <VoteButtons proof={proof} skilltreeId={proof.skillTreeId} />
+            <VoteButtons proof={proof} skilltreeId={proof.skilltreeId} />
           </div>
 
           {/* Comment Section */}
@@ -123,7 +123,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
               userId={userId}
               username={username}
               proofid={proof._id}
-              skillTreeId={proof.skillTreeId}
+              skilltreeId={proof.skilltreeId}
             />
             <CommentSection proofId={proof._id} />
           </div>

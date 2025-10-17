@@ -179,7 +179,7 @@ Meteor.methods({
     if (eventObject.maxTrophies > 0) {
       // get all proofs with eventId
       const proofs = await ProofCollection.find(
-        { skillTreeId: { $eq: eventId } },
+        { skilltreeId: { $eq: eventId } },
         { sort: { upvotes: -1 }, fields: { user: 1 } }
       ).fetchAsync();
 

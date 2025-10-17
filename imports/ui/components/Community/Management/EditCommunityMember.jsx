@@ -24,11 +24,11 @@ export const EditCommunityMember = ({
 
   //Get the selected user's subscription progress
   const userSubscriptionRecord = useFind(SubscriptionsCollection, [
-    { userId: selectedUserId, skillTreeId: skilltreeId },
+    { userId: selectedUserId, skilltreeId: skilltreeId },
     {
       fields: {
         userId: 1,
-        skillTreeId: 1,
+        skilltreeId: 1,
         roles: 1
       }
     }

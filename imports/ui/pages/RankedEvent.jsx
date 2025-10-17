@@ -14,6 +14,7 @@ import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton
 import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 import { EventCollection } from '/imports/api/collections/Events';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
@@ -55,7 +56,7 @@ export const RankedEvent = () => {
   const userProgress = useFind(
     SubscriptionsCollection,
     [
-      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { userId: { $eq: userId }, skilltreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
     ],
     [userId, skilltreeId]
@@ -76,7 +77,7 @@ export const RankedEvent = () => {
     [
       {
         userId: { $eq: userId },
-        skillTreeId: { $eq: skilltreeId },
+        skilltreeId: { $eq: skilltreeId },
         active: { $eq: true }
       },
       { fields: { _id: 1 } }
@@ -163,6 +164,7 @@ export const RankedEvent = () => {
               isUserJoined={isUserJoined}
               disabled={!isUserSubscribed}
             />
+            <EventLeaderboardModal eventId={eventId} />
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
