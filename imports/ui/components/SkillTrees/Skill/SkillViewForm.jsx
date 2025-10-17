@@ -93,7 +93,6 @@ export const SkillViewForm = ({
             id="description"
             rows={4}
             defaultValue={editingNode.description}
-            // Removed redundant 'resize-none' as it's typically set globally or unnecessary on readOnly
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
             readOnly={true}
           />
@@ -124,32 +123,34 @@ export const SkillViewForm = ({
           </label>
           
           <div className="flex items-center gap-4">
-            {/* Progress Bar Container: Uses SkillTree palette (Gray base, Yellow in-progress, Emerald complete) */}
+            {/* Progress Bar Container: Uses SkillTree palette (Gray base, Light Emerald in-progress, Dark Emerald complete) */}
             <div className="w-full bg-gray-300 rounded-full h-8 relative shadow-inner">
               <div
-                className={`text-xs font-semibold text-white text-center p-1 leading-none rounded-full h-8 flex items-center justify-center transition-all duration-500 ease-out 
-                ${isComplete ? 'bg-emerald-500' : 'bg-yellow-600'}`}
-                style={{ width: progressBarWidth }}
+                className={`text-xs font-semibold text-white h-full flex items-center justify-center transition-all duration-500 ease-out 
+                ${isComplete ? 'bg-emerald-500' : 'bg-emerald-300'}`}
+                style={{ width: progressBarWidth, borderRadius: isComplete ? '9999px' : '9999px 0 0 9999px' }}
               >
-                {/* Display text logic handles small bar widths */}
-                {progress > 15 || isComplete ? (
-                  isComplete ? (
-                    'VERIFIED! Goal Reached.'
-                  ) : (
-                    `${remainder} upvotes to go (${progress}%)`
-                  )
+                {/* Display text inside the bar if wide enough (or complete) */}
+                {progress > 20 || isComplete ? (
+                  <span className="text-center w-full truncate px-2">
+                    {isComplete ? (
+                      'VERIFIED! Goal Reached.'
+                    ) : (
+                      `${remainder} upvotes to go (${progress}%)`
+                    )}
+                  </span>
                 ) : (
-                  <span className="text-gray-900 absolute left-2">
-                    {progress}%
-                  </span>
-                )}
-                {/* Fallback text display for very small bars */}
-                {progress <= 15 && !isComplete && (
-                   <span className="text-gray-900 absolute left-full pl-2 whitespace-nowrap">
-                    {remainder} upvotes to go
-                  </span>
+                  // Display fallback percentage if very small progress
+                  progress > 0 && <span className="absolute right-2 text-gray-800">{progress}%</span>
                 )}
               </div>
+
+              {/* Text fallback when progress is tiny or zero */}
+              {!isComplete && (progress === 0 || progress <= 20) && (
+                <span className="text-gray-900 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-semibold whitespace-nowrap">
+                  {remainder} upvotes to go
+                </span>
+              )}
             </div>
             
             {/* Current/Required Upvotes Display */}
@@ -160,7 +161,6 @@ export const SkillViewForm = ({
           <br />
           
           <div className="mt-2.5 flex w-full justify-between">
-            {/* Styled secondary close button */}
             <button
               type="button"
               onClick={onCancel}
