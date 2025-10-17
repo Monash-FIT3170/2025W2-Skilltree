@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useFind } from 'meteor/react-meteor-data/suspense';
+import { Link } from 'react-router-dom';
 
 // AuthContext
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
@@ -21,3 +22,8 @@ export const User = (fields = [], options = {}) => {
   //   ? Meteor.user(projection) // user for client
   //   : Meteor.userAsync(projection); // userAsync for server
 };
+
+// Helper function to link username to its profile page
+export const linkUsername = username => (
+  <Link to={`/profile/${username}`}>{username}</Link>
+);
