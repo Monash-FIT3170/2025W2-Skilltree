@@ -4,7 +4,7 @@ import { SliderInput } from './SliderInput';
 export const SkillEditForm = ({ editingNode, onSave, onCancel }) => {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-gray-600/40 flex justify-center items-center z-[1000]">
-      <div className="bg-neutral-200 p-5 rounded-lg w-[800px]">
+      <div className="bg-neutral-200 p-5 rounded-lg max-w-lg w-11/12 md:max-w-3xl lg:max-w-[800px]">
         {/* START: Added modal header with close button */}
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-xl font-bold text-emerald-700">
