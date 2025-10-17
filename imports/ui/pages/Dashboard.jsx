@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Suspense, useState, useEffect } from 'react';
 import { User } from '/imports/utils/User';
+import { injectPreHydration } from '/imports/utils/PreHydration';
+
 import { ToastContainer, Flip } from 'react-toastify';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -68,9 +70,7 @@ export const Dashboard = () => {
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
         {/* Intro message */}
         <div className="mb-8 bg-gradient-to-r text-[#328E6E] rounded-xl p-6 border-l-4 border-[#328E6E] shadow-lg">
-          <div
-            className={`flex items-center gap-3 mb-2 ${Meteor.isClient && 'popInEffect'}`}
-          >
+          <div className="flex items-center gap-3 mb-2 popInEffect">
             <span className="text-3xl">{greetingIcon}</span>
             <h1 className="text-2xl lg:text-4xl font-bold text-[#328E6E]">
               {greeting}, {user?.profile?.givenName}!
