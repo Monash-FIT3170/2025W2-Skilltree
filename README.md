@@ -1758,11 +1758,13 @@ tests/					<Unit Tests>
 > SkillTree leverages GitHub Actions to automate build and test pipelines.
 >
 > **Automated Mocha tests**
+>
 > All Mocha test suites are executed automatically as part of the CI pipeline.
 > If any test fails, the workflow halts immediately, preventing merges until all issues are resolved.
 > This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
 > 
 > **Automated Lint Check**
+>
 > The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early.
 > Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices.
 > Developers can also run lint checks locally using:
