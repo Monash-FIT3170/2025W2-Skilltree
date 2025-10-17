@@ -1707,7 +1707,9 @@ tests/					<Unit Tests>
 
 ## Unit Tests (Mocha)
 > [!NOTE]
-> [TODO]
+> SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules.
+> All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. 
+> See below on how to set up the unit tests. 
 
 #### Test definition
 
