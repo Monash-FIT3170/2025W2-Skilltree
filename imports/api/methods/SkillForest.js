@@ -81,10 +81,15 @@ Meteor.methods({
       throw new Meteor.Error('skill-forest-not-found');
     }
 
-    let subscriptionsCreated = 0;
-
     // Subscribe to the SkillForest
     await Meteor.callAsync('updateSubscribedCommunities', skillForestId);
+    await SkillForestCollection.updateAsync(
+      { _id: skillForestId },
+      {
+        $addToSet: { subscribers: this.userId },
+        $set: { updatedAt: new Date() }
+      }
+    );
 
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
       for (const skillTreeId of skillForest.skilltreeIds) {
@@ -110,8 +115,6 @@ Meteor.methods({
 
           // Create subscription entry
           await Meteor.callAsync('saveSubscription', skillTreeId);
-
-          subscriptionsCreated++;
         } else {
           console.log('Already subscribed to:', skillTreeId);
         }
@@ -119,11 +122,7 @@ Meteor.methods({
     }
 
     return {
-      success: true,
-      message:
-        subscriptionsCreated > 0
-          ? `Subscribed to ${subscriptionsCreated} new skill trees in the forest`
-          : 'Already subscribed to all skill trees in this forest'
+      success: true
     };
   },
 
@@ -141,6 +140,13 @@ Meteor.methods({
 
     // Unsubscribe from the SkillForest itself
     await Meteor.callAsync('removeSubscribedCommunities', skillForestId);
+    await SkillForestCollection.updateAsync(
+      { _id: skillForestId },
+      {
+        $pull: { subscribers: this.userId },
+        $set: { updatedAt: new Date() }
+      }
+    );
 
     // Unsubscribe from all skill trees in the forest
     if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {

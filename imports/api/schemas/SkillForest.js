@@ -9,6 +9,16 @@ Schemas.SkillForest = new SimpleSchema({
     max: 200,
     min: 1
   },
+  owner: {
+    type: String,
+    label: 'Owner User ID'
+  },
+  subscribers: {
+    type: Array,
+    optional: true,
+    defaultValue: []
+  },
+  'subscribers.$': String,
   description: {
     type: String,
     label: 'SkillForest description',
