@@ -1934,18 +1934,26 @@ To apply changes to the existing terminal session, run:
 <h1 align="center">⬥ Contributor Guidelines ⬥</h1>
 
 > [!NOTE]
->
-> [TODO]
+> This section outlines the conventions and standards all contributors should follow to maintain a clean, consistent, and scalable
+> codebase.
+
 
 ## Versioning Strategy
 > [!NOTE]
->
-> [TODO]
+> SkillTree follows a semantic versioning strategy (MAJOR.MINOR.PATCH) to manage releases and ensure backward compatibility.
+> Version increments are applied as follows:
+> - MAJOR — Introduces breaking changes or major feature overhauls
+> - MINOR — Adds new features or improvements that are backward compatible
+> - PATCH — Fixes bugs, minor updates, or small enhancements
   
 ## Pull Request (PR) Strategy
 > [!NOTE]
+> All pull requests in SkillTree follow a consistent naming convention linked to their corresponding ClickUp task.
+> Each PR title should begin with the ClickUp ticket code, followed by a short, descriptive title of the change.
 >
-> [TODO]
+> Format: 
+>
+>`ST-###: <Short descriptive title>`
 
 <h1 align="center">⬥ Original Project Team ⬥</h1>
 
