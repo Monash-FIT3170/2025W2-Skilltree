@@ -491,13 +491,13 @@ tests/					<Unit Tests>
 #### React Icons
 
 > [!TIP]
-> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
+> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icons` usage are **deep imports** so that only imported icons are included in the bundle:
 >
 > <details>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+> > import { <prefix><Name> } from '@react-icons/all-files/<prefix>/<prefix><Name>';
 > > ```
 >
 > **Example**:
@@ -740,7 +740,7 @@ tests/					<Unit Tests>
 > > `CHILD_COMPONENT.jsx`
 > >
 > > ```jsx
-> > import { useOutletContext } from "react-router-dom";
+> > import { useOutletContext } from 'react-router-dom';
 > > ...
 > > export const CHILD_COMPONENT = () => {
 > >   const { value1 } = useOutletContext();
@@ -771,7 +771,7 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { Link } from "react-router-dom";
+> > import { Link } from 'react-router-dom';
 > > ...
 > > export const COMPONENT_NAME = () => (
 > >   <>
@@ -811,8 +811,8 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { useNavigate } from "react-router-dom";
-> > import { useState } from "react";
+> > import { useNavigate } from 'react-router-dom';
+> > import { useState } from 'react';
 > > ...
 > > export const COMPONENT_NAME = () => {
 > >   const navigate = useNavigate();
@@ -1564,7 +1564,7 @@ tests/					<Unit Tests>
 > > `/imports/api/methods/METHODS_GROUP_NAME.js`
 > >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > 
 > > Meteor.methods({
 > >   async METHOD_1(PARAMETER_1, PARAMETER_N...) {
@@ -1598,7 +1598,7 @@ tests/					<Unit Tests>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > ...
 > > const result = Meteor.call(
 > >   "METHOD_1",
