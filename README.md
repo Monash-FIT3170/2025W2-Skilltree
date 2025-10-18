@@ -1646,6 +1646,47 @@ tests/					<Unit Tests>
 >
 > </details>
 
+#### injectPreHydration (SSR Mismatch Resolution)
+
+> [!TIP]
+>
+> Custom helper function to inject content from an input function (as `setContentFn`) on the client for the server render before hydration to resolve mismatches on client with SSR edge cases such as datetime locale differing on the server and client: 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> It delays setContentFn on the server render by serialising the function as an inline `<script>` so that it is executed on the client browser immediately before hydration to match with the client's `setContentFn` (without `<script>`) on hydration. Sanitised via `serialize-javascript` to reduce XSS potential on `setContentFn`'s arguments. Any variables declared within the function will be initialised on the client browser which is intended for the mismatch culprit such as new date objects, `navigator.languages` and `toLocaleString` methods. The function serialisation causes variables declared outside the function to lose its values (unscoped) that were initialised and set on the server. Such `dependencies` is the object of all `varName: varValue` used to substitute each `varName` occurrence in `setContentFn` with its `varValue` in the inline script since serialising a function loses its original scope values if it was declared outside the function.
+>
+> > **`injectPreHydration(setContentFn, dependencies)`**:
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > injectPreHydration(
+> >   setContentFn, // function that sets the content before hydration to be serialized within inline script and when hydrated to match the same
+> >   dependencies = {}, // object of {varName: varValue, ...} for unscoped variables dependencies on function serialization variable value substitution
+> >   wrapSpan = false // whether the content should be wrapped with <span>...</span>, set as true to fix DOM structure hydration mismatch by ensuring both results are within same structure
+> > );
+> > ```
+> > **Example:**
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > const userTime = unit => // unit is either 'hour' or 'minute'
+> >   injectPreHydration(
+> >     () => { // The function to set the content delayed to run on client browser before hydration and after
+> >       const isHour = unit === 'hour'; // unit becomes unscoped from its value on function serialiation
+> >       const currentDateTime = new Date() // The mismatch culprit to run in client browser rather than server
+> >
+> >       return isHour ? currentDateTime.getHours() : currentDateTime.getMinutes();
+> >     },
+> >     { unit }, // pass unit as the unscoped variables dependencies on function serialization
+> >     true // optional wrapSpan to ensure consistent DOM structure, needed only on per case basis
+> >   );
+> > ```
+> > </details>
+
 #### SuspenseHydrated (SSR Opt-Out Workaround)
 
 > [!TIP]
@@ -1654,7 +1695,7 @@ tests/					<Unit Tests>
 >
 > <details>
 > <summary>⋯</summary>
-> 
+>
 > > ```jsx
 > > import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 > > ...
