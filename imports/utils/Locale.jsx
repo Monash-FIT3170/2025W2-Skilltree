@@ -1,7 +1,19 @@
 import React from 'react';
 import { injectPreHydration } from '/imports/utils/PreHydration';
 
-// Helper function to format locale datetime as string which works with SSR via injectPreHydration utils to server render inline <script> that immediately sets on the client browser before hydration!
+/*
+Helper function to format locale datetime as string which works with SSR via injectPreHydration utils to server render inline <script> that immediately sets on the client browser before hydration!
+  Examples:
+    const dateObj = new Date('2036-08-12');
+    toLocale(dateObj); // 12/8/36, 12:00 am
+    toLocale(dateObj, 'DateTime'); // 12/8/36, 12:00 am
+    toLocale(dateObj, 'Date'); // 12/8/36
+    toLocale(dateObj, 'Time'); // 12:00 am
+    toLocale(dateObj, 'DateTimeShort'); // 12 Aug 2036, 12:00 am
+    toLocale(dateObj, 'DateTimeLong'); // 12 August 2036 at 12:00 am
+    toLocale(dateObj, 'DateTime', {}); // 12/08/2036, 12:00:00 am
+    toLocale(dateObj, 'DateTime', { month: 'short', hour: '2-digit' }, 'en-AU'); // Aug, 12 am
+*/
 export const toLocale = (
   dateObj, // Date Object
   format = 'DateTime', // 'DateTime', 'Date', 'Time', 'DateTimeShort', 'DateLong', 'DateTimeLong' -- Long formats dateStyle: 'long'
