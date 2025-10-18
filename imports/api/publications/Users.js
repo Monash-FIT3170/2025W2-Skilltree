@@ -19,9 +19,9 @@ const dummyProgressTree = [
         data: {
           label: 'root',
           description: 'root',
-          progressXp: null,
           requirements: 'root',
-          xpPoints: null
+          xpPoints: null,
+          children: ['7', '4', '3']
         },
         position: { x: 0, y: 0 }
       },
@@ -35,7 +35,8 @@ const dummyProgressTree = [
           currentNetUpvotes: 0,
           xpPoints: 10,
           requirements: 'Upload a video of yourself dribbling for 10 seconds',
-          proofId: 'testProofId'
+          proofId: 'testProofId',
+          children: []
         },
         position: { x: 200, y: 300 }
       },
@@ -45,11 +46,12 @@ const dummyProgressTree = [
         data: {
           label: 'Layup 🏃‍♂️',
           description:
-            ' A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
+            'A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['1']
         },
         position: { x: 200, y: 200 }
       },
@@ -61,8 +63,9 @@ const dummyProgressTree = [
           description: 'Learn how to do a spin move.',
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 15,
-          currentNetUpvotes: 3,
-          xpPoints: 15
+          currentNetUpvotes: 0,
+          xpPoints: 15,
+          children: ['2']
         },
         position: { x: 200, y: 100 }
       },
@@ -76,7 +79,8 @@ const dummyProgressTree = [
             'Upload a video of yourself doing the illinois agility test',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: []
         },
         position: { x: 0, y: 100 }
       },
@@ -89,7 +93,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: []
         },
         position: { x: -200, y: 300 }
       },
@@ -102,7 +107,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['5']
         },
         position: { x: -150, y: 200 }
       },
@@ -115,7 +121,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['6', '8']
         },
         position: { x: -250, y: 100 }
       },
@@ -128,7 +135,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['5']
         },
         position: { x: -350, y: 200 }
       }
@@ -253,11 +261,16 @@ Meteor.startup(async () => {
     }
   });
 
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
   await Meteor.callAsync(
     'skilltrees.subscribeUser',
     'basketball',
     communityMemberA
   );
+
+  // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
 
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
