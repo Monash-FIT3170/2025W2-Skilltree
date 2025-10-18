@@ -241,9 +241,11 @@ imports/
 │   └── Root.jsx             	// Root JSX Container
 ├── utils/                	<Utility Helper Functions/Hooks>
 │   ├── contexts/          		// React Contexts
-│   └── providers/          	// React Providers
-│   └── RouteGuard.jsx      	// Route Protection & Redirects
-│   └── SuspenseHydrated.jsx	// Suspense Opt Out SSR
+│   ├── providers/            	// React Providers
+│   ├── Locale.jsx            	// toLocale (SSR Workaround)
+│   ├── PreHydration.jsx      	// injectPreHydration (SSR Workaround)
+│   ├── RouteGuard.jsx      	// Route Protection & Redirects
+│   ├── SuspenseHydrated.jsx	// Suspense (SSR Opt Out Workaround)
 │   └── User.jsx				// User Utils (Fetch LoggedIn User)
 └── Router.js             	// Router on Client (SPA) & Server (SSR)
 private/                <Server Assets>
@@ -1637,30 +1639,28 @@ tests/					<Unit Tests>
 >
 >   The custom implementation uses `renderToNodeStream` to work with React suspense on Meteor's pub/sub because `renderToPipeableStream` does not work with Meteor `v3.3.2` yet [[1](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/2)] [[2](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/4)] [[3](https://forums.meteor.com/t/ssr-with-meteor-callasync/60979/24)]. This may change in the future but it is the only option at this time.
 >
-> - Hydration mismatches. See the next section SuspenseHydrated (SSR Opt-Out) for details.
+> - **Hydration mismatches**. There are 3 possible edge cases known with SSR on hydration mismatches which all can be resolved or selectively opt-out of SSR as the last resort if the suggested resolutions does not work to workaround the issue:
+>     - Non useFind hook usage such as meteor methods calls or useTracker to fetch data from the DB may not server render properly and mismatch. *All such usage* **should ideally be transitioned to useFind if possible as the resolution** *otherwise may opt-out of SSR as the last resort stopgap.*
+>     - Displaying a list of fetch result data (map IDs) from useFind may mismatch between the server (reversed order) and client (natural order). **The resolution is to explicitly sort in the useFind options via `useFind(COLLECTION, { MongoSelector... }, { options..., sort: { _id: 1 } })`** *otherwise opt-out of SSR as the last resort if it does not resolve the issue.*
+>     - Datetime locale mismatches on server and client due to timezone differences. *All such usage* **should utilise `toLocale()` utils that uses the custom `injectPreHydration(...)` under the hood to resolve the issue**.
+>
 > </details>
 
-#### SuspenseHydrated (SSR Opt-Out)
+#### SuspenseHydrated (SSR Opt-Out Workaround)
 
 > [!TIP]
 >
-> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition.
->
-> There are 3 possible edge cases known with SSR on hydration mismatches which should opt-out if the suggested resolution does not work:
+> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out as the last resort by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition:
 >
 > <details>
 > <summary>⋯</summary>
->
-> - Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly and mismatch. *All such usage should opt-out of SSR as a stopgap where* **it should ideally be transitioned to useFind if possible as the resolution**.
-> - Displaying a list of fetch result data (map IDs) from useFind may mismatch between the server (reversed order) and client (natural order). **The resolution is to explicitly sort in the useFind options via `useFind(COLLECTION, { MongoSelector... }, { options..., sort: { _id: 1 } })`** *otherwise opt-out of SSR if it does not resolve the issue.*
-> - Datetime locale mismatches on server and client due to timezone differences, all such usage should opt-out of SSR.
->
+> 
 > > ```jsx
 > > import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 > > ...
 > > <SuspenseHydrated fallback={'Loading'}>
 > >   <div className="fadeInEffect">
-> >     { new Date().toLocaleString(); }
+> >     { MISMATCHED_DATA OR } <Component /> 
 > >     ...
 > >   </div>
 > > </SuspenseHydrated>
