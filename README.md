@@ -1687,6 +1687,61 @@ tests/					<Unit Tests>
 > > ```
 > > </details>
 
+#### toLocale (SSR DateTime Locale Mismatch Resolution)
+
+> [!TIP]
+>
+> Custom `toLocale()` helper function to convert datetime to locale strings that works with SSR as the server render would normally use the server's locale and datetime that may be different to the client which will cause a hydration mismatch:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> It resolves this issue under the hood by utilising the custom `injectPreHydration()` utils to delay any datetime locale code from executing on the server render by serialising as `<script>` to instead run on the client browser before hydration to match with the client render.
+>
+> > `toLocale(dateObj, format, options, locales)`
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > ...
+> > toLocale(
+> >   dateObj, // Date Object
+> >   format = 'DateTime', // 'DateTime', 'Date', 'Time', 'DateTimeShort', 'DateLong', 'DateTimeLong' -- Long formats dateStyle: 'long'
+> >   options = { dateStyle: 'short', timeStyle: 'short' }, // Format options, overridable but can just be omitted
+> >   locales = '' // User's locale, overridable but can just be omitted
+> > );
+> > ```
+> >
+> > - **format** parameter is the predefined style (`'DateTime'`, `'Date'`, `'Time'`, `'DateTimeShort'`, `'DateLong'`, `'DateTimeLong'`) to format the string but can be overridden by passing the options and also locale from the `Intl.DateTimeFormat` API, refer to the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString#parameters).
+> >   - It first automatically determines which string method for the locale to use:
+> >     - `toLocaleString()` for **`'DateTime'`**, `'DateTimeShort'`, `'DateTimeLong'`, `(omitted)`
+> >     - `toLocaleDateString()` for  **`'Date'`**, `'DateLong'`
+> >     - `toLocaleTimeString()` for **`'Time'`**
+> >   - It then automatically sets options to predefined styles:
+> >     - `{ dateStyle: 'short', timeStyle: 'short' }` for `'DateTime'`,  `(omitted)`
+> >     - `{ dateStyle: 'long', timeStyle: 'short' }` for `'DateTimeLong'`
+> >     - `{ dateStyle: 'short' }` for `'Date'` 
+> >     - `{ dateStyle: 'long' }` for `'DateLong'`
+> >     - `{ timeStyle: 'short'}` for `'Time'`
+> >     - `{ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }` for `'DateTimeShort'`
+> >
+> > **Examples:**
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > ...
+> > const dateObj = new Date('2036-08-12');
+> > toLocale(dateObj); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'DateTime'); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'Date'); // 12/8/36
+> > toLocale(dateObj, 'Time'); // 12:00 am
+> > toLocale(dateObj, 'DateTimeShort'); // 12 Aug 2036, 12:00 am
+> > toLocale(dateObj, 'DateTimeLong'); // 12 August 2036 at 12:00 am
+> > toLocale(dateObj, 'DateTime', {}); // 12/08/2036, 12:00:00 am
+> > toLocale(dateObj, 'DateTime', { month: 'short', hour: '2-digit' }, 'en-AU'); // Aug, 12 am
+> > ```
+>
+> </details>
+
 #### SuspenseHydrated (SSR Opt-Out Workaround)
 
 > [!TIP]
