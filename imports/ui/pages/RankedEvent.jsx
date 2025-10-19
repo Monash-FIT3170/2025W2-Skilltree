@@ -194,9 +194,20 @@ export const RankedEvent = () => {
             >
               Info
             </button>
+            {/* Add Event Button (Admin Only, Greyed Out for Non-Admins) */}
             <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
+              onClick={() => {
+                if (userRoles.includes('admin')) {
+                  setIsAddModalOpen(true);
+                } else {
+                  alert('Only admins are allowed to create ranked events');
+                }
+              }}
+              className={`w-full sm:w-auto font-semibold py-2 px-4 rounded-lg shadow transition-colors ${
+                userRoles.includes('admin')
+                  ? 'bg-[#328E6E] text-white hover:bg-[#2a7d60]'
+                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              }`}
             >
               + Add Event
             </button>
