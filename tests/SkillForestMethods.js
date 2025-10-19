@@ -84,7 +84,7 @@ if (Meteor.isServer) {
         'insertSkillforest',
         TEST_SKILLFOREST
       );
-      await Meteor.callAsync('updateSkillforestSkilltreeIds', skillforestId, [
+      await Meteor.callAsync('updateSkillforestskilltreeIds', skillforestId, [
         'skilltree3',
         'skilltree4'
       ]);

@@ -102,7 +102,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
                 }`}
               >
                 <SubscribedTrees
-                  skillTreeId={skillTree._id}
+                  skilltreeId={skillTree._id}
                   showSubscribers={true}
                   currentUserId={user._id}
                   onSelect={handleSelect}

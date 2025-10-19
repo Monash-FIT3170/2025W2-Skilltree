@@ -5,11 +5,11 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 
 // TODO: POSTING A PROOF AUTO-SUBSCRIBES YOU FOR SOME REASON BUT THIS DOESN'T UPDATE ON THE SUBSCRIBE BUTTON
 Meteor.methods({
-  async getSubscription(skillTreeId) {
-    check(skillTreeId, String);
+  async getSubscription(skilltreeId) {
+    check(skilltreeId, String);
     const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId
+      skilltreeId
     });
 
     if (existing) {
@@ -20,7 +20,7 @@ Meteor.methods({
   },
 
   async saveSubscription(
-    skillTreeId,
+    skilltreeId,
     progressTreeNodes = null,
     progressTreeEdges = null,
     totalXp = null
@@ -29,19 +29,19 @@ Meteor.methods({
       'saveSubscription called, progressTreeNodes at start: ',
       progressTreeNodes
     );
-    check(skillTreeId, String);
+    check(skilltreeId, String);
     if (progressTreeNodes !== null) check(progressTreeNodes, [Object]);
     if (progressTreeEdges !== null) check(progressTreeEdges, [Object]);
     if (totalXp !== null) check(totalXp, Number);
 
     //Get template tree for unsubscribed user
     const baseTree = await SkillTreeCollection.findOneAsync({
-      _id: skillTreeId
+      _id: skilltreeId
     });
 
     const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId
+      skilltreeId
     });
 
     if (existing) {
@@ -57,7 +57,7 @@ Meteor.methods({
       }
 
       return await SubscriptionsCollection.updateAsync(
-        { userId: this.userId, skillTreeId: skillTreeId },
+        { userId: this.userId, skilltreeId: skilltreeId },
         {
           $set: updated,
           $addToSet: {
@@ -73,7 +73,7 @@ Meteor.methods({
       }
       return await SubscriptionsCollection.insertAsync({
         userId: this.userId,
-        skillTreeId,
+        skilltreeId,
         skillNodes: progressTreeNodes,
         skillEdges: progressTreeEdges,
         totalXp: 0,
@@ -84,16 +84,16 @@ Meteor.methods({
     }
   },
 
-  async removeSubscription(skillTreeId) {
-    check(skillTreeId, String);
+  async removeSubscription(skilltreeId) {
+    check(skilltreeId, String);
     const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId
+      skilltreeId
     });
 
     if (existing) {
       return await SubscriptionsCollection.updateAsync(
-        { userId: this.userId, skillTreeId: skillTreeId },
+        { userId: this.userId, skilltreeId: skilltreeId },
         {
           $set: {
             active: false
@@ -105,16 +105,16 @@ Meteor.methods({
     }
   },
 
-  async incrementXP(skillTreeId, sign) {
-    check(skillTreeId, String);
+  async incrementXP(skilltreeId, sign) {
+    check(skilltreeId, String);
     const existing = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId
+      skilltreeId
     });
 
     if (existing) {
       return await SubscriptionsCollection.updateAsync(
-        { userId: this.userId, skillTreeId: skillTreeId },
+        { userId: this.userId, skilltreeId: skilltreeId },
         {
           $inc: {
             totalXp: sign * 1
@@ -126,15 +126,15 @@ Meteor.methods({
     }
   },
 
-  async updateSkillTreeProgress(skillTreeId, userId, updateOperation) {
+  async updateSkillTreeProgress(skilltreeId, userId, updateOperation) {
     console.log('updateSkillTreeProgress called');
-    check(skillTreeId, String);
+    check(skilltreeId, String);
     check(userId, String);
     check(updateOperation, Object);
 
     const existing = await SubscriptionsCollection.findOneAsync({
       userId: userId,
-      skillTreeId
+      skilltreeId
     });
 
     if (!existing) {
@@ -143,7 +143,7 @@ Meteor.methods({
 
     if (existing) {
       return await SubscriptionsCollection.updateAsync(
-        { userId: userId, skillTreeId: skillTreeId },
+        { userId: userId, skilltreeId: skilltreeId },
         updateOperation
       );
     }

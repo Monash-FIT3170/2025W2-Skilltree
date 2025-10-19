@@ -241,9 +241,11 @@ imports/
 │   └── Root.jsx             	// Root JSX Container
 ├── utils/                	<Utility Helper Functions/Hooks>
 │   ├── contexts/          		// React Contexts
-│   └── providers/          	// React Providers
-│   └── RouteGuard.jsx      	// Route Protection & Redirects
-│   └── SuspenseHydrated.jsx	// Suspense Opt Out SSR
+│   ├── providers/            	// React Providers
+│   ├── Locale.jsx            	// toLocale (SSR Workaround)
+│   ├── PreHydration.jsx      	// injectPreHydration (SSR Workaround)
+│   ├── RouteGuard.jsx      	// Route Protection & Redirects
+│   ├── SuspenseHydrated.jsx	// Suspense (SSR Opt Out Workaround)
 │   └── User.jsx				// User Utils (Fetch LoggedIn User)
 └── Router.js             	// Router on Client (SPA) & Server (SSR)
 private/                <Server Assets>
@@ -1637,30 +1639,124 @@ tests/					<Unit Tests>
 >
 >   The custom implementation uses `renderToNodeStream` to work with React suspense on Meteor's pub/sub because `renderToPipeableStream` does not work with Meteor `v3.3.2` yet [[1](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/2)] [[2](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/4)] [[3](https://forums.meteor.com/t/ssr-with-meteor-callasync/60979/24)]. This may change in the future but it is the only option at this time.
 >
-> - Hydration mismatches. See the next section SuspenseHydrated (SSR Opt-Out) for details.
+> - **Hydration mismatches**. There are 3 possible edge cases known with SSR on hydration mismatches which all can be resolved or selectively opt-out of SSR as the last resort if the suggested resolutions does not work to workaround the issue:
+>     - Non useFind hook usage such as meteor methods calls or useTracker to fetch data from the DB may not server render properly and mismatch. *All such usage* **should ideally be transitioned to useFind if possible as the resolution** *otherwise may opt-out of SSR as the last resort stopgap.*
+>     - Displaying a list of fetch result data (map IDs) from useFind may mismatch between the server (reversed order) and client (natural order). **The resolution is to explicitly sort in the useFind options via `useFind(COLLECTION, { MongoSelector... }, { options..., sort: { _id: 1 } })`** *otherwise opt-out of SSR as the last resort if it does not resolve the issue.*
+>     - Datetime locale mismatches on server and client due to timezone differences. *All such usage* **should utilise `toLocale()` utils that uses the custom `injectPreHydration(...)` under the hood to resolve the issue**.
+>
 > </details>
 
-#### SuspenseHydrated (SSR Opt-Out)
+#### injectPreHydration (SSR Mismatch Resolution)
 
 > [!TIP]
 >
-> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition.
->
-> There are 2-3 edge cases with SSR of hydration mismatches which should opt-out:
+> Custom helper function to inject content from an input function (as `setContentFn`) on the client for the server render before hydration to resolve mismatches on client with SSR edge cases such as datetime locale differing on the server and client: 
 >
 > <details>
 > <summary>⋯</summary>
 >
-> - *Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly. All such usage should opt-out of SSR as a stopgap where it should ideally be transitioned to useFind if possible*.
-> - Modifying fetch result data from useFind such as sorting the array of IDs will result in a mismatch between the server (non modified) and client (modified on hydration, sorted etc). All such usage should be done via [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/) when possible otherwise opt-out of SSR.
-> - Datetime locale mismatches on server and client due to timezone differences, all such usage should opt-out of SSR.
+> It delays setContentFn on the server render by serialising the function as an inline `<script>` so that it is executed on the client browser immediately before hydration to match with the client's `setContentFn` (without `<script>`) on hydration. Sanitised via `serialize-javascript` to reduce XSS potential on `setContentFn`'s arguments. Any variables declared within the function will be initialised on the client browser which is intended for the mismatch culprit such as new date objects, `navigator.languages` and `toLocaleString` methods. The function serialisation causes variables declared outside the function to lose its values (unscoped) that were initialised and set on the server. Such `dependencies` is the object of all `varName: varValue` used to substitute each `varName` occurrence in `setContentFn` with its `varValue` in the inline script since serialising a function loses its original scope values if it was declared outside the function.
+>
+> > **`injectPreHydration(setContentFn, dependencies)`**:
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > injectPreHydration(
+> >   setContentFn, // function that sets the content before hydration to be serialized within inline script and when hydrated to match the same
+> >   dependencies = {}, // object of {varName: varValue, ...} for unscoped variables dependencies on function serialization variable value substitution
+> >   wrapSpan = false // whether the content should be wrapped with <span>...</span>, set as true to fix DOM structure hydration mismatch by ensuring both results are within same structure
+> > );
+> > ```
+> > **Example:**
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > const userTime = unit => // unit is either 'hour' or 'minute'
+> >   injectPreHydration(
+> >     () => { // The function to set the content delayed to run on client browser before hydration and after
+> >       const isHour = unit === 'hour'; // unit becomes unscoped from its value on function serialiation
+> >       const currentDateTime = new Date() // The mismatch culprit to run in client browser rather than server
+> >
+> >       return isHour ? currentDateTime.getHours() : currentDateTime.getMinutes();
+> >     },
+> >     { unit }, // pass unit as the unscoped variables dependencies on function serialization
+> >     true // optional wrapSpan to ensure consistent DOM structure, needed only on per case basis
+> >   );
+> > ```
+> > </details>
+
+#### toLocale (SSR DateTime Locale Mismatch Resolution)
+
+> [!TIP]
+>
+> Custom `toLocale()` helper function to convert datetime to locale strings that works with SSR as the server render would normally use the server's locale and datetime that may be different to the client which will cause a hydration mismatch:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> It resolves this issue under the hood by utilising the custom `injectPreHydration()` utils to delay any datetime locale code from executing on the server render by serialising as `<script>` to instead run on the client browser before hydration to match with the client render.
+>
+> > `toLocale(dateObj, format, options, locales)`
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > ...
+> > toLocale(
+> >   dateObj, // Date Object
+> >   format = 'DateTime', // 'DateTime', 'Date', 'Time', 'DateTimeShort', 'DateLong', 'DateTimeLong' -- Long formats dateStyle: 'long'
+> >   options = { dateStyle: 'short', timeStyle: 'short' }, // Format options, overridable but can just be omitted
+> >   locales = '' // User's locale, overridable but can just be omitted
+> > );
+> > ```
+> >
+> > - **format** parameter is the predefined style (`'DateTime'`, `'Date'`, `'Time'`, `'DateTimeShort'`, `'DateLong'`, `'DateTimeLong'`) to format the string but can be overridden by passing the options and also locale from the `Intl.DateTimeFormat` API, refer to the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString#parameters).
+> >   - It first automatically determines which string method for the locale to use:
+> >     - `toLocaleString()` for **`'DateTime'`**, `'DateTimeShort'`, `'DateTimeLong'`, `(omitted)`
+> >     - `toLocaleDateString()` for  **`'Date'`**, `'DateLong'`
+> >     - `toLocaleTimeString()` for **`'Time'`**
+> >   - It then automatically sets options to predefined styles:
+> >     - `{ dateStyle: 'short', timeStyle: 'short' }` for `'DateTime'`,  `(omitted)`
+> >     - `{ dateStyle: 'long', timeStyle: 'short' }` for `'DateTimeLong'`
+> >     - `{ dateStyle: 'short' }` for `'Date'` 
+> >     - `{ dateStyle: 'long' }` for `'DateLong'`
+> >     - `{ timeStyle: 'short'}` for `'Time'`
+> >     - `{ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }` for `'DateTimeShort'`
+> >
+> > **Examples:**
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > ...
+> > const dateObj = new Date('2036-08-12');
+> > toLocale(dateObj); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'DateTime'); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'Date'); // 12/8/36
+> > toLocale(dateObj, 'Time'); // 12:00 am
+> > toLocale(dateObj, 'DateTimeShort'); // 12 Aug 2036, 12:00 am
+> > toLocale(dateObj, 'DateTimeLong'); // 12 August 2036 at 12:00 am
+> > toLocale(dateObj, 'DateTime', {}); // 12/08/2036, 12:00:00 am
+> > toLocale(dateObj, 'DateTime', { month: 'short', hour: '2-digit' }, 'en-AU'); // Aug, 12 am
+> > ```
+>
+> </details>
+
+#### SuspenseHydrated (SSR Opt-Out Workaround)
+
+> [!TIP]
+>
+> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out as the last resort by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition:
+>
+> <details>
+> <summary>⋯</summary>
 >
 > > ```jsx
 > > import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 > > ...
 > > <SuspenseHydrated fallback={'Loading'}>
 > >   <div className="fadeInEffect">
-> >     { new Date().toLocaleString(); }
+> >     { MISMATCHED_DATA OR } <Component /> 
 > >     ...
 > >   </div>
 > > </SuspenseHydrated>
