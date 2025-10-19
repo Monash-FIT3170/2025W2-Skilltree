@@ -125,15 +125,17 @@ export const SkillViewForm = ({
 
           <div className="flex items-center gap-4">
             {/* Progress Bar Container: Uses SkillTree palette (Gray base, Light Emerald in-progress, Dark Emerald complete) */}
-            <div className="w-full bg-gray-300 rounded-full h-8 relative shadow-inner">
+            <div className="w-full bg-gray-300 rounded-full h-8 relative shadow-inner dark:bg-gray-700">
               <div
-                className={`text-xs font-semibold text-white h-full flex items-center justify-center transition-all duration-500 ease-out 
+                className={`h-full transition-all duration-500 ease-out
                 ${isComplete ? 'bg-emerald-500' : 'bg-emerald-300'}`}
                 style={{
                   width: progressBarWidth,
                   borderRadius: isComplete ? '9999px' : '9999px 0 0 9999px'
                 }}
               >
+
+                
                 {/* Display text inside the bar if wide enough (or complete) */}
                 {progress > 20 || isComplete ? (
                   <span className="text-center w-full truncate px-2">
