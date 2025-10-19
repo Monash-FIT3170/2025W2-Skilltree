@@ -1929,3 +1929,44 @@ To apply changes to the existing terminal session, run:
 | :-------------------------------------------------------: | :--------------------------------------------------------------: | :----------------------------------------------------------: |
 | Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
 |                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
+
+<h1 align="center">⬥ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬥</h1>
+
+<div align="center">
+
+[![All Contributors](https://img.shields.io/github/all-contributors/Monash-FIT3170/2025W2-Skilltree)](#contributors-)
+
+</div>
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Jsakdev"><img src="https://avatars.githubusercontent.com/u/96373777?v=4?s=100" width="100px;" alt="Jason S"/><br /><sub><b>Jason S</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Documentation">📖</a> <a href="#maintenance-Jsakdev" title="Maintenance">🚧</a> <a href="#infra-Jsakdev" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/fx7165"><img src="https://avatars.githubusercontent.com/u/120393679?v=4?s=100" width="100px;" alt="fx7165"/><br /><sub><b>fx7165</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=fx7165" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/StuvanFIT"><img src="https://avatars.githubusercontent.com/u/140043661?v=4?s=100" width="100px;" alt="Steven Kaing"/><br /><sub><b>Steven Kaing</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=StuvanFIT" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/lithium003"><img src="https://avatars.githubusercontent.com/u/182786576?v=4?s=100" width="100px;" alt="Mitch"/><br /><sub><b>Mitch</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Documentation">📖</a> <a href="#maintenance-lithium003" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Mcchows"><img src="https://avatars.githubusercontent.com/u/126644600?v=4?s=100" width="100px;" alt="Marcus C"/><br /><sub><b>Marcus C</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Mcchows" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/romi1432"><img src="https://avatars.githubusercontent.com/u/34182038?v=4?s=100" width="100px;" alt="Romal"/><br /><sub><b>Romal</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Documentation">📖</a> <a href="#maintenance-romi1432" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/queenofspain"><img src="https://avatars.githubusercontent.com/u/77802249?v=4?s=100" width="100px;" alt="Laetitia Teo"/><br /><sub><b>Laetitia Teo</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=queenofspain" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/jytKelly12"><img src="https://avatars.githubusercontent.com/u/105471729?v=4?s=100" width="100px;" alt="jytKelly12"/><br /><sub><b>jytKelly12</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=jytKelly12" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/BENTIA-1"><img src="https://avatars.githubusercontent.com/u/104052543?v=4?s=100" width="100px;" alt="Ben Tia"/><br /><sub><b>Ben Tia</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=BENTIA-1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/rev46"><img src="https://avatars.githubusercontent.com/u/104244862?v=4?s=100" width="100px;" alt="Aaron "/><br /><sub><b>Aaron </b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=rev46" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Kez-L"><img src="https://avatars.githubusercontent.com/u/161200166?v=4?s=100" width="100px;" alt="Kez-L"/><br /><sub><b>Kez-L</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Kez-L" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ankush2703"><img src="https://avatars.githubusercontent.com/u/121238616?v=4?s=100" width="100px;" alt="Ankush"/><br /><sub><b>Ankush</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ankush2703" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/kellysyli"><img src="https://avatars.githubusercontent.com/u/141807905?v=4?s=100" width="100px;" alt="kel"/><br /><sub><b>kel</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=kellysyli" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/amolikay"><img src="https://avatars.githubusercontent.com/u/144877516?v=4?s=100" width="100px;" alt="amolikay"/><br /><sub><b>amolikay</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=amolikay" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/SammyG69"><img src="https://avatars.githubusercontent.com/u/164284419?v=4?s=100" width="100px;" alt="SammyG14"/><br /><sub><b>SammyG14</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=SammyG69" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ssethx24"><img src="https://avatars.githubusercontent.com/u/124314079?v=4?s=100" width="100px;" alt="Shaurya"/><br /><sub><b>Shaurya</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ssethx24" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
