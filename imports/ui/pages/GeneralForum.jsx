@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
-import { toLocale } from '/imports/utils/Locale.jsx';
+import { toLocale } from '/imports/utils/Locale';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();

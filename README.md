@@ -1936,7 +1936,7 @@ tests/					<Unit Tests>
 > > `toLocale(dateObj, format, options, locales)`
 > >
 > > ```jsx
-> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > import { toLocale } from '/imports/utils/Locale';
 > > ...
 > > toLocale(
 > >   dateObj, // Date Object
@@ -1962,7 +1962,7 @@ tests/					<Unit Tests>
 > > ***Examples***:
 > >
 > > ```jsx
-> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > import { toLocale } from '/imports/utils/Locale';
 > > ...
 > > const dateObj = new Date('2036-08-12');
 > > toLocale(dateObj); // 12/8/36, 12:00 am

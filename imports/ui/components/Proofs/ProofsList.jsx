@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 // Utils imports
-import { toLocale } from '/imports/utils/Locale.jsx';
+import { toLocale } from '/imports/utils/Locale';
 
 // Collections & Components
 import { ProofDetails } from './ProofDetails';
