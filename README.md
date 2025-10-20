@@ -247,6 +247,203 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 <h1 align="center">⬥ Known Issues ⬥</h1>
 - [TODO] (LIST FORMAT) -- Change To Table Format?
 
+<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
+
+> [!IMPORTANT]
+>
+> Create or edit the `settings.json` file to configure and enable Third-Party APIs functionality:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> ```json
+> {
+>   "public": {
+>     "enableSSR": true
+>   },
+>   "private": {
+>     "AWSAccessKeyId": "",
+>     "AWSSecretAccessKey": "",
+>     "google": {
+>       "clientId": "",
+>       "secret": ""
+>     },
+>     "smtp": {
+>       "username": "your@gmail.com",
+>       "password": "app-password",
+>       "server": "smtp.gmail.com",
+>       "port": 465
+>     }
+>   }
+> }
+> ```
+> </details>
+
+### SSR
+> [!NOTE]
+> Set `enableSSR: false` to explicitly disable SSR. 
+
+### AWS
+> [!NOTE]
+>
+> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Go to the IAM dashboard.
+> 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
+> 3. Create a group (under `User groups`) and attach this permission policy.
+> 4. Create an IAM user (under `Users`) and add it to the group.
+> 5. Go to the IAM user's details and hit `Create access key`.
+> 6. Select `Local code` as your use case and confirm.
+> 7. Write a description tag for your key (optional) and hit 'Create access key'.
+> 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
+> 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### Google
+> [!NOTE]
+>
+> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. On your project page, go to the `Dashboard`
+> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
+> 3. Click `Create Credentials > OAuth client ID`
+> 4. Select `Web application` as your Application type, and give the client any name you want.
+> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
+> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
+> 7. Hit `Create`
+> 8. Navigate to `OAuth consent screen` from the sidebar
+> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
+> 10. Go back to `Credentials` from the sidebar
+> 11. Click the edit button on the `Client ID` you created earlier
+> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
+> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
+> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### SMTP 
+> [!NOTE]
+>
+> [TODO]
+
+<h1 align="center">⬥ Deployment ⬥</h1>
+
+<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
+
+> [!NOTE]
+> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+
+<h2 align="center">⬦ Environment Variables ⬦</h2>
+
+<div align="center">
+
+|       Variable        | Description                           | Default Value                         |
+| :-------------------: | :------------------------------------ | :------------------------------------ |
+|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
+|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
+|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
+| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
+
+</div>
+
+<h3 align="center">Set Environment Variables</h3>
+
+<div align="center">
+
+Edit `~/.bash_profile`:
+
+> ```
+> export ENV_VAR="value"
+> ```
+
+To apply changes to the existing terminal session, run:
+
+> ```
+> . .bash_profile
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Setup ⬦</h2>
+
+<h3 align="center">Git Repository</h3>
+
+<div align="center">
+
+> ```shell
+> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
+> ```
+>
+> ```shell
+> cd 2025W2-Skilltree
+> ```
+
+</div>
+
+<h3 align="center">Server Setup Script</h3>
+
+<div align="center">
+
+> ```shell
+> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+>
+> ```shell
+> ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Usage ⬦</h2>
+
+<div align="center">
+  <table>
+    <tr>
+      <th><b>⦗ Start Webserver ⦘</b></th>
+      <th><b>⦗ Stop Webserver ⦘</b></th>
+      <th><b>⦗ Restart Webserver ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Pull Repo Changes ⦘</b></th>
+      <th><b>⦗ Update Webserver ⦘</b></th>
+      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Webserver Console ⦘</b></th>
+      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
+      <th><b>⦗ Build Console ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+
+> [!CAUTION]
+> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
+> **Use Ctrl+A then D to detach** from the session instead.
+      </td>
+    </tr>
+  </table>
+</div>
+
 <h1 align="center">⬥ Architecture ⬥</h1>
 
 <h2 align="center">⬦ Directory Structure ⬦</h2>
@@ -1648,7 +1845,7 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-## Server Side Rendering (SSR)
+<h2 align="center">⬦ Server Side Rendering (SSR) ⬦</h2>
 
 > [!NOTE]
 >
@@ -1801,7 +1998,8 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-## Unit Tests (Mocha)
+<h2 align="center">⬦ Unit Tests (Mocha) ⬦</h2>
+
 > [!NOTE]
 > SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules.
 > All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. 
@@ -1833,12 +2031,13 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-## CI/CD (Pipeline)
-  > [!NOTE]
-  > SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and 
-  > deployment through github workflows. 
-  > The pipeline ensures that every code change is automatically tested and validated before being merged or deployed
-  > maintaining high code quality and reliability throughout the development process.
+<h2 align="center">⬦ CI/CD (Pipeline) ⬦</h2>
+
+> [!NOTE]
+> SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and 
+> deployment through github workflows. 
+> The pipeline ensures that every code change is automatically tested and validated before being merged or deployed
+> maintaining high code quality and reliability throughout the development process.
 
 ### Continuous Integration (CI)
 > [!NOTE]
@@ -1888,192 +2087,6 @@ tests/					<Unit Tests>
 > This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while
 > maintaining uptime and reliability.
 
-<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
-
-Create or edit the file `settings.json`:
-
-> ```
-> {
->   "public": {
->     "enableSSR": true
->   },
->   "private": {
->     "AWSAccessKeyId": "",
->     "AWSSecretAccessKey": "",
->     "google": {
->       "clientId": "",
->       "secret": ""
->     },
->     "smtp": {
->       "username": "your@gmail.com",
->       "password": "app-password",
->       "server": "smtp.gmail.com",
->       "port": 465
->     }
->   }
-> }
-> ```
-
-### SSR
-> [!NOTE]
-> Set `enableSSR: false` to explicitly disable SSR. 
-
-### AWS
-> [!NOTE]
->
-> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
->
-> <details>
-> <summary>⋯</summary>
->
-> 1. Go to the IAM dashboard.
-> 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
-> 3. Create a group (under `User groups`) and attach this permission policy.
-> 4. Create an IAM user (under `Users`) and add it to the group.
-> 5. Go to the IAM user's details and hit `Create access key`.
-> 6. Select `Local code` as your use case and confirm.
-> 7. Write a description tag for your key (optional) and hit 'Create access key'.
-> 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
-> 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
-> </details>
-
-### Google
-> [!NOTE]
->
-> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
->
-> <details>
-> <summary>⋯</summary>
->
-> 1. On your project page, go to the `Dashboard`
-> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
-> 3. Click `Create Credentials > OAuth client ID`
-> 4. Select `Web application` as your Application type, and give the client any name you want.
-> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
-> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
-> 7. Hit `Create`
-> 8. Navigate to `OAuth consent screen` from the sidebar
-> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
-> 10. Go back to `Credentials` from the sidebar
-> 11. Click the edit button on the `Client ID` you created earlier
-> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
-> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
-> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
-> </details>
-
-<h1 align="center">⬥ Deployment ⬥</h1>
-
-<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
-
-> [!NOTE]
-> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
-
-<h2 align="center">⬦ Environment Variables ⬦</h2>
-
-<div align="center">
-
-|       Variable        | Description                           | Default Value                         |
-| :-------------------: | :------------------------------------ | :------------------------------------ |
-|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
-|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
-|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
-| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
-
-</div>
-
-<h3 align="center">Set Environment Variables</h3>
-
-<div align="center">
-
-Edit `~/.bash_profile`:
-
-> ```
-> export ENV_VAR="value"
-> ```
-
-To apply changes to the existing terminal session, run:
-
-> ```
-> . .bash_profile
-> ```
-
-</div>
-
-<h2 align="center">⬦ Server Setup ⬦</h2>
-
-<h3 align="center">Git Repository</h3>
-
-<div align="center">
-
-> ```shell
-> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
-> ```
->
-> ```shell
-> cd 2025W2-Skilltree
-> ```
-
-</div>
-
-<h3 align="center">Server Setup Script</h3>
-
-<div align="center">
-
-> ```shell
-> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
-> ```
->
-> ```shell
-> ./2025W2-Skilltree/.deploy/setup.sh
-> ```
-
-</div>
-
-<h2 align="center">⬦ Server Usage ⬦</h2>
-
-<div align="center">
-  <table>
-    <tr>
-      <th><b>⦗ Start Webserver ⦘</b></th>
-      <th><b>⦗ Stop Webserver ⦘</b></th>
-      <th><b>⦗ Restart Webserver ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Pull Repo Changes ⦘</b></th>
-      <th><b>⦗ Update Webserver ⦘</b></th>
-      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Webserver Console ⦘</b></th>
-      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
-      <th><b>⦗ Build Console ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <td colspan="3">
-
-> [!CAUTION]
-> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
-> **Use Ctrl+A then D to detach** from the session instead.
-      </td>
-    </tr>
-  </table>
-</div>
-
 <h1 align="center">⬥ Contributor Guidelines ⬥</h1>
 
 > [!NOTE]
@@ -2098,7 +2111,7 @@ To apply changes to the existing terminal session, run:
 >
 >`ST-###: <Short descriptive title>`
 
-<h1 align="center">⬥ Original Project Team ⬥</h1>
+<h2 align="center">⬦ Original Project Team ⬦</h1>
 
 <table>
   <tr>
@@ -2126,7 +2139,7 @@ To apply changes to the existing terminal session, run:
 | Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
 |                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
 
-<h1 align="center">⬥ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬥</h1>
+<h2 align="center">⬦ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬦</h2>
 
 <div align="center">
 
