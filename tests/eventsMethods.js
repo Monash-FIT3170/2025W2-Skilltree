@@ -195,7 +195,7 @@ describe('Events Methods', function () {
   describe('getEvent', function () {
     it('retrieves event with eventId', async function () {
       const res = await Meteor.callAsync('getEvent', TEST_ID_1);
-      assert.deepStrictEqual(res, testEvent);
+      assert.strictEqual(res, testEvent);
     });
   });
 
