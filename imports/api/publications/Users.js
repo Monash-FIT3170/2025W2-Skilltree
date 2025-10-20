@@ -6,35 +6,7 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
 
 // Publish the publication named as "users" from the backend, lets clients (front-end JSX) subscribe to the data for real time changes
-Meteor.publish('users', () => Meteor.users.find()); // Note: this is only intended for ProfileCompleteRoute, utils/User should be used instead.
-Meteor.publish('user', () => {
-  if (this.userId) {
-    return Meteor.users.find(
-      { _id: this.userId },
-      {
-        fields: { username: 1, emails: 1, profile: 1 }
-      }
-    );
-  } else {
-    this.ready();
-  }
-});
-
-Meteor.publish('usernames', function (userIds) {
-  if (!userIds) {
-    return this.ready();
-  }
-
-  return Meteor.users.find(
-    { _id: { $in: userIds } },
-    {
-      fields: {
-        username: 1,
-        profile: 1
-      }
-    }
-  );
-});
+Meteor.publish('users', () => Meteor.users.find());
 
 const dummyProgressTree = [
   {
@@ -296,6 +268,9 @@ Meteor.startup(async () => {
     'basketball',
     communityMemberA
   );
+
+  // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
 
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {

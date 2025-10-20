@@ -19,6 +19,7 @@ Meteor.startup(async () => {
       participants: []
     },
     {
+      _id: 'speedclimbing_contest',
       skilltreeId: 'Climbing',
       title: 'Speedclimbing contest',
       description: 'Climb the wall as fast as you can',

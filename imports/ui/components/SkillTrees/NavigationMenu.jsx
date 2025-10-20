@@ -153,7 +153,7 @@ export const NavigationMenu = ({ id }) => {
       ),
       link: `/pendingproofs/${id}`
     },
-    {
+    isUserSubscribed && {
       id: 'events',
       label: 'Events',
       icon: (

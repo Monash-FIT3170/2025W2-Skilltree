@@ -5,8 +5,10 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
+// Utils imports
+import { toLocale } from '/imports/utils/Locale.jsx';
+
 // Collections & Components
-import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
 import { ProofDetails } from './ProofDetails';
 import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -62,22 +64,6 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
   // Empty state UI
   if (proofs.length === 0) return <div>No proofs found.</div>;
 
-  /**
-   * Formats a given date into a human-readable string.
-   * E.g., "28 May 2025, 03:15 PM"
-   */
-  const formatDate = date => {
-    if (!date) return '';
-    const d = new Date(date);
-    return d.toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   const handleVerify = proofId => {
     Meteor.call('proof.verify', proofId, error => {
       if (error) console.error('Verify failed:', error.reason);
@@ -108,12 +94,9 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                     )}
                     <span>{proof.username}</span>
                   </span>
-                  {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
-                  <SuspenseHydrated>
-                    <span className="text-xs italic popInEffect">
-                      {formatDate(proof.date)}
-                    </span>
-                  </SuspenseHydrated>
+                  <span className="text-xs italic popInEffect">
+                    {toLocale(proof.date, 'DateTimeShort')}
+                  </span>
                 </div>
 
                 {/* Subskill Tag */}

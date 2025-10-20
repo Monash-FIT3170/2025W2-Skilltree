@@ -101,7 +101,7 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
 
   const subscriberIds = targetSkillTree?.subscribers ?? [];
 
-  useSubscribe('usernames', subscriberIds);
+  useSubscribe('users', subscriberIds);
   const users = useFind(
     Meteor.users,
     [{ _id: { $in: subscriberIds } }, { fields: { username: 1, _id: 1 } }],
