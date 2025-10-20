@@ -193,9 +193,15 @@ describe('Events Methods', function () {
   });
 
   describe('getEvent', function () {
-    it('retrieves event with eventId', async function () {
-      const res = await Meteor.callAsync('getEvent', TEST_ID_1);
-      assert.strictEqual(res, testEvent);
+    it('retrieves event by ID', async function () {
+      const eventObj = await getEvent(TEST_EVENT_ID);
+      assert.strictEqual(eventObj._id, TEST_EVENT_ID);
+      assert.strictEqual(eventObj.skilltreeId, testEvent.skilltreeId);
+      assert.strictEqual(eventObj.title, testEvent.title);
+      assert.strictEqual(eventObj.description, testEvent.description);
+      assert.strictEqual(eventObj.maxTrophies, testEvent.maxTrophies);
+      assert.strictEqual(eventObj.active, testEvent.active);
+      assert.deepStrictEqual(eventObj.participants, testEvent.participants);
     });
   });
 
