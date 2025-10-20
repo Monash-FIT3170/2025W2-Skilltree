@@ -1,9 +1,9 @@
-import { Meteor } from 'meteor/meteor';
-import { EventCollection } from '/imports/api/collections/Events';
-import { ProofCollection } from '../collections/Proof';
-import { SubscriptionsCollection } from '../collections/Subscriptions';
-import { SkillTreeCollection } from '../collections/SkillTree';
 import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
+import { ProofCollection } from '../collections/Proof';
+import { SkillTreeCollection } from '../collections/SkillTree';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
+import { EventCollection } from '/imports/api/collections/Events';
 
 Meteor.methods({
   /**
@@ -196,6 +196,20 @@ Meteor.methods({
     if (!eventObject) {
       throw new Meteor.Error('event-not-found', 'Event does not exist');
     }
+
+    // Check current user is admin
+    const userId = this.userId;
+    const skilltreeId = eventObject.skilltreeId;
+
+    const subscription = await SubscriptionsCollection.findOneAsync({
+      userId: userId,
+      skilltreeId: skilltreeId,
+      active: true
+    });
+
+    const userRoles = subscription?.roles || [];
+    const isAdmin = userRoles.includes('admin');
+    if (!isAdmin) throw new Meteor.Error('User must be an admin to end event.');
 
     const res = await EventCollection.updateAsync(
       { _id: eventId },

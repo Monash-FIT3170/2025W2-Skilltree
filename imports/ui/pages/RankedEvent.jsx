@@ -1,17 +1,17 @@
 import { Meteor } from 'meteor/meteor';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React, { Suspense, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 
+import { EndEventModal } from '../components/RankedEvents/EndEventModal';
 import { EventCard } from '../components/RankedEvents/EventCard';
 import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
-import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
-import { NewEventModal } from '../components/RankedEvents/NewEventForm';
-import { EndEventModal } from '../components/RankedEvents/EndEventModal';
-import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
-import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
+import { NewEventModal } from '../components/RankedEvents/NewEventForm';
+import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
 
 import { EventCollection } from '/imports/api/collections/Events';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
