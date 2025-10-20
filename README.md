@@ -63,7 +63,7 @@
 >
 > This sets up a reproducible and lightweight Linux environment via [Devbox](https://www.jetify.com/devbox) that uses [Nix](https://nixos.org/) under the hood. It helps address "works on my machine" issues by ensuring consistent development environments and also results in faster Meteor builds than on Windows natively.
 
-<h3 align="center"><u><a href="https://learn.microsoft.com/en-us/windows/wsl">WSL</a> (Windows)</u></h3>
+<h3 align="center"><a href="https://learn.microsoft.com/en-us/windows/wsl">WSL</a> (Windows)</h3>
 
 <div align="center">
 
@@ -77,7 +77,7 @@ Requires [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl
 
 </div>
 
-<h3 align="center"><u><a href="https://www.jetify.com/devbox">Devbox</a> (Unix/MacOS, Linux & Windows)</u></h3>
+<h3 align="center"><a href="https://www.jetify.com/devbox">Devbox</a> (Unix/MacOS, Linux & Windows)</h3>
 
 <div align="center">
 
@@ -89,7 +89,7 @@ To install [Devbox](https://www.jetify.com/docs/devbox/installing_devbox/), open
 
 </div>
 
-<h3 align="center"><u><a href="https://nixos.org/">Nix</a> (Unix/MacOS, Linux & Windows)</u></h3>
+<h3 align="center"><a href="https://nixos.org/">Nix</a> (Unix/MacOS, Linux & Windows)</h3>
 
 <div align="center">
 
@@ -384,7 +384,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/learn/passing-props-to-a-component). It allows for passing data from one component (parent) to another (child). It also enables merging similar JSX components together where props are used to handle the differences ([ternary operator](https://www.w3schools.com/java/java_conditions_shorthand.asp) etc, refer to the [docs](https://18.react.dev/learn/conditional-rendering)).
+> Refer to the [docs](https://18.react.dev/learn/passing-props-to-a-component). It allows for passing data from one component (parent) to another (child). It also enables merging similar JSX components together where props are used to handle the differences ([ternary operator](https://www.w3schools.com/java/java_conditions_shorthand.asp) etc, refer to the [docs](https://18.react.dev/learn/conditional-rendering)):
 >
 > <details>
 > <summary>⋯</summary>
@@ -432,7 +432,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/reference/react/hooks). Hooks are generally used to manage reactive state and side effects in JSX components for any data that needs to be [reactively](https://18.react.dev/learn/adding-interactivity) [updated](https://18.react.dev/learn/managing-state) on the page. It is usually not needed for database fetches (which already provide reactivity) except for useContext to share a computation of a common fetch with the exact same fields once (does not change often) across several components such as the loggedIn userId.
+> Refer to the [docs](https://18.react.dev/reference/react/hooks). Hooks are generally used to manage reactive state and side effects in JSX components for any data that needs to be [reactively](https://18.react.dev/learn/adding-interactivity) [updated](https://18.react.dev/learn/managing-state) on the page. It is usually not needed for database fetches (which already provide reactivity) except for useContext to share a computation of a common fetch with the exact same fields once (does not change often) across several components such as the loggedIn userId:
 >
 > <details>
 > <summary>⋯</summary>
@@ -454,7 +454,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/reference/react-dom/components).
+> Refer to the [docs](https://18.react.dev/reference/react-dom/components):
 >
 > <details>
 > <summary>⋯</summary>
@@ -493,16 +493,16 @@ tests/					<Unit Tests>
 #### React Icons
 
 > [!TIP]
-> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
+> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icons` usage are **deep imports** so that only imported icons are included in the bundle:
 >
 > <details>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+> > import { <prefix><Name> } from '@react-icons/all-files/<prefix>/<prefix><Name>';
 > > ```
 >
-> **Example**:
+> ***Example***:
 > 
 > > `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
 > >
@@ -518,7 +518,7 @@ tests/					<Unit Tests>
 
 > [!NOTE]
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#nested-routes).
+> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#nested-routes):
 >
 > <details>
 > <summary>⋯</summary>
@@ -560,7 +560,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/routers/create-browser-router#routes).
+> Refer to the [docs](https://reactrouter.com/6.30.1/routers/create-browser-router#routes):
 >
 > <details>
 > <summary>⋯</summary>
@@ -742,7 +742,7 @@ tests/					<Unit Tests>
 > > `CHILD_COMPONENT.jsx`
 > >
 > > ```jsx
-> > import { useOutletContext } from "react-router-dom";
+> > import { useOutletContext } from 'react-router-dom';
 > > ...
 > > export const CHILD_COMPONENT = () => {
 > >   const { value1 } = useOutletContext();
@@ -773,7 +773,7 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { Link } from "react-router-dom";
+> > import { Link } from 'react-router-dom';
 > > ...
 > > export const COMPONENT_NAME = () => (
 > >   <>
@@ -788,7 +788,7 @@ tests/					<Unit Tests>
 >
 >  **`<Navigate>` Component**
 >
->  Refer to the [docs](https://reactrouter.com/6.30.1/components/navigate#navigate).  Element that changes the current location when it is rendered. Primarily used for redirecting default path/index route. 
+>  Refer to the [docs](https://reactrouter.com/6.30.1/components/navigate#navigate).  Element that changes the current location when it is rendered. Primarily used for redirecting default path/index route:
 >
 > <details>
 > <summary>⋯</summary>
@@ -813,8 +813,8 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { useNavigate } from "react-router-dom";
-> > import { useState } from "react";
+> > import { useNavigate } from 'react-router-dom';
+> > import { useState } from 'react';
 > > ...
 > > export const COMPONENT_NAME = () => {
 > >   const navigate = useNavigate();
@@ -842,7 +842,7 @@ tests/					<Unit Tests>
 >
 > **useLocation Hook**
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-location).  It returns the current URL path from the location object:
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-location). It returns the current URL path from the location object:
 >
 > <details>
 > <summary>⋯</summary>
@@ -967,7 +967,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html). Declaring a Mongo collection export provides a wrapper object reference to a MongoDB collection that can be accessed in other files with collection.methods (on the server) to fetch, insert, update, upset, and remove etc.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html). Declaring a Mongo collection export provides a wrapper object reference to a MongoDB collection that can be accessed in other files with collection.methods (on the server) to fetch, insert, update, upset, and remove etc:
 >
 > <details>
 > <summary>⋯</summary>
@@ -986,7 +986,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections). Primarily used on the server within Meteor methods, publications and unit tests for database modification operations.
+> Refer to the [docs](https://docs.meteor.com/api/collections). Primarily used on the server within Meteor methods, publications and unit tests for database modification operations:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1007,10 +1007,10 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where omitting or `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.find({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1021,7 +1021,7 @@ tests/					<Unit Tests>
 >
 > **Collection.findOneAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync).  Primarily used in Meteor methods or unit tests to fetch a single document from a collection. Returns an object as the first document that matches the selector.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync).  Primarily used in Meteor methods or unit tests to fetch a single document from a collection. Returns an object as the first document that matches the selector:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1035,10 +1035,10 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns first document in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where omitting or `{}` returns first document in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.findOneAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1048,7 +1048,7 @@ tests/					<Unit Tests>
 >
 > **Collection.insertAsync**() 
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-insertAsync). Primarily used in Meteor methods or unit tests to insert a single document into a collection. Returns its unique _id.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-insertAsync). Primarily used in Meteor methods or unit tests to insert a single document into a collection. Returns its unique _id:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1059,9 +1059,9 @@ tests/					<Unit Tests>
 > > const INSERTED_ID = COLLECTION_NAME.insertAsync(doc);
 > > ```
 > >
-> > - <u>doc</u> is the object as the document to insert into the collection. If no '_id' is provided in the object document, it will be auto generated.
+> > - ***doc*** -- the object as the document to insert into the collection. If no '_id' is provided in the object document, it will be auto generated.
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```  jsx
 > > const doc = { FIELD_1: 'VAL_1', FIELD_2: 'VAL_2' }
@@ -1072,7 +1072,7 @@ tests/					<Unit Tests>
 > 
 > **Collection.updateAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync). Primarily used in Meteor methods or unit tests to update  documents in a collection. Returns the number of matched documents.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync). Primarily used in Meteor methods or unit tests to update  documents in a collection. Returns the number of matched documents:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1087,11 +1087,11 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoModifier*** -- the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > COLLECTION_NAME.updateAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
@@ -1101,7 +1101,7 @@ tests/					<Unit Tests>
 >
 > **Collection.upsertAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync). Primarily used in Meteor methods or unit tests to modify or insert documents (if none matched) in a collection. Returns an object of `{ numberAffected, insertedId }`.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync). Primarily used in Meteor methods or unit tests to modify or insert documents (if none matched) in a collection. Returns an object of `{ numberAffected, insertedId }`:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1116,11 +1116,11 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoModifier*** -- the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > COLLECTION_NAME.upsertAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
@@ -1130,7 +1130,7 @@ tests/					<Unit Tests>
 >
 > **Collection.removeAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-removeAsync). Primarily used in Meteor methods or unit tests to remove documents from a collection. Returns the removed document object.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-removeAsync). Primarily used in Meteor methods or unit tests to remove documents from a collection. Returns the removed document object:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1141,9 +1141,9 @@ tests/					<Unit Tests>
 > > const REMOVED_DOCUMENT_OBJECT = COLLECTION_NAME.removeAsync(MongoSelector);
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` removes all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` removes all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.removeAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1164,7 +1164,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#defining-a-schema). Each schema defines a document structure object (or a nested part) of `field: { type: ..., Rules... }` pairs where a field may nest deeper objects in its full structure. For better readability, such nested definitions are explicitly avoided by instead extending the (exported) 'Schemas' object (that holds all defined schema) with each single level of an object structure individually (no direct nesting) where   the nesting is done by setting a field type to its reference from it (`type: Schemas.NAME_OF_SCHEMA`). Schema parts or structures that are common to multiple collections are likely candidates to be moved out into its own collection to avoid duplication by storing an array of IDs representing its collection instead of it directly.
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#defining-a-schema). Each schema defines a document structure object (or a nested part) of `field: { type: ..., Rules... }` pairs where a field may nest deeper objects in its full structure. For better readability, such nested definitions are explicitly avoided by instead extending the (exported) 'Schemas' object (that holds all defined schema) with each single level of an object structure individually (no direct nesting) where   the nesting is done by setting a field type to its reference from it (`type: Schemas.NAME_OF_SCHEMA`). Schema parts or structures that are common to multiple collections are likely candidates to be moved out into its own collection to avoid duplication by storing an array of IDs representing its collection instead of it directly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1247,7 +1247,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#Meteor-publish). The schema should be imported to be attached to the collection before it is published within the publication file.
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#Meteor-publish). The schema should be imported to be attached to the collection before it is published within the publication file:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1298,7 +1298,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usesubscribe). Before the useFind hook, the client first must subscribe via useSubscribe hook (suspendable) to the collection's publication that will be fetched from.
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usesubscribe). Before the useFind hook, the client first must subscribe via useSubscribe hook (suspendable) to the collection's publication that will be fetched from:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1314,7 +1314,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usefind). Fetches data from the database with real-time changes and reactivity that returns an array of the fetch result. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being very inefficient to fetch the entire document across many places repeatedly! To make it easier, fetch the entire document first then add the specifics after by finding all the fields via ctrl+f on `data.` etc. 
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usefind). Fetches data from the database with real-time changes and reactivity that returns an array of the fetch result. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being very inefficient to fetch the entire document across many places repeatedly! To make it easier, fetch the entire document first then add the specifics after by finding all the fields via ctrl+f on `data.` etc:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1327,8 +1327,8 @@ tests/					<Unit Tests>
 >
 > - The 1st useFind parameter is the COLLECTION to fetch from `import { <COLLECTION> } from '/imports/api/collections/<COLLECTION>'`
 > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
->   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
->   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+>   - ***MongoSelector*** -- the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+>   - ***options*** -- additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 >
 > **Collection.find().fetch() equivalent**:
 >
@@ -1346,7 +1346,7 @@ tests/					<Unit Tests>
 > > ]);
 > > ```
 > >
-> > Examples: 
+> > ***Examples***: 
 > >
 > > `Collection.find({...}, {..., fields: { FIELD: 1, ...} )` ->
 > >
@@ -1389,7 +1389,7 @@ tests/					<Unit Tests>
 > > ])[0] ?? null; // Take the first result [0] else fallback ?? with null or anything in its place
 > > ```
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > `Collection.findOne({...}, {..., fields: { FIELD: 1, ...} )` ->
 > >
@@ -1430,7 +1430,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> The method to obtain the loggedIn userId is computed once reactively (after logging in/out) within the top level AuthProvider accessed and reused from anywhere via useContext hook on AuthContext. If the user is not loggedIn, the userId value would be `undefined` which also provides the method to check for the loggedIn state. This loggedIn userId would be used for many queries in database fetches such as user content data. 
+> The method to obtain the loggedIn userId is computed once reactively (after logging in/out) within the top level AuthProvider accessed and reused from anywhere via useContext hook on AuthContext. If the user is not loggedIn, the userId value would be `undefined` which also provides the method to check for the loggedIn state. This loggedIn userId would be used for many queries in database fetches such as user content data:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1447,7 +1447,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> A custom User utils helper utility function is used to fetch data more than just the userId for the loggedIn user. **Ensure only the needed fields are specified** in every User utils otherwise it would end up being incredibly inefficient to fetch entire user document across many places repeatedly.
+> A custom User utils helper utility function is used to fetch data more than just the userId for the loggedIn user. **Ensure only the needed fields are specified** in every User utils otherwise it would end up being incredibly inefficient to fetch entire user document across many places repeatedly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1471,7 +1471,7 @@ tests/					<Unit Tests>
 > >
 > > - Fallback value for User isn't strictly needed as the RouteGuard should prevent rendering before it is ready but it might be good practice to deal with undefined, should it occur for a brief moment.
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > ```jsx
 > > const user = User(['_id', 'username', 'emails.address']); // Array of fields to fetch
@@ -1493,7 +1493,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Fetching any users data that is not from the loggedIn user is done through the useSubscribe hook on `'users'` publication with useFind hook  where `Meteor.users` is the collection as the first argument. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being incredibly inefficient to fetch entire users documents across many places repeatedly.
+> Fetching any users data that is not from the loggedIn user is done through the useSubscribe hook on `'users'` publication with useFind hook  where `Meteor.users` is the collection as the first argument. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being incredibly inefficient to fetch entire users documents across many places repeatedly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1513,10 +1513,10 @@ tests/					<Unit Tests>
 > >
 > > - The 1st useFind parameter is `Meteor.users` as the collection to fetch from.
 > > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
-> >   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> >   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> >   - ***MongoSelector*** -- the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> >   - ***options*** -- additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > ```jsx
 > > useSubscribe('users');
@@ -1558,7 +1558,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). Ensure each method name is unique to avoid conflicts, the same name would be used on the client to call. 
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). Ensure each method name is unique to avoid conflicts, the same name would be used on the client to call:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1566,7 +1566,7 @@ tests/					<Unit Tests>
 > > `/imports/api/methods/METHODS_GROUP_NAME.js`
 > >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > 
 > > Meteor.methods({
 > >   async METHOD_1(PARAMETER_1, PARAMETER_N...) {
@@ -1594,13 +1594,13 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). On the client (`/imports/ui/...`), defined meteor methods can be called by its name to run the function on the server for database operations or other API use. The first argument for `Meteor.callAsync('NAME', ...)` is the defined meteor method name while the rest are the function's arguments.
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). On the client (`/imports/ui/...`), defined meteor methods can be called by its name to run the function on the server for database operations or other API use. The first argument for `Meteor.callAsync('NAME', ...)` is the defined meteor method name while the rest are the function's arguments:
 >
 > <details>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > ...
 > > const result = Meteor.call(
 > >   "METHOD_1",
@@ -1614,7 +1614,7 @@ tests/					<Unit Tests>
 
 > [!NOTE]
 >
-> React's single page application (SPA) may be notorious for being 'bloated' and 'slow' along with Meteor and its library regarding the bundle size impacting the initial load times as the project's complexity grows where Server Side Rendering (SSR) is used to help alleviate this issue.
+> React's single page application (SPA) may be notorious for being 'bloated' and 'slow' along with Meteor and its library regarding the bundle size impacting the initial load times as the project's complexity grows where Server Side Rendering (SSR) is used to help alleviate this issue:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1668,7 +1668,7 @@ tests/					<Unit Tests>
 > >   wrapSpan = false // whether the content should be wrapped with <span>...</span>, set as true to fix DOM structure hydration mismatch by ensuring both results are within same structure
 > > );
 > > ```
-> > **Example:**
+> > ***Example***:
 > >
 > > ```jsx
 > > import { injectPreHydration } from '/imports/utils/PreHydration';
@@ -1724,7 +1724,7 @@ tests/					<Unit Tests>
 > >     - `{ timeStyle: 'short'}` for `'Time'`
 > >     - `{ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }` for `'DateTimeShort'`
 > >
-> > **Examples:**
+> > ***Examples***:
 > >
 > > ```jsx
 > > import { toLocale } from '/imports/utils/Locale.jsx';
@@ -1929,3 +1929,44 @@ To apply changes to the existing terminal session, run:
 | :-------------------------------------------------------: | :--------------------------------------------------------------: | :----------------------------------------------------------: |
 | Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
 |                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
+
+<h1 align="center">⬥ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬥</h1>
+
+<div align="center">
+
+[![All Contributors](https://img.shields.io/github/all-contributors/Monash-FIT3170/2025W2-Skilltree)](#contributors-)
+
+</div>
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Jsakdev"><img src="https://avatars.githubusercontent.com/u/96373777?v=4?s=100" width="100px;" alt="Jason S"/><br /><sub><b>Jason S</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Documentation">📖</a> <a href="#maintenance-Jsakdev" title="Maintenance">🚧</a> <a href="#infra-Jsakdev" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/fx7165"><img src="https://avatars.githubusercontent.com/u/120393679?v=4?s=100" width="100px;" alt="fx7165"/><br /><sub><b>fx7165</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=fx7165" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/StuvanFIT"><img src="https://avatars.githubusercontent.com/u/140043661?v=4?s=100" width="100px;" alt="Steven Kaing"/><br /><sub><b>Steven Kaing</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=StuvanFIT" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/lithium003"><img src="https://avatars.githubusercontent.com/u/182786576?v=4?s=100" width="100px;" alt="Mitch"/><br /><sub><b>Mitch</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Documentation">📖</a> <a href="#maintenance-lithium003" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Mcchows"><img src="https://avatars.githubusercontent.com/u/126644600?v=4?s=100" width="100px;" alt="Marcus C"/><br /><sub><b>Marcus C</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Mcchows" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/romi1432"><img src="https://avatars.githubusercontent.com/u/34182038?v=4?s=100" width="100px;" alt="Romal"/><br /><sub><b>Romal</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Documentation">📖</a> <a href="#maintenance-romi1432" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/queenofspain"><img src="https://avatars.githubusercontent.com/u/77802249?v=4?s=100" width="100px;" alt="Laetitia Teo"/><br /><sub><b>Laetitia Teo</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=queenofspain" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/jytKelly12"><img src="https://avatars.githubusercontent.com/u/105471729?v=4?s=100" width="100px;" alt="jytKelly12"/><br /><sub><b>jytKelly12</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=jytKelly12" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/BENTIA-1"><img src="https://avatars.githubusercontent.com/u/104052543?v=4?s=100" width="100px;" alt="Ben Tia"/><br /><sub><b>Ben Tia</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=BENTIA-1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/rev46"><img src="https://avatars.githubusercontent.com/u/104244862?v=4?s=100" width="100px;" alt="Aaron "/><br /><sub><b>Aaron </b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=rev46" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Kez-L"><img src="https://avatars.githubusercontent.com/u/161200166?v=4?s=100" width="100px;" alt="Kez-L"/><br /><sub><b>Kez-L</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Kez-L" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ankush2703"><img src="https://avatars.githubusercontent.com/u/121238616?v=4?s=100" width="100px;" alt="Ankush"/><br /><sub><b>Ankush</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ankush2703" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/kellysyli"><img src="https://avatars.githubusercontent.com/u/141807905?v=4?s=100" width="100px;" alt="kel"/><br /><sub><b>kel</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=kellysyli" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/amolikay"><img src="https://avatars.githubusercontent.com/u/144877516?v=4?s=100" width="100px;" alt="amolikay"/><br /><sub><b>amolikay</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=amolikay" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/SammyG69"><img src="https://avatars.githubusercontent.com/u/164284419?v=4?s=100" width="100px;" alt="SammyG14"/><br /><sub><b>SammyG14</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=SammyG69" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ssethx24"><img src="https://avatars.githubusercontent.com/u/124314079?v=4?s=100" width="100px;" alt="Shaurya"/><br /><sub><b>Shaurya</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ssethx24" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
