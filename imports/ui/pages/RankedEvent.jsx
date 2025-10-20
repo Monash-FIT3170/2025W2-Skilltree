@@ -99,6 +99,29 @@ export const RankedEvent = () => {
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
+  // Require subscription to access events page
+  if (!isUserSubscribed) {
+    return (
+      <>
+        <Helmet>
+          <title>SkillTree - Ranked Events</title>
+        </Helmet>
+        <div className="p-2">
+          <NavigationMenu id={skilltreeId} />
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-md text-center">
+              <h2 className="text-xl font-bold mb-2">Subscription Required</h2>
+              <p>
+                You must be subscribed to this skilltree to access ranked
+                events.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
