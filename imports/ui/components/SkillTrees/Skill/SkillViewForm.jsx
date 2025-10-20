@@ -134,8 +134,6 @@ export const SkillViewForm = ({
                   borderRadius: isComplete ? '9999px' : '9999px 0 0 9999px'
                 }}
               >
-
-                
                 {/* Display text inside the bar if wide enough (or complete) */}
                 {progress > 20 || isComplete ? (
                   <span className="text-center w-full truncate px-2">
