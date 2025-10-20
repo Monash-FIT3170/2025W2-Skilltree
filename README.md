@@ -1700,7 +1700,7 @@ Create or edit the file `settings.json`:
 ### AWS
 > [!NOTE]
 >
-> To obtain the required AWS keys, create a root user account on the Amazon Web Services console. You can then create new IAM users and generate each of them a key with the following steps.
+> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps.
 > 1. Go to the IAM dashboard.
 > 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
 > 3. Create a group (under `User groups`) and attach this permission policy.
@@ -1714,7 +1714,22 @@ Create or edit the file `settings.json`:
 ### Google
 > [!NOTE]
 >
-> [TODO]
+> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs).
+> 1. On your project page, go to the `Dashboard`
+> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
+> 3. Click `Create Credentials > OAuth client ID`
+> 4. Select `Web application` as your Application type, and give the client any name you want.
+> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
+> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google`
+> 7. Hit `Create`
+> 8. Navigate to `OAuth consent screen` from the sidebar
+> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
+> 10. Go back to `Credentials` from the sidebar
+> 11. Click the edit button on the `Client ID` you created earlier
+> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
+> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
+> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+
 
 <h1 align="center">⬥ Deployment ⬥</h1>
 
