@@ -73,8 +73,7 @@ export const CommunityLeaderboardModal = () => {
               onClick={() => setFilter('trophies')}
               pill
               style={{
-                backgroundColor:
-                  filter === 'trophies' ? '#328E6E' : '#7eaa9b'
+                backgroundColor: filter === 'trophies' ? '#328E6E' : '#7eaa9b'
               }}
               className="cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
             >

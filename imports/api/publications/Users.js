@@ -312,7 +312,11 @@ Meteor.startup(async () => {
 
     // Insert dummy data
     for (const progressTree of dummyProgressTree) {
-      const copyProgressTree = { ...progressTree, userId: memberId, trophies: i % 3 + 2 };
+      const copyProgressTree = {
+        ...progressTree,
+        userId: memberId,
+        trophies: (i % 3) + 2
+      };
 
       await SubscriptionsCollection.insertAsync(copyProgressTree);
     }
