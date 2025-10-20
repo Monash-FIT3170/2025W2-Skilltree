@@ -1720,7 +1720,7 @@ Create or edit the file `settings.json`:
 > 3. Click `Create Credentials > OAuth client ID`
 > 4. Select `Web application` as your Application type, and give the client any name you want.
 > 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
-> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google`
+> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
 > 7. Hit `Create`
 > 8. Navigate to `OAuth consent screen` from the sidebar
 > 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
