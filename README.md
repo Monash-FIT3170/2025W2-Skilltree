@@ -1700,7 +1700,11 @@ Create or edit the file `settings.json`:
 ### AWS
 > [!NOTE]
 >
-> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps.
+> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
+>
+> <details>
+> <summary>⋯</summary>
+>
 > 1. Go to the IAM dashboard.
 > 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
 > 3. Create a group (under `User groups`) and attach this permission policy.
@@ -1710,11 +1714,16 @@ Create or edit the file `settings.json`:
 > 7. Write a description tag for your key (optional) and hit 'Create access key'.
 > 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
 > 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
 
 ### Google
 > [!NOTE]
 >
-> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs).
+> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
+>
+> <details>
+> <summary>⋯</summary>
+>
 > 1. On your project page, go to the `Dashboard`
 > 2. Navigate to `APIs & Services > Credentials` from the sidebar.
 > 3. Click `Create Credentials > OAuth client ID`
@@ -1729,7 +1738,7 @@ Create or edit the file `settings.json`:
 > 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
 > 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
 > 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
-
+> </details>
 
 <h1 align="center">⬥ Deployment ⬥</h1>
 
