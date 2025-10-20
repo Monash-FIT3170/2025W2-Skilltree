@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+import { toLocale } from '/imports/utils/Locale.jsx';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();
@@ -241,7 +242,7 @@ export const GeneralForum = () => {
                     <div className="text-gray-700">{msg.content}</div>
                     {msg.timestamp && (
                       <div className="text-xs text-gray-400 mt-1">
-                        {new Date(msg.timestamp).toLocaleString()}
+                        {toLocale(msg.timestamp)}
                       </div>
                     )}
                   </div>
