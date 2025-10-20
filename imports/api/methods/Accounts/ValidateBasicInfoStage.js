@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
-  async validateStep3(userOptions) {
+  async validateBasicInfoStage(userOptions) {
     const errors = {};
 
     // Validate given name

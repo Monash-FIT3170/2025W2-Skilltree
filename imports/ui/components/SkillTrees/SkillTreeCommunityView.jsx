@@ -94,7 +94,7 @@ export const SkillTreeCommunityView = () => {
           <p>Terms & Conditions: {skilltree.termsAndConditions}</p>
         </div>
       </div>
-      <SkillTreeView id={id} isAdmin={false} />
+      <SkillTreeView id={id} />
       <Outlet />
     </div>
   );

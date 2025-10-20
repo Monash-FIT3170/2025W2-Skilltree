@@ -13,7 +13,7 @@ export const Application = () => {
   //Current userid logged in
   const user = User(['_id', 'emails.at(0).address', 'username']);
 
-  const { id: skilltreeID } = useParams();
+  const { id: skilltreeId } = useParams();
 
   const [applicationType, setApplicationType] = useState('');
   const [qualifications, setQualifications] = useState('');
@@ -54,7 +54,7 @@ export const Application = () => {
       email: user.emails.at(0).address,
       applicationType: applicationType,
       status: 'pending',
-      skillTreeId: skilltreeID,
+      skilltreeId: skilltreeId,
       qualifications: qualifications,
       motivation: motivation
     };

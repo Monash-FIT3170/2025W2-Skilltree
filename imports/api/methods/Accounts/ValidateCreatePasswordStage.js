@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Regex } from '/imports/utils/Regex';
 
 Meteor.methods({
-  async validateStep2(userOptions) {
+  async validateCreatePasswordStage(userOptions) {
     const errors = {};
     //Validate the password:
     if (!Regex.password.test(userOptions.password)) {

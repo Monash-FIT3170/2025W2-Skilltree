@@ -5,7 +5,7 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 // This file is used to create the component that shows the users subscribed trees in the create skillforest form
 
 export const SubscribedTrees = ({
-  skillTreeId,
+  skilltreeId,
   showSubscribers = false,
   onSelect,
   isSelected,
@@ -14,7 +14,7 @@ export const SubscribedTrees = ({
   useSubscribe('skilltrees');
 
   const skillTree = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } }, // Ensure this is the Mongo _id
+    { _id: { $eq: skilltreeId } }, // Ensure this is the Mongo _id
     {
       fields: {
         _id: 1,

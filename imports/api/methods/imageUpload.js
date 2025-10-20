@@ -13,8 +13,8 @@ import {
 export const AWS_REGION = 'ap-southeast-2';
 export const AWS_BUCKET = '2025w2-skilltree';
 
-const AWSAccessKeyId = Meteor.settings.private.AWSAccessKeyId;
-const AWSSecretAccessKey = Meteor.settings.private.AWSSecretAccessKey;
+const AWSAccessKeyId = Meteor.settings?.private?.AWSAccessKeyId;
+const AWSSecretAccessKey = Meteor.settings?.private?.AWSSecretAccessKey;
 
 const s3 = new S3Client({
   region: AWS_REGION,

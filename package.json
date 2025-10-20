@@ -39,6 +39,7 @@
     "react-router-dom": "^6.30.1",
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
+    "serialize-javascript": "^7.0.0",
     "tailwindcss": "^4.1.7",
     "use-immer": "^0.11.0"
   },
