@@ -272,6 +272,15 @@ Meteor.startup(async () => {
   // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
   await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
 
+  // Need to add it so subscribers community
+  // There is a method called "updateSubscribedCommunities", however this requires the user to be logged in. In this case, we are
+  // calling this during meteor startup so no user is logged in. We will call the update directly for the sake of the sample account
+  await Meteor.users.updateAsync(
+    { _id: sampleId },
+    { $addToSet: { 'profile.subscribedCommunities': 'basketball' } },
+    { validate: false }
+  );
+
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
     var copyProgressTree1 = { ...progressTree };
