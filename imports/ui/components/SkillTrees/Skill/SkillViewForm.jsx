@@ -153,7 +153,7 @@ export const SkillViewForm = ({
 
               {/* Text fallback when progress is tiny or zero */}
               {!isComplete && (progress === 0 || progress <= 20) && (
-                <span className="text-gray-900 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-semibold whitespace-nowrap">
+                <span className="text-gray-200 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-semibold whitespace-nowrap">
                   {remainder} upvotes to go
                 </span>
               )}
