@@ -1,0 +1,167 @@
+{
+  "projectName": "2025W2-Skilltree",
+  "projectOwner": "Monash-FIT3170",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "eslint",
+  "contributors": [
+    {
+      "login": "Jsakdev",
+      "name": "Jason S",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96373777?v=4",
+      "profile": "https://github.com/Jsakdev",
+      "contributions": [
+        "code",
+        "doc",
+        "maintenance",
+        "infra"
+      ]
+    },
+    {
+      "login": "fx7165",
+      "name": "fx7165",
+      "avatar_url": "https://avatars.githubusercontent.com/u/120393679?v=4",
+      "profile": "https://github.com/fx7165",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "StuvanFIT",
+      "name": "Steven Kaing",
+      "avatar_url": "https://avatars.githubusercontent.com/u/140043661?v=4",
+      "profile": "https://github.com/StuvanFIT",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lithium003",
+      "name": "Mitch",
+      "avatar_url": "https://avatars.githubusercontent.com/u/182786576?v=4",
+      "profile": "https://github.com/lithium003",
+      "contributions": [
+        "code",
+        "doc",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "Mcchows",
+      "name": "Marcus C",
+      "avatar_url": "https://avatars.githubusercontent.com/u/126644600?v=4",
+      "profile": "https://github.com/Mcchows",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "romi1432",
+      "name": "Romal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34182038?v=4",
+      "profile": "https://github.com/romi1432",
+      "contributions": [
+        "code",
+        "doc",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "queenofspain",
+      "name": "Laetitia Teo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77802249?v=4",
+      "profile": "https://github.com/queenofspain",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jytKelly12",
+      "name": "jytKelly12",
+      "avatar_url": "https://avatars.githubusercontent.com/u/105471729?v=4",
+      "profile": "https://github.com/jytKelly12",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "BENTIA-1",
+      "name": "Ben Tia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/104052543?v=4",
+      "profile": "https://github.com/BENTIA-1",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rev46",
+      "name": "Aaron ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/104244862?v=4",
+      "profile": "https://github.com/rev46",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Kez-L",
+      "name": "Kez-L",
+      "avatar_url": "https://avatars.githubusercontent.com/u/161200166?v=4",
+      "profile": "https://github.com/Kez-L",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ankush2703",
+      "name": "Ankush",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121238616?v=4",
+      "profile": "https://github.com/ankush2703",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kellysyli",
+      "name": "kel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/141807905?v=4",
+      "profile": "https://github.com/kellysyli",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "amolikay",
+      "name": "amolikay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/144877516?v=4",
+      "profile": "https://github.com/amolikay",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "SammyG69",
+      "name": "SammyG14",
+      "avatar_url": "https://avatars.githubusercontent.com/u/164284419?v=4",
+      "profile": "https://github.com/SammyG69",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ssethx24",
+      "name": "Shaurya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/124314079?v=4",
+      "profile": "https://github.com/ssethx24",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 8,
+  "linkToUsage": false
+}

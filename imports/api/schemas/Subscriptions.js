@@ -16,12 +16,6 @@ const skillDataSchema = new SimpleSchema({
     min: 1,
     optional: true
   },
-  progressXp: {
-    type: Number,
-    label: 'Progress XP',
-    optional: true,
-    defaultValue: 0
-  },
   netUpvotesRequired: {
     type: Number,
     label: 'Net Upvotes Required to complete this skill',

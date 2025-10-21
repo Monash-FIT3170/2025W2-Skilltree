@@ -6,35 +6,7 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 import '/imports/api/schemas/Users'; // Enable Users Schema Validation
 
 // Publish the publication named as "users" from the backend, lets clients (front-end JSX) subscribe to the data for real time changes
-Meteor.publish('users', () => Meteor.users.find()); // Note: this is only intended for ProfileCompleteRoute, utils/User should be used instead.
-Meteor.publish('user', () => {
-  if (this.userId) {
-    return Meteor.users.find(
-      { _id: this.userId },
-      {
-        fields: { username: 1, emails: 1, profile: 1 }
-      }
-    );
-  } else {
-    this.ready();
-  }
-});
-
-Meteor.publish('usernames', function (userIds) {
-  if (!userIds) {
-    return this.ready();
-  }
-
-  return Meteor.users.find(
-    { _id: { $in: userIds } },
-    {
-      fields: {
-        username: 1,
-        profile: 1
-      }
-    }
-  );
-});
+Meteor.publish('users', () => Meteor.users.find());
 
 const dummyProgressTree = [
   {
@@ -47,9 +19,9 @@ const dummyProgressTree = [
         data: {
           label: 'root',
           description: 'root',
-          progressXp: null,
           requirements: 'root',
-          xpPoints: null
+          xpPoints: null,
+          children: ['7', '4', '3']
         },
         position: { x: 0, y: 0 }
       },
@@ -63,7 +35,8 @@ const dummyProgressTree = [
           currentNetUpvotes: 0,
           xpPoints: 10,
           requirements: 'Upload a video of yourself dribbling for 10 seconds',
-          proofId: 'testProofId'
+          proofId: 'testProofId',
+          children: []
         },
         position: { x: 200, y: 300 }
       },
@@ -73,11 +46,12 @@ const dummyProgressTree = [
         data: {
           label: 'Layup 🏃‍♂️',
           description:
-            ' A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
+            'A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['1']
         },
         position: { x: 200, y: 200 }
       },
@@ -89,8 +63,9 @@ const dummyProgressTree = [
           description: 'Learn how to do a spin move.',
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 15,
-          currentNetUpvotes: 3,
-          xpPoints: 15
+          currentNetUpvotes: 0,
+          xpPoints: 15,
+          children: ['2']
         },
         position: { x: 200, y: 100 }
       },
@@ -104,7 +79,8 @@ const dummyProgressTree = [
             'Upload a video of yourself doing the illinois agility test',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: []
         },
         position: { x: 0, y: 100 }
       },
@@ -117,7 +93,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: []
         },
         position: { x: -200, y: 300 }
       },
@@ -130,7 +107,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['5']
         },
         position: { x: -150, y: 200 }
       },
@@ -143,7 +121,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['6', '8']
         },
         position: { x: -250, y: 100 }
       },
@@ -156,7 +135,8 @@ const dummyProgressTree = [
           requirements: 'Upload a video of yourself',
           netUpvotesRequired: 10,
           currentNetUpvotes: 0,
-          xpPoints: 10
+          xpPoints: 10,
+          children: ['5']
         },
         position: { x: -350, y: 200 }
       }
@@ -281,6 +261,8 @@ Meteor.startup(async () => {
     }
   });
 
+  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
   await Meteor.callAsync(
     'skilltrees.subscribeUser',
     'basketball',
@@ -289,6 +271,15 @@ Meteor.startup(async () => {
 
   // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
   await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
+  // Need to add it so subscribers community
+  // There is a method called "updateSubscribedCommunities", however this requires the user to be logged in. In this case, we are
+  // calling this during meteor startup so no user is logged in. We will call the update directly for the sake of the sample account
+  await Meteor.users.updateAsync(
+    { _id: sampleId },
+    { $addToSet: { 'profile.subscribedCommunities': 'basketball' } },
+    { validate: false }
+  );
 
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {

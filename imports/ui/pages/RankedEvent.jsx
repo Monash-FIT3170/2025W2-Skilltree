@@ -9,6 +9,7 @@ import { EventCard } from '../components/RankedEvents/EventCard';
 import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { NewEventModal } from '../components/RankedEvents/NewEventForm';
 
 import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
 import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
@@ -19,6 +20,7 @@ import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboa
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useSubscribe('skilltrees');
   useSubscribe('events');
@@ -97,6 +99,29 @@ export const RankedEvent = () => {
 
   if (!skilltree) return <div>Skill Tree not found</div>;
 
+  // Require subscription to access events page
+  if (!isUserSubscribed) {
+    return (
+      <>
+        <Helmet>
+          <title>SkillTree - Ranked Events</title>
+        </Helmet>
+        <div className="p-2">
+          <NavigationMenu id={skilltreeId} />
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-md text-center">
+              <h2 className="text-xl font-bold mb-2">Subscription Required</h2>
+              <p>
+                You must be subscribed to this skilltree to access ranked
+                events.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -172,9 +197,7 @@ export const RankedEvent = () => {
               ℹ️ Info
             </button>
             <button
-              onClick={() =>
-                alert('Placeholder for adding a new event/image upload.')
-              }
+              onClick={() => setIsAddModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
             >
               + Add Event
@@ -195,6 +218,11 @@ export const RankedEvent = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         skilltree={skilltree}
+      />
+      <NewEventModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        skilltreeId={skilltreeId}
       />
     </>
   );
