@@ -38,6 +38,22 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'Skilltree does not exist');
     }
 
+    // Check current user is admin
+    const userId = this.userId;
+    const skilltreeId = event.skilltreeId;
+
+    const subscription = await SubscriptionsCollection.findOneAsync({
+      userId: userId,
+      skilltreeId: skilltreeId,
+      active: true
+    });
+
+    const userRoles = subscription?.roles || [];
+    const isAdmin = userRoles.includes('admin');
+    console.log('isAdmin:', isAdmin);
+    if (!isAdmin)
+      throw new Meteor.Error('User must be an admin to create event.');
+
     // Check if there is already an active event for this skilltree
     const existingEvent = await EventCollection.findOneAsync({
       skilltreeId: event.skilltreeId,
@@ -170,8 +186,8 @@ Meteor.methods({
     check(eventId, String);
 
     // check event exists
-    const eventExists = await EventCollection.findOneAsync({ _id: eventId });
-    if (!eventExists) {
+    const eventObject = await EventCollection.findOneAsync({ _id: eventId });
+    if (!eventObject) {
       throw new Meteor.Error('event-not-found', 'Event does not exist');
     }
 
