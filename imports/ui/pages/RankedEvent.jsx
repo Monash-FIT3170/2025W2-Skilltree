@@ -135,13 +135,6 @@ export const RankedEvent = () => {
                 />
                 <EventLeaderboardModal eventId={eventId} />
               </div>
-
-              {/* Active Now badge */}
-              {currentEvent && (
-                <span className="absolute top-0 right-0 bg-green-700 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                  Active Now
-                </span>
-              )}
             </div>
           ) : (
             <p className="text-gray-500 italic">No event going on now.</p>
@@ -149,7 +142,7 @@ export const RankedEvent = () => {
         </div>
 
         {/* Filter & Info/Add Event Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 lg:px-8 pt-4 gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between my-4 gap-4">
           <div className="relative w-60">
             <select
               id="event-filter"
