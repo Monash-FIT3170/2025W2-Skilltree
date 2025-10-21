@@ -35,7 +35,7 @@ export function ViewNode({ data, isUnlocked }) {
         </strong>
         <br />
         {isUnlocked ? (
-          <div className="w-full bg-gray-200 dark:bg-gray-700 relative">
+          <div className="w-full bg-gray-700 relative">
             {progress > 0 && (
               <div
                 className="bg-[#FBBC05] absolute left-0 top-0 bottom-0 rounded-half"
