@@ -3,8 +3,6 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useFind } from 'meteor/react-meteor-data/suspense';
-import { ImExit } from '@react-icons/all-files/im/ImExit';
-import { useNavigate } from 'react-router-dom';
 
 // Import Collections
 import { SkillForestCollection } from '../../api/collections/SkillForest';
@@ -16,7 +14,6 @@ import { SkillForestSubscribeButton } from '../components/SkillForest/SusbcribeB
 
 export const SkillForest = () => {
   const { skillForestId } = useParams();
-  const navigate = useNavigate();
   const [isUnifiedView, setIsUnifiedView] = useState(true);
 
   // Subscribe to skill forests

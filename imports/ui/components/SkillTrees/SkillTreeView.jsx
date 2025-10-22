@@ -7,11 +7,11 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 import { Meteor } from 'meteor/meteor';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 
-export const SkillTreeView = ({ id, onBack }) => {
+export const SkillTreeView = ({ id, onBack, isAdmin }) => {
   // 1. Subscribe to the necessary data publications
   const isSkillTreesLoading = useSubscribe('skilltrees');
   const isSubscriptionsLoading = useSubscribe('subscriptions');
-  const [adminStatus, setAdminStatus] = useState(false);
+  const [adminStatus, setAdminStatus] = useState(isAdmin || false);
 
   const userId = Meteor.userId();
 
@@ -38,12 +38,15 @@ export const SkillTreeView = ({ id, onBack }) => {
         setSkillTree(userSubscription);
         console.log('found subscription');
         console.log(userSubscription);
-        if (userSubscription.roles.includes('admin')) {
-          setAdminStatus(true);
+        if (typeof isAdmin === 'boolean') {
+          setAdminStatus(isAdmin);
+        } else {
+          setAdminStatus(userSubscription.roles.includes('admin'));
         }
       } else {
         // Otherwise, fall back to the generic skill tree data
         setSkillTree(baseSkillTree);
+        setAdminStatus(isAdmin);
       }
     }
   }, [
