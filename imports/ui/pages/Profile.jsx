@@ -67,11 +67,11 @@ export const Profile = () => {
   ]);
 
   const requests = useFind(RequestsCollection, [
-    {requesteeUserId: loggedInUserId},
-    {fields: {_id: 1, requesterUserId: 1}}
+    { requesteeUserId: loggedInUserId },
+    { fields: { _id: 1, requesterUserId: 1 } }
   ]);
 
-  const requestsCount = requests.length
+  const requestsCount = requests.length;
   const followerCount = followers.length;
   const followingCount = following.length;
 
@@ -114,7 +114,8 @@ export const Profile = () => {
   // --- UI ---
   return (
     <>
-      <div className="bg-green-400 p-8 mb-4 flex justify-start">
+      {/* ===== Header (green bar) ===== */}
+      <div className="bg-green-400 p-8 mb-4 flex items-center justify-start">
         <Avatar
           alt="User Profile Picture"
           size="lg"
@@ -125,6 +126,8 @@ export const Profile = () => {
           }
           rounded
         />
+
+        {/* Username + counts */}
         <div className="pl-5">
           <p className="text-2xl font-bold text-white">
             {profileUser?.username || 'Profile'}
@@ -148,6 +151,7 @@ export const Profile = () => {
           </p>
         </div>
 
+        {/* Follow / Request button (right side of header) */}
         <div className="pl-5">
           {loggedInUserId && !isOwnProfile && profileUserId && (
             <>
@@ -165,142 +169,112 @@ export const Profile = () => {
           )}
         </div>
 
-      <div classname = "pl-5">
-        {loggedInUserId && isOwnProfile && incomingRequests.length > 0 &&(
-          <>
-          <span className="ml-4" />
-          <p className="text-white">
-            <button
-              onClick={() => setShowRequestsModal(true)}
-              className="hover:underline font-semibold"
-              type="button"
-            >
-            Requests: {requestsCount}
-            </button>
-            </p>
-          </>
-        )
-        }
+        {/* Requests button (only for owner) */}
+        <div className="pl-5">
+          {loggedInUserId && isOwnProfile && (
+            <>
+              <span className="ml-4" />
+              <p className="text-white">
+                <button
+                  onClick={() => setShowRequestsModal(true)}
+                  className="hover:underline font-semibold"
+                  type="button"
+                >
+                  Requests: {requestsCount}
+                </button>
+              </p>
+            </>
+          )}
+        </div>
       </div>
-      {/* Owner view: show incoming requests */}
-      {isOwnProfile && incomingRequests.length > 0 && (
-        <div className="p-4 border rounded-xl max-w-3xl mx-auto mb-4">
-          <p className="font-semibold mb-2">Follow requests</p>
-          <ul className="space-y-2">
-            {incomingRequests.map(r => (
-              <li key={r._id} className="flex justify-between">
-                <span>Requester: {r.requesterUserId}</span>
-                <div className="space-x-2">
-                  <Button size="xs" onClick={() => handleAccept(r._id)}>
-                    Accept
-                  </Button>
-                  <Button
-                    size="xs"
-                    color="light"
-                    onClick={() => handleDecline(r._id)}
-                  >
-                    Decline
-                  </Button>
-                </div>
-              </li>
-            ))}
-          </ul>
+      {/* ===== end header ===== */}
+
+      {/* ===== Requests Modal ===== */}
+      {showRequestsModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          aria-modal="true"
+          role="dialog"
+        >
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setShowRequestsModal(false)}
+          />
+          <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Follow Requests</h3>
+              <button
+                type="button"
+                className="rounded p-1 hover:bg-gray-100"
+                onClick={() => setShowRequestsModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            {requests.length === 0 ? (
+              <p className="text-sm text-gray-500">No requests yet</p>
+            ) : (
+              <ul className="max-h-80 space-y-2 overflow-y-auto">
+                {requests.map(f => {
+                  const u = Meteor.users.findOne(f.requesterUserId, {
+                    fields: { username: 1, 'profile.avatarUrl': 1 }
+                  });
+                  const username = u?.username
+                    ? String(u.username)
+                    : String(f.requesterUserId);
+
+                  return (
+                    <li
+                      key={f._id}
+                      className="flex items-center justify-between gap-3 border-b border-gray-100 pb-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
+                        <span className="text-sm font-medium">@{username}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          className="bg-green-500 text-white text-xs px-2 py-1 rounded hover:bg-green-600"
+                          onClick={() =>
+                            Meteor.call('requests.accept', f._id, err => {
+                              if (err) alert(err.reason || err.message);
+                            })
+                          }
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded hover:bg-gray-300"
+                          onClick={() =>
+                            Meteor.call('requests.decline', f._id, err => {
+                              if (err) alert(err.reason || err.message);
+                            })
+                          }
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
         </div>
       )}
 
-{/* Backdrop + panel for Requests */}
-{showRequestsModal && (
-  <div
-    className="fixed inset-0 z-50 flex items-center justify-center"
-    aria-modal="true"
-    role="dialog"
-  >
-    {/* Backdrop */}
-    <div
-      className="absolute inset-0 bg-black/50"
-      onClick={() => setShowRequestsModal(false)}
-    />
-    {/* Panel */}
-    <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Follow Requests</h3>
-        <button
-          type="button"
-          className="rounded p-1 hover:bg-gray-100"
-          onClick={() => setShowRequestsModal(false)}
-        >
-          ✕
-        </button>
-      </div>
-
-      {requests.length === 0 ? (
-        <p className="text-sm text-gray-500">No requests yet</p>
-      ) : (
-        <ul className="max-h-80 space-y-2 overflow-y-auto">
-          {requests.map((f) => {
-            const u = Meteor.users.findOne(f.requesterUserId, {
-              fields: { username: 1, 'profile.avatarUrl': 1 },
-            });
-            const username =
-              u && u.username ? String(u.username) : String(f.requesterUserId);
-
-            return (
-              <li
-                key={f._id}
-                className="flex items-center justify-between gap-3 border-b border-gray-100 pb-2"
-              >
-                {/* Left: avatar and username */}
-                <div className="flex items-center gap-3">
-                  <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
-                  <span className="text-sm font-medium">@{username}</span>
-                </div>
-
-                {/* Right: action buttons */}
-                <div className="flex gap-2">
-                  <button
-                    className="bg-green-500 text-white text-xs px-2 py-1 rounded hover:bg-green-600"
-                    onClick={() =>
-                      Meteor.call('requests.accept', f._id, (err) => {
-                        if (err) alert(err.reason || err.message);
-                      })
-                    }
-                  >
-                    Accept
-                  </button>
-                  <button
-                    className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded hover:bg-gray-300"
-                    onClick={() =>
-                      Meteor.call('requests.decline', f._id, (err) => {
-                        if (err) alert(err.reason || err.message);
-                      })
-                    }
-                  >
-                    Decline
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
-  </div>
-)}
-
-
-      {/* Backdrop + panel for Followers */}
+      {/* ===== Followers Modal ===== */}
       {showFollowersModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
           aria-modal="true"
           role="dialog"
         >
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setShowFollowersModal(false)}
           />
-          {/* Panel */}
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-lg font-semibold">Followers</h3>
@@ -320,10 +294,9 @@ export const Profile = () => {
                   const u = Meteor.users.findOne(f.followerUserId, {
                     fields: { username: 1, 'profile.avatarUrl': 1 }
                   });
-                  const username =
-                    u && u.username
-                      ? String(u.username)
-                      : String(f.followerUserId);
+                  const username = u?.username
+                    ? String(u.username)
+                    : String(f.followerUserId);
                   return (
                     <li key={f._id} className="flex items-center gap-3">
                       <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
@@ -336,19 +309,18 @@ export const Profile = () => {
           </div>
         </div>
       )}
-      {/* Backdrop + panel for Following */}
+
+      {/* ===== Following Modal ===== */}
       {showFollowingModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
           aria-modal="true"
           role="dialog"
         >
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setShowFollowingModal(false)}
           />
-          {/* Panel */}
           <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-lg font-semibold">Following</h3>
@@ -368,10 +340,9 @@ export const Profile = () => {
                   const u = Meteor.users.findOne(f.followingUserId, {
                     fields: { username: 1, 'profile.avatarUrl': 1 }
                   });
-                  const username =
-                    u && u.username
-                      ? String(u.username)
-                      : String(f.followingUserId);
+                  const username = u?.username
+                    ? String(u.username)
+                    : String(f.followingUserId);
                   return (
                     <li key={f._id} className="flex items-center gap-3">
                       <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
@@ -384,6 +355,8 @@ export const Profile = () => {
           </div>
         </div>
       )}
+
+      {/* Page content below header */}
       <Outlet />
     </>
   );
