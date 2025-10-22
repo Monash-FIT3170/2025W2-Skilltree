@@ -41,6 +41,9 @@ export const UserDropdownMenu = () => {
           <span className="block truncate text-sm text-gray-500">{email}</span>
         </DropdownHeader>
         <DropdownDivider />
+          <DropdownItem as={Link} to="/profile">
+          Profile
+        </DropdownItem>
         <DropdownItem as={Link} to="/dashboard">
           Dashboard
         </DropdownItem>
