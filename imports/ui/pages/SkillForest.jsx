@@ -90,13 +90,13 @@ export const SkillForest = () => {
         {isUnifiedView ? (
           <div className="bg-white rounded-lg shadow-sm p-4 h-[70vh] min-h-[500px]">
             <SkillForestUnifiedView
-              skillTreeIds={skillForest?.skilltreeIds || []}
+              skilltreeIds={skillForest?.skilltreeIds || []}
               isAdmin={false}
             />
           </div>
         ) : (
           <SkillForestSplitView
-            skillTreeIds={skillForest?.skilltreeIds || []}
+            skilltreeIds={skillForest?.skilltreeIds || []}
             isAdmin={false}
           />
         )}

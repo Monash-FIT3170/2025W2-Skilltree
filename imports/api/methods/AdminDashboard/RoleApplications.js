@@ -3,7 +3,7 @@ import { RoleApplicationCollection } from '/imports/api/collections/RoleApplicat
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 Meteor.methods({
-  async approveRoleApplication(applicationId, skillTreeId) {
+  async approveRoleApplication(applicationId, skilltreeId) {
     //Check if the current user has admin privileges
     if (!this.userId) {
       throw new Meteor.Error(
@@ -15,7 +15,7 @@ Meteor.methods({
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
     const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId: skillTreeId
+      skilltreeId: skilltreeId
     });
 
     if (
@@ -36,7 +36,7 @@ Meteor.methods({
     });
   },
 
-  async rejectRoleApplication(applicationId, skillTreeId) {
+  async rejectRoleApplication(applicationId, skilltreeId) {
     //Check if the current user has admin privileges
     if (!this.userId) {
       throw new Meteor.Error(
@@ -48,7 +48,7 @@ Meteor.methods({
     //Permission check: To be able to save community info changes for a member, you need to be an admin of this skilltree community
     const currentAdminProgress = await SubscriptionsCollection.findOneAsync({
       userId: this.userId,
-      skillTreeId: skillTreeId
+      skilltreeId: skilltreeId
     });
 
     if (

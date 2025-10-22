@@ -11,6 +11,7 @@ import { AddComment } from './Comments/AddComment';
 import { CommentSection } from './Comments/CommentSection';
 import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
+import { toLocale } from '/imports/utils/Locale.jsx';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -33,27 +34,13 @@ export const ProofDetails = ({ proofId, onClose }) => {
         username: 1,
         date: 1,
         evidenceLink: 1,
-        skillTreeId: 1,
+        skilltreeId: 1,
         subskill: 1,
         upvotes: 1,
         downvotes: 1
       }
     }
   ])[0];
-
-  /**
-   * Formats a JavaScript Date object into a human-readable string.
-   * @param {Date|string} date
-   * @returns {string}
-   */
-  const formatDate = date =>
-    new Date(date).toLocaleString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
 
   // Return nothing if data proof doesn't exist
   if (!proof) return null;
@@ -85,7 +72,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
           <div className="w-1/2 overflow-y-auto pr-4">
             <h2 className="text-xl font-semibold mb-1">{proof.title}</h2>
             <p className="text-sm text-gray-500">
-              by {proof.username} | {formatDate(proof.date)}
+              by {proof.username} | {toLocale(proof.date, 'DateTimeShort')}
             </p>
             <p className="text-gray-600 mt-2">
               Subskill: <strong>{proof.subskill}</strong>
@@ -113,7 +100,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
             </p>
 
             {/* Voting Controls */}
-            <VoteButtons proof={proof} skilltreeId={proof.skillTreeId} />
+            <VoteButtons proof={proof} skilltreeId={proof.skilltreeId} />
           </div>
 
           {/* Comment Section */}
@@ -123,7 +110,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
               userId={userId}
               username={username}
               proofid={proof._id}
-              skillTreeId={proof.skillTreeId}
+              skilltreeId={proof.skilltreeId}
             />
             <CommentSection proofId={proof._id} />
           </div>

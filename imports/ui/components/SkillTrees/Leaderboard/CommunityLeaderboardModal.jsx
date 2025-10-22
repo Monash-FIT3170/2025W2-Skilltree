@@ -68,13 +68,24 @@ export const CommunityLeaderboardModal = () => {
             >
               Top Commenters
             </Button>
+            <Button
+              color="green"
+              onClick={() => setFilter('trophies')}
+              pill
+              style={{
+                backgroundColor: filter === 'trophies' ? '#328E6E' : '#7eaa9b'
+              }}
+              className="cursor-pointer text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+            >
+              Top Ranked
+            </Button>
           </div>
         </div>
       </ModalHeader>
       <ModalBody className="w-full h-full min-h-[70vh] max-h-[70vh] overflow-y-auto">
         <div className="space-y-6">
           <CommunityLeaderboardList
-            skillTreeId={id}
+            skilltreeId={id}
             filter={filter}
           ></CommunityLeaderboardList>
         </div>

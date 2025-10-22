@@ -9,5 +9,6 @@ import '/imports/api/publications/Users'; // Load Users Publication
 import '/imports/api/publications/Comments';
 import '/imports/api/publications/DashboardWidgets';
 import '/imports/api/publications/RoleApplications';
+import '/imports/api/publications/Events';
 import '/imports/api/publications/Followers';
 import '/imports/api/publications/Requests';

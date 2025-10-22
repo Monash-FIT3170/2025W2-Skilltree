@@ -9,13 +9,13 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SkillTreeCard = ({
-  skillTreeId, // SkillTreeId
+  skilltreeId, // skilltreeId
   showSubscribers = false,
   currentUserId
 }) => {
   useSubscribe('skilltrees');
   const skillTree = useFind(SkillTreeCollection, [
-    { _id: { $eq: skillTreeId } }, // SkillTreeId
+    { _id: { $eq: skilltreeId } }, // skilltreeId
     {
       fields: {
         _id: 1,

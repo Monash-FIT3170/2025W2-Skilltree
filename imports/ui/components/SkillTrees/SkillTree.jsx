@@ -17,7 +17,6 @@ import { ViewNode } from './Nodes/ViewNode';
 import { SkillEditForm } from './Skill/SkillEditForm';
 import { SkillViewForm } from './Skill/SkillViewForm';
 import { Button } from 'flowbite-react';
-// This is the logic and page for creating/editing a skilltree
 
 const createNewEmptyNode = isEmpty => props => (
   <NewEmptyNode {...props} isEmpty={isEmpty} />
@@ -43,6 +42,9 @@ export const SkillTreeLogic = ({
   savedEdges,
   onBack
 }) => {
+  const [viewMode, setViewMode] = useState('edit'); // 'edit' or 'view'
+  const [workingNodes, setWorkingNodes] = useState(null); // Store nodes for preview
+
   // Reattach OpenEditor handlers to nodes. They are lost when saved to DB
   const attachOpenEditorHandlers = (savedNodes = []) =>
     savedNodes.map(node => ({
@@ -55,8 +57,13 @@ export const SkillTreeLogic = ({
     }));
 
   var initialNodes = attachOpenEditorHandlers(savedNodes) ?? [];
-  //For creating a fresh new tree
-  if (isAdmin) {
+
+  // Determine effective mode: admins can switch between edit and view
+  const effectiveMode =
+    isAdmin && viewMode === 'view' ? 'view' : isAdmin ? 'edit' : 'view';
+
+  if (effectiveMode === 'edit') {
+    console.log('Edit mode');
     if (!savedNodes) {
       initialNodes = [
         {
@@ -66,14 +73,15 @@ export const SkillTreeLogic = ({
           position: { x: 0, y: 0 }
         }
       ];
+    } else {
+      console.log('setting type to edit');
+      initialNodes = initialNodes.map(node => ({
+        ...node,
+        type: node.id === '0' ? 'root' : 'new-populated'
+      }));
     }
-  }
-  //load user tree + check for parents
-  //load user tree + check for parents
-  else {
-    console.log('saved nodes:', initialNodes); // Use console.log with comma to see the actual objects
-    console.log('saved node root:', initialNodes[0]);
-
+  } else {
+    console.log('View mode - determining locked/unlocked nodes');
     //check each parent
     for (let i = 0; i < initialNodes.length; i++) {
       // Ensure children exists and is an array
@@ -84,10 +92,10 @@ export const SkillTreeLogic = ({
 
         //check each child by ID
         for (let j = 0; j < children.length; j++) {
-          const childNode = children[j];
+          const childNode = initialNodes.find(n => n.id === children[j]);
 
           // Check if child node exists and is verified
-          if (!childNode.data.verified) {
+          if (!childNode || !childNode.data.verified) {
             unlock = false;
             break;
           }
@@ -103,12 +111,15 @@ export const SkillTreeLogic = ({
         initialNodes[i].type = 'view-node-unlocked';
       }
     }
-    initialNodes[0].type = 'root';
+    // Only set root type if there are nodes
+    if (initialNodes.length > 0) {
+      initialNodes[0].type = 'root';
+    }
   }
 
   const initialEdges = savedEdges ?? [];
 
-  const idRef = useRef(1);
+  const idRef = useRef(initialNodes.length);
   const getId = () => `${idRef.current++}`;
   const nodeOrigin = [0.5, 0];
 
@@ -122,6 +133,61 @@ export const SkillTreeLogic = ({
   useEffect(() => {
     nodesRef.current = nodes;
   }, [nodes]);
+
+  // Update node types when view mode changes
+  useEffect(() => {
+    if (!isAdmin) return; // Only applies to admins
+
+    if (viewMode === 'view') {
+      // Save current working nodes before switching to view mode
+      setWorkingNodes(nodes);
+
+      // Switch to user view: update node types to locked/unlocked
+      const updatedNodes = nodes.map((node, index) => {
+        if (node.id === '0') {
+          return { ...node, type: 'root', draggable: false };
+        }
+
+        const children = node.data.children || [];
+        let unlocked = true;
+
+        if (children.length > 0) {
+          for (const childId of children) {
+            const childNode = nodes.find(n => n.id === childId);
+            if (!childNode?.data?.verified) {
+              unlocked = false;
+              break;
+            }
+          }
+        }
+
+        return {
+          ...node,
+          type: unlocked ? 'view-node-unlocked' : 'view-node-locked',
+          draggable: false
+        };
+      });
+      setNodes(updatedNodes);
+    } else {
+      // Switch to edit mode: restore working nodes if they exist
+      if (workingNodes) {
+        const updatedNodes = workingNodes.map(node => ({
+          ...node,
+          type: node.id === '0' ? 'root' : 'new-populated',
+          draggable: true
+        }));
+        setNodes(updatedNodes);
+      } else {
+        // If no working nodes saved, just update types
+        const updatedNodes = nodes.map(node => ({
+          ...node,
+          type: node.id === '0' ? 'root' : 'new-populated',
+          draggable: true
+        }));
+        setNodes(updatedNodes);
+      }
+    }
+  }, [viewMode]);
 
   const handleNodeEdit = useCallback(
     (nodeId, updatedData) => {
@@ -194,7 +260,8 @@ export const SkillTreeLogic = ({
             children: [],
             verified: false,
             xpPoints: 0,
-            progressXp: 0,
+            netUpvotesRequired: 10,
+            currentNetUpvotes: 0,
             onOpenEditor: () => handleOpenEditor(id)
           },
           origin: nodeOrigin
@@ -229,6 +296,7 @@ export const SkillTreeLogic = ({
     },
     [screenToFlowPosition, handleOpenEditor, setNodes, setEdges]
   );
+
   const onEdgesDelete = useCallback(
     deletedEdges => {
       deletedEdges.forEach(deletedEdge => {
@@ -252,6 +320,7 @@ export const SkillTreeLogic = ({
     },
     [setNodes]
   );
+
   const handleOnSave = () => {
     onSave({ nodes, edges });
   };
@@ -267,27 +336,45 @@ export const SkillTreeLogic = ({
     Meteor.callAsync('saveSubscription', id, updatedNodes, edges);
   };
 
-  // const printNodes = () => {
-  //   console.log('Printer triggered');
-  //   console.log(nodes);
-  // };
-
   return (
     <>
       {isAdmin && (
         <>
-          <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
-            Add Skills
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-4xl font-bold" style={{ color: '#328E6E' }}>
+              {viewMode === 'edit' ? 'Add Skills' : 'Preview User View'}
+            </h2>
 
-          <Button
-            pill
-            color="green"
-            className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
-            onClick={handleOnSave}
-          >
-            Save
-          </Button>
+            <div className="flex gap-2">
+              <Button
+                pill
+                color={viewMode === 'edit' ? 'green' : 'gray'}
+                className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+                onClick={() => setViewMode('edit')}
+              >
+                Edit Mode
+              </Button>
+              <Button
+                pill
+                color={viewMode === 'view' ? 'green' : 'gray'}
+                className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+                onClick={() => setViewMode('view')}
+              >
+                User View
+              </Button>
+            </div>
+          </div>
+
+          {viewMode === 'edit' && (
+            <Button
+              pill
+              color="green"
+              className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer mb-2"
+              onClick={handleOnSave}
+            >
+              Save
+            </Button>
+          )}
         </>
       )}
 
@@ -297,10 +384,10 @@ export const SkillTreeLogic = ({
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           edges={edges}
-          onEdgesChange={isAdmin ? onEdgesChange : null}
-          onConnect={isAdmin ? onConnect : null}
-          onConnectEnd={isAdmin ? onConnectEnd : null}
-          onEdgesDelete={isAdmin ? onEdgesDelete : null}
+          onEdgesChange={effectiveMode === 'edit' ? onEdgesChange : null}
+          onConnect={effectiveMode === 'edit' ? onConnect : null}
+          onConnectEnd={effectiveMode === 'edit' ? onConnectEnd : null}
+          onEdgesDelete={effectiveMode === 'edit' ? onEdgesDelete : null}
           fitView
           nodeOrigin={nodeOrigin}
         >
@@ -309,7 +396,8 @@ export const SkillTreeLogic = ({
           <Controls />
         </ReactFlow>
       </div>
-      {isAdmin && (
+
+      {isAdmin && viewMode === 'edit' && (
         <Button
           pill
           color="green"
@@ -321,9 +409,10 @@ export const SkillTreeLogic = ({
           Back
         </Button>
       )}
+
       {/* Modal rendered outside ReactFlow */}
       {editingNode &&
-        (isAdmin ? (
+        (effectiveMode === 'edit' ? (
           <SkillEditForm
             editingNode={editingNode}
             onSave={updatedData => {
@@ -345,6 +434,7 @@ export const SkillTreeLogic = ({
 };
 
 export const SkillTreeEdit = ({
+  id,
   isAdmin,
   onSave,
   savedNodes,
@@ -353,6 +443,7 @@ export const SkillTreeEdit = ({
 }) => (
   <ReactFlowProvider>
     <SkillTreeLogic
+      id={id}
       isAdmin={isAdmin}
       onSave={onSave}
       savedNodes={savedNodes}

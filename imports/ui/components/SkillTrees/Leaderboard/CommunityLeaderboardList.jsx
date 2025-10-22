@@ -16,14 +16,14 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
  * @component
  * @example
  * // Example usage
- * <CommunityLeaderboardList skillTreeId = {id}></CommunityLeaderboardList>
+ * <CommunityLeaderboardList skilltreeId = {id}></CommunityLeaderboardList>
  *
- * @param {skillTreeId} _id of SkillTree to exctract users from
+ * @param {skilltreeId} _id of SkillTree to exctract users from
  * @param {filter} filter field from user.profile to sort by (String)
  *
  * @returns List of users inside skilltree
  */
-export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
+export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
   // current user
   const currUserId = Meteor.userId();
 
@@ -52,7 +52,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     [
       {
         _id: {
-          $eq: skillTreeId
+          $eq: skilltreeId
         }
       },
       {
@@ -62,7 +62,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
         }
       }
     ],
-    [skillTreeId]
+    [skilltreeId]
   )[0];
 
   const scrollToUser = () => {
@@ -101,7 +101,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
 
   const subscriberIds = targetSkillTree?.subscribers ?? [];
 
-  useSubscribe('usernames', subscriberIds);
+  useSubscribe('users', subscriberIds);
   const users = useFind(
     Meteor.users,
     [{ _id: { $in: subscriberIds } }, { fields: { username: 1, _id: 1 } }],
@@ -112,10 +112,10 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
   const subscriptions = useFind(
     SubscriptionsCollection,
     [
-      { skillTreeId: { $eq: skillTreeId }, userId: { $in: subscriberIds } },
-      { fields: { userId: 1, totalXp: 1, numComments: 1 } }
+      { skilltreeId: { $eq: skilltreeId }, userId: { $in: subscriberIds } },
+      { fields: { userId: 1, totalXp: 1, numComments: 1, trophies: 1 } }
     ],
-    [skillTreeId, ...subscriberIds]
+    [skilltreeId, ...subscriberIds]
   );
 
   // Map userId to their values
@@ -129,16 +129,24 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
     numCommentsMap[sub.userId] = sub.numComments ?? 0;
   });
 
+  const trophiesMap = {};
+  subscriptions.forEach(sub => {
+    trophiesMap[sub.userId] = sub.trophies ?? 0;
+  });
+
   // Combine users with their values
   const leaderboard = users.map(user => ({
     _id: user._id,
     username: user.username,
     totalXp: xpMap[user._id] ?? 0,
-    numComments: numCommentsMap[user._id] ?? 0
+    numComments: numCommentsMap[user._id] ?? 0,
+    trophies: trophiesMap[user._id] ?? 0
   }));
 
   // Sort by filtered value, descending
   leaderboard.sort((a, b) => b[filter] - a[filter]);
+
+  console.log(leaderboard);
 
   return (
     <List unstyled className="divide-y divide-gray-200 relative space-y-0">
@@ -165,7 +173,7 @@ export const CommunityLeaderboardList = ({ skillTreeId, filter }) => {
                 {`${entry.username}`}
               </div>
               <div className="flex w-6/20 items-center justify-center-safe">
-                {filter === 'totalXp' ? entry.totalXp : entry.numComments}
+                {entry[filter]}
               </div>
             </div>
           </ListItem>

@@ -41,7 +41,7 @@ const nodeTypes = {
 
 // Main component logic
 const CombinedSkillTreeLogic = ({
-  skillTreeIds,
+  skilltreeIds,
   isAdmin = false,
   spacing = 800
 }) => {
@@ -52,12 +52,12 @@ const CombinedSkillTreeLogic = ({
   // Get all skill trees
   const skillTrees = useFind(
     SkillTreeCollection,
-    [{ _id: { $in: skillTreeIds } }],
-    [skillTreeIds]
+    [{ _id: { $in: skilltreeIds } }],
+    [skilltreeIds]
   );
 
   const subscriptions = useFind(SubscriptionsCollection, [
-    { skillTreeId: { $in: skillTreeIds } }
+    { skilltreeId: { $in: skilltreeIds } }
   ]);
 
   const [globalEditingNode, setGlobalEditingNode] = useState(null);
@@ -93,7 +93,7 @@ const CombinedSkillTreeLogic = ({
   useEffect(() => {
     const merged = skillTrees.reduce((acc, tree, index) => {
       const subscription = subscriptions.find(
-        sub => sub.skillTreeId === tree._id
+        sub => sub.skilltreeId === tree._id
       );
 
       const skilltree = subscription
@@ -159,7 +159,7 @@ const CombinedSkillTreeLogic = ({
             onOpenEditor: () => {
               setGlobalEditingNode({
                 id: node.id,
-                skillTreeId: skilltree._id,
+                skilltreeId: skilltree._id,
                 ...node.data
               });
             }
@@ -193,8 +193,8 @@ const CombinedSkillTreeLogic = ({
   const onNodeClick = useCallback(
     (event, node) => {
       if (node.id.startsWith('title-')) {
-        const skillTreeId = node.id.replace('title-', '');
-        navigate(`/skilltree/${skillTreeId}`);
+        const skilltreeId = node.id.replace('title-', '');
+        navigate(`/skilltree/${skilltreeId}`);
       }
     },
     [navigate]
@@ -229,7 +229,7 @@ const CombinedSkillTreeLogic = ({
   const handleSave = useCallback(
     updatedData => {
       if (globalEditingNode) {
-        const fullNodeId = `${globalEditingNode.skillTreeId}-${globalEditingNode.id}`;
+        const fullNodeId = `${globalEditingNode.skilltreeId}-${globalEditingNode.id}`;
         handleNodeEdit(fullNodeId, updatedData);
         setGlobalEditingNode(null);
       }
@@ -265,7 +265,7 @@ const CombinedSkillTreeLogic = ({
           />
         ) : (
           <SkillViewForm
-            skilltreeId={globalEditingNode.skillTreeId}
+            skilltreeId={globalEditingNode.skilltreeId}
             editingNode={globalEditingNode}
             onCancel={() => setGlobalEditingNode(null)}
           />
@@ -275,11 +275,11 @@ const CombinedSkillTreeLogic = ({
 };
 
 export const SkillForestUnifiedView = ({
-  skillTreeIds,
+  skilltreeIds,
   isAdmin = false,
   spacing = 800
 }) => {
-  if (!skillTreeIds || skillTreeIds.length === 0) {
+  if (!skilltreeIds || skilltreeIds.length === 0) {
     return <div>No SkillTrees to display</div>;
   }
 
@@ -287,7 +287,7 @@ export const SkillForestUnifiedView = ({
     <div className="w-full h-full">
       <ReactFlowProvider>
         <CombinedSkillTreeLogic
-          skillTreeIds={skillTreeIds}
+          skilltreeIds={skilltreeIds}
           isAdmin={isAdmin}
           spacing={spacing}
         />
