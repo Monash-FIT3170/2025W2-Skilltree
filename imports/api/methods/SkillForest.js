@@ -126,9 +126,16 @@ Meteor.methods({
     };
   },
 
-  // Unsubscribe from a SkillForest
-  async unsubscribeFromSkillForest(skillForestId) {
+  // Unsubscribe from a SkillForest and selected skillTrees
+  async unsubscribeFromSkillForest(skillForestId, skillTreeIds) {
+    console.log(
+      'Unsubscribing from skillforest:',
+      skillForestId,
+      ' and skilltrees: ',
+      skillTreeIds
+    );
     check(skillForestId, String);
+    check(skillTreeIds, [String]);
     if (!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
@@ -148,9 +155,8 @@ Meteor.methods({
       }
     );
 
-    // Unsubscribe from all skill trees in the forest
-    if (skillForest.skilltreeIds && skillForest.skilltreeIds.length > 0) {
-      for (const skillTreeId of skillForest.skilltreeIds) {
+    if (skillTreeIds && skillTreeIds.length > 0) {
+      for (const skillTreeId of skillTreeIds) {
         const skillTree = await SkillTreeCollection.findOneAsync(skillTreeId);
 
         if (
