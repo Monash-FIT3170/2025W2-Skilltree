@@ -22,7 +22,15 @@ Meteor.methods({
    * @param {Object} event event object with data
    * @returns _id of the newly created event
    */
+
+  /**
+   * Create an event given an event object
+   *
+   * @param {Object} event event object with data
+   * @returns _id of the newly created event
+   */
   async createEvent(event) {
+    // Check if the skilltree exists
     const skilltree = await SkillTreeCollection.findOneAsync({
       _id: event.skilltreeId
     });
@@ -30,6 +38,7 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'Skilltree does not exist');
     }
 
+    // Check if there is already an active event for this skilltree
     const existingEvent = await EventCollection.findOneAsync({
       skilltreeId: event.skilltreeId,
       active: true
@@ -41,7 +50,14 @@ Meteor.methods({
       );
     }
 
-    return await EventCollection.insertAsync(event);
+    // Insert the new event as active and add createdAt timestamp
+    const newEventId = await EventCollection.insertAsync({
+      ...event,
+      active: true,
+      createdAt: new Date()
+    });
+
+    return newEventId;
   },
 
   /**
