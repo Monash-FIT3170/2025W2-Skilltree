@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 /*
 
 To update only profile.dateOfBirth, without replacing the whole profile object, you must use dot notation:
@@ -71,5 +71,18 @@ Meteor.methods({
     }
 
     return await Meteor.users.findOneAsync({ _id: userId });
+  },
+
+  async 'users.setPrivacy'(isPublic) {
+    new SimpleSchema({ isPublic: { type: Boolean } }).validate({ isPublic });
+
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorised', 'User must be logged in first!');
+    }
+
+    return await Meteor.users.updateAsync(
+      { _id: this.userId },
+      { $set: { 'profile.isProfilePublic': isPublic } }
+    );
   }
 });
