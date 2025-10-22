@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Spinner } from 'flowbite-react';
 
-export const SubscribeButton = ({ skillTreeId }) => {
+export const SubscribeButton = ({ skilltreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const userId = Meteor.userId();
@@ -10,7 +10,7 @@ export const SubscribeButton = ({ skillTreeId }) => {
   useEffect(() => {
     setIsLoading(true);
     const loadingCheck = async () => {
-      const subscriptionStatus = await checkSubscription(skillTreeId)(userId);
+      const subscriptionStatus = await checkSubscription(skilltreeId)(userId);
       setIsSubscribed(subscriptionStatus);
     };
     loadingCheck();
@@ -18,12 +18,12 @@ export const SubscribeButton = ({ skillTreeId }) => {
   }, []);
 
   // check if user is subscribed
-  const checkSubscription = skillTreeId => async userId => {
+  const checkSubscription = skilltreeId => async userId => {
     // find user in skilltree
     try {
       const user = await Meteor.callAsync(
         'skilltrees.findUser',
-        skillTreeId,
+        skilltreeId,
         userId
       );
       return !!user;
@@ -37,13 +37,13 @@ export const SubscribeButton = ({ skillTreeId }) => {
   const subscribeUser = async () => {
     try {
       // Create/activate the subscription document itself
-      Meteor.callAsync('saveSubscription', skillTreeId);
+      Meteor.callAsync('saveSubscription', skilltreeId);
       console.log('saved base tree');
 
       // Add user to list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.subscribeUser',
-        skillTreeId,
+        skilltreeId,
         userId
       );
     } catch (error) {
@@ -56,11 +56,11 @@ export const SubscribeButton = ({ skillTreeId }) => {
   const unsubscribeUser = async () => {
     try {
       // Deactivate the subscription document itself
-      Meteor.callAsync('removeSubscription', skillTreeId, userId);
+      Meteor.callAsync('removeSubscription', skilltreeId, userId);
       // Remove user from list of the skilltree's subscribers
       return await Meteor.callAsync(
         'skilltrees.unsubscribeUser',
-        skillTreeId,
+        skilltreeId,
         userId
       );
     } catch (error) {
@@ -80,13 +80,13 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     // add user to skilltree
     try {
-      await Meteor.callAsync('updateSubscribedCommunities', skillTreeId);
+      await Meteor.callAsync('updateSubscribedCommunities', skilltreeId);
     } catch (error) {
       console.log('Error subscribing');
       console.log(error);
     }
 
-    const subscribeStatus = await checkSubscription(skillTreeId)(userId);
+    const subscribeStatus = await checkSubscription(skilltreeId)(userId);
     console.log(subscribeStatus);
     setIsSubscribed(subscribeStatus);
     setIsLoading(false);
@@ -103,13 +103,13 @@ export const SubscribeButton = ({ skillTreeId }) => {
 
     // remove skill tree from user profile
     try {
-      await Meteor.callAsync('removeSubscribedCommunities', skillTreeId);
+      await Meteor.callAsync('removeSubscribedCommunities', skilltreeId);
     } catch (error) {
       console.log('Error unsubscribing');
       console.log(error);
     }
 
-    const subscribeStatus = await checkSubscription(skillTreeId)(userId);
+    const subscribeStatus = await checkSubscription(skilltreeId)(userId);
     console.log(subscribeStatus);
     setIsSubscribed(subscribeStatus);
 

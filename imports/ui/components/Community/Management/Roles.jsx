@@ -7,7 +7,7 @@ import { ReviewApplication } from '/imports/ui/components/Community/Management/R
 import { ApplicationQueue } from './ApplicationsQueue';
 
 export const Roles = () => {
-  const { id: skilltreeID } = useParams();
+  const { id: skilltreeId } = useParams();
 
   const [activeTab, setActiveTab] = useState('moderator');
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -17,7 +17,7 @@ export const Roles = () => {
 
   //Find all applications in this skilltree
   const allApplications = useFind(RoleApplicationCollection, [
-    { skillTreeId: skilltreeID },
+    { skilltreeId: skilltreeId },
     {
       fields: {
         _id: 1,
@@ -81,7 +81,7 @@ export const Roles = () => {
     };
     await Meteor.callAsync(
       'updateSkillTreeProgress',
-      skilltreeID,
+      skilltreeId,
       application.userId,
       updateOperation
     );
@@ -90,7 +90,7 @@ export const Roles = () => {
     await Meteor.callAsync(
       'approveRoleApplication',
       application._id,
-      skilltreeID
+      skilltreeId
     );
 
     setSelectedApplication(null);
@@ -100,7 +100,7 @@ export const Roles = () => {
     await Meteor.callAsync(
       'rejectRoleApplication',
       application._id,
-      skilltreeID
+      skilltreeId
     );
 
     setSelectedApplication(null);

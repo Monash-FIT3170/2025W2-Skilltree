@@ -35,7 +35,7 @@ export const PendingProofs = () => {
   const userProgress = useFind(
     SubscriptionsCollection,
     [
-      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { userId: { $eq: userId }, skilltreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
     ],
     [userId, skilltreeId]

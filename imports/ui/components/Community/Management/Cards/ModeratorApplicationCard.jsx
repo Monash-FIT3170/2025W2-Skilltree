@@ -1,6 +1,5 @@
 import React from 'react';
-import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
-
+import { toLocale } from '/imports/utils/Locale.jsx';
 /*
 The fields and questions asked to the user in the moderator/expert form will be refactored later.
 Thus, for now, we create a separate component for this for easier modification in the future.
@@ -20,16 +19,7 @@ export const ModeratorApplicationCard = ({ application, onReview }) => {
           </div>
           <p className="text-gray-600 text-sm mb-2">{application.email}</p>
           <div className="text-gray-500 text-sm mb-3">
-            Applied on{' '}
-            <SuspenseHydrated>
-              {new Date(application.createdAt).toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </SuspenseHydrated>
+            Applied on {toLocale(application.createdAt, 'DateTimeShort')}
           </div>
 
           <div className="space-y-2">

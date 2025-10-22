@@ -17,8 +17,9 @@ import React from 'react';
  * */
 export const ProofUploadButton = ({
   skilltreeId,
-  skill,
-  requirements,
+  skill = '',
+  eventId = '',
+  requirements = '',
   onUploadProof,
   disabled = false
 }) => {
@@ -185,6 +186,16 @@ export const ProofUploadButton = ({
     onUploadProof(proofId);
   };
 
+  /**
+   * Handles inserting the proof into the database for event proofs.
+   * @param data the proof data to be inserted as a document (must follow the Proof schema)
+   * @returns {Promise<void>}
+   */
+  const insertEventProof = async data => {
+    const proofId = await Meteor.callAsync('addProof', data, eventId);
+    onUploadProof(proofId);
+  };
+
   /**  Main Functions */
   /**
    * Handles submission of the upload form, uploading the file and inserting the
@@ -195,6 +206,24 @@ export const ProofUploadButton = ({
   const handleSubmit = async e => {
     e.preventDefault();
     const uploadResults = await handleUploadFile(selectedFile);
+
+    // If this is for an event, insert it as an event proof, don't insert it normally
+    if (eventId) {
+      const proof = {
+        title: 'Event Submission',
+        user: currentUserId,
+        username: username,
+        date: new Date(),
+        evidenceLink: uploadResults.Location,
+        verification: 0,
+        skilltreeId: skilltreeId,
+        expertVerified: 0,
+        expertVerifiers: []
+      };
+      await insertEventProof(proof);
+      return;
+    }
+
     const proof = {
       title: skill, // TODO proof schema needs to be updated to reflect the fact that we dont have posts/descs, only subskills and requirements
       description: requirements, // TODO schema updates will affect proof display stuff as well
@@ -203,20 +232,12 @@ export const ProofUploadButton = ({
       date: new Date(),
       evidenceLink: uploadResults.Location,
       verification: 0,
-      skillTreeId: skilltreeId, // should eventually be a community/skillTree ID
+      skilltreeId: skilltreeId, // should eventually be a community/skillTree ID
       subskill: skill,
       expertVerified: 0,
       expertVerifiers: []
     };
     await insertProof(proof);
-    // Uncomment these if you want to close the modal after submission. Should probably just link to the post view instead
-    // setOpenModal(false);
-    // setPreviewUrl('');
-    // setPreviewType('');
-    // setIsValidFile(false);
-    // setSelectedFile(null);
-    // setResult(null);
-    // setFileUploadProgress(undefined);
   };
 
   /**

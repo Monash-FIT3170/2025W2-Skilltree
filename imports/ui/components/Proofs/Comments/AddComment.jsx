@@ -5,7 +5,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useState } from 'react';
 
-export const AddComment = ({ userId, username, proofid, skillTreeId }) => {
+export const AddComment = ({ userId, username, proofid, skilltreeId }) => {
   // TODO refactor this? copied from SubscribeButton
   const [isLoading, setIsLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -14,9 +14,9 @@ export const AddComment = ({ userId, username, proofid, skillTreeId }) => {
     setIsLoading(true);
     const loadingCheck = async () => {
       console.log(
-        `checking subscription for user ${userId} in skill tree ${skillTreeId}`
+        `checking subscription for user ${userId} in skill tree ${skilltreeId}`
       );
-      const subscriptionStatus = await checkSubscription(skillTreeId)(userId);
+      const subscriptionStatus = await checkSubscription(skilltreeId)(userId);
       setIsSubscribed(subscriptionStatus);
     };
     loadingCheck();
@@ -24,12 +24,12 @@ export const AddComment = ({ userId, username, proofid, skillTreeId }) => {
   }, []);
 
   // check if user is subscribed
-  const checkSubscription = skillTreeId => async userId => {
+  const checkSubscription = skilltreeId => async userId => {
     // find user in skilltree
     try {
       const user = await Meteor.callAsync(
         'skilltrees.findUser',
-        skillTreeId,
+        skilltreeId,
         userId
       );
       return !!user;

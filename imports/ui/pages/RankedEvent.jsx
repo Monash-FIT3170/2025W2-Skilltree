@@ -1,22 +1,43 @@
+import { Meteor } from 'meteor/meteor';
 import React, { Suspense, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Meteor } from 'meteor/meteor';
 
 // JSX UI
-import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { EventCard } from '../components/RankedEvents/EventCard';
-import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { NewEventModal } from '../components/RankedEvents/NewEventForm';
 
+import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
+import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
+import { EventCollection } from '/imports/api/collections/Events';
 import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
 
 export const RankedEvent = () => {
   const { skilltreeId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useSubscribe('skilltrees');
+  useSubscribe('events');
+
+  /**
+   * Get the ID of the current active event for this skilltree
+   */
+  const currentEventId = useFind(
+    EventCollection,
+    [
+      { skilltreeId: { $eq: skilltreeId }, active: { $eq: true } },
+      { fields: { _id: 1 } }
+    ],
+    [skilltreeId]
+  );
+  const eventId = currentEventId[0]?._id || '';
+
   const skilltree = useFind(
     SkillTreeCollection,
     [
@@ -37,7 +58,7 @@ export const RankedEvent = () => {
   const userProgress = useFind(
     SubscriptionsCollection,
     [
-      { userId: { $eq: userId }, skillTreeId: { $eq: skilltreeId } },
+      { userId: { $eq: userId }, skilltreeId: { $eq: skilltreeId } },
       { fields: { roles: 1 } }
     ],
     [userId, skilltreeId]
@@ -52,7 +73,54 @@ export const RankedEvent = () => {
   // Filter state: 'default' or 'upvotes'
   const [filter, setFilter] = useState('default');
 
+  useSubscribe('subscriptions');
+  const subscription = useFind(
+    SubscriptionsCollection,
+    [
+      {
+        userId: { $eq: userId },
+        skilltreeId: { $eq: skilltreeId },
+        active: { $eq: true }
+      },
+      { fields: { _id: 1 } }
+    ],
+    [userId, skilltreeId]
+  )[0];
+
+  const isUserSubscribed = !!subscription;
+
+  const checkJoined =
+    useFind(EventCollection, [
+      { _id: { $eq: eventId }, participants: { $in: [userId] } },
+      { fields: { _id: 1 } }
+    ])[0] ?? null;
+
+  const isUserJoined = !!checkJoined;
+
   if (!skilltree) return <div>Skill Tree not found</div>;
+
+  // Require subscription to access events page
+  if (!isUserSubscribed) {
+    return (
+      <>
+        <Helmet>
+          <title>SkillTree - Ranked Events</title>
+        </Helmet>
+        <div className="p-2">
+          <NavigationMenu id={skilltreeId} />
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg max-w-md text-center">
+              <h2 className="text-xl font-bold mb-2">Subscription Required</h2>
+              <p>
+                You must be subscribed to this skilltree to access ranked
+                events.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -108,6 +176,20 @@ export const RankedEvent = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <ProofUploadButton
+              skilltreeId={skilltreeId}
+              eventId={eventId}
+              onUploadProof={() => {
+                console.log('onUploadProof');
+              }}
+              disabled={!isUserSubscribed || !isUserJoined}
+            />
+            <JoinEventButton
+              eventId={eventId}
+              isUserJoined={isUserJoined}
+              disabled={!isUserSubscribed}
+            />
+            <EventLeaderboardModal eventId={eventId} />
             <button
               onClick={() => setIsModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
@@ -115,9 +197,7 @@ export const RankedEvent = () => {
               ℹ️ Info
             </button>
             <button
-              onClick={() =>
-                alert('Placeholder for adding a new event/image upload.')
-              }
+              onClick={() => setIsAddModalOpen(true)}
               className="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
             >
               + Add Event
@@ -127,13 +207,22 @@ export const RankedEvent = () => {
 
         {/* Responsive container for EventCard */}
         <Suspense>
-          <EventCard skilltreeId={skilltreeId} filter={filter} />
+          <EventCard
+            eventId={eventId}
+            skilltreeId={skilltreeId}
+            filter={filter}
+          />
         </Suspense>
       </div>
       <EventInfoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         skilltree={skilltree}
+      />
+      <NewEventModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        skilltreeId={skilltreeId}
       />
     </>
   );

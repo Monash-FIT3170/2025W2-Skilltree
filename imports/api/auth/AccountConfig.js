@@ -26,7 +26,7 @@ Accounts.config({
 
 // Customise the reset password URL sent in the email
 Accounts.urls.resetPassword = function (token) {
-  return Meteor.absoluteUrl(`login/reset-password/${token}`);
+  return Meteor.absoluteUrl(`/reset-password/${token}`);
 };
 
 // Email sender and site details
@@ -186,7 +186,7 @@ Accounts.emailTemplates.resetPassword = {
 
 Meteor.startup(() => {
   // Configure SMTP settings
-  const smtp = Meteor.settings.private?.smtp;
+  const smtp = Meteor.settings?.private?.smtp;
 
   if (smtp) {
     process.env.MAIL_URL = `smtps://${encodeURIComponent(smtp.username)}:${encodeURIComponent(smtp.password)}@${smtp.server}:${smtp.port}`;

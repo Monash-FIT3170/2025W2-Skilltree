@@ -24,7 +24,8 @@ export const DashboardSkillTrees = () => {
   const allSkillTrees = useFind(SkillTreeCollection, [
     { _id: { $in: allUniqueIds } },
     {
-      fields: { _id: 1, owner: 1 }
+      fields: { _id: 1, owner: 1 },
+      sort: { _id: 1 }
     }
   ]).filter(Boolean); //Some elements were null, so we filter out any null results
 
@@ -36,14 +37,14 @@ export const DashboardSkillTrees = () => {
       user?.profile?.subscribedCommunities?.includes(skillTree._id) || false
   }));
 
-  const displayedSkillTrees = skillTreesWithRoles.slice(0, 6);
-
   // Sort by ownership first, then by join date or creation date
   const sortedSkillTrees = [...skillTreesWithRoles].sort((a, b) => {
     if (a.isOwner && !b.isOwner) return -1;
     if (!a.isOwner && b.isOwner) return 1;
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
+
+  const displayedSkillTrees = sortedSkillTrees.slice(0, 6);
 
   return (
     <>
@@ -53,7 +54,7 @@ export const DashboardSkillTrees = () => {
             {displayedSkillTrees.map(skillTree => (
               <SkillTreeCard
                 key={skillTree._id}
-                skillTreeId={skillTree._id}
+                skilltreeId={skillTree._id}
                 showSubscribers={true}
                 currentUserId={user._id}
               />

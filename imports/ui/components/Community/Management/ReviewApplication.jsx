@@ -1,5 +1,5 @@
 import React from 'react';
-import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
+import { toLocale } from '/imports/utils/Locale.jsx';
 
 export const ReviewApplication = ({
   selectedApplication,
@@ -74,15 +74,7 @@ export const ReviewApplication = ({
               Application Date
             </label>
             <div className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900">
-              <SuspenseHydrated>
-                {selectedApplication.createdAt.toLocaleDateString(undefined, {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </SuspenseHydrated>
+              {toLocale(selectedApplication.createdAt, 'DateTimeShort')}
             </div>
           </div>
         </div>
