@@ -241,7 +241,8 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      commentNumTEMP: 0
+      commentNumTEMP: 0,
+      isProfilePublic: false
     },
     services: {
       password: 'example123!'
@@ -274,7 +275,8 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      commentNumTEMP: 4
+      commentNumTEMP: 4,
+      isProfilePublic: false
     },
     services: {
       password: 'example123!'
