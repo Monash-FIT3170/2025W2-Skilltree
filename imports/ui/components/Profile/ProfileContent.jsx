@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCard } from '/imports/ui/components/Dashboard/SkillTreeCard';
 import { User } from '/imports/utils/User';
 
@@ -18,30 +17,26 @@ export const ProfileContent = () => {
   const loggedInUsername = loggedInUser?.username;
 
   // Determine which username to display (from URL or logged-in user)
-  const [usernameToDisplay, setUsernameToDisplay] = useState(null);
-  
-  useEffect(() => {
-    if (!profileUsername) {
-      // /profile/ → show logged-in user profile
-      setUsernameToDisplay(loggedInUsername);
-    } else {
-      // /profile/username → show specified user's profile
-      setUsernameToDisplay(profileUsername);
-    }
-  }, [profileUsername, loggedInUsername]);
+  // Compute directly instead of using useState to avoid race conditions
+  const usernameToDisplay = profileUsername || loggedInUsername;
 
+  // Fetch the profile user with subscribed communities (same as Dashboard)
   const profileUser = useFind(Meteor.users, [
         { username: { $eq: usernameToDisplay } },
         {
           fields: {
             _id: 1,
             username: 1,
+            'profile.subscribedCommunities': 1
           }
         }
       ])[0]; // Gets a specific user's data
       
   // Use optional chaining to safely access _id
   const profileUserId = profileUser?._id;
+  
+  // Get subscribed communities array (same as Dashboard)
+  const subscribedCommunities = profileUser?.profile?.subscribedCommunities || [];
 
   // subscribe to skilltrees data
   useSubscribe('skilltrees');
@@ -55,34 +50,15 @@ export const ProfileContent = () => {
           owner: 1,
           image: 1,
           title: 1,
-          
           description: 1,
           subscribers: 1
         }
       }
     ]);
 
-  // subscribe to subscriptions data
-
-  useSubscribe('subscriptions');
-  
-  const userSubscriptions = useFind(SubscriptionsCollection, [
-      { userId: { $eq: profileUserId } },
-      {
-        fields: {
-          _id: 1,
-          userId: 1,
-          skillTreeId: 1,
-        }
-      }
-    ]);
-
-  // get skill tree IDs the user is subscribed to
-  const subscribedSkillTreeIds = userSubscriptions.map(sub => sub.skillTreeId);
-
-  // fetch skill trees the user is subscribed to
+  // fetch skill trees the user is subscribed to (same as Dashboard)
   const subscribedSkillTrees = useFind(SkillTreeCollection, [
-      { _id: { $in: subscribedSkillTreeIds } },
+      { _id: { $in: subscribedCommunities } },
       {
         fields: {
           _id: 1,
@@ -113,7 +89,7 @@ export const ProfileContent = () => {
             {userSkillTrees.map(skillTree => (
               <SkillTreeCard
                 key={skillTree._id}
-                skillTreeId={skillTree._id}
+                skilltreeId={skillTree._id}
                 showSubscribers={true}
                 currentUserId={profileUserId}
               />
@@ -136,7 +112,7 @@ export const ProfileContent = () => {
               {subscribedSkillTrees.map(skillTree => (
                 <SkillTreeCard
                   key={skillTree._id}
-                  skillTreeId={skillTree._id}
+                  skilltreeId={skillTree._id}
                   showSubscribers={true}
                   currentUserId={profileUserId}
                 />
