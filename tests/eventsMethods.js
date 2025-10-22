@@ -5,6 +5,7 @@ import '/imports/api/methods/Events';
 import { EventCollection } from '/imports/api/collections/Events';
 import { ProofCollection } from '/imports/api/collections/Proof';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 
 const TEST_ID_1 = 'abcd1234';
 const TEST_ID_2 = '1234abcd';
@@ -36,28 +37,39 @@ const skillTree = {
   image:
     'https://media.istockphoto.com/id/1636022764/photo/basketball-ball.jpg?s=612x612&w=0&k=20&c=NVi1V5dCAZKUHdrhnRq-G5t8XSvZE1YXvgw8NxX3N0I=',
   description: 'Learn dribbling to shooting.',
-  termsAndConditions: 'This SkillTree is intended for sports training purposes.',
+  termsAndConditions:
+    'This SkillTree is intended for sports training purposes.',
   tags: ['basketball', 'sports', 'ball'],
   skillNodes: [],
   skillEdges: [],
-  admins: ['basketballpro'],
+  admins: ['basketballpro', 'test'],
   subscribers: ['playerA', 'playerB']
 };
 
-const insertSkillTree = async st => Meteor.callAsync('skilltrees.insertAsync', st);
+const insertSkillTree = async st =>
+  Meteor.callAsync('skilltrees.insertAsync', st);
 const getEvent = async eventId => Meteor.callAsync('getEvent', eventId);
 
 before(async function () {
   testUser = await Accounts.createUserAsync({ username: 'Test' });
   testProof.user = testUser;
+  await SubscriptionsCollection.insertAsync({
+    userId: testUser,
+    skilltreeId: SKILLTREE_ID,
+    skillNodes: {},
+    skillEdges: {},
+    totalXp: 0,
+    roles: ['admin'],
+    numComments: 0,
+    active: true
+  });
 });
 
 describe('Events Methods', function () {
-
   describe('createEvent', function () {
     it('creates an event in the Skilltree', async function () {
-      await insertSkillTree(skillTree);
-      const res = await Meteor.callAsync('createEvent', testEvent);
+      await insertSkillTree(skillTree); // Need a way to bypass admin check when testing
+      const res = await Meteor.callAsync('createEvent', testEvent, testUser);
       assert.strictEqual(res, TEST_ID_1);
     });
   });
@@ -79,7 +91,11 @@ describe('Events Methods', function () {
 
   describe('addUser', function () {
     it('adds a user to an event', async function () {
-      await Meteor.callAsync('skilltrees.subscribeUser', SKILLTREE_ID, testUser);
+      await Meteor.callAsync(
+        'skilltrees.subscribeUser',
+        SKILLTREE_ID,
+        testUser
+      );
       const res = await Meteor.callAsync('addUser', testUser, TEST_ID_1);
       assert.strictEqual(res, 1);
 
@@ -110,7 +126,7 @@ describe('Events Methods', function () {
 
   describe('stopEvent', function () {
     it('stops the event', async function () {
-      const res = await Meteor.callAsync('stopEvent', TEST_ID_1);
+      const res = await Meteor.callAsync('stopEvent', TEST_ID_1, testUser);
       assert.strictEqual(res, 1);
 
       const eventObj = await getEvent(TEST_ID_1);
@@ -121,7 +137,11 @@ describe('Events Methods', function () {
   describe('addProof', function () {
     it('adds proof to event', async function () {
       // Ensure user is subscribed and added
-      await Meteor.callAsync('skilltrees.subscribeUser', SKILLTREE_ID, testUser);
+      await Meteor.callAsync(
+        'skilltrees.subscribeUser',
+        SKILLTREE_ID,
+        testUser
+      );
       await Meteor.callAsync('addUser', testUser, TEST_ID_1);
 
       const resProof = await Meteor.callAsync('addProof', testProof, TEST_ID_1);
@@ -132,7 +152,6 @@ describe('Events Methods', function () {
       assert.strictEqual(proof.user, testUser);
     });
   });
-
 });
 
 after(async function () {

@@ -1,16 +1,17 @@
 import { Meteor } from 'meteor/meteor';
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import React, { Suspense, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { useParams } from 'react-router-dom';
 
+import { EndEventModal } from '../components/RankedEvents/EndEventModal';
 import { EventCard } from '../components/RankedEvents/EventCard';
 import { EventInfoModal } from '../components/RankedEvents/EventInfoModal';
-import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
 import { NewEventModal } from '../components/RankedEvents/NewEventForm';
 import { JoinEventButton } from '../components/SkillTrees/Events/JoinEventButton';
+import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 import { ProofUploadButton } from '../components/SkillTrees/Skill/ProofUploadButton';
-import { EventLeaderboardModal } from '../components/RankedEvents/EventLeaderboardModal';
 
 import { EventCollection } from '/imports/api/collections/Events';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -20,6 +21,7 @@ export const RankedEvent = () => {
   const { skilltreeId } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEndModalOpen, setIsEndModalOpen] = useState(false);
 
   useSubscribe('skilltrees');
   useSubscribe('events');
@@ -227,6 +229,23 @@ export const RankedEvent = () => {
             >
               + Add Event
             </button>
+            {/* End Event Button (Admin Only, Greyed Out for Non-Admins) */}
+            <button
+              onClick={() => {
+                if (userRoles.includes('admin')) {
+                  setIsEndModalOpen(true);
+                } else {
+                  alert('Only admins are allowed to end ranked events');
+                }
+              }}
+              className={`w-full sm:w-auto font-semibold py-2 px-4 rounded-lg shadow transition-colors ${
+                userRoles.includes('admin')
+                  ? 'bg-[#328E6E] text-white hover:bg-[#2a7d60]'
+                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              }`}
+            >
+              End Event
+            </button>
           </div>
         </div>
 
@@ -249,6 +268,11 @@ export const RankedEvent = () => {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         skilltreeId={skilltreeId}
+      />
+      <EndEventModal
+        isOpen={isEndModalOpen}
+        onClose={() => setIsEndModalOpen(false)}
+        eventId={eventId}
       />
     </>
   );
