@@ -7,7 +7,7 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
     description: '',
     startDate: '',
     endDate: '',
-    maxTrophies: 0,
+    maxTrophies: 0
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');

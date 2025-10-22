@@ -152,7 +152,7 @@ export const RankedEvent = () => {
                   skilltreeId={skilltreeId}
                   eventId={eventId}
                   disabled={!isUserSubscribed || !isUserJoined}
-                  styling='w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors'
+                  styling="w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors"
                 />
                 <JoinEventButton
                   eventId={eventId}
