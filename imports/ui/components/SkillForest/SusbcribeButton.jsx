@@ -39,12 +39,6 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
       return;
     }
 
-    // Owner can't subscribe to own forest
-    if (skillForest.owner === userId) {
-      setIsSubscribed(true);
-      return;
-    }
-
     const isSubscribedToForest =
       skillForest.subscribers && skillForest.subscribers.includes(userId);
 
@@ -80,9 +74,6 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
     if (!userId) {
       return;
     }
-    if (skillForest?.owner === userId) {
-      return;
-    }
 
     try {
       if (isSubscribed) {
@@ -98,7 +89,6 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
   };
 
   const handleUnsubscribeConfirm = async () => {
-    if (selectedTreeIds.length === 0) return;
 
     try {
       await Meteor.callAsync(
@@ -122,18 +112,13 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
     );
   }
 
-  const isOwner = skillForest?.owner === userId;
-
   return (
     <>
       <button
         onClick={handleSubscription}
-        disabled={isOwner}
         className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
-          isOwner
-            ? 'bg-gray-400 text-white cursor-not-allowed'
-            : isSubscribed
-              ? 'bg-red-400 text-white hover:bg-red-500'
+          isSubscribed
+            ? 'bg-red-500 text-white hover:bg-red-600'
               : 'bg-[#328E6E] text-white hover:bg-[#2a7a5e]'
         }`}
       >

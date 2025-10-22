@@ -36,13 +36,6 @@ export const SkillForest = () => {
       </Helmet>
 
       <div className="p-4 md:p-8">
-        <button
-          onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 cursor-pointer hover:underline mb-4"
-        >
-          <ImExit className="w-4 h-4" />
-          <span>Go Back to Dashboard</span>
-        </button>
 
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold text-[#000000]">
@@ -95,7 +88,7 @@ export const SkillForest = () => {
 
         {/* Conditional Rendering based on view mode */}
         {isUnifiedView ? (
-          <div className="bg-white rounded-lg shadow-sm p-4 h-[70vh] min-h-[500px]">
+          <div className="bg-white rounded-lg shadow-sm p-4 h-[75vh] min-h-[500px]">
             <SkillForestUnifiedView
               skilltreeIds={skillForest?.skilltreeIds || []}
               isAdmin={false}
