@@ -27,11 +27,15 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
         throw new Error('End date must be after start date.');
       }
 
-      await Meteor.callAsync('createEvent', {
-        ...formData,
-        skilltreeId,
-        createdAt: new Date()
-      });
+      await Meteor.callAsync(
+        'createEvent',
+        {
+          ...formData,
+          skilltreeId,
+          createdAt: new Date()
+        },
+        Meteor.userId()
+      );
 
       onClose();
     } catch (err) {
