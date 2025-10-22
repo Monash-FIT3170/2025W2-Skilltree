@@ -9,8 +9,6 @@ Meteor.methods({
       followingUserId: String
     });
 
-    console.log('insertFollower called with:', followerData);
-
     if (followerData.followerUserId === followerData.followingUserId) {
       throw new Meteor.Error('invalid-follow', 'You cannot follow yourself');
     }
@@ -22,7 +20,6 @@ Meteor.methods({
     });
 
     if (existingFollow) {
-      console.log('Already following - found existing:', existingFollow);
       throw new Meteor.Error('already-following', 'You are already following this user');
     }
 
@@ -31,9 +28,7 @@ Meteor.methods({
       createdAt: new Date()
     };
 
-    console.log('Inserting follow record:', followRecord);
     const result = await FollowersCollection.insertAsync(followRecord);
-    console.log('Insert result:', result);
     return result;
   },
   
@@ -43,10 +38,7 @@ Meteor.methods({
       followingUserId: String
     });
 
-    console.log('removeFollower called with:', followerData);
-
     const result = await FollowersCollection.removeAsync(followerData);
-    console.log('Remove result:', result);
     return result;
   }
 })

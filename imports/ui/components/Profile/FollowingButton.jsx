@@ -4,9 +4,12 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 
 const FollowingButton = ({ userId, toFollowId }) => {
+
+    // set initial states
     const [isFollowing, setIsFollowing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    // Subscribe to followers data
     useSubscribe('followers');
   
     // Check if current user is following the target user
@@ -31,26 +34,20 @@ const FollowingButton = ({ userId, toFollowId }) => {
     const handleFollowToggle = async () => {
         setIsLoading(true);
         
-        console.log('Button clicked - userId:', userId, 'toFollowId:', toFollowId);
-        console.log('Current isFollowing state:', isFollowing);
         
         try {
             if (isFollowing) {
                 // Unfollow logic - use removeFollower method
-                console.log('Attempting to unfollow...');
                 await Meteor.callAsync('removeFollower', {
                     followerUserId: userId,
                     followingUserId: toFollowId
                 });
-                console.log('Unfollow successful');
             } else {
                 // Follow logic - use insertFollower method
-                console.log('Attempting to follow...');
                 await Meteor.callAsync('insertFollower', {
                     followerUserId: userId,
                     followingUserId: toFollowId
                 });
-                console.log('Follow successful');
             }
         } catch (error) {
             console.error('Error toggling follow status:', error);

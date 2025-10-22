@@ -1,17 +1,37 @@
-import React, { use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
-import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
-import { SkillTreeCard } from '../components/Dashboard/SkillTreeCard';
-import { SubscriptionsCollection } from '../../api/collections/Subscriptions';
 import { Meteor } from 'meteor/meteor';
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
+import { SkillTreeCard } from '/imports/ui/components/Dashboard/SkillTreeCard';
 import { User } from '/imports/utils/User';
 
-export const ProfileOverview = () => {
+export const ProfileContent = () => {
   const { profileUsername } = useParams(); // Get profileUsername from URL
 
+  // Subscribe to users data
+  useSubscribe('users');
+
+  // Get logged-in user's username for fallback
+  const loggedInUser = User(['username']);
+  const loggedInUsername = loggedInUser?.username;
+
+  // Determine which username to display (from URL or logged-in user)
+  const [usernameToDisplay, setUsernameToDisplay] = useState(null);
+  
+  useEffect(() => {
+    if (!profileUsername) {
+      // /profile/ → show logged-in user profile
+      setUsernameToDisplay(loggedInUsername);
+    } else {
+      // /profile/username → show specified user's profile
+      setUsernameToDisplay(profileUsername);
+    }
+  }, [profileUsername, loggedInUsername]);
+
   const profileUser = useFind(Meteor.users, [
-        { username: { $eq: profileUsername } },
+        { username: { $eq: usernameToDisplay } },
         {
           fields: {
             _id: 1,
@@ -20,8 +40,8 @@ export const ProfileOverview = () => {
         }
       ])[0]; // Gets a specific user's data
       
-  // profile user ID (in database)
-  const profileUserId = profileUser._id;
+  // Use optional chaining to safely access _id
+  const profileUserId = profileUser?._id;
 
   // subscribe to skilltrees data
   useSubscribe('skilltrees');
@@ -79,7 +99,7 @@ export const ProfileOverview = () => {
     <>
       {/* Profile's user overview goes here (reuse skilltree/forest list components etc) */}
       <div className="p-6 space-y-8">
-        {/* Created Skill Trees Section
+        {/* Created Skill Trees Section */}
       <div>
         <h2 className="text-2xl font-bold mb-4">
             Created Skill Trees ({userSkillTrees.length})
@@ -100,10 +120,10 @@ export const ProfileOverview = () => {
             ))}
           </div>
         )}
-      </div> */}
+      </div>
 
          {/* Subscribed Skill Trees Section */}
-        {/* <div>
+        <div>
           <h2 className="text-2xl font-bold mb-4">
             Subscribed Skill Trees ({subscribedSkillTrees.length})
           </h2>
@@ -123,7 +143,7 @@ export const ProfileOverview = () => {
               ))}
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </>
   );

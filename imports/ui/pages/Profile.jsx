@@ -11,6 +11,7 @@ import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
 import { FollowersCollection } from '/imports/api/collections/Followers';
 import FollowingButton from '../components/Profile/FollowingButton';
+import { ProfileContent } from '../components/Profile/ProfileContent';
 
 
 export const Profile = () => {
@@ -20,20 +21,6 @@ export const Profile = () => {
   
   // Subscribe to users data
   useSubscribe('users');
-
-  // Get profileUsername's Id
-  // const profileUserId = useFind(Meteor.users, [
-  //       {
-  //         fields: {
-  //           _id: 1
-  //         }
-  //       }
-  //     ]); // Gets a specific user's data
-  
- 
-
-
-
 
   const loggedInUser = User(['username']);
   const loggedInUsername = loggedInUser?.username;
@@ -66,11 +53,9 @@ export const Profile = () => {
       }
     ])[0];
 
-    
+  // profile user ID (in database)
   const profileUserId = profileUserInfo?._id;
 
-  console.log("Profile user ID:", profileUserInfo);
-  console.log("Profile userId:", profileUserId);
 
     // follower logic
   useSubscribe('followers');
@@ -109,11 +94,6 @@ export const Profile = () => {
   return (
     <>
       {/* Profile Page*/}
-      {/* TODO: Anything consistent among all profiles goes here */}
-      {/* <div className="max-w-3xl mx-auto px-4"> */}
-
-
-
 
       <div className="bg-green-400 p-8 lg mb-4 flex justify-start" >
         <Avatar
@@ -136,6 +116,10 @@ export const Profile = () => {
             <FollowingButton userId={loggedInUserId} toFollowId={profileUserId} />
           )}
         </div>
+      </div>
+
+      <div>
+        <ProfileContent />
       </div>
 
         {/* later you’ll plug in followers/following/overview here */}
