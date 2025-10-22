@@ -95,6 +95,42 @@ export const Profile = () => {
   const followerCount = followers.length;
   const followingCount = following.length;
 
+  const isPublic = profileUser?.profile?.isProfilePublic ?? true;
+
+  // Subscribe to request docs relevant to viewer and this profile
+  useSubscribe('requests.mine');
+  useSubscribe('requests.forProfile', profileUserId);
+
+  // Find a pending outgoing request from viewer → profile
+  const myPendingRequest = useFind(RequestsCollection, [
+    { requesterUserId: loggedInUserId, requesteeUserId: profileUserId },
+    { fields: { _id: 1, requesterUserId: 1, requesteeUserId: 1, createdAt: 1 } }
+  ])[0];
+
+  // If I am the profile owner, fetch incoming requests to review
+  const incomingRequests = useFind(RequestsCollection, [
+    { requesteeUserId: profileUserId },
+    { fields: { _id: 1, requesterUserId: 1, createdAt: 1 } }
+  ]);
+
+  const handleSendRequest = () => {
+    Meteor.call('requests.send', profileUserId, err => {
+      if (err) alert(err.reason || err.message);
+    });
+  };
+
+  const handleAccept = requestId => {
+    Meteor.call('requests.accept', requestId, err => {
+      if (err) alert(err.reason || err.message);
+    });
+  };
+
+  const handleDecline = requestId => {
+    Meteor.call('requests.decline', requestId, err => {
+      if (err) alert(err.reason || err.message);
+    });
+  };
+
   return (
     <>
       {/* Profile Page*/}
@@ -124,10 +160,21 @@ export const Profile = () => {
 
         <div className="pl-5">
           {loggedInUserId && loggedInUserId !== profileUserId && (
-            <FollowingButton
-              userId={loggedInUserId}
-              toFollowId={profileUserId}
-            />
+            <>
+              {isPublic ? (
+                // Public profiles → follow immediately (your existing component)
+                <FollowingButton
+                  userId={loggedInUserId}
+                  toFollowId={profileUserId}
+                />
+              ) : myPendingRequest ? (
+                // Private & already requested
+                <Button disabled>Requested</Button>
+              ) : (
+                // Private & not requested yet
+                <Button onClick={handleSendRequest}>Request to follow</Button>
+              )}
+            </>
           )}
         </div>
       </div>
