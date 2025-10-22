@@ -79,31 +79,31 @@ export const ProfileOverview = () => {
     <>
       {/* Profile's user overview goes here (reuse skilltree/forest list components etc) */}
       <div className="p-6 space-y-8">
-        {/* Created Skill Trees Section
-      <div>
-        <h2 className="text-2xl font-bold mb-4">
+        {/* Created Skill Trees Section */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">
             Created Skill Trees ({userSkillTrees.length})
-        </h2>
-       {userSkillTrees.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <p>No skill trees created yet.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userSkillTrees.map(skillTree => (
-              <SkillTreeCard
-                key={skillTree._id}
-                skillTreeId={skillTree._id}
-                showSubscribers={true}
-                currentUserId={profileUserId}
-              />
-            ))}
-          </div>
-        )}
-      </div> */}
+          </h2>
+          {userSkillTrees.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <p>No skill trees created yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {userSkillTrees.map(skillTree => (
+                <SkillTreeCard
+                  key={skillTree._id}
+                  skillTreeId={skillTree._id}
+                  showSubscribers={true}
+                  currentUserId={profileUserId}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Subscribed Skill Trees Section */}
-        {/* <div>
+        <div>
           <h2 className="text-2xl font-bold mb-4">
             Subscribed Skill Trees ({subscribedSkillTrees.length})
           </h2>
@@ -123,7 +123,7 @@ export const ProfileOverview = () => {
               ))}
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </>
   );

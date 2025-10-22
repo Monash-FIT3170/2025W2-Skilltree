@@ -27,7 +27,12 @@ const FollowingButton = ({ userId, toFollowId }) => {
   useEffect(() => {
     setIsFollowing(!!followerRecord);
   }, [followerRecord]);
+  // Update isFollowing state based on the follower record
+  useEffect(() => {
+    setIsFollowing(!!followerRecord);
+  }, [followerRecord]);
 
+  console.log('Follower record:', followerRecord);
   console.log('Follower record:', followerRecord);
 
   const handleFollowToggle = async () => {
