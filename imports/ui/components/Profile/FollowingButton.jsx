@@ -62,18 +62,18 @@ const FollowingButton = ({ userId, toFollowId }) => {
         onClick={handleFollowToggle}
         disabled={isLoading}
         className={`
-            px-6 py-2.5 
+            px-4 py-1.5 
             text-sm font-semibold 
-            rounded-lg 
+            rounded-md 
             transition-all duration-300 
-            min-w-[120px]
+            min-w-[100px]
             ${isFollowing 
-                ? 'bg-white text-gray-700 border-2 border-gray-300 hover:bg-gray-50' 
-                : 'bg-blue-500 text-white border-2 border-blue-500 hover:bg-blue-600'
+                ? 'bg-green-800 text-white border-2 border-green-800 hover:bg-green-900 hover:border-green-900 ' 
+                : 'bg-gray-400 text-white border-2 border-gray-400 hover:bg-gray-600 hover:border-gray-600'
             }
             ${isLoading 
                 ? 'opacity-60 cursor-not-allowed' 
-                : 'hover:shadow-md hover:-translate-y-0.5 cursor-pointer'
+                : 'hover:shadow-md cursor-pointer'
             }
         `}
         >

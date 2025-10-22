@@ -106,15 +106,14 @@ export const Profile = () => {
           }
           rounded
         />
-        <div className="pl-5">
-          <p className="text-2xl font-bold text-white">{finalUserId}</p>
-          <p className="text-white">Followers: <strong>{followerCount}</strong>  <span className="ml-4">  </span>Following: <strong>{followingCount}</strong></p>
-        </div>
-
-        <div className="pl-5">
-          {loggedInUserId && loggedInUserId !== profileUserId && (
-            <FollowingButton userId={loggedInUserId} toFollowId={profileUserId} />
-          )}
+        <div className="pl-5 flex-grow">
+          <div className="flex items-center gap-3">
+            <p className="text-2xl font-bold text-white">{finalUserId}</p>
+            {loggedInUserId && loggedInUserId !== profileUserId && (
+              <FollowingButton userId={loggedInUserId} toFollowId={profileUserId} />
+            )}
+          </div>
+          <p className="text-white mt-2">Followers: <strong>{followerCount}</strong>  <span className="ml-4">  </span>Following: <strong>{followingCount}</strong></p>
         </div>
       </div>
 
