@@ -22,83 +22,84 @@ export const ProfileContent = () => {
 
   // Fetch the profile user with subscribed communities (same as Dashboard)
   const profileUser = useFind(Meteor.users, [
-        { username: { $eq: usernameToDisplay } },
-        {
-          fields: {
-            _id: 1,
-            username: 1,
-            'profile.subscribedCommunities': 1
-          }
-        }
-      ])[0]; // Gets a specific user's data
-      
+    { username: { $eq: usernameToDisplay } },
+    {
+      fields: {
+        _id: 1,
+        username: 1,
+        'profile.subscribedCommunities': 1
+      }
+    }
+  ])[0]; // Gets a specific user's data
+
   // Use optional chaining to safely access _id
   const profileUserId = profileUser?._id;
-  
+
   // Get subscribed communities array (same as Dashboard)
-  const subscribedCommunities = profileUser?.profile?.subscribedCommunities || [];
+  const subscribedCommunities =
+    profileUser?.profile?.subscribedCommunities || [];
 
   // subscribe to skilltrees data
   useSubscribe('skilltrees');
 
   // fetch skill trees created by this user
   const userSkillTrees = useFind(SkillTreeCollection, [
-      { owner: { $eq: profileUserId } },
-      {
-        fields: {
-          _id: 1,
-          owner: 1,
-          image: 1,
-          title: 1,
-          description: 1,
-          subscribers: 1
-        }
+    { owner: { $eq: profileUserId } },
+    {
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+        description: 1,
+        subscribers: 1
       }
-    ]);
+    }
+  ]);
 
   // fetch skill trees the user is subscribed to (same as Dashboard)
   const subscribedSkillTrees = useFind(SkillTreeCollection, [
-      { _id: { $in: subscribedCommunities } },
-      {
-        fields: {
-          _id: 1,
-          owner: 1,
-          image: 1,
-          title: 1,
-          description: 1,
-          subscribers: 1
-        }
+    { _id: { $in: subscribedCommunities } },
+    {
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+        description: 1,
+        subscribers: 1
       }
-    ]);
+    }
+  ]);
 
   return (
     <>
       {/* Profile's user overview goes here (reuse skilltree/forest list components etc) */}
       <div className="p-6 space-y-8">
         {/* Created Skill Trees Section */}
-      <div>
-        <h2 className="text-2xl font-bold mb-4">
+        <div>
+          <h2 className="text-2xl font-bold mb-4">
             Created Skill Trees ({userSkillTrees.length})
-        </h2>
-       {userSkillTrees.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <p>No skill trees created yet.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userSkillTrees.map(skillTree => (
-              <SkillTreeCard
-                key={skillTree._id}
-                skilltreeId={skillTree._id}
-                showSubscribers={true}
-                currentUserId={profileUserId}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+          </h2>
+          {userSkillTrees.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <p>No skill trees created yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {userSkillTrees.map(skillTree => (
+                <SkillTreeCard
+                  key={skillTree._id}
+                  skilltreeId={skillTree._id}
+                  showSubscribers={true}
+                  currentUserId={profileUserId}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
-         {/* Subscribed Skill Trees Section */}
+        {/* Subscribed Skill Trees Section */}
         <div>
           <h2 className="text-2xl font-bold mb-4">
             Subscribed Skill Trees ({subscribedSkillTrees.length})

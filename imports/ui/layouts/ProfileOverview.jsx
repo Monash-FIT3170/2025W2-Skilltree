@@ -11,15 +11,15 @@ export const ProfileOverview = () => {
   const { profileUsername } = useParams(); // Get profileUsername from URL
 
   const profileUser = useFind(Meteor.users, [
-        { username: { $eq: profileUsername } },
-        {
-          fields: {
-            _id: 1,
-            username: 1,
-          }
-        }
-      ])[0]; // Gets a specific user's data
-      
+    { username: { $eq: profileUsername } },
+    {
+      fields: {
+        _id: 1,
+        username: 1
+      }
+    }
+  ])[0]; // Gets a specific user's data
+
   // profile user ID (in database)
   const profileUserId = profileUser._id;
 
@@ -28,52 +28,52 @@ export const ProfileOverview = () => {
 
   // fetch skill trees created by this user
   const userSkillTrees = useFind(SkillTreeCollection, [
-      { owner: { $eq: profileUserId } },
-      {
-        fields: {
-          _id: 1,
-          owner: 1,
-          image: 1,
-          title: 1,
-          
-          description: 1,
-          subscribers: 1
-        }
+    { owner: { $eq: profileUserId } },
+    {
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+
+        description: 1,
+        subscribers: 1
       }
-    ]);
+    }
+  ]);
 
   // subscribe to subscriptions data
 
   useSubscribe('subscriptions');
-  
+
   const userSubscriptions = useFind(SubscriptionsCollection, [
-      { userId: { $eq: profileUserId } },
-      {
-        fields: {
-          _id: 1,
-          userId: 1,
-          skillTreeId: 1,
-        }
+    { userId: { $eq: profileUserId } },
+    {
+      fields: {
+        _id: 1,
+        userId: 1,
+        skillTreeId: 1
       }
-    ]);
+    }
+  ]);
 
   // get skill tree IDs the user is subscribed to
   const subscribedSkillTreeIds = userSubscriptions.map(sub => sub.skillTreeId);
 
   // fetch skill trees the user is subscribed to
   const subscribedSkillTrees = useFind(SkillTreeCollection, [
-      { _id: { $in: subscribedSkillTreeIds } },
-      {
-        fields: {
-          _id: 1,
-          owner: 1,
-          image: 1,
-          title: 1,
-          description: 1,
-          subscribers: 1
-        }
+    { _id: { $in: subscribedSkillTreeIds } },
+    {
+      fields: {
+        _id: 1,
+        owner: 1,
+        image: 1,
+        title: 1,
+        description: 1,
+        subscribers: 1
       }
-    ]);
+    }
+  ]);
 
   return (
     <>
@@ -102,7 +102,7 @@ export const ProfileOverview = () => {
         )}
       </div> */}
 
-         {/* Subscribed Skill Trees Section */}
+        {/* Subscribed Skill Trees Section */}
         {/* <div>
           <h2 className="text-2xl font-bold mb-4">
             Subscribed Skill Trees ({subscribedSkillTrees.length})
