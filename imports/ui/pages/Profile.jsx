@@ -20,6 +20,9 @@ export const Profile = () => {
   // --- Resolve profile user ---
   const [profileUser, setProfileUser] = useState(null);
 
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
+
   useEffect(() => {
     // Step 1: if no param => current user
     if (!profileUsername) {
@@ -119,9 +122,21 @@ export const Profile = () => {
             {profileUser?.username || 'Profile'}
           </p>
           <p className="text-white">
-            Followers: <strong>{followerCount}</strong>
+            <button
+              onClick={() => setShowFollowersModal(true)}
+              className="hover:underline font-semibold"
+              type="button"
+            >
+              Followers: {followerCount}
+            </button>
             <span className="ml-4" />
-            Following: <strong>{followingCount}</strong>
+            <button
+              onClick={() => setShowFollowingModal(true)}
+              className="hover:underline font-semibold"
+              type="button"
+            >
+              Following: {followingCount}
+            </button>
           </p>
         </div>
 
@@ -142,7 +157,6 @@ export const Profile = () => {
           )}
         </div>
       </div>
-
       {/* Owner view: show incoming requests */}
       {isOwnProfile && incomingRequests.length > 0 && (
         <div className="p-4 border rounded-xl max-w-3xl mx-auto mb-4">
@@ -168,7 +182,102 @@ export const Profile = () => {
           </ul>
         </div>
       )}
-
+      {/* Backdrop + panel for Followers */}
+      {showFollowersModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          aria-modal="true"
+          role="dialog"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setShowFollowersModal(false)}
+          />
+          {/* Panel */}
+          <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Followers</h3>
+              <button
+                type="button"
+                className="rounded p-1 hover:bg-gray-100"
+                onClick={() => setShowFollowersModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            {followers.length === 0 ? (
+              <p className="text-sm text-gray-500">No followers yet.</p>
+            ) : (
+              <ul className="max-h-80 space-y-2 overflow-y-auto">
+                {followers.map(f => {
+                  const u = Meteor.users.findOne(f.followerUserId, {
+                    fields: { username: 1, 'profile.avatarUrl': 1 }
+                  });
+                  const username =
+                    u && u.username
+                      ? String(u.username)
+                      : String(f.followerUserId);
+                  return (
+                    <li key={f._id} className="flex items-center gap-3">
+                      <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
+                      <span className="text-sm">@{username}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+      {/* Backdrop + panel for Following */}
+      {showFollowingModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          aria-modal="true"
+          role="dialog"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setShowFollowingModal(false)}
+          />
+          {/* Panel */}
+          <div className="relative z-10 w-full max-w-md rounded-2xl bg-white p-4 shadow-xl">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Following</h3>
+              <button
+                type="button"
+                className="rounded p-1 hover:bg-gray-100"
+                onClick={() => setShowFollowingModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            {following.length === 0 ? (
+              <p className="text-sm text-gray-500">Not following anyone yet.</p>
+            ) : (
+              <ul className="max-h-80 space-y-2 overflow-y-auto">
+                {following.map(f => {
+                  const u = Meteor.users.findOne(f.followingUserId, {
+                    fields: { username: 1, 'profile.avatarUrl': 1 }
+                  });
+                  const username =
+                    u && u.username
+                      ? String(u.username)
+                      : String(f.followingUserId);
+                  return (
+                    <li key={f._id} className="flex items-center gap-3">
+                      <Avatar img={u?.profile?.avatarUrl} size="sm" rounded />
+                      <span className="text-sm">@{username}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
       <Outlet />
     </>
   );
