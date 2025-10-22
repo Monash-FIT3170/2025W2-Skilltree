@@ -6,15 +6,15 @@ import { RequestsCollection } from '../collections/Requests';
 Schemas.Requests = new SimpleSchema({
   requesterUserId: {
     type: String,
-    label: 'Who is Following'
+    label: 'Who is Requesting'
   },
   requesteeUserId: {
     type: String,
-    label: 'Who is being followed'
+    label: 'Who is being requested'
   },
   createdAt: {
     type: Date,
-    label: 'Followship creation date',
+    label: 'Request creation date',
     defaultValue: new Date()
   }
 });
