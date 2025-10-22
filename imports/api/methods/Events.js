@@ -1,9 +1,9 @@
-import { Meteor } from 'meteor/meteor';
-import { EventCollection } from '/imports/api/collections/Events';
-import { ProofCollection } from '../collections/Proof';
-import { SubscriptionsCollection } from '../collections/Subscriptions';
-import { SkillTreeCollection } from '../collections/SkillTree';
 import { check } from 'meteor/check';
+import { Meteor } from 'meteor/meteor';
+import { ProofCollection } from '../collections/Proof';
+import { SkillTreeCollection } from '../collections/SkillTree';
+import { SubscriptionsCollection } from '../collections/Subscriptions';
+import { EventCollection } from '/imports/api/collections/Events';
 
 Meteor.methods({
   /**
@@ -22,7 +22,15 @@ Meteor.methods({
    * @param {Object} event event object with data
    * @returns _id of the newly created event
    */
-  async createEvent(event) {
+
+  /**
+   * Create an event given an event object
+   *
+   * @param {Object} event event object with data
+   * @returns _id of the newly created event
+   */
+  async createEvent(event, userId) {
+    // Check if the skilltree exists
     const skilltree = await SkillTreeCollection.findOneAsync({
       _id: event.skilltreeId
     });
@@ -30,6 +38,21 @@ Meteor.methods({
       throw new Meteor.Error('skilltree-not-found', 'Skilltree does not exist');
     }
 
+    // Check current user is admin
+    const skilltreeId = event.skilltreeId;
+
+    const subscription = await SubscriptionsCollection.findOneAsync({
+      userId: userId,
+      skilltreeId: skilltreeId,
+      active: true
+    });
+
+    const userRoles = subscription?.roles || [];
+    const isAdmin = userRoles.includes('admin');
+    if (!isAdmin)
+      throw new Meteor.Error('User must be an admin to create event.');
+
+    // Check if there is already an active event for this skilltree
     const existingEvent = await EventCollection.findOneAsync({
       skilltreeId: event.skilltreeId,
       active: true
@@ -41,7 +64,14 @@ Meteor.methods({
       );
     }
 
-    return await EventCollection.insertAsync(event);
+    // Insert the new event as active and add createdAt timestamp
+    const newEventId = await EventCollection.insertAsync({
+      ...event,
+      active: true,
+      createdAt: new Date()
+    });
+
+    return newEventId;
   },
 
   /**
@@ -154,8 +184,8 @@ Meteor.methods({
     check(eventId, String);
 
     // check event exists
-    const eventExists = await EventCollection.findOneAsync({ _id: eventId });
-    if (!eventExists) {
+    const eventObject = await EventCollection.findOneAsync({ _id: eventId });
+    if (!eventObject) {
       throw new Meteor.Error('event-not-found', 'Event does not exist');
     }
 
@@ -168,11 +198,13 @@ Meteor.methods({
   /**
    * Stops event and awards trophies if the event is ranked
    * Currently takes maxTrophies and gives 1 less to each lower position (min 1)
+   * NOTE: to avoid breaking the tests, need to receive userId as a parameter
+   * rather than running Meteor.userId() on the server.
    *
    * @param {String} eventId _id of event
    * @returns number of documents affected
    */
-  async stopEvent(eventId) {
+  async stopEvent(eventId, userId) {
     check(eventId, String);
 
     // check event exists
@@ -180,6 +212,19 @@ Meteor.methods({
     if (!eventObject) {
       throw new Meteor.Error('event-not-found', 'Event does not exist');
     }
+
+    // Check current user is admin
+    const skilltreeId = eventObject.skilltreeId;
+
+    const subscription = await SubscriptionsCollection.findOneAsync({
+      userId: userId,
+      skilltreeId: skilltreeId,
+      active: true
+    });
+
+    const userRoles = subscription?.roles || [];
+    const isAdmin = userRoles.includes('admin');
+    if (!isAdmin) throw new Meteor.Error('User must be an admin to end event.');
 
     const res = await EventCollection.updateAsync(
       { _id: eventId },
