@@ -89,7 +89,6 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
   };
 
   const handleUnsubscribeConfirm = async () => {
-
     try {
       await Meteor.callAsync(
         'unsubscribeFromSkillForest',
@@ -119,7 +118,7 @@ export const SkillForestSubscribeButton = ({ skillForestId }) => {
         className={`px-6 py-2 rounded-lg font-medium transition-colors duration-200 ${
           isSubscribed
             ? 'bg-red-500 text-white hover:bg-red-600'
-              : 'bg-[#328E6E] text-white hover:bg-[#2a7a5e]'
+            : 'bg-[#328E6E] text-white hover:bg-[#2a7a5e]'
         }`}
       >
         {isSubscribed ? 'Unsubscribe' : 'Subscribe'}

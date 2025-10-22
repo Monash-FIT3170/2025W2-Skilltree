@@ -98,8 +98,8 @@ export const UnsubscribeTreesPopup = ({
                 className="px-6 py-2 rounded-lg font-medium transition-colors bg-red-500 text-white hover:bg-red-600"
               >
                 {selectedTreeIds.length === 0
-                ? 'Unsubscribe from SkillForest'
-                : `Unsubscribe (${selectedTreeIds.length})`}
+                  ? 'Unsubscribe from SkillForest'
+                  : `Unsubscribe (${selectedTreeIds.length})`}
               </button>
             </div>
           </div>

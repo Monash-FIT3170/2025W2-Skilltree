@@ -14,7 +14,7 @@ Meteor.methods({
     // Attach owner field only if userId exists
     const userId = this.userId;
     const skillforestWithOwner = userId
-      ? { ...skillforest, owner: userId, subscribers: [userId]}
+      ? { ...skillforest, owner: userId, subscribers: [userId] }
       : skillforest;
     return await SkillForestCollection.insertAsync(skillforestWithOwner);
   },

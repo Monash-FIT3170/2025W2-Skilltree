@@ -36,7 +36,6 @@ export const SkillForest = () => {
       </Helmet>
 
       <div className="p-4 md:p-8">
-
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-bold text-[#000000]">
             {skillForest?.title}

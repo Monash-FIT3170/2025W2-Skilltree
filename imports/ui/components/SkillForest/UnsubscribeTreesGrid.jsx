@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiUsers} from '@react-icons/all-files/fi/FiUsers';
+import { FiUsers } from '@react-icons/all-files/fi/FiUsers';
 import { FiCheck } from '@react-icons/all-files/fi/FiCheck';
 
 export const UnsubscribeSkillTreeGrid = ({
