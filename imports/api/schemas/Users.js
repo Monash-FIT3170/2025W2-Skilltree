@@ -164,6 +164,11 @@ Schemas.UsersProfile = new SimpleSchema({
     type: Number,
     label: 'TEMP no. comments field',
     optional: true
+  },
+  isProfilePublic: {
+    type: Boolean,
+    label: 'isProfilePublic',
+    defaultValue: true
   }
 });
 
