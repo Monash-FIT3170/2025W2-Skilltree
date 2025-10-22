@@ -23,7 +23,10 @@ Meteor.methods({
 
     if (existingFollow) {
       console.log('Already following - found existing:', existingFollow);
-      throw new Meteor.Error('already-following', 'You are already following this user');
+      throw new Meteor.Error(
+        'already-following',
+        'You are already following this user'
+      );
     }
 
     const followRecord = {
@@ -36,7 +39,7 @@ Meteor.methods({
     console.log('Insert result:', result);
     return result;
   },
-  
+
   async removeFollower(followerData) {
     check(followerData, {
       followerUserId: String,
@@ -49,4 +52,4 @@ Meteor.methods({
     console.log('Remove result:', result);
     return result;
   }
-})
+});
