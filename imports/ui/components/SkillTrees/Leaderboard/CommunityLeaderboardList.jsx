@@ -145,9 +145,7 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
 
   // Sort by filtered value, descending
   leaderboard.sort((a, b) => b[filter] - a[filter]);
-
-  console.log(leaderboard);
-
+  
   return (
     <List unstyled className="divide-y divide-gray-200 relative space-y-0">
       {leaderboard.map((entry, index) => {
