@@ -84,7 +84,7 @@ export const NavigationMenu = ({ id }) => {
       id: 'mod-tool',
       element: (
         <Link
-          to="admin-tools"
+          to={`/skilltree/${id}/admin-tools`}
           state={{ background: location }}
           className={getLinkClasses(`/skilltree/${id}/admin-tools`)}
         >
@@ -109,7 +109,7 @@ export const NavigationMenu = ({ id }) => {
       id: 'help-community',
       element: (
         <Link
-          to={`application`}
+          to={`/skilltree/${id}/application`}
           state={{ background: location }}
           className={getLinkClasses(`/skilltree/${id}/application`)}
         >
