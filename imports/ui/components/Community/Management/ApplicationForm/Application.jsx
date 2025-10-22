@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';
 
-import { SubmittedRoleApplication } from '/imports/ui/component/Community/Management/ApplicationForm/Submission';
+import { SubmittedRoleApplication } from '/imports/ui/components/Community/Management/ApplicationForm/Submission';
 import { User } from '/imports/utils/User';
 import { ApplicationTimeline } from '/imports/ui/components/Community/Management/ApplicationForm/ApplicationTimeline';
 
