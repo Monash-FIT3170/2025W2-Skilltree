@@ -6,7 +6,8 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
     title: '',
     description: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    maxTrophies: 0,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -93,6 +94,18 @@ export const NewEventModal = ({ isOpen, onClose, skilltreeId }) => {
             required
             className="border p-2 rounded"
             min={formData.startDate || new Date().toISOString().split('T')[0]}
+          />
+
+          <label className="text-sm font-semibold">Trophy Reward</label>
+          <input
+            type="number"
+            name="maxTrophies"
+            value={formData.maxTrophies}
+            onChange={handleChange}
+            required
+            className="border p-2 rounded"
+            min={0}
+            max={100}
           />
 
           <div className="flex justify-end gap-2 mt-4">
