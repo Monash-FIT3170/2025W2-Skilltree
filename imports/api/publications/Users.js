@@ -305,11 +305,11 @@ Meteor.startup(async () => {
   for (let i = 0; i < 50; i++) {
     const memberUsername = 'member' + String(i);
 
+    // Dummy account progress for users in basketball community
+    // Delete if needed
     const memberId = await Accounts.createUserAsync({
       username: memberUsername,
       profile: {
-        xpTEMP: Math.floor(Math.random() * 100),
-        commentNumTEMP: Math.floor(Math.random() * 10),
         avatarUrl:
           i === 42
             ? 'https://i.pinimg.com/736x/c2/1e/7e/c21e7e2976743369ca7f86349aeb22a9.jpg'
@@ -321,7 +321,11 @@ Meteor.startup(async () => {
 
     // Insert dummy data
     for (const progressTree of dummyProgressTree) {
-      const copyProgressTree = { ...progressTree, userId: memberId };
+      const copyProgressTree = {
+        ...progressTree,
+        userId: memberId,
+        trophies: (i % 3) + 2
+      };
 
       await SubscriptionsCollection.insertAsync(copyProgressTree);
     }
