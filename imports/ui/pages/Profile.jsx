@@ -1,142 +1,109 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { AuthContext } from '/imports/utils/contexts/AuthContext';
-import { useFind } from 'meteor/react-meteor-data/suspense';
-import { use } from 'chai';
-import { Avatar, Button } from 'flowbite-react';
-import { useSubscribe } from 'meteor/react-meteor-data/suspense';
+import React, { useContext, useEffect, useState } from 'react';
+import { Outlet, useParams } from 'react-router-dom';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
-import { User } from '/imports/utils/User';
+import { Avatar, Button } from 'flowbite-react';
+import { AuthContext } from '/imports/utils/contexts/AuthContext';
 import { FollowersCollection } from '/imports/api/collections/Followers';
+import { RequestsCollection } from '/imports/api/collections/Requests';
 import FollowingButton from '../components/Profile/FollowingButton';
 
 export const Profile = () => {
-  const { profileUsername } = useParams(); // from URL
-  const loggedInUserId = useContext(AuthContext); // from auth
+  const { profileUsername } = useParams();
+  const loggedInUserId = useContext(AuthContext);
 
-  // Subscribe to users data
-  useSubscribe('users');
-
-  // Get profileUsername's Id
-  // const profileUserId = useFind(Meteor.users, [
-  //       {
-  //         fields: {
-  //           _id: 1
-  //         }
-  //       }
-  //     ]); // Gets a specific user's data
-
-  const loggedInUser = User(['username']);
-  const loggedInUsername = loggedInUser?.username;
-
-  const [finalUserId, setFinalUserId] = useState(null);
-
-  const profileUser = User(['username', 'profile.avatarUrl'], finalUserId); // Gets a specific user's data
-
-  // If it's blank → fallback to logged in user
-  // If it's a username → look up the real ID
-  useEffect(() => {
-    if (!profileUsername) {
-      // /profile/ → show logged-in user profile
-      setFinalUserId(loggedInUsername);
-    } else {
-      // /profile/12345 → assume already a valid ID
-      setFinalUserId(profileUsername);
-    }
-  }, [profileUsername, loggedInUsername]);
-
-  const profileUserInfo = useFind(Meteor.users, [
-    { username: finalUserId },
-    {
-      fields: {
-        _id: 1,
-        username: 1,
-        emails: 1
-      }
-    }
-  ])[0];
-
-  const profileUserId = profileUserInfo?._id;
-
-  console.log('Profile user ID:', profileUserInfo);
-  console.log('Profile userId:', profileUserId);
-
-  // follower logic
+  // --- Subscriptions ---
+  useSubscribe('users'); // ensure this publishes username + profile fields
   useSubscribe('followers');
+  useSubscribe('requests.mine');
 
-  // Get all followers (people following this user)
+  // --- Resolve profile user ---
+  const [profileUser, setProfileUser] = useState(null);
+
+  useEffect(() => {
+    // Step 1: if no param => current user
+    if (!profileUsername) {
+      setProfileUser(Meteor.user());
+      return;
+    }
+
+    // Step 2: check if param looks like an ObjectId (_id)
+    const byId = Meteor.users.findOne(
+      { _id: profileUsername },
+      { fields: { username: 1, profile: 1 } }
+    );
+    if (byId) {
+      setProfileUser(byId);
+      return;
+    }
+
+    // Step 3: else treat as username
+    const byUsername = Meteor.users.findOne(
+      { username: profileUsername },
+      { fields: { username: 1, profile: 1 } }
+    );
+    setProfileUser(byUsername);
+  }, [profileUsername, Meteor.userId()]);
+
+  const profileUserId = profileUser?._id;
+  const isOwnProfile = loggedInUserId === profileUserId;
+  const isPublic = profileUser?.profile?.isProfilePublic ?? true;
+
+  // --- Subscribe after we know target id ---
+  useSubscribe('requests.forProfile', profileUserId);
+
+  // --- Followers data ---
   const followers = useFind(FollowersCollection, [
-    { followingUserId: { $eq: profileUserId } },
-    {
-      fields: {
-        _id: 1,
-        followerUserId: 1,
-        followingUserId: 1,
-        createdAt: 1
-      }
-    }
+    { followingUserId: profileUserId },
+    { fields: { _id: 1, followerUserId: 1 } }
   ]);
-
-  // Get all following (people this user follows)
   const following = useFind(FollowersCollection, [
-    { followerUserId: { $eq: profileUserId } },
-    {
-      fields: {
-        _id: 1,
-        followerUserId: 1,
-        followingUserId: 1,
-        createdAt: 1
-      }
-    }
+    { followerUserId: profileUserId },
+    { fields: { _id: 1, followingUserId: 1 } }
   ]);
-
   const followerCount = followers.length;
   const followingCount = following.length;
 
-  const isPublic = profileUser?.profile?.isProfilePublic ?? true;
-
-  // Subscribe to request docs relevant to viewer and this profile
-  useSubscribe('requests.mine');
-  useSubscribe('requests.forProfile', profileUserId);
-
-  // Find a pending outgoing request from viewer → profile
+  // --- Request logic ---
   const myPendingRequest = useFind(RequestsCollection, [
     { requesterUserId: loggedInUserId, requesteeUserId: profileUserId },
-    { fields: { _id: 1, requesterUserId: 1, requesteeUserId: 1, createdAt: 1 } }
+    { fields: { _id: 1 } }
   ])[0];
 
-  // If I am the profile owner, fetch incoming requests to review
   const incomingRequests = useFind(RequestsCollection, [
     { requesteeUserId: profileUserId },
     { fields: { _id: 1, requesterUserId: 1, createdAt: 1 } }
   ]);
 
+  // --- Handlers ---
   const handleSendRequest = () => {
-    Meteor.call('requests.send', profileUserId, err => {
-      if (err) alert(err.reason || err.message);
-    });
+    Meteor.call(
+      'requests.send',
+      profileUserId,
+      err => err && alert(err.reason || err.message)
+    );
   };
 
   const handleAccept = requestId => {
-    Meteor.call('requests.accept', requestId, err => {
-      if (err) alert(err.reason || err.message);
-    });
+    Meteor.call(
+      'requests.accept',
+      requestId,
+      err => err && alert(err.reason || err.message)
+    );
   };
 
   const handleDecline = requestId => {
-    Meteor.call('requests.decline', requestId, err => {
-      if (err) alert(err.reason || err.message);
-    });
+    Meteor.call(
+      'requests.decline',
+      requestId,
+      err => err && alert(err.reason || err.message)
+    );
   };
 
+  // --- UI ---
   return (
     <>
-      {/* Profile Page*/}
-      {/* TODO: Anything consistent among all profiles goes here */}
-      {/* <div className="max-w-3xl mx-auto px-4"> */}
-      <div className="bg-green-400 p-8 lg mb-4 flex justify-start">
+      <div className="bg-green-400 p-8 mb-4 flex justify-start">
         <Avatar
           alt="User Profile Picture"
           size="lg"
@@ -148,39 +115,61 @@ export const Profile = () => {
           rounded
         />
         <div className="pl-5">
-          <Button>
-            <p className="text-2xl font-bold text-white">{finalUserId} </p>
-            <p className="text-white">
-              Followers: <strong>{followerCount}</strong>{' '}
-              <span className="ml-4"> </span>Following:{' '}
-              <strong>{followingCount}</strong>
-            </p>
-          </Button>
+          <p className="text-2xl font-bold text-white">
+            {profileUser?.username || 'Profile'}
+          </p>
+          <p className="text-white">
+            Followers: <strong>{followerCount}</strong>
+            <span className="ml-4" />
+            Following: <strong>{followingCount}</strong>
+          </p>
         </div>
 
         <div className="pl-5">
-          {loggedInUserId && loggedInUserId !== profileUserId && (
+          {loggedInUserId && !isOwnProfile && profileUserId && (
             <>
               {isPublic ? (
-                // Public profiles → follow immediately (your existing component)
                 <FollowingButton
                   userId={loggedInUserId}
                   toFollowId={profileUserId}
                 />
               ) : myPendingRequest ? (
-                // Private & already requested
                 <Button disabled>Requested</Button>
               ) : (
-                // Private & not requested yet
                 <Button onClick={handleSendRequest}>Request to follow</Button>
               )}
             </>
           )}
         </div>
       </div>
-      {/* later you’ll plug in followers/following/overview here */}
-      {/* </div> */}
-      <Outlet /> {/* switches ProfileContent by /profile/:profileUsername/ */}
+
+      {/* Owner view: show incoming requests */}
+      {isOwnProfile && incomingRequests.length > 0 && (
+        <div className="p-4 border rounded-xl max-w-3xl mx-auto mb-4">
+          <p className="font-semibold mb-2">Follow requests</p>
+          <ul className="space-y-2">
+            {incomingRequests.map(r => (
+              <li key={r._id} className="flex justify-between">
+                <span>Requester: {r.requesterUserId}</span>
+                <div className="space-x-2">
+                  <Button size="xs" onClick={() => handleAccept(r._id)}>
+                    Accept
+                  </Button>
+                  <Button
+                    size="xs"
+                    color="light"
+                    onClick={() => handleDecline(r._id)}
+                  >
+                    Decline
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <Outlet />
     </>
   );
 };
