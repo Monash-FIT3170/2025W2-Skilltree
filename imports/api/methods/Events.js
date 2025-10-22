@@ -29,7 +29,7 @@ Meteor.methods({
    * @param {Object} event event object with data
    * @returns _id of the newly created event
    */
-  async createEvent(event) {
+  async createEvent(event, userId) {
     // Check if the skilltree exists
     const skilltree = await SkillTreeCollection.findOneAsync({
       _id: event.skilltreeId
@@ -39,7 +39,6 @@ Meteor.methods({
     }
 
     // Check current user is admin
-    const userId = this.userId;
     const skilltreeId = event.skilltreeId;
 
     const subscription = await SubscriptionsCollection.findOneAsync({
@@ -50,7 +49,6 @@ Meteor.methods({
 
     const userRoles = subscription?.roles || [];
     const isAdmin = userRoles.includes('admin');
-    console.log('isAdmin:', isAdmin);
     if (!isAdmin)
       throw new Meteor.Error('User must be an admin to create event.');
 
@@ -200,11 +198,13 @@ Meteor.methods({
   /**
    * Stops event and awards trophies if the event is ranked
    * Currently takes maxTrophies and gives 1 less to each lower position (min 1)
+   * NOTE: to avoid breaking the tests, need to receive userId as a parameter
+   * rather than running Meteor.userId() on the server.
    *
    * @param {String} eventId _id of event
    * @returns number of documents affected
    */
-  async stopEvent(eventId) {
+  async stopEvent(eventId, userId) {
     check(eventId, String);
 
     // check event exists
@@ -214,7 +214,6 @@ Meteor.methods({
     }
 
     // Check current user is admin
-    const userId = this.userId;
     const skilltreeId = eventObject.skilltreeId;
 
     const subscription = await SubscriptionsCollection.findOneAsync({

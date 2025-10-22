@@ -2,9 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 
 export const EndEventModal = ({ isOpen, onClose, eventId }) => {
+  const userId = Meteor.userId() || '';
+
   const handleEndEvent = async () => {
     try {
-      await Meteor.callAsync('stopEvent', eventId);
+      await Meteor.callAsync('stopEvent', eventId, userId);
       onClose();
     } catch (err) {
       console.error(err);
