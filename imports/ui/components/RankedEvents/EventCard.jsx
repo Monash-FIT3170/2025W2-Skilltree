@@ -87,11 +87,21 @@ export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
                 {/* Evidence Image Preview */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
                   {proof.evidenceLink ? (
-                    <img
-                      src={proof.evidenceLink}
-                      alt="Evidence"
-                      className="max-h-full max-w-full"
-                    />
+                    proof.evidenceLink.includes('.mp4') ? (
+                      <video
+                        alt="EventCard Evidence"
+                        src={proof.evidenceLink}
+                        controls
+                        typeof="video/mp4"
+                        className="max-h-full max-w-full"
+                      />
+                    ) : (
+                      <img
+                        src={proof.evidenceLink}
+                        alt="Evidence"
+                        className="max-h-full max-w-full"
+                      />
+                    )
                   ) : (
                     <span>No Image</span>
                   )}

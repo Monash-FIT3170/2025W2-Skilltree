@@ -114,10 +114,12 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                 {/* Evidence Image Preview */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
                   {proof.evidenceLink ? (
-                    proof.fileType?.startsWith('video/') ? (
+                    proof.evidenceLink.includes('.mp4') ? (
                       <video
+                        alt="ProofList Evidence"
                         src={proof.evidenceLink}
                         controls
+                        typeof="video/mp4"
                         className="max-h-full max-w-full"
                       />
                     ) : (
