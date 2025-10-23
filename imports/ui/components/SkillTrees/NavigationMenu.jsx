@@ -21,27 +21,26 @@ export const NavigationMenu = ({ id }) => {
     { fields: { title: 1, image: 1, owner: 1, admins: 1, subscribers: 1 } }
   ])[0];
 
-  const userSubscription = useFind(
-    SubscriptionsCollection,
-    [{ userId: userId, skilltreeId: id }]
-  )[0];
+  const userSubscription = useFind(SubscriptionsCollection, [
+    { userId: userId, skilltreeId: id }
+  ])[0];
 
   const isUserAdmin = useMemo(() => {
     return userSubscription?.roles?.includes('admin') ?? false;
   }, [userSubscription]);
 
   // Check if user is subscribed (reactively)
-  const subscribedSkillTree = useFind(
-    SkillTreeCollection,
-    [{ _id: id, subscribers: { $in: [userId] } }]
-  )[0];
+  const subscribedSkillTree = useFind(SkillTreeCollection, [
+    { _id: id, subscribers: { $in: [userId] } }
+  ])[0];
   const isUserSubscribed = !!subscribedSkillTree;
 
   const getLinkClasses = link => {
     const isActive =
       location.pathname === link || location.pathname.endsWith(link);
-    return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
-      }`;
+    return `flex items-center gap-2 block py-2 px-3 rounded transition-all duration-200 ${
+      isActive ? 'bg-gray-600 text-white' : 'text-white hover:bg-gray-600'
+    }`;
   };
 
   const menuItems = [
