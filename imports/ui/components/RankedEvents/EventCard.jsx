@@ -64,7 +64,7 @@ export const EventCard = ({ eventId, skilltreeId, filter = 'default' }) => {
   if (sortedProofs.length === 0) return <div>No proofs found.</div>;
 
   return (
-    <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white py-6 px-2 sm:px-3 lg:px-4">
       <div className="w-full max-w-screen-2xl mx-auto">
         {/* Grid Layout for Event Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

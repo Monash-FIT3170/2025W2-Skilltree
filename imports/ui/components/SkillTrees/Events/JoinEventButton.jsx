@@ -44,7 +44,7 @@ export const JoinEventButton = ({ eventId, isUserJoined, disabled }) => {
           disabled
             ? 'w-full sm:w-auto bg-gray-400 text-gray-200 font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors'
             : isUserJoined
-              ? 'w-full sm:w-auto bg-white text-black font-semibold py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors'
+              ? 'w-full sm:w-auto bg-gray-200 text-black font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors'
               : 'w-full sm:w-auto bg-[#328E6E] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-[#2a7d60] transition-colors'
         }`}
       >
