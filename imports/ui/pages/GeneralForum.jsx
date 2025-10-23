@@ -16,6 +16,7 @@ export const GeneralForum = () => {
   const [topicTitle, setTopicTitle] = useState('');
   const [topicDesc, setTopicDesc] = useState('');
   const [message, setMessage] = useState('');
+  const [sortOption, setSortOption] = useState('title_asc');
   const [searchTerm, setSearchTerm] = useState('');
   const bottomRef = useRef(null);
 
@@ -139,17 +140,52 @@ export const GeneralForum = () => {
   // Find the selected topic using forumId
   const selectedTopic = topics.find(t => t.forumId === selectedTopicId);
 
-  // Filter topics based on searchTerm
-  const filteredTopics = topics.filter(topic =>
-    topic.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const getTopicCreationDate = topic => {
+    if (topic.createdAt) {
+      return new Date(topic.createdAt).getTime();
+    }
+
+    // Fallback for old topics without a creation date
+    return 0;
+  };
+
+  // Apply search and sort to topics
+  const filteredTopics = topics
+    .filter(topic =>
+      topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      {
+        switch (sortOption) {
+          case 'title_asc':
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+          case 'title_desc':
+            return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
+          case 'created_recent':
+            return getTopicCreationDate(b) - getTopicCreationDate(a);
+          case 'created_oldest':
+            return getTopicCreationDate(a) - getTopicCreationDate(b);
+          case 'messages_asc': {
+            const countA_asc = a.messages ? a.messages.length : 0;
+            const countB_asc = b.messages ? b.messages.length : 0;
+            return countA_asc - countB_asc;
+          }
+          case 'messages_desc': {
+            const countA_desc = a.messages ? a.messages.length : 0;
+            const countB_desc = b.messages ? b.messages.length : 0;
+            return countB_desc - countA_desc;
+          }
+          default:
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+        }
+      }
+    });
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
       </div>
-
       {/* Search Bar for Topics */}
       <div className="px-4 py-2">
         <input
@@ -159,6 +195,21 @@ export const GeneralForum = () => {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
+      </div>
+      {/* Filter/Sort for Topics */}
+      <div className="px-4 py-2 flex flex-col sm:flex-row gap-2">
+        <select
+          className="border rounded px-3 py-2 bg-white"
+          value={sortOption}
+          onChange={e => setSortOption(e.target.value)}
+        >
+          <option value="title_asc">Title (A-Z)</option>
+          <option value="title_desc">Title (Z-A)</option>
+          <option value="created_recent">Recent Topics </option>
+          <option value="created_oldest">Older Topics</option>
+          <option value="messages_desc">Most Popular</option>
+          <option value="messages_asc">Least Popular</option>
+        </select>
       </div>
 
       {error && (
