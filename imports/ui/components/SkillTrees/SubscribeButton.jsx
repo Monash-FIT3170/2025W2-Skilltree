@@ -7,10 +7,25 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
+/**
+ * SubscribeButton.jsx
+ * 
+ * Renders a button to allow users to subscribe to a Skilltree
+ * 
+ * @component
+ * @example
+ * // Example usage
+ * <SubscribeButton.jsx skilltreeId={id}/>
+ * 
+ * @param {String} skilltreeId _id of Skilltree to subscribe to 
+ * 
+ * @returns Subscribe button component
+ */
 export const SubscribeButton = ({ skilltreeId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const userId = Meteor.userId();
 
+  // find Skilltree document containing current user (if none, then user is not subscribed)
   useSubscribe('skilltrees');
   const subscriptionStatus = !!useFind(
     SkillTreeCollection,
@@ -29,11 +44,6 @@ export const SubscribeButton = ({ skilltreeId }) => {
     ],
     [skilltreeId]
   )[0];
-
-  // useEffect(() => {
-  //   setIsSubscribed(!!subscriptionStatus);
-  //   setIsLoading(false);
-  // }, []);
 
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
