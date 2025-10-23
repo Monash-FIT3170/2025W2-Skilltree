@@ -17,6 +17,7 @@ export const GeneralForum = () => {
   const [topicDesc, setTopicDesc] = useState('');
   const [message, setMessage] = useState('');
   const [sortOption, setSortOption] = useState('title_asc'); 
+  const [searchTerm, setSearchTerm] = useState('');
   const bottomRef = useRef(null);
 
   // Fetch topics from DB on mount or when skilltreeId changes
@@ -33,7 +34,6 @@ export const GeneralForum = () => {
         setError('Failed to load topics: ' + err.message);
         setTopics([]);
       } else {
-        // console.log('Fetched topics:', res);
         setTopics(res || []);
       }
       setLoading(false);
@@ -150,6 +150,9 @@ export const GeneralForum = () => {
   }
   
   const filteredTopics = topics 
+  .filter(topic =>
+    topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
   .sort((a, b) => { {
     switch (sortOption) {
       case 'title_asc':
@@ -178,6 +181,17 @@ export const GeneralForum = () => {
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
       </div>
+            {/* Search Bar for Topics */}
+      <div className="px-4 py-2">
+        <input
+          type="text"
+          className="w-full border rounded px-3 py-2"
+          placeholder="Search topics..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </div>
+      {/* Filter/Sort for Topics */}
       <div className="px-4 py-2 flex flex-col sm:flex-row gap-2">
         <select
           className="border rounded px-3 py-2 bg-white"
