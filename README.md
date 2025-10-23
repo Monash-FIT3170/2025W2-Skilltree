@@ -329,7 +329,7 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 ### SMTP 
 > [!NOTE]
 >
-> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
+> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [video tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
 > 
 > <details>
 > <summary>⋯</summary>
