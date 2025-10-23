@@ -329,8 +329,11 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 ### SMTP 
 > [!NOTE]
 >
-> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmaik SMTP:
+> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
 > 
+> <details>
+> <summary>⋯</summary>
+>
 > 1. Log into a google account (this is the account that will be sending emails for you)
 > 2. Click on your google account profile and select Manage your Google Account
 > 3. On the left hand side, select Security
