@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 import { Spinner } from 'flowbite-react';
@@ -126,7 +126,9 @@ export const SubscribeButton = ({ skilltreeId }) => {
     <a
       className="block py-2 pl-3 pr-4 md:p-0 cursor-pointer"
       onClick={
-        subscriptionStatus ? unsubscribeUserFromSkilltree : subscribeUserToSkilltree
+        subscriptionStatus
+          ? unsubscribeUserFromSkilltree
+          : subscribeUserToSkilltree
       }
     >
       <div
