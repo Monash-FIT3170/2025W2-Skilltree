@@ -216,6 +216,7 @@ export const ProofUploadButton = ({
         username: username,
         date: new Date(),
         evidenceLink: uploadResults.Location,
+        fileType: selectedFile.type,
         verification: 0,
         skilltreeId: skilltreeId,
         expertVerified: 0,
