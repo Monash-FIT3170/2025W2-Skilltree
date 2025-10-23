@@ -1,9 +1,9 @@
-import React, { Suspense, useContext, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useMemo } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
+import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { AuthContext } from '/imports/utils/contexts/AuthContext';
-import { Meteor } from 'meteor/meteor';
 import { SubscribeButton } from './SubscribeButton';
 
 // Always-visible NavigationMenu component
@@ -12,56 +12,28 @@ export const NavigationMenu = ({ id }) => {
   const userId = useContext(AuthContext); // Reactive when value changes
   const location = useLocation();
 
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
-  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
-
-  // load skilltree data
+  // load skilltree and subscription data
   useSubscribe('skilltrees');
+  useSubscribe('subscriptions');
+
   const skilltree = useFind(SkillTreeCollection, [
     { _id: { $eq: id } },
     { fields: { title: 1, image: 1, owner: 1, admins: 1, subscribers: 1 } }
   ])[0];
 
-  useEffect(() => {
-    if (!skilltree?._id || !userId) return;
+  const userSubscription = useFind(SubscriptionsCollection, [
+    { userId: userId, skilltreeId: id }
+  ])[0];
 
-    const checkStatus = async () => {
-      const isAdmin = await checkUserIsAdmin();
-      setIsUserAdmin(isAdmin);
+  const isUserAdmin = useMemo(() => {
+    return userSubscription?.roles?.includes('admin') ?? false;
+  }, [userSubscription]);
 
-      const isSubscribed = await checkUserIsSubscribed();
-      setIsUserSubscribed(isSubscribed);
-    };
-    checkStatus();
-  }, [skilltree?._id, userId, skilltree?.subscribers]);
-
-  const checkUserIsAdmin = async () => {
-    //Retrieve roles
-    const currUserSkillTreeProgress = await Meteor.callAsync(
-      'getSubscription',
-      skilltree._id
-    );
-
-    if (currUserSkillTreeProgress) {
-      return currUserSkillTreeProgress.roles.includes('admin');
-    }
-    console.log(currUserSkillTreeProgress);
-    return false;
-  };
-
-  const checkUserIsSubscribed = async () => {
-    try {
-      const foundUser = await Meteor.callAsync(
-        'skilltrees.findUser',
-        skilltree._id,
-        userId
-      );
-      return !!foundUser;
-    } catch (error) {
-      console.error('Error checking subscription:', error);
-      return false;
-    }
-  };
+  // Check if user is subscribed (reactively)
+  const subscribedSkillTree = useFind(SkillTreeCollection, [
+    { _id: id, subscribers: { $in: [userId] } }
+  ])[0];
+  const isUserSubscribed = !!subscribedSkillTree;
 
   const getLinkClasses = link => {
     const isActive =
