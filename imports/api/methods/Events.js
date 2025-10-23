@@ -64,11 +64,18 @@ Meteor.methods({
       );
     }
 
-    // Insert the new event as active and add createdAt timestamp
+    // automatically add event status
+    const currDate = new Date();
+
+    const isActive =
+      new Date(event.endDate) > currDate &&
+      currDate >= new Date(event.startDate);
+
+    // Insert the new event and add createdAt timestamp
     const newEventId = await EventCollection.insertAsync({
       ...event,
-      active: true,
-      createdAt: new Date()
+      active: isActive,
+      createdAt: currDate
     });
 
     return newEventId;
@@ -291,6 +298,7 @@ Meteor.methods({
       );
     }
 
+    // verify user joined event
     const joined = await Meteor.callAsync('findUser', proof.user, eventId);
     if (!joined) {
       throw new Meteor.Error(
@@ -299,8 +307,20 @@ Meteor.methods({
       );
     }
 
-    // insert proof
+    // verify user has not posted
+    const posted = await ProofCollection.findOneAsync({
+      user: { $eq: proof.user },
+      eventId: { $eq: eventId }
+    });
 
+    if (posted) {
+      throw new Meteor.Error(
+        'user-posted',
+        'User has already submitted a post for this event'
+      );
+    }
+
+    // insert proof
     proof.eventId = eventId;
     return await ProofCollection.insertAsync(proof);
   }
