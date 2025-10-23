@@ -1,22 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Meteor } from 'meteor/meteor';
+
 import { Spinner } from 'flowbite-react';
+
+import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
+
+import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SubscribeButton = ({ skilltreeId }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const userId = Meteor.userId();
 
-  useEffect(() => {
-    setIsLoading(true);
-    const loadingCheck = async () => {
-      const subscriptionStatus = await checkSubscription(skilltreeId)(userId);
-      setIsSubscribed(subscriptionStatus);
-    };
-    loadingCheck();
-    setIsLoading(false);
-  }, []);
+  useSubscribe('skilltrees');
+  const skilltree = useFind(
+    SkillTreeCollection,
+    [
+      {
+        _id: {
+          $eq: skilltreeId
+        },
+        subscribers: userId
+      },
+      {
+        fields: {
+          _id: 1,
+        },
+        
+      }
+    ],
+    [skilltreeId]
+  )[0];
 
+  useEffect(()=>{
+    setIsSubscribed(!!skilltree)
+    setIsLoading(false)
+  }, [skilltree])
+  
   // check if user is subscribed
   const checkSubscription = skilltreeId => async userId => {
     // find user in skilltree
@@ -86,9 +106,6 @@ export const SubscribeButton = ({ skilltreeId }) => {
       console.log(error);
     }
 
-    const subscribeStatus = await checkSubscription(skilltreeId)(userId);
-    console.log(subscribeStatus);
-    setIsSubscribed(subscribeStatus);
     setIsLoading(false);
   };
 
@@ -108,10 +125,6 @@ export const SubscribeButton = ({ skilltreeId }) => {
       console.log('Error unsubscribing');
       console.log(error);
     }
-
-    const subscribeStatus = await checkSubscription(skilltreeId)(userId);
-    console.log(subscribeStatus);
-    setIsSubscribed(subscribeStatus);
 
     setIsLoading(false);
   };
