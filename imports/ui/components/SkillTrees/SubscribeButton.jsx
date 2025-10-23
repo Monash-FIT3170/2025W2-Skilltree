@@ -8,12 +8,11 @@ import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 export const SubscribeButton = ({ skilltreeId }) => {
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const userId = Meteor.userId();
 
   useSubscribe('skilltrees');
-  const skilltree = useFind(
+  const subscriptionStatus = !!useFind(
     SkillTreeCollection,
     [
       {
@@ -24,34 +23,17 @@ export const SubscribeButton = ({ skilltreeId }) => {
       },
       {
         fields: {
-          _id: 1,
-        },
-        
+          _id: 1
+        }
       }
     ],
     [skilltreeId]
   )[0];
 
-  useEffect(()=>{
-    setIsSubscribed(!!skilltree)
-    setIsLoading(false)
-  }, [skilltree])
-  
-  // check if user is subscribed
-  const checkSubscription = skilltreeId => async userId => {
-    // find user in skilltree
-    try {
-      const user = await Meteor.callAsync(
-        'skilltrees.findUser',
-        skilltreeId,
-        userId
-      );
-      return !!user;
-    } catch (error) {
-      console.log('Error finding user');
-      console.log(error);
-    }
-  };
+  // useEffect(() => {
+  //   setIsSubscribed(!!subscriptionStatus);
+  //   setIsLoading(false);
+  // }, []);
 
   // call meteor method skilltrees.subscribeUser
   const subscribeUser = async () => {
@@ -144,17 +126,17 @@ export const SubscribeButton = ({ skilltreeId }) => {
     <a
       className="block py-2 pl-3 pr-4 md:p-0 cursor-pointer"
       onClick={
-        isSubscribed ? unsubscribeUserFromSkilltree : subscribeUserToSkilltree
+        subscriptionStatus ? unsubscribeUserFromSkilltree : subscribeUserToSkilltree
       }
     >
       <div
         className={`px-3 py-2 rounded ${
-          isSubscribed
+          subscriptionStatus
             ? 'bg-red-600/85 hover:bg-red-700 text-white'
             : 'bg-white hover:bg-gray-200 text-black'
         }`}
       >
-        {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+        {subscriptionStatus ? 'Unsubscribe' : 'Subscribe'}
       </div>
     </a>
   );
