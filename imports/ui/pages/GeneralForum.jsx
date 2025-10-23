@@ -149,6 +149,7 @@ export const GeneralForum = () => {
       return 0;
   }
   
+  // Apply search and sort to topics
   const filteredTopics = topics 
   .filter(topic =>
     topic.title.toLowerCase().includes(searchTerm.toLowerCase())
