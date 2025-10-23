@@ -78,7 +78,8 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+      <div className="flex-1">
       {/* Subheading */}
       <h2
         className="block text-gray-700 text-xl font-bold pl-6"
@@ -121,7 +122,7 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
       </div>
 
       {/* SidePanel always visible, shows placeholder when no tree selected */}
-      <div className="w-80">
+      <div className="lg:w-96 w-full lg:sticky lg:top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
         <SidePanel skillTree={selectedSkillTree} />
       </div>
 
@@ -146,5 +147,8 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
         </button>
       </div>
     </div>
+
+    </div>
+    
   );
 };
