@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
@@ -76,7 +76,9 @@ export const NavigationMenu = ({ id }) => {
       id: 'subscribe',
       element: (
         <div key="subscribe">
-          <SubscribeButton skilltreeId={id} />
+          <Suspense>
+            <SubscribeButton skilltreeId={id} />
+          </Suspense>
         </div>
       )
     },
