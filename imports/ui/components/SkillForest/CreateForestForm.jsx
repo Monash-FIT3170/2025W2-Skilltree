@@ -120,7 +120,7 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
         </div>
 
         {/* Form Section */}
-        <div className="w-full md:w-1/2 sm:w-2/3">
+        <div className="w-full md:w-1/2 sm:w-3/5">
           {/* Title */}
           <div className="flex-1 pt-6 mb-4">
             <label
