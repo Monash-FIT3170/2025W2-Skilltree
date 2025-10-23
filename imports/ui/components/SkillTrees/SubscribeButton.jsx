@@ -9,16 +9,16 @@ import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 
 /**
  * SubscribeButton.jsx
- * 
+ *
  * Renders a button to allow users to subscribe to a Skilltree
- * 
+ *
  * @component
  * @example
  * // Example usage
  * <SubscribeButton.jsx skilltreeId={id}/>
- * 
- * @param {String} skilltreeId _id of Skilltree to subscribe to 
- * 
+ *
+ * @param {String} skilltreeId _id of Skilltree to subscribe to
+ *
  * @returns Subscribe button component
  */
 export const SubscribeButton = ({ skilltreeId }) => {
