@@ -90,12 +90,12 @@ export const CommunityLeaderboardModal = () => {
           ></CommunityLeaderboardList>
         </div>
       </ModalBody>
-      <ModalFooter>
+      <ModalFooter className="flex justify-start px-6 py-4 border-t border-gray-200 rounded-b-lg">
         <Button
           color="green"
           onClick={closeModal}
           pill
-          className="cursor-pointer position-relative text-lg font-bold mt-2 text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
+          className="text-lg font-bold text-white leading-none !font-sans flex items-center gap-3 px-6 py-3 bg-[#328E6E] rounded-[22px] transition-all duration-200 hover:bg-[#2a7a5e] focus:outline-none focus:ring-0"
         >
           Close
         </Button>
