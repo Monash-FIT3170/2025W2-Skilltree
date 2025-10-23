@@ -19,6 +19,8 @@ const testEvent = {
   title: 'Dribbling',
   description: 'Demonstrate your dribbling skills',
   maxTrophies: 5,
+  startDate: new Date("December 17, 1995 03:24:00"),
+  endDate: new Date("December 17, 2025 03:24:00"),
   participants: []
 };
 
