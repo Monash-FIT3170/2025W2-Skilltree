@@ -44,7 +44,10 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
 
   return (
     <div className="p-6">
-      <h2 className="text-4xl md:text-4xl font-bold mb-4" style={{ color: '#328E6E' }}>
+      <h2
+        className="text-4xl md:text-4xl font-bold mb-4"
+        style={{ color: '#328E6E' }}
+      >
         Create SkillForest
       </h2>
 

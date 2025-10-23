@@ -216,113 +216,225 @@ export const CreateTreeForm = ({ onAddSkills, initialValues = {} }) => {
 
   return (
     <div className="p-4 sm:p-6 md:p-8">
-  {/* Responsive container: flex-row on md+ screens, flex-col on smaller */}
-  <div className="flex flex-col md:flex-row md:items-start md:gap-4">
-    
-    {/* Left column: heading and image upload */}
-    <div className="md:w-1/4">
-      <h2 className="text-3xl sm:text-4xl font-bold text-green-700 mb-6 md:mb-8">
-        Create SkillTree
-      </h2>
+      {/* Responsive container: flex-row on md+ screens, flex-col on smaller */}
+      <div className="flex flex-col md:flex-row md:items-start md:gap-4">
+        {/* Left column: heading and image upload */}
+        <div className="md:w-1/4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-green-700 mb-6 md:mb-8">
+            Create SkillTree
+          </h2>
 
-      {/* Image Upload */}
-      <div className="w-full md:max-w-xs">
-        <div
-          onClick={triggerFileInput}
-          className={`cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center transition-colors w-full ${
-            uploading ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-50'
-          }`}
-        >
-          {uploading ? (
-            <div className="flex flex-col items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-              <p className="mt-4 text-sm text-gray-600">Uploading image...</p>
+          {/* Image Upload */}
+          <div className="w-full md:max-w-xs">
+            <div
+              onClick={triggerFileInput}
+              className={`cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center transition-colors w-full ${
+                uploading
+                  ? 'bg-gray-100 cursor-not-allowed'
+                  : 'hover:bg-gray-50'
+              }`}
+            >
+              {uploading ? (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+                  <p className="mt-4 text-sm text-gray-600">
+                    Uploading image...
+                  </p>
+                </div>
+              ) : formData.previewImage ? (
+                <img
+                  src={formData.previewImage}
+                  alt="Preview"
+                  className="h-48 w-full object-cover rounded-md mx-auto"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  <p className="mt-4 text-sm text-gray-600 font-semibold text-green-700">
+                    Click to upload
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    PNG, JPG, GIF up to 5MB
+                  </p>
+                </div>
+              )}
+              <input
+                type="file"
+                name="image"
+                ref={fileInputRef}
+                onChange={handleChange}
+                className="hidden"
+                accept="image/*"
+                disabled={uploading}
+              />
             </div>
-          ) : formData.previewImage ? (
-            <img src={formData.previewImage} alt="Preview" className="h-48 w-full object-cover rounded-md mx-auto" />
-          ) : (
-            <div className="flex flex-col items-center justify-center py-8">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-              </svg>
-              <p className="mt-4 text-sm text-gray-600 font-semibold text-green-700">Click to upload</p>
-              <p className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 5MB</p>
-            </div>
-          )}
-          <input type="file" name="image" ref={fileInputRef} onChange={handleChange} className="hidden" accept="image/*" disabled={uploading} />
+
+            {uploadError && (
+              <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                {uploadError}
+              </div>
+            )}
+            {formData.imageUrl && !uploading && (
+              <div className="mt-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded text-sm">
+                Image uploaded successfully!
+              </div>
+            )}
+            {formData.previewImage && !uploading && (
+              <div className="flex justify-between mt-2 text-sm text-gray-500">
+                <p>{formData.imageUrl ? 'Image uploaded' : 'Image selected'}</p>
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="text-red-500 hover:text-red-700 font-medium"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {uploadError && <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">{uploadError}</div>}
-        {formData.imageUrl && !uploading && <div className="mt-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded text-sm">Image uploaded successfully!</div>}
-        {formData.previewImage && !uploading && (
-          <div className="flex justify-between mt-2 text-sm text-gray-500">
-            <p>{formData.imageUrl ? 'Image uploaded' : 'Image selected'}</p>
-            <button type="button" onClick={removeImage} className="text-red-500 hover:text-red-700 font-medium">Remove</button>
-          </div>
-        )}
+        {/* Right column: form */}
+        <div className="md:w-2/3 mt-6 md:mt-0">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Title */}
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-lg sm:text-xl font-semibold text-green-700 mb-1"
+              >
+                Title
+              </label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                value={formData.title}
+                onChange={handleChange}
+                placeholder="Name your SkillTree..."
+                required
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
+              <select
+                onChange={handleTagChange}
+                className="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-500 mb-2 sm:mb-0 w-full sm:w-auto"
+              >
+                <option value="">Select a tag</option>
+                <option value="music">Music</option>
+                <option value="sports">Sports</option>
+                <option value="wellbeing">Wellbeing</option>
+                <option value="technology">Technology</option>
+                <option value="cooking">Cooking</option>
+                <option value="custom">Add custom tag</option>
+              </select>
+              {formData.showCustomTagInput && (
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <input
+                    type="text"
+                    placeholder="Enter custom tag"
+                    value={formData.newTag}
+                    onChange={handleNewTagChange}
+                    className="border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-green-500 flex-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={addCustomTag}
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                  >
+                    Add
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {formData.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {formData.tags.map(tag => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full"
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="ml-2 text-green-600 hover:text-green-900 font-bold"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Description */}
+            <div>
+              <label
+                htmlFor="description"
+                className="block text-lg sm:text-xl font-semibold text-green-700 mb-1"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows="3"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Describe your SkillTree..."
+                required
+                className="w-full border border-gray-300 rounded px-3 py-2 resize-y text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            {/* Terms and Conditions */}
+            <div>
+              <label
+                htmlFor="tsandcs"
+                className="block text-lg sm:text-xl font-semibold text-green-700 mb-1"
+              >
+                Terms and Conditions
+              </label>
+              <textarea
+                id="tsandcs"
+                name="tsandcs"
+                rows="5"
+                value={formData.tsandcs}
+                onChange={handleChange}
+                placeholder="Enter Terms & Conditions..."
+                required
+                className="w-full border border-gray-300 rounded px-3 py-2 resize-y text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={uploading}
+              className={`text-white font-semibold py-2 px-6 rounded transition-colors w-full ${uploading ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-700'}`}
+              style={{ backgroundColor: uploading ? '#9CA3AF' : '#328E6E' }}
+            >
+              {uploading ? 'Uploading Image...' : 'Add Skills +'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-
-    {/* Right column: form */}
-    <div className="md:w-2/3 mt-6 md:mt-0">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Title */}
-        <div>
-          <label htmlFor="title" className="block text-lg sm:text-xl font-semibold text-green-700 mb-1">Title</label>
-          <input id="title" name="title" type="text" value={formData.title} onChange={handleChange} placeholder="Name your SkillTree..." required
-            className="w-full border border-gray-300 rounded px-3 py-2 text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
-          <select onChange={handleTagChange} className="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-500 mb-2 sm:mb-0 w-full sm:w-auto">
-            <option value="">Select a tag</option>
-            <option value="music">Music</option>
-            <option value="sports">Sports</option>
-            <option value="wellbeing">Wellbeing</option>
-            <option value="technology">Technology</option>
-            <option value="cooking">Cooking</option>
-            <option value="custom">Add custom tag</option>
-          </select>
-          {formData.showCustomTagInput && (
-            <div className="flex gap-2 w-full sm:w-auto">
-              <input type="text" placeholder="Enter custom tag" value={formData.newTag} onChange={handleNewTagChange} className="border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-green-500 flex-1"/>
-              <button type="button" onClick={addCustomTag} className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Add</button>
-            </div>
-          )}
-        </div>
-
-        {formData.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {formData.tags.map(tag => (
-              <span key={tag} className="inline-flex items-center bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">
-                {tag}
-                <button type="button" onClick={() => removeTag(tag)} className="ml-2 text-green-600 hover:text-green-900 font-bold">&times;</button>
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Description */}
-        <div>
-          <label htmlFor="description" className="block text-lg sm:text-xl font-semibold text-green-700 mb-1">Description</label>
-          <textarea id="description" name="description" rows="3" value={formData.description} onChange={handleChange} placeholder="Describe your SkillTree..." required
-            className="w-full border border-gray-300 rounded px-3 py-2 resize-y text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
-
-        {/* Terms and Conditions */}
-        <div>
-          <label htmlFor="tsandcs" className="block text-lg sm:text-xl font-semibold text-green-700 mb-1">Terms and Conditions</label>
-          <textarea id="tsandcs" name="tsandcs" rows="5" value={formData.tsandcs} onChange={handleChange} placeholder="Enter Terms & Conditions..." required
-            className="w-full border border-gray-300 rounded px-3 py-2 resize-y text-sm sm:text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
-
-        <button type="submit" disabled={uploading} className={`text-white font-semibold py-2 px-6 rounded transition-colors w-full ${uploading ? 'bg-gray-400 cursor-not-allowed' : 'hover:bg-green-700'}`} style={{ backgroundColor: uploading ? '#9CA3AF' : '#328E6E' }}>
-          {uploading ? 'Uploading Image...' : 'Add Skills +'}
-        </button>
-      </form>
-    </div>
-  </div>
-</div>   
   );
 };
