@@ -68,12 +68,23 @@ export const Profile = () => {
     { fields: { _id: 1, followingUserId: 1 } }
   ]);
 
+  const iFollowProfile =
+    useFind(FollowersCollection, [
+      { followerUserId: loggedInUserId, followingUserId: profileUserId },
+      { fields: { _id: 1 } }
+    ]).length > 0;
+
   // --- Requests (for logged-in user's profile) ---
   const requests = useFind(RequestsCollection, [
     { requesteeUserId: loggedInUserId },
     { fields: { _id: 1, requesterUserId: 1, createdAt: 1 } }
   ]);
 
+  const handleUnfollow = () => {
+    Meteor.call('followers.unfollow', profileUserId, err => {
+      if (err) alert(err.reason || err.message);
+    });
+  };
   // --- My pending request to this profile ---
   const myPendingRequest = useFind(RequestsCollection, [
     { requesterUserId: loggedInUserId, requesteeUserId: profileUserId },
@@ -119,16 +130,25 @@ export const Profile = () => {
             {/* Follow/Request button (inline with username) */}
             {loggedInUserId && !isOwnProfile && profileUserId && (
               <>
-                {isPublic ? (
+                {iFollowProfile ? (
+                  <Button
+                    size="sm"
+                    color="light"
+                    className="border border-gray-300"
+                    onClick={handleUnfollow}
+                  >
+                    Unfollow
+                  </Button>
+                ) : isPublic ? (
                   <FollowingButton
                     userId={loggedInUserId}
                     toFollowId={profileUserId}
                   />
                 ) : myPendingRequest ? (
                   <Button
-                    className="bg-gray-100 text-black rounded-lg border border-gray-300"
                     disabled
                     size="sm"
+                    className="bg-gray-100 text-black border border-gray-300"
                   >
                     Requested
                   </Button>

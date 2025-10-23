@@ -1,4 +1,3 @@
-// /imports/api/requests/server/methods.js
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { RequestsCollection } from '/imports/api/collections/Requests';
@@ -12,7 +11,19 @@ Meteor.methods({
       throw new Meteor.Error('invalid', 'Cannot request yourself');
     }
 
-    // prevent duplicates
+    // ✅ NEW: already following? reject request
+    const alreadyFollowing = await FollowersCollection.findOneAsync({
+      followerUserId: this.userId,
+      followingUserId: requesteeUserId
+    });
+    if (alreadyFollowing) {
+      throw new Meteor.Error(
+        'already-following',
+        'You already follow this user'
+      );
+    }
+
+    // Prevent duplicate pending requests
     const exists = await RequestsCollection.findOneAsync({
       requesterUserId: this.userId,
       requesteeUserId
@@ -26,19 +37,6 @@ Meteor.methods({
     });
   },
 
-  async 'requests.cancel'(requestId) {
-    check(requestId, String);
-    if (!this.userId) throw new Meteor.Error('not-authorized');
-
-    const req = await RequestsCollection.findOneAsync({ _id: requestId });
-    if (!req || req.requesterUserId !== this.userId) {
-      throw new Meteor.Error('not-authorized');
-    }
-
-    await RequestsCollection.removeAsync({ _id: requestId });
-    return true;
-  },
-
   async 'requests.accept'(requestId) {
     check(requestId, String);
     if (!this.userId) throw new Meteor.Error('not-authorized');
@@ -48,12 +46,19 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    // create follow and remove request
-    await FollowersCollection.insertAsync({
+    // ✅ NEW: idempotent—if already following, don’t insert again
+    const already = await FollowersCollection.findOneAsync({
       followerUserId: req.requesterUserId,
-      followingUserId: req.requesteeUserId,
-      createdAt: new Date()
+      followingUserId: req.requesteeUserId
     });
+    if (!already) {
+      await FollowersCollection.insertAsync({
+        followerUserId: req.requesterUserId,
+        followingUserId: req.requesteeUserId,
+        createdAt: new Date()
+      });
+    }
+
     await RequestsCollection.removeAsync({ _id: requestId });
     return true;
   },
@@ -66,7 +71,18 @@ Meteor.methods({
     if (!req || req.requesteeUserId !== this.userId) {
       throw new Meteor.Error('not-authorized');
     }
+    await RequestsCollection.removeAsync({ _id: requestId });
+    return true;
+  },
 
+  async 'requests.cancel'(requestId) {
+    check(requestId, String);
+    if (!this.userId) throw new Meteor.Error('not-authorized');
+
+    const req = await RequestsCollection.findOneAsync({ _id: requestId });
+    if (!req || req.requesterUserId !== this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
     await RequestsCollection.removeAsync({ _id: requestId });
     return true;
   }

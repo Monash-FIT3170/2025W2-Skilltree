@@ -43,5 +43,20 @@ Meteor.methods({
 
     const result = await FollowersCollection.removeAsync(followerData);
     return result;
+  },
+
+  async 'followers.unfollow'(targetUserId) {
+    check(targetUserId, String);
+    if (!this.userId) throw new Meteor.Error('not-authorized');
+    if (this.userId === targetUserId)
+      throw new Meteor.Error('invalid', 'Cannot unfollow yourself');
+
+    // Remove follow record if it exists
+    await FollowersCollection.removeAsync({
+      followerUserId: this.userId,
+      followingUserId: targetUserId
+    });
+
+    return true;
   }
 });
