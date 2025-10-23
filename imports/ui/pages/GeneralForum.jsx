@@ -165,14 +165,16 @@ export const GeneralForum = () => {
             return getTopicCreationDate(b) - getTopicCreationDate(a);
           case 'created_oldest':
             return getTopicCreationDate(a) - getTopicCreationDate(b);
-          case 'messages_asc':
+          case 'messages_asc': {
             const countA_asc = a.messages ? a.messages.length : 0;
             const countB_asc = b.messages ? b.messages.length : 0;
             return countA_asc - countB_asc;
-          case 'messages_desc':
+          }
+          case 'messages_desc': {
             const countA_desc = a.messages ? a.messages.length : 0;
             const countB_desc = b.messages ? b.messages.length : 0;
             return countB_desc - countA_desc;
+          }
           default:
             return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
         }
