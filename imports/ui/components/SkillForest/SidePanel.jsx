@@ -34,7 +34,7 @@ export const SidePanel = ({ skillTree }) => {
 
   return (
     <div
-      className="fixed right-0 w-96 bg-white shadow-xl p-4 overflow-y-auto z-50"
+      className="fixed right-0 w-96 bg-white shadow-xl p-4 overflow-y-auto z-50 w-full sm:w-1/4 md:w-2/3 lg:w-96"
       style={{ top: '60px', height: 'calc(100% - 60px)' }}
     >
       {skillTree ? (

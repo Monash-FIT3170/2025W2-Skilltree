@@ -44,7 +44,7 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
 
   return (
     <div className="p-6">
-      <h2 className="text-4xl font-bold mb-4" style={{ color: '#328E6E' }}>
+      <h2 className="text-4xl md:text-4xl font-bold mb-4" style={{ color: '#328E6E' }}>
         Create SkillForest
       </h2>
 
@@ -54,7 +54,7 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
         <div className="flex flex-col items-center">
           <div
             onClick={triggerFileInput}
-            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg w-50 h-40 flex items-center justify-center overflow-hidden mt-4"
+            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg w-full sm:w-64 h-48 flex  items-center justify-center overflow-hidden mt-4"
           >
             {formData.previewImage ? (
               <img
@@ -117,7 +117,7 @@ export const CreateForestForm = ({ onChange, initialValues = {} }) => {
         </div>
 
         {/* Form Section */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/2 sm:w-2/3">
           {/* Title */}
           <div className="flex-1 pt-6 mb-4">
             <label
