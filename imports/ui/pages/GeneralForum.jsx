@@ -16,6 +16,7 @@ export const GeneralForum = () => {
   const [topicTitle, setTopicTitle] = useState('');
   const [topicDesc, setTopicDesc] = useState('');
   const [message, setMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const bottomRef = useRef(null);
 
   // Fetch topics from DB on mount or when skilltreeId changes
@@ -32,7 +33,6 @@ export const GeneralForum = () => {
         setError('Failed to load topics: ' + err.message);
         setTopics([]);
       } else {
-        // console.log('Fetched topics:', res);
         setTopics(res || []);
       }
       setLoading(false);
@@ -62,7 +62,6 @@ export const GeneralForum = () => {
         setError('Failed to create topic: ' + err.message);
         setLoading(false);
       } else {
-        // console.log('Topic created successfully:', res);
         // Refetch topics after successful insert
         Meteor.call('getSkillTreeForums', skilltreeId, (err2, res2) => {
           if (err2) {
@@ -99,8 +98,6 @@ export const GeneralForum = () => {
     setLoading(true);
     setError(null);
 
-    // console.log('Sending message with topic ID:', selectedTopicId);
-
     // Find the topic to get the correct forumId
     const topic = topics.find(t => t.forumId === selectedTopicId);
 
@@ -109,8 +106,6 @@ export const GeneralForum = () => {
       setLoading(false);
       return;
     }
-
-    // console.log('Found topic for messaging:', topic);
 
     // Backend method expects (forumId as Number, content, userId)
     Meteor.call(
@@ -144,24 +139,26 @@ export const GeneralForum = () => {
   // Find the selected topic using forumId
   const selectedTopic = topics.find(t => t.forumId === selectedTopicId);
 
-  // Debug log to see which topic is being displayed
-  // useEffect(() => {
-  //   if (selectedTopicId && selectedTopic) {
-  //     console.log('Displaying topic:', {
-  //       selectedTopicId,
-  //       foundTopic: {
-  //         title: selectedTopic.title,
-  //         forumId: selectedTopic.forumId,
-  //         messagesCount: selectedTopic.messages?.length || 0
-  //       }
-  //     });
-  //   }
-  // }, [selectedTopicId, selectedTopic]);
+  // Filter topics based on searchTerm
+  const filteredTopics = topics.filter(topic =>
+    topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
+      </div>
+
+      {/* Search Bar for Topics */}
+      <div className="px-4 py-2">
+        <input
+          type="text"
+          className="w-full border rounded px-3 py-2"
+          placeholder="Search topics..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
       </div>
 
       {error && (
@@ -210,7 +207,7 @@ export const GeneralForum = () => {
         <div className="p-4 text-center">Loading topics...</div>
       ) : selectedTopicId === null ? (
         <TopicList
-          topics={topics}
+          topics={filteredTopics}
           onSelectTopic={id => {
             setSelectedTopicId(id);
           }}
