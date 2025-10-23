@@ -177,7 +177,7 @@ export const NavigationMenu = ({ id }) => {
   return (
     <div className="w-full">
       {/* Classy container with gradient */}
-      <div className="flex items-center gap-6 px-6 py-4 bg-gradient-to-r from-[#2D7A5E] to-[#3A9A75] rounded-2xl shadow-md overflow-x-auto">
+      <div className="flex items-center gap-6 px-6 py-4 bg-gradient-to-r from-[#2D7A5E] to-[#3A9A75] rounded-lg shadow-md overflow-x-auto">
         {/* Skilltree Info */}
         <div className="flex items-center gap-3 flex-shrink-0 border-r border-white/30 pr-6">
           <img
