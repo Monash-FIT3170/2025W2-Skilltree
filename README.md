@@ -12,11 +12,11 @@
     <kbd><strong>Skills</strong></kbd>
     <kbd><strong>XP</strong></kbd>
     <kbd><strong>Progress</strong></kbd>
-    <kbd><strong>Custom Content</strong></kbd>
+    <kbd><strong>User Content</strong></kbd>
     <kbd><strong>Share Interests</strong></kbd>
     <kbd><strong>Forum</strong></kbd>
     <kbd><strong>Leaderboards</strong></kbd>
-    <kbd><strong>Ranked events</strong></kbd>
+    <kbd><strong>Ranked Events</strong></kbd>
     <kbd><strong>Competitions</strong></kbd>
     <kbd><strong>Uploading</strong></kbd>
     <kbd><strong>Photos</strong></kbd>
@@ -37,15 +37,15 @@
 > <summary>"<strong>Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.</strong>"</summary>
 > <br />
 > 
-> *Account creation with email or Google login*
-> *Skilltree communities based on different skills to explore and subscribe to*
-> *Uploading photos and videos as proof of skill completion*
-> *Progressing through each Skilltree by getting your proofs verified*
-> *Voting and commenting on other people's proofs*
-> *Community leaderboards to compete against other people's progress*
-> *Ranked events to compete in*
-> *A General Forum in each community with different topics to chat with people with similar interests*
-> *Creating your own Skilltree and grouping them with Skillforests*
+> ⧼ Account creation with email or Google login ⧽ <br />
+> ⧼ Skilltree communities based on different skills to explore and subscribe to ⧽ <br />
+> ⧼ Uploading photos and videos as proof of skill completion ⧽ <br />
+> ⧼ Progressing through each Skilltree by getting your proofs verified ⧽ <br />
+> ⧼ Voting and commenting on other people's proofs ⧽ <br />
+> ⧼ Community leaderboards to compete against other people's progress ⧽ <br />
+> ⧼ Ranked events to compete in ⧽ <br />
+> ⧼ A General Forum in each community with different topics to chat with people with similar interests ⧽ <br />
+> ⧼ Creating your own Skilltree and grouping them with Skillforests ⧽ <br />
 >
 > </details>
 </div>
@@ -2031,7 +2031,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-mocha).
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-mocha):
 > <details>
 > <summary>⋯</summary>
 >
@@ -2068,8 +2068,7 @@ tests/					<Unit Tests>
 ### Continuous Integration (CI)
 > [!NOTE]
 >
-> Every pull request triggers automated workflows that validate the integrity of new code before integration.
-> The CI process includes:
+> Every pull request triggers automated workflows that validate the integrity of new code before integration. The CI process includes:
 >
 > <details>
 > <summary>⋯</summary>
@@ -2160,7 +2159,7 @@ tests/					<Unit Tests>
 > <details>
 > <summary>⋯</summary>
 >
-> > **Add a title:** `feat/fix/docs: <Short Descriptive Title>`
+> > **Add a title:** `Feat/Fix/Docs: <Short Descriptive Title>`
 > > **Add a description** ([`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md)):
 > >
 > > ```markdown
