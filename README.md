@@ -41,7 +41,16 @@
 <h2 align="center">⬦ Key Features ⬦</h2>
 
 
-- [TODO] (LIST FORMAT)
+- Account creation with email or Google login
+- Skilltree communities based on different skills to explore and subscribe to
+- Uploading photos and videos as proof of skill completion
+- Progressing through each Skilltree by getting your proofs verified
+- Voting and commenting on other people's proofs
+- Community leaderboards to compete against other people's progress
+- Ranked events to compete in
+- A General Forum in each community with different topics to chat with people with similar interests
+- Creating your own Skilltree and grouping them with Skillforests
+
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
 
