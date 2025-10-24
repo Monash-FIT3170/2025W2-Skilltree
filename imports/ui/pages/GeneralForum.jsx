@@ -239,7 +239,9 @@ export const GeneralForum = () => {
                     {msg.userId?.[0]?.toUpperCase() || '?'}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold">{linkUsername(msg.userId)}</div>
+                    <div className="font-semibold">
+                      {linkUsername(msg.userId)}
+                    </div>
                     <div className="text-gray-700">{msg.content}</div>
                     {msg.timestamp && (
                       <div className="text-xs text-gray-400 mt-1">

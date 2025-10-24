@@ -11,7 +11,7 @@ if (Meteor.isServer) {
         { unique: true }
       );
     } catch (e) {
-      // ignore if exists
+      console.error('Error creating index on RequestsCollection:', e);
     }
   });
 }

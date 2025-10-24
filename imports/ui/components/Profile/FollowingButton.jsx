@@ -4,7 +4,6 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 
 const FollowingButton = ({ userId, toFollowId }) => {
-
   // Subscribe to followers data
   useSubscribe('followers');
 
@@ -19,7 +18,6 @@ const FollowingButton = ({ userId, toFollowId }) => {
       }
     }
   ])[0];
-
 
   const isFollowing = followerRecord ? true : false;
 
