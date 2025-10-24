@@ -1,8 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 
-import { Spinner } from 'flowbite-react';
-
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';

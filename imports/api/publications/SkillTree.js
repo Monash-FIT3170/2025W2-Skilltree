@@ -5,7 +5,6 @@ import '/imports/api/schemas/SkillTree';
 Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 Meteor.startup(async () => {
-  await SkillTreeCollection.removeAsync({});
   //generated dummy inputs
   const dummySkillTrees = [
     {
@@ -566,7 +565,12 @@ Meteor.startup(async () => {
     }
   ];
 
-  for (const skillTree of dummySkillTrees) {
-    await SkillTreeCollection.insertAsync(skillTree);
+  // Insert dummy data if collection is empty
+  const collectionCount = await SkillTreeCollection.find().countAsync();
+
+  if (collectionCount == 0) {
+    for (const skillTree of dummySkillTrees) {
+      await SkillTreeCollection.insertAsync(skillTree);
+    }
   }
 });

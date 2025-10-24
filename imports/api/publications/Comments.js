@@ -9,11 +9,7 @@ Meteor.publish('comments', () => CommentsCollection.find());
 
 // [Mock Data] via Meteor Startup
 Meteor.startup(async () => {
-  // console.log('comments.js loaded');
-
   // Add dummy comments data
-  await CommentsCollection.removeAsync({}); // Clean existing comments
-
   const dummyComments = [
     {
       username: 'user1',
@@ -67,10 +63,12 @@ Meteor.startup(async () => {
     }
   ];
 
-  // Insert all the dummy comments
-  for (const comment of dummyComments) {
-    await CommentsCollection.insertAsync(comment);
-  }
+  // Insert all the dummy comments if collection is empty
+  const collectionCount = await CommentsCollection.find().countAsync();
 
-  // console.log(`Inserted ${dummyComments.length} dummy comments`);
+  if (collectionCount == 0) {
+    for (const comment of dummyComments) {
+      await CommentsCollection.insertAsync(comment);
+    }
+  }
 });
