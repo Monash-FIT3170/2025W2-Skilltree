@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 
 const FollowingButton = ({ userId, toFollowId }) => {
   // set initial states
-  const [isFollowing, setIsFollowing] = useState(false);
+  // const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Subscribe to followers data
@@ -23,14 +23,8 @@ const FollowingButton = ({ userId, toFollowId }) => {
     }
   ])[0];
 
-  // Update isFollowing state based on the follower record
-  useEffect(() => {
-    setIsFollowing(!!followerRecord);
-  }, [followerRecord]);
-  // Update isFollowing state based on the follower record
-  useEffect(() => {
-    setIsFollowing(!!followerRecord);
-  }, [followerRecord]);
+
+  const isFollowing = followerRecord ? true : false;
 
   console.log('Follower record:', followerRecord);
   console.log('Follower record:', followerRecord);
