@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useParams } from 'react-router-dom';
-import { Regex } from '/imports/utils/Regex.js';
+import { Regex } from '/imports/utils/Regex';
 import { Link } from 'react-router-dom';
 import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';
 import { FiCheck } from '@react-icons/all-files/fi/FiCheck';

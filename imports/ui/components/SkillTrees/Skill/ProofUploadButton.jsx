@@ -21,7 +21,8 @@ export const ProofUploadButton = ({
   eventId = '',
   requirements = '',
   onUploadProof,
-  disabled = false
+  disabled = false,
+  styling = ''
 }) => {
   // loggedIn username
   const currentUserId = Meteor.userId();
@@ -215,6 +216,7 @@ export const ProofUploadButton = ({
         username: username,
         date: new Date(),
         evidenceLink: uploadResults.Location,
+        fileType: selectedFile.type,
         verification: 0,
         skilltreeId: skilltreeId,
         expertVerified: 0,
@@ -292,7 +294,7 @@ export const ProofUploadButton = ({
       <Button
         pill
         color="green"
-        className="focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer"
+        className={`focus:ring-0 w-32 font-bold text-md enabled:cursor-pointer ${styling}`}
         onClick={() => setOpenModal(true)}
         disabled={disabled}
       >
@@ -387,7 +389,7 @@ export const ProofUploadButton = ({
                 <Button
                   pill
                   color="green"
-                  className="focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer"
+                  className={`focus:ring-0 w-32 font-bold text-lg enabled:cursor-pointer`}
                   type="submit"
                   disabled={!isValidFile || result}
                 >

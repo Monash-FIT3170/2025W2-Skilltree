@@ -16,9 +16,9 @@ export const DashboardSkillForest = ({ setCommunitiesCount = null }) => {
     'profile.subscribedCommunities'
   ]);
   const createdIds = user?.profile?.createdCommunities ?? [];
-  //   const subscribedIds = user?.profile?.subscribedCommunities ?? [];
+  const subscribedIds = user?.profile?.subscribedCommunities ?? [];
   //Using Set will make all elements unique
-  const allUniqueIds = [...new Set([...createdIds])];
+  const allUniqueIds = [...new Set([...createdIds, ...subscribedIds])];
   // Get all unique skill tree IDs (created + subscribed)
   useSubscribe('skillForests');
   const allSkillForests = useFind(SkillForestCollection, [

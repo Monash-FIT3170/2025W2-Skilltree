@@ -3,6 +3,7 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
+import { toLocale } from '/imports/utils/Locale';
 
 /**
  * Component that displays all comments for a given proof.
@@ -27,16 +28,6 @@ export const CommentSection = ({ proofId }) => {
   const [editingComment, setEditingComment] = useState('');
   // The current text value of the comment being updated, continuously updated as you edit
   const [currentText, setCurrentText] = useState('');
-
-  // Format date to be more readable
-  const formatDate = date => {
-    return date.toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
 
   /**
    * Initiates the edit process
@@ -108,7 +99,12 @@ export const CommentSection = ({ proofId }) => {
             <strong>{item.username}</strong>
 
             <span style={{ fontSize: '0.8rem', color: '#666' }}>
-              {formatDate(item.createdAt)}
+              {toLocale(item.createdAt, 'DateTime', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
             </span>
           </div>
           {/* If this comment is being edited, show an edit box and submit button, else show the comment and an edit button */}

@@ -6,6 +6,4 @@ import '/imports/api/schemas/RoleApplications';
 
 Meteor.publish('roleApplications', () => RoleApplicationCollection.find());
 
-Meteor.startup(async () => {
-  await RoleApplicationCollection.removeAsync({});
-});
+Meteor.startup(async () => {});

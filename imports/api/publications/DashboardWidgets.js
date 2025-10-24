@@ -8,9 +8,6 @@ import '/imports/api/schemas/DashboardWidgets'; // Enable DashboardWidgets Schem
 Meteor.publish('dashboardWidgets', () => DashboardWidgetsCollection.find());
 
 Meteor.startup(async () => {
-  // Clear collection asynchronously
-  await DashboardWidgetsCollection.removeAsync({});
-
   const mockWidgets = [
     {
       userId: 'user123',
@@ -135,5 +132,12 @@ Meteor.startup(async () => {
     }
   ];
 
-  mockWidgets.forEach(widget => DashboardWidgetsCollection.insertAsync(widget));
+  // Insert dummy data if collection is empty
+  const collectionCount = await DashboardWidgetsCollection.find().countAsync();
+
+  if (collectionCount == 0) {
+    mockWidgets.forEach(widget =>
+      DashboardWidgetsCollection.insertAsync(widget)
+    );
+  }
 });

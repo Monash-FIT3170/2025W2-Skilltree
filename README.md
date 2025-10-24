@@ -4,8 +4,50 @@
 
 # 2025W2-Skilltree
 
-> "**Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.**"
+<div align="center">
+    <kbd><strong>Skilltree</strong></kbd>
+    <kbd><strong>Skillforests</strong></kbd>
+    <kbd><strong>Communities</strong></kbd>
+    <kbd><strong>Subscribe</strong></kbd>
+    <kbd><strong>Skills</strong></kbd>
+    <kbd><strong>XP</strong></kbd>
+    <kbd><strong>Progress</strong></kbd>
+    <kbd><strong>User Content</strong></kbd>
+    <kbd><strong>Share Interests</strong></kbd>
+    <kbd><strong>Forum</strong></kbd>
+    <kbd><strong>Leaderboards</strong></kbd>
+    <kbd><strong>Ranked Events</strong></kbd>
+    <kbd><strong>Competitions</strong></kbd>
+    <kbd><strong>Uploading</strong></kbd>
+    <kbd><strong>Photos</strong></kbd>
+    <kbd><strong>Videos</strong></kbd>
+    <kbd><strong>Voting</strong></kbd>
+    <kbd><strong>Commenting</strong></kbd>
+    <kbd><strong>Proof Verified</strong></kbd>
+    <kbd><strong>Skill Completion</strong></kbd>
+    <kbd><strong>Grouping</strong></kbd>
+    <kbd><strong>Roles</strong></kbd>
+    <kbd><strong>Accounts</strong></kbd>
+    <kbd><strong>Email/Google Auth</strong></kbd>
+</div>
 
+<br />
+
+> <details>
+> <summary>"<strong>Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.</strong>"</summary>
+> <br />
+> 
+> ⧼ Account creation with email or Google login ⧽ <br />
+> ⧼ Skilltree communities based on different skills to explore and subscribe to ⧽ <br />
+> ⧼ Uploading photos and videos as proof of skill completion ⧽ <br />
+> ⧼ Progressing through each Skilltree by getting your proofs verified ⧽ <br />
+> ⧼ Voting and commenting on other people's proofs ⧽ <br />
+> ⧼ Community leaderboards to compete against other people's progress ⧽ <br />
+> ⧼ Ranked events to compete in ⧽ <br />
+> ⧼ A General Forum in each community with different topics to chat with people with similar interests ⧽ <br />
+> ⧼ Creating your own Skilltree and grouping them with Skillforests ⧽ <br />
+>
+> </details>
 </div>
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
@@ -63,7 +105,7 @@
 >
 > This sets up a reproducible and lightweight Linux environment via [Devbox](https://www.jetify.com/devbox) that uses [Nix](https://nixos.org/) under the hood. It helps address "works on my machine" issues by ensuring consistent development environments and also results in faster Meteor builds than on Windows natively.
 
-<h3 align="center"><u><a href="https://learn.microsoft.com/en-us/windows/wsl">WSL</a> (Windows)</u></h3>
+<h3 align="center"><a href="https://learn.microsoft.com/en-us/windows/wsl">WSL</a> (Windows)</h3>
 
 <div align="center">
 
@@ -77,7 +119,7 @@ Requires [WSL](https://learn.microsoft.com/en-us/windows/wsl/install#install-wsl
 
 </div>
 
-<h3 align="center"><u><a href="https://www.jetify.com/devbox">Devbox</a> (Unix/MacOS, Linux & Windows)</u></h3>
+<h3 align="center"><a href="https://www.jetify.com/devbox">Devbox</a> (Unix/MacOS, Linux & Windows)</h3>
 
 <div align="center">
 
@@ -89,7 +131,7 @@ To install [Devbox](https://www.jetify.com/docs/devbox/installing_devbox/), open
 
 </div>
 
-<h3 align="center"><u><a href="https://nixos.org/">Nix</a> (Unix/MacOS, Linux & Windows)</u></h3>
+<h3 align="center"><a href="https://nixos.org/">Nix</a> (Unix/MacOS, Linux & Windows)</h3>
 
 <div align="center">
 
@@ -209,6 +251,236 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 
 </div>
 
+<h1 align="center">⬥ Known Issues ⬥</h1>
+
+> [!NOTE]
+>
+> See [issues](https://github.com/Monash-FIT3170/2025W2-Skilltree/issues), some key ones known are:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Navigating to the 'Help Our Community' or 'Mod Tools' tab in a Skilltree only works from the Community Tree tab. Hitting these buttons from the Pending Proofs page does nothing, while hitting them from Events or General Forum gives an Error 404 page.
+> - The Navbar does not collapse on smaller screens.
+> - The app isn't very responsive for mobile screen sizes.
+> - The 'End Event' button appears on the Events page even if there is no currently active event.
+> 
+> </details>
+
+<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
+
+> [!IMPORTANT]
+>
+> Create or edit the `settings.json` file to configure and enable Third-Party APIs functionality:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> ```json
+> {
+>   "public": {
+>     "enableSSR": true
+>   },
+>   "private": {
+>     "AWSAccessKeyId": "",
+>     "AWSSecretAccessKey": "",
+>     "google": {
+>       "clientId": "",
+>       "secret": ""
+>     },
+>     "smtp": {
+>       "username": "your@gmail.com",
+>       "password": "app-password",
+>       "server": "smtp.gmail.com",
+>       "port": 465
+>     }
+>   }
+> }
+> ```
+> </details>
+
+### SSR
+> [!NOTE]
+> Set `enableSSR: false` to explicitly disable SSR. 
+
+### AWS
+> [!NOTE]
+>
+> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Go to the IAM dashboard.
+> 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
+> 3. Create a group (under `User groups`) and attach this permission policy.
+> 4. Create an IAM user (under `Users`) and add it to the group.
+> 5. Go to the IAM user's details and hit `Create access key`.
+> 6. Select `Local code` as your use case and confirm.
+> 7. Write a description tag for your key (optional) and hit 'Create access key'.
+> 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
+> 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### Google
+> [!NOTE]
+>
+> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. On your project page, go to the `Dashboard`
+> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
+> 3. Click `Create Credentials > OAuth client ID`
+> 4. Select `Web application` as your Application type, and give the client any name you want.
+> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
+> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
+> 7. Hit `Create`
+> 8. Navigate to `OAuth consent screen` from the sidebar
+> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
+> 10. Go back to `Credentials` from the sidebar
+> 11. Click the edit button on the `Client ID` you created earlier
+> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
+> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
+> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### SMTP 
+> [!NOTE]
+>
+> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [video tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Log into a google account (this is the account that will be sending emails for you)
+> 2. Click on your google account profile and select Manage your Google Account
+> 3. On the left hand side, select Security
+> 4. Scroll down until you see 2 Step Verification and make sure it is turned on
+> 5. Click the search bar and type 'app password' -> select App Passwords in the drop down
+> 6. Create an App-name -> Click Create
+> 7. You will be given the generated app password. Make sure you save this somewhere as it will disappear.
+> 8. Head to settings.json
+> 9. For the value of `username`, enter your gmail account email (the one you signed in with in step 1)
+> 10. Copy the recently generated app-password and paste it as the value of `password`
+> 11. For the value of `server`, enter `"smtp.gmail.com"`
+> 12. For the value of `port`, enter `465`
+> 13. Save `settings.json` and restart Meteor to ensure changes take effect
+
+<h1 align="center">⬥ Deployment ⬥</h1>
+
+<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
+
+> [!NOTE]
+> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+
+<h2 align="center">⬦ Environment Variables ⬦</h2>
+
+<div align="center">
+
+|       Variable        | Description                           | Default Value                         |
+| :-------------------: | :------------------------------------ | :------------------------------------ |
+|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
+|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
+|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
+| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
+
+</div>
+
+<h3 align="center">Set Environment Variables</h3>
+
+<div align="center">
+
+Edit `~/.bash_profile`:
+
+> ```
+> export ENV_VAR="value"
+> ```
+
+To apply changes to the existing terminal session, run:
+
+> ```
+> . .bash_profile
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Setup ⬦</h2>
+
+<h3 align="center">Git Repository</h3>
+
+<div align="center">
+
+> ```shell
+> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
+> ```
+>
+> ```shell
+> cd 2025W2-Skilltree
+> ```
+
+</div>
+
+<h3 align="center">Server Setup Script</h3>
+
+<div align="center">
+
+> ```shell
+> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+>
+> ```shell
+> ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Usage ⬦</h2>
+
+<div align="center">
+  <table>
+    <tr>
+      <th><b>⦗ Start Webserver ⦘</b></th>
+      <th><b>⦗ Stop Webserver ⦘</b></th>
+      <th><b>⦗ Restart Webserver ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Pull Repo Changes ⦘</b></th>
+      <th><b>⦗ Update Webserver ⦘</b></th>
+      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Webserver Console ⦘</b></th>
+      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
+      <th><b>⦗ Build Console ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+
+> [!CAUTION]
+> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
+> **Use Ctrl+A then D to detach** from the session instead.
+      </td>
+    </tr>
+  </table>
+</div>
+
 <h1 align="center">⬥ Architecture ⬥</h1>
 
 <h2 align="center">⬦ Directory Structure ⬦</h2>
@@ -241,9 +513,11 @@ imports/
 │   └── Root.jsx             	// Root JSX Container
 ├── utils/                	<Utility Helper Functions/Hooks>
 │   ├── contexts/          		// React Contexts
-│   └── providers/          	// React Providers
-│   └── RouteGuard.jsx      	// Route Protection & Redirects
-│   └── SuspenseHydrated.jsx	// Suspense Opt Out SSR
+│   ├── providers/            	// React Providers
+│   ├── Locale.jsx            	// toLocale (SSR Workaround)
+│   ├── PreHydration.jsx      	// injectPreHydration (SSR Workaround)
+│   ├── RouteGuard.jsx      	// Route Protection & Redirects
+│   ├── SuspenseHydrated.jsx	// Suspense (SSR Opt Out Workaround)
 │   └── User.jsx				// User Utils (Fetch LoggedIn User)
 └── Router.js             	// Router on Client (SPA) & Server (SSR)
 private/                <Server Assets>
@@ -382,7 +656,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/learn/passing-props-to-a-component). It allows for passing data from one component (parent) to another (child). It also enables merging similar JSX components together where props are used to handle the differences ([ternary operator](https://www.w3schools.com/java/java_conditions_shorthand.asp) etc, refer to the [docs](https://18.react.dev/learn/conditional-rendering)).
+> Refer to the [docs](https://18.react.dev/learn/passing-props-to-a-component). It allows for passing data from one component (parent) to another (child). It also enables merging similar JSX components together where props are used to handle the differences ([ternary operator](https://www.w3schools.com/java/java_conditions_shorthand.asp) etc, refer to the [docs](https://18.react.dev/learn/conditional-rendering)):
 >
 > <details>
 > <summary>⋯</summary>
@@ -430,7 +704,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/reference/react/hooks). Hooks are generally used to manage reactive state and side effects in JSX components for any data that needs to be [reactively](https://18.react.dev/learn/adding-interactivity) [updated](https://18.react.dev/learn/managing-state) on the page. It is usually not needed for database fetches (which already provide reactivity) except for useContext to share a computation of a common fetch with the exact same fields once (does not change often) across several components such as the loggedIn userId.
+> Refer to the [docs](https://18.react.dev/reference/react/hooks). Hooks are generally used to manage reactive state and side effects in JSX components for any data that needs to be [reactively](https://18.react.dev/learn/adding-interactivity) [updated](https://18.react.dev/learn/managing-state) on the page. It is usually not needed for database fetches (which already provide reactivity) except for useContext to share a computation of a common fetch with the exact same fields once (does not change often) across several components such as the loggedIn userId:
 >
 > <details>
 > <summary>⋯</summary>
@@ -452,7 +726,7 @@ tests/					<Unit Tests>
 
 > [!tip]
 >
-> Refer to the [docs](https://18.react.dev/reference/react-dom/components).
+> Refer to the [docs](https://18.react.dev/reference/react-dom/components):
 >
 > <details>
 > <summary>⋯</summary>
@@ -491,16 +765,16 @@ tests/					<Unit Tests>
 #### React Icons
 
 > [!TIP]
-> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icon` usage are **deep imports** so that only imported icons are included in the bundle:
+> `react-icons` supports deep imports via `@react-icons/all-files` to help reduce bundle size. Ensure all `react-icons` usage are **deep imports** so that only imported icons are included in the bundle:
 >
 > <details>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { <prefix><Name> } from "@react-icons/all-files/<prefix>/<prefix><Name>";
+> > import { <prefix><Name> } from '@react-icons/all-files/<prefix>/<prefix><Name>';
 > > ```
 >
-> **Example**:
+> ***Example***:
 > 
 > > `import { FiEye, FiEyeOff, FiLock } from 'react-icons/fi';` ->
 > >
@@ -516,7 +790,7 @@ tests/					<Unit Tests>
 
 > [!NOTE]
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#nested-routes).
+> Refer to the [docs](https://reactrouter.com/6.30.1/start/overview#nested-routes):
 >
 > <details>
 > <summary>⋯</summary>
@@ -558,7 +832,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/routers/create-browser-router#routes).
+> Refer to the [docs](https://reactrouter.com/6.30.1/routers/create-browser-router#routes):
 >
 > <details>
 > <summary>⋯</summary>
@@ -740,7 +1014,7 @@ tests/					<Unit Tests>
 > > `CHILD_COMPONENT.jsx`
 > >
 > > ```jsx
-> > import { useOutletContext } from "react-router-dom";
+> > import { useOutletContext } from 'react-router-dom';
 > > ...
 > > export const CHILD_COMPONENT = () => {
 > >   const { value1 } = useOutletContext();
@@ -771,7 +1045,7 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { Link } from "react-router-dom";
+> > import { Link } from 'react-router-dom';
 > > ...
 > > export const COMPONENT_NAME = () => (
 > >   <>
@@ -786,7 +1060,7 @@ tests/					<Unit Tests>
 >
 >  **`<Navigate>` Component**
 >
->  Refer to the [docs](https://reactrouter.com/6.30.1/components/navigate#navigate).  Element that changes the current location when it is rendered. Primarily used for redirecting default path/index route. 
+>  Refer to the [docs](https://reactrouter.com/6.30.1/components/navigate#navigate).  Element that changes the current location when it is rendered. Primarily used for redirecting default path/index route:
 >
 > <details>
 > <summary>⋯</summary>
@@ -811,8 +1085,8 @@ tests/					<Unit Tests>
 > > `COMPONENT_NAME.jsx`
 > >
 > > ```jsx
-> > import { useNavigate } from "react-router-dom";
-> > import { useState } from "react";
+> > import { useNavigate } from 'react-router-dom';
+> > import { useState } from 'react';
 > > ...
 > > export const COMPONENT_NAME = () => {
 > >   const navigate = useNavigate();
@@ -840,7 +1114,7 @@ tests/					<Unit Tests>
 >
 > **useLocation Hook**
 >
-> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-location).  It returns the current URL path from the location object:
+> Refer to the [docs](https://reactrouter.com/6.30.1/hooks/use-location). It returns the current URL path from the location object:
 >
 > <details>
 > <summary>⋯</summary>
@@ -851,6 +1125,19 @@ tests/					<Unit Tests>
 > >   const current_url = useLocation().pathname;
 > > ...
 > > ```
+> </details>
+>
+> **linkUsername Utils**
+>
+> All instances of username display can be linked to its profile using the linkUsername helper function from the `utils/User`:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { linkUsername } from '/imports/utils/User';
+> > ...
+> > <>{linkUsername(username)}</>
 > </details>
 
 ### Route Protection (RouteGuard)
@@ -965,7 +1252,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html). Declaring a Mongo collection export provides a wrapper object reference to a MongoDB collection that can be accessed in other files with collection.methods (on the server) to fetch, insert, update, upset, and remove etc.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html). Declaring a Mongo collection export provides a wrapper object reference to a MongoDB collection that can be accessed in other files with collection.methods (on the server) to fetch, insert, update, upset, and remove etc:
 >
 > <details>
 > <summary>⋯</summary>
@@ -984,7 +1271,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections). Primarily used on the server within Meteor methods, publications and unit tests for database modification operations.
+> Refer to the [docs](https://docs.meteor.com/api/collections). Primarily used on the server within Meteor methods, publications and unit tests for database modification operations:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1005,10 +1292,10 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where omitting or `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.find({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1019,7 +1306,7 @@ tests/					<Unit Tests>
 >
 > **Collection.findOneAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync).  Primarily used in Meteor methods or unit tests to fetch a single document from a collection. Returns an object as the first document that matches the selector.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync).  Primarily used in Meteor methods or unit tests to fetch a single document from a collection. Returns an object as the first document that matches the selector:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1033,10 +1320,10 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where omitting or `{}` returns first document in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where omitting or `{}` returns first document in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-findOneAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.findOneAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1046,7 +1333,7 @@ tests/					<Unit Tests>
 >
 > **Collection.insertAsync**() 
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-insertAsync). Primarily used in Meteor methods or unit tests to insert a single document into a collection. Returns its unique _id.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-insertAsync). Primarily used in Meteor methods or unit tests to insert a single document into a collection. Returns its unique _id:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1057,9 +1344,9 @@ tests/					<Unit Tests>
 > > const INSERTED_ID = COLLECTION_NAME.insertAsync(doc);
 > > ```
 > >
-> > - <u>doc</u> is the object as the document to insert into the collection. If no '_id' is provided in the object document, it will be auto generated.
+> > - ***doc*** -- the object as the document to insert into the collection. If no '_id' is provided in the object document, it will be auto generated.
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```  jsx
 > > const doc = { FIELD_1: 'VAL_1', FIELD_2: 'VAL_2' }
@@ -1070,7 +1357,7 @@ tests/					<Unit Tests>
 > 
 > **Collection.updateAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync). Primarily used in Meteor methods or unit tests to update  documents in a collection. Returns the number of matched documents.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync). Primarily used in Meteor methods or unit tests to update  documents in a collection. Returns the number of matched documents:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1085,11 +1372,11 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoModifier*** -- the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-updateAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > COLLECTION_NAME.updateAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
@@ -1099,7 +1386,7 @@ tests/					<Unit Tests>
 >
 > **Collection.upsertAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync). Primarily used in Meteor methods or unit tests to modify or insert documents (if none matched) in a collection. Returns an object of `{ numberAffected, insertedId }`.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync). Primarily used in Meteor methods or unit tests to modify or insert documents (if none matched) in a collection. Returns an object of `{ numberAffected, insertedId }`:
 > 
 > <details>
 > <summary>⋯</summary>
@@ -1114,11 +1401,11 @@ tests/					<Unit Tests>
 > > );
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> > - <u>MongoModifier</u> is the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
-> > - <u>options</u> is additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync) (open option table).
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` targets all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoModifier*** -- the update operators that describes how to update a document in place by changing on its fields, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/update/). 
+> > - ***options*** -- additional options for the query such as sort, refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-upsertAsync) (open option table).
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > COLLECTION_NAME.upsertAsync({ FIELD_1: 'FIELD_VALUE_TO_MATCH' }, { $set: { FIELD_2: 'VAL_UPDATE' } });
@@ -1128,7 +1415,7 @@ tests/					<Unit Tests>
 >
 > **Collection.removeAsync**()
 >
-> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-removeAsync). Primarily used in Meteor methods or unit tests to remove documents from a collection. Returns the removed document object.
+> Refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-removeAsync). Primarily used in Meteor methods or unit tests to remove documents from a collection. Returns the removed document object:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1139,9 +1426,9 @@ tests/					<Unit Tests>
 > > const REMOVED_DOCUMENT_OBJECT = COLLECTION_NAME.removeAsync(MongoSelector);
 > > ```
 > >
-> > - <u>MongoSelector</u> is the selection filter by query operators where `{}` removes all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> > - ***MongoSelector*** -- the selection filter by query operators where `{}` removes all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
 > >
-> > ***Examples:***
+> > ***Examples***:
 > >
 > > ```jsx
 > > const RESULT_1 = COLLECTION_NAME.removeAsync({ FIELD_1: { $eq: 'FIELD_VALUE_TO_MATCH' } }); // Full $eq
@@ -1162,7 +1449,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#defining-a-schema). Each schema defines a document structure object (or a nested part) of `field: { type: ..., Rules... }` pairs where a field may nest deeper objects in its full structure. For better readability, such nested definitions are explicitly avoided by instead extending the (exported) 'Schemas' object (that holds all defined schema) with each single level of an object structure individually (no direct nesting) where   the nesting is done by setting a field type to its reference from it (`type: Schemas.NAME_OF_SCHEMA`). Schema parts or structures that are common to multiple collections are likely candidates to be moved out into its own collection to avoid duplication by storing an array of IDs representing its collection instead of it directly.
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-simple-schema?tab=readme-ov-file#defining-a-schema). Each schema defines a document structure object (or a nested part) of `field: { type: ..., Rules... }` pairs where a field may nest deeper objects in its full structure. For better readability, such nested definitions are explicitly avoided by instead extending the (exported) 'Schemas' object (that holds all defined schema) with each single level of an object structure individually (no direct nesting) where   the nesting is done by setting a field type to its reference from it (`type: Schemas.NAME_OF_SCHEMA`). Schema parts or structures that are common to multiple collections are likely candidates to be moved out into its own collection to avoid duplication by storing an array of IDs representing its collection instead of it directly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1245,7 +1532,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#Meteor-publish). The schema should be imported to be attached to the collection before it is published within the publication file.
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#Meteor-publish). The schema should be imported to be attached to the collection before it is published within the publication file:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1296,7 +1583,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usesubscribe). Before the useFind hook, the client first must subscribe via useSubscribe hook (suspendable) to the collection's publication that will be fetched from.
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usesubscribe). Before the useFind hook, the client first must subscribe via useSubscribe hook (suspendable) to the collection's publication that will be fetched from:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1312,7 +1599,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usefind). Fetches data from the database with real-time changes and reactivity that returns an array of the fetch result. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being very inefficient to fetch the entire document across many places repeatedly! To make it easier, fetch the entire document first then add the specifics after by finding all the fields via ctrl+f on `data.` etc. 
+> Refer to the [docs](https://docs.meteor.com/packages/react-meteor-data#usefind). Fetches data from the database with real-time changes and reactivity that returns an array of the fetch result. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being very inefficient to fetch the entire document across many places repeatedly! To make it easier, fetch the entire document first then add the specifics after by finding all the fields via ctrl+f on `data.` etc:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1325,8 +1612,8 @@ tests/					<Unit Tests>
 >
 > - The 1st useFind parameter is the COLLECTION to fetch from `import { <COLLECTION> } from '/imports/api/collections/<COLLECTION>'`
 > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
->   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
->   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+>   - ***MongoSelector*** -- the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+>   - ***options*** -- additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 >
 > **Collection.find().fetch() equivalent**:
 >
@@ -1344,7 +1631,7 @@ tests/					<Unit Tests>
 > > ]);
 > > ```
 > >
-> > Examples: 
+> > ***Examples***: 
 > >
 > > `Collection.find({...}, {..., fields: { FIELD: 1, ...} )` ->
 > >
@@ -1387,7 +1674,7 @@ tests/					<Unit Tests>
 > > ])[0] ?? null; // Take the first result [0] else fallback ?? with null or anything in its place
 > > ```
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > `Collection.findOne({...}, {..., fields: { FIELD: 1, ...} )` ->
 > >
@@ -1428,7 +1715,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> The method to obtain the loggedIn userId is computed once reactively (after logging in/out) within the top level AuthProvider accessed and reused from anywhere via useContext hook on AuthContext. If the user is not loggedIn, the userId value would be `undefined` which also provides the method to check for the loggedIn state. This loggedIn userId would be used for many queries in database fetches such as user content data. 
+> The method to obtain the loggedIn userId is computed once reactively (after logging in/out) within the top level AuthProvider accessed and reused from anywhere via useContext hook on AuthContext. If the user is not loggedIn, the userId value would be `undefined` which also provides the method to check for the loggedIn state. This loggedIn userId would be used for many queries in database fetches such as user content data:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1445,7 +1732,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> A custom User utils helper utility function is used to fetch data more than just the userId for the loggedIn user. **Ensure only the needed fields are specified** in every User utils otherwise it would end up being incredibly inefficient to fetch entire user document across many places repeatedly.
+> A custom User utils helper utility function is used to fetch data more than just the userId for the loggedIn user. **Ensure only the needed fields are specified** in every User utils otherwise it would end up being incredibly inefficient to fetch entire user document across many places repeatedly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1469,7 +1756,7 @@ tests/					<Unit Tests>
 > >
 > > - Fallback value for User isn't strictly needed as the RouteGuard should prevent rendering before it is ready but it might be good practice to deal with undefined, should it occur for a brief moment.
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > ```jsx
 > > const user = User(['_id', 'username', 'emails.address']); // Array of fields to fetch
@@ -1491,7 +1778,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Fetching any users data that is not from the loggedIn user is done through the useSubscribe hook on `'users'` publication with useFind hook  where `Meteor.users` is the collection as the first argument. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being incredibly inefficient to fetch entire users documents across many places repeatedly.
+> Fetching any users data that is not from the loggedIn user is done through the useSubscribe hook on `'users'` publication with useFind hook  where `Meteor.users` is the collection as the first argument. **Ensure only the needed fields are specified** in every useFind otherwise it would end up being incredibly inefficient to fetch entire users documents across many places repeatedly:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1511,10 +1798,10 @@ tests/					<Unit Tests>
 > >
 > > - The 1st useFind parameter is `Meteor.users` as the collection to fetch from.
 > > - The 2nd useFind parameter is the list `[...]` of same parameters corresponding to `Collection.find(...)` for the fetch:
-> >   - <u>MongoSelector</u> is the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
-> >   - <u>options</u> is additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
+> >   - ***MongoSelector*** -- the selection filter by query operators where `{}` returns all documents in a collection, refer to the [docs](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/#std-label-query-projection-operators-top). 
+> >   - ***options*** -- additional options for the query such as fields (very important), refer to the [docs](https://docs.meteor.com/api/collections.html#Mongo-Collection-find) (open option table).
 > >
-> > Examples:
+> > ***Examples***:
 > >
 > > ```jsx
 > > useSubscribe('users');
@@ -1556,7 +1843,7 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). Ensure each method name is unique to avoid conflicts, the same name would be used on the client to call. 
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). Ensure each method name is unique to avoid conflicts, the same name would be used on the client to call:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1564,7 +1851,7 @@ tests/					<Unit Tests>
 > > `/imports/api/methods/METHODS_GROUP_NAME.js`
 > >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > 
 > > Meteor.methods({
 > >   async METHOD_1(PARAMETER_1, PARAMETER_N...) {
@@ -1592,13 +1879,13 @@ tests/					<Unit Tests>
 
 > [!TIP]
 >
-> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). On the client (`/imports/ui/...`), defined meteor methods can be called by its name to run the function on the server for database operations or other API use. The first argument for `Meteor.callAsync('NAME', ...)` is the defined meteor method name while the rest are the function's arguments.
+> Refer to the [docs](https://docs.meteor.com/api/meteor.html#methods). On the client (`/imports/ui/...`), defined meteor methods can be called by its name to run the function on the server for database operations or other API use. The first argument for `Meteor.callAsync('NAME', ...)` is the defined meteor method name while the rest are the function's arguments:
 >
 > <details>
 > <summary>⋯</summary>
 >
 > > ```jsx
-> > import { Meteor } from "meteor/meteor";
+> > import { Meteor } from 'meteor/meteor';
 > > ...
 > > const result = Meteor.call(
 > >   "METHOD_1",
@@ -1608,11 +1895,11 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-## Server Side Rendering (SSR)
+<h2 align="center">⬦ Server Side Rendering (SSR) ⬦</h2>
 
 > [!NOTE]
 >
-> React's single page application (SPA) may be notorious for being 'bloated' and 'slow' along with Meteor and its library regarding the bundle size impacting the initial load times as the project's complexity grows where Server Side Rendering (SSR) is used to help alleviate this issue.
+> React's single page application (SPA) may be notorious for being 'bloated' and 'slow' along with Meteor and its library regarding the bundle size impacting the initial load times as the project's complexity grows where Server Side Rendering (SSR) is used to help alleviate this issue:
 >
 > <details>
 > <summary>⋯</summary>
@@ -1637,176 +1924,313 @@ tests/					<Unit Tests>
 >
 >   The custom implementation uses `renderToNodeStream` to work with React suspense on Meteor's pub/sub because `renderToPipeableStream` does not work with Meteor `v3.3.2` yet [[1](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/2)] [[2](https://forums.meteor.com/t/can-we-already-use-suspense-with-meteor-3/62677/4)] [[3](https://forums.meteor.com/t/ssr-with-meteor-callasync/60979/24)]. This may change in the future but it is the only option at this time.
 >
-> - Hydration mismatches. See the next section SuspenseHydrated (SSR Opt-Out) for details.
+> - **Hydration mismatches**. There are 3 possible edge cases known with SSR on hydration mismatches which all can be resolved or selectively opt-out of SSR as the last resort if the suggested resolutions does not work to workaround the issue:
+>     - Non useFind hook usage such as meteor methods calls or useTracker to fetch data from the DB may not server render properly and mismatch. *All such usage* **should ideally be transitioned to useFind if possible as the resolution** *otherwise may opt-out of SSR as the last resort stopgap.*
+>     - Displaying a list of fetch result data (map IDs) from useFind may mismatch between the server (reversed order) and client (natural order). **The resolution is to explicitly sort in the useFind options via `useFind(COLLECTION, { MongoSelector... }, { options..., sort: { _id: 1 } })`** *otherwise opt-out of SSR as the last resort if it does not resolve the issue.*
+>     - Datetime locale mismatches on server and client due to timezone differences. *All such usage* **should utilise `toLocale()` utils that uses the custom `injectPreHydration(...)` under the hood to resolve the issue**.
+>
 > </details>
 
-#### SuspenseHydrated (SSR Opt-Out)
+#### injectPreHydration (SSR Mismatch Resolution)
 
 > [!TIP]
 >
-> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition.
->
-> There are 2-3 edge cases with SSR of hydration mismatches which should opt-out:
+> Custom helper function to inject content from an input function (as `setContentFn`) on the client for the server render before hydration to resolve mismatches on client with SSR edge cases such as datetime locale differing on the server and client: 
 >
 > <details>
 > <summary>⋯</summary>
 >
-> - *Non useFind hook usage such as meteor methods calls to fetch data from the DB may not server render properly. All such usage should opt-out of SSR as a stopgap where it should ideally be transitioned to useFind if possible*.
-> - Modifying fetch result data from useFind such as sorting the array of IDs will result in a mismatch between the server (non modified) and client (modified on hydration, sorted etc). All such usage should be done via [aggregation operators](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sort/) when possible otherwise opt-out of SSR.
-> - Datetime locale mismatches on server and client due to timezone differences, all such usage should opt-out of SSR.
+> It delays setContentFn on the server render by serialising the function as an inline `<script>` so that it is executed on the client browser immediately before hydration to match with the client's `setContentFn` (without `<script>`) on hydration. Sanitised via `serialize-javascript` to reduce XSS potential on `setContentFn`'s arguments. Any variables declared within the function will be initialised on the client browser which is intended for the mismatch culprit such as new date objects, `navigator.languages` and `toLocaleString` methods. The function serialisation causes variables declared outside the function to lose its values (unscoped) that were initialised and set on the server. Such `dependencies` is the object of all `varName: varValue` used to substitute each `varName` occurrence in `setContentFn` with its `varValue` in the inline script since serialising a function loses its original scope values if it was declared outside the function.
+>
+> > **`injectPreHydration(setContentFn, dependencies)`**:
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > injectPreHydration(
+> >   setContentFn, // function that sets the content before hydration to be serialized within inline script and when hydrated to match the same
+> >   dependencies = {}, // object of {varName: varValue, ...} for unscoped variables dependencies on function serialization variable value substitution
+> >   wrapSpan = false // whether the content should be wrapped with <span>...</span>, set as true to fix DOM structure hydration mismatch by ensuring both results are within same structure
+> > );
+> > ```
+> > ***Example***:
+> >
+> > ```jsx
+> > import { injectPreHydration } from '/imports/utils/PreHydration';
+> > ...
+> > const userTime = unit => // unit is either 'hour' or 'minute'
+> >   injectPreHydration(
+> >     () => { // The function to set the content delayed to run on client browser before hydration and after
+> >       const isHour = unit === 'hour'; // unit becomes unscoped from its value on function serialiation
+> >       const currentDateTime = new Date() // The mismatch culprit to run in client browser rather than server
+> >
+> >       return isHour ? currentDateTime.getHours() : currentDateTime.getMinutes();
+> >     },
+> >     { unit }, // pass unit as the unscoped variables dependencies on function serialization
+> >     true // optional wrapSpan to ensure consistent DOM structure, needed only on per case basis
+> >   );
+> > ```
+> > </details>
+
+#### toLocale (SSR DateTime Locale Mismatch Resolution)
+
+> [!TIP]
+>
+> Custom `toLocale()` helper function to convert datetime to locale strings that works with SSR as the server render would normally use the server's locale and datetime that may be different to the client which will cause a hydration mismatch:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> It resolves this issue under the hood by utilising the custom `injectPreHydration()` utils to delay any datetime locale code from executing on the server render by serialising as `<script>` to instead run on the client browser before hydration to match with the client render.
+>
+> > `toLocale(dateObj, format, options, locales)`
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale';
+> > ...
+> > toLocale(
+> >   dateObj, // Date Object
+> >   format = 'DateTime', // 'DateTime', 'Date', 'Time', 'DateTimeShort', 'DateLong', 'DateTimeLong' -- Long formats dateStyle: 'long'
+> >   options = { dateStyle: 'short', timeStyle: 'short' }, // Format options, overridable but can just be omitted
+> >   locales = '' // User's locale, overridable but can just be omitted
+> > );
+> > ```
+> >
+> > - **format** parameter is the predefined style (`'DateTime'`, `'Date'`, `'Time'`, `'DateTimeShort'`, `'DateLong'`, `'DateTimeLong'`) to format the string but can be overridden by passing the options and also locale from the `Intl.DateTimeFormat` API, refer to the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString#parameters).
+> >   - It first automatically determines which string method for the locale to use:
+> >     - `toLocaleString()` for **`'DateTime'`**, `'DateTimeShort'`, `'DateTimeLong'`, `(omitted)`
+> >     - `toLocaleDateString()` for  **`'Date'`**, `'DateLong'`
+> >     - `toLocaleTimeString()` for **`'Time'`**
+> >   - It then automatically sets options to predefined styles:
+> >     - `{ dateStyle: 'short', timeStyle: 'short' }` for `'DateTime'`,  `(omitted)`
+> >     - `{ dateStyle: 'long', timeStyle: 'short' }` for `'DateTimeLong'`
+> >     - `{ dateStyle: 'short' }` for `'Date'` 
+> >     - `{ dateStyle: 'long' }` for `'DateLong'`
+> >     - `{ timeStyle: 'short'}` for `'Time'`
+> >     - `{ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }` for `'DateTimeShort'`
+> >
+> > ***Examples***:
+> >
+> > ```jsx
+> > import { toLocale } from '/imports/utils/Locale';
+> > ...
+> > const dateObj = new Date('2036-08-12');
+> > toLocale(dateObj); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'DateTime'); // 12/8/36, 12:00 am
+> > toLocale(dateObj, 'Date'); // 12/8/36
+> > toLocale(dateObj, 'Time'); // 12:00 am
+> > toLocale(dateObj, 'DateTimeShort'); // 12 Aug 2036, 12:00 am
+> > toLocale(dateObj, 'DateTimeLong'); // 12 August 2036 at 12:00 am
+> > toLocale(dateObj, 'DateTime', {}); // 12/08/2036, 12:00:00 am
+> > toLocale(dateObj, 'DateTime', { month: 'short', hour: '2-digit' }, 'en-AU'); // Aug, 12 am
+> > ```
+>
+> </details>
+
+#### SuspenseHydrated (SSR Opt-Out Workaround)
+
+> [!TIP]
+>
+> Hydration mismatches from certain subscribed data mismatching on page load/refresh (SSR) can be opt-out as the last resort by wrapping around the display of the mismatched data with the custom `<SuspenseHydrated>` component in place of regular `<Suspense>` as a workaround along with the `fadeInEffect` or `popInEffect` classes to smooth out the fallback transition:
+>
+> <details>
+> <summary>⋯</summary>
 >
 > > ```jsx
 > > import { SuspenseHydrated } from '/imports/utils/SuspenseHydrated';
 > > ...
 > > <SuspenseHydrated fallback={'Loading'}>
 > >   <div className="fadeInEffect">
-> >     { new Date().toLocaleString(); }
+> >     { MISMATCHED_DATA OR } <Component /> 
 > >     ...
 > >   </div>
 > > </SuspenseHydrated>
 > > ```
 > </details>
 
-<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
-
-Create or edit the file `settings.json`:
-
-> ```
-> {
->   "public": {
->     "enableSSR": true
->   },
->   "private": {
->     "AWSAccessKeyId": "",
->     "AWSSecretAccessKey": "",
->     "google": {
->       "clientId": "",
->       "secret": ""
->     },
->     "smtp": {
->       "username": "your@gmail.com",
->       "password": "app-password",
->       "server": "smtp.gmail.com",
->       "port": 465
->     }
->   }
-> }
-> ```
-
-<h1 align="center">⬥ Deployment ⬥</h1>
-
-<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
+<h2 align="center">⬦ Unit Tests (Mocha) ⬦</h2>
 
 > [!NOTE]
-> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+> SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules. All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. See 'Test definition' section below on how to set up the unit tests. 
 
-<h2 align="center">⬦ Environment Variables ⬦</h2>
+#### Test definition
 
-<div align="center">
-
-|       Variable        | Description                           | Default Value                         |
-| :-------------------: | :------------------------------------ | :------------------------------------ |
-|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
-|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
-|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
-| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
-
-</div>
-
-<h3 align="center">Set Environment Variables</h3>
-
-<div align="center">
-
-Edit `~/.bash_profile`:
-
-> ```
-> export ENV_VAR="value"
-> ```
-
-To apply changes to the existing terminal session, run:
-
-> ```
-> . .bash_profile
-> ```
-
-</div>
-
-<h2 align="center">⬦ Server Setup ⬦</h2>
-
-<h3 align="center">Git Repository</h3>
-
-<div align="center">
-
-> ```shell
-> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
-> ```
+> [!TIP]
 >
-> ```shell
-> cd 2025W2-Skilltree
-> ```
-
-</div>
-
-<h3 align="center">Server Setup Script</h3>
-
-<div align="center">
-
-> ```shell
-> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
-> ```
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-mocha):
+> <details>
+> <summary>⋯</summary>
 >
-> ```shell
-> ./2025W2-Skilltree/.deploy/setup.sh
-> ```
+> > `/tests/TESTS_GROUP_NAME.js`
+> >
+> > ```jsx
+> > import { Meteor } from "meteor/meteor";
+> > import assert from 'assert';
+> > import '/imports/api/methods/...';
+> > ...
+> > describe('Array', function () {
+> >   describe('#indexOf()', function () {
+> >     it('should return -1 when the value is not present', function () {
+> >       assert.equal([1, 2, 3].indexOf(4), -1);
+> >     });
+> >   });
+> > });
+> > ```
+> > **Add test import to `main.js` to consolidate for unit test runs**
+> > 
+> >``/tests/main.js``
+> > 
+> >```js
+> > ...
+> > import '/tests/TESTS_GROUP_NAME'
+> > ```
+> </details>
 
-</div>
+<h2 align="center">⬦ CI/CD (Pipeline) ⬦</h2>
 
-<h2 align="center">⬦ Server Usage ⬦</h2>
+> [!NOTE]
+> SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and deployment through github workflows. The pipeline ensures that every code change is automatically tested and validated before being merged or deployed maintaining high code quality and reliability throughout the development process.
 
-<div align="center">
-  <table>
-    <tr>
-      <th><b>⦗ Start Webserver ⦘</b></th>
-      <th><b>⦗ Stop Webserver ⦘</b></th>
-      <th><b>⦗ Restart Webserver ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Pull Repo Changes ⦘</b></th>
-      <th><b>⦗ Update Webserver ⦘</b></th>
-      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Webserver Console ⦘</b></th>
-      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
-      <th><b>⦗ Build Console ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <td colspan="3">
+### Continuous Integration (CI)
+> [!NOTE]
+>
+> Every pull request triggers automated workflows that validate the integrity of new code before integration. The CI process includes:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Running unit tests via Mocha:
+> - Performing lint checks to enforce code style and consistency
+> - Building the project to confirm that all dependencies and configurations are functional
+> > *This process helps guarantees that no faulty or untested code is merged into the main branch.*
+> </details>
 
-> [!CAUTION]
-> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
-> **Use Ctrl+A then D to detach** from the session instead.
-      </td>
-    </tr>
-  </table>
-</div>
+#### GitHub Workflows
+> [!TIP]
+> SkillTree leverages GitHub Actions to automate build and test pipelines:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> **Automated Mocha tests**
+>
+> > All Mocha test suites are executed automatically as part of the CI pipeline. If any test fails, the workflow halts immediately, preventing merges until all issues are resolved. This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
+> 
+> **Automated Lint Check**
+>
+> > The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early. Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices. Developers can also run lint checks locally using:
+> > ```
+> > npm run lint
+> > ```
+> </details>
 
-<h1 align="center">⬥ Original Project Team ⬥</h1>
+#### Merging Review & Checks on Protected Branches
+> [!IMPORTANT]
+> > The main branch is protected, enforcing strict merging policies. All milestone PRs are to be merged to the current `mX-sprintX` branch which is merged to `main` branch by an SA at the end of the milestone. 
+>
+> New PRs are to be merged to the `dev` branch (or directly to `main` branch for immediate patches) under the same merging policies where the `dev` branch will be merged to `main` upon active maintainers' discretion when considered stable.
+>
+> **Ruleset**:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - All merges must go through a Pull Request (PR).
+> - At least one reviewer approval is required before merging.
+> - All CI checks (tests, linting, build) must pass successfully.
+> - Direct commits to protected branches (main, sprint branches) are blocked.
+> > *This review process ensures code integrity, collaboration, and accountability before integration into production-level branches.*
+> </details>
+
+### Continuous Deployment (CD)
+> [!NOTE]
+> SkillTree’s Continuous Deployment pipeline process automates updates to the production server after successful integration by a cron job on the production server:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Periodically pulls the latest changes from the main branch.
+> - Rebuilds the project bundle.
+> - Restarts the web server to apply the latest updates seamlessly.
+> > *This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while maintaining uptime and reliability.*
+> </details>
+
+<h1 align="center">⬥ Contributor Guidelines ⬥</h1>
+
+> [!NOTE]
+> This section outlines the conventions and standards all contributors should follow to maintain a clean, consistent, and scalable codebase.
+
+<h2 align="center">⬦ Versioning Strategy ⬦</h1>
+
+> [!NOTE]
+>
+> SkillTree follows a semantic versioning strategy (`MAJOR`.`MINOR`.`PATCH`) to manage releases and ensure backward compatibility. Version increments are applied as follows:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - `MAJOR` — Introduces breaking changes or major feature overhauls.
+> - `MINOR` — Adds new features or improvements that are backward compatible.
+> - `PATCH` — Fixes bugs, minor updates, or small enhancements.
+> </details>
+
+<h2 align="center">⬦ Pull Request (PR) Strategy ⬦</h1>
+
+> [!NOTE]
+>
+> > Pull requests corresponding to ClickUp task in SkillTree follow a consistent naming convention `ST-###: <Short Descriptive Title>` where each PR title begins with the ClickUp ticket code, followed by a short, descriptive title of the change with the [`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md) as the description. 
+>
+> **New pull requests should instead follow the following structure**: 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > **Add a title:** `Feat/Fix/Docs: <Short Descriptive Title>`
+> > **Add a description** ([`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md)):
+> >
+> > ```markdown
+> > NOTE: In the event of having to make quick fixes or under limited time, just provide a quick summary. Delete the rest.
+> > 
+> > # Summary
+> > 
+> > Please include a summary of the changes (dot points)
+> > 
+> > 
+> > # Related Issues:
+> > 
+> > _Fixes #(Issue Number)_
+> > 
+> > 
+> > 
+> > # Type of change
+> > 
+> > Please delete options that are not relevant.
+> > 
+> > - [ ] Bug fix (non-breaking change which fixes an issue)
+> > - [ ] New feature (non-breaking change which adds functionality)
+> > - [ ] Breaking change (fix or feature that would cause existing functionality not to work as expected)
+> > - [ ] This change involves a documentation update
+> > 
+> > # How Has This Been Tested?
+> > Please describe in detail how you tested your changes (i.e., User Testing, Unit Testing)
+> > Provide instructions so we can reproduce.
+> > 
+> > - [ ] Test A
+> > - [ ] Test B
+> > 
+> > 
+> > # Checklist:
+> > - [ ] My code follows the style guidelines of this project
+> > - [ ] I have performed a self-review of my code
+> > - [ ] I have commented my code, specifically in difficult-to-understand code areas
+> > - [ ] I have made corresponding changes to the documentation
+> > - [ ] My changes generate no new warnings
+> > - [ ] I have conducted tests that prove my fix is effective or that my feature works
+> > - [ ] Any dependent changes have been carefully merged and published in downstream modules
+> > ```
+> </details>
+
+<h2 align="center">⬦ Original Project Team ⬦</h1>
 
 <table>
   <tr>
@@ -1833,3 +2257,44 @@ To apply changes to the existing terminal session, run:
 | :-------------------------------------------------------: | :--------------------------------------------------------------: | :----------------------------------------------------------: |
 | Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
 |                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
+
+<h2 align="center">⬦ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬦</h2>
+
+<div align="center">
+
+[![All Contributors](https://img.shields.io/github/all-contributors/Monash-FIT3170/2025W2-Skilltree)](#contributors-)
+
+</div>
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Jsakdev"><img src="https://avatars.githubusercontent.com/u/96373777?v=4?s=100" width="100px;" alt="Jason S"/><br /><sub><b>Jason S</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Jsakdev" title="Documentation">📖</a> <a href="#maintenance-Jsakdev" title="Maintenance">🚧</a> <a href="#infra-Jsakdev" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/fx7165"><img src="https://avatars.githubusercontent.com/u/120393679?v=4?s=100" width="100px;" alt="fx7165"/><br /><sub><b>fx7165</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=fx7165" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/StuvanFIT"><img src="https://avatars.githubusercontent.com/u/140043661?v=4?s=100" width="100px;" alt="Steven Kaing"/><br /><sub><b>Steven Kaing</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=StuvanFIT" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/lithium003"><img src="https://avatars.githubusercontent.com/u/182786576?v=4?s=100" width="100px;" alt="Mitch"/><br /><sub><b>Mitch</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Documentation">📖</a> <a href="#maintenance-lithium003" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Mcchows"><img src="https://avatars.githubusercontent.com/u/126644600?v=4?s=100" width="100px;" alt="Marcus C"/><br /><sub><b>Marcus C</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Mcchows" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/romi1432"><img src="https://avatars.githubusercontent.com/u/34182038?v=4?s=100" width="100px;" alt="Romal"/><br /><sub><b>Romal</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Documentation">📖</a> <a href="#maintenance-romi1432" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/jytKelly12"><img src="https://avatars.githubusercontent.com/u/105471729?v=4?s=100" width="100px;" alt="jytKelly12"/><br /><sub><b>jytKelly12</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=jytKelly12" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/queenofspain"><img src="https://avatars.githubusercontent.com/u/77802249?v=4?s=100" width="100px;" alt="Laetitia Teo"/><br /><sub><b>Laetitia Teo</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=queenofspain" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/BENTIA-1"><img src="https://avatars.githubusercontent.com/u/104052543?v=4?s=100" width="100px;" alt="Ben Tia"/><br /><sub><b>Ben Tia</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=BENTIA-1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/rev46"><img src="https://avatars.githubusercontent.com/u/104244862?v=4?s=100" width="100px;" alt="Aaron "/><br /><sub><b>Aaron </b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=rev46" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ankush2703"><img src="https://avatars.githubusercontent.com/u/121238616?v=4?s=100" width="100px;" alt="Ankush"/><br /><sub><b>Ankush</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ankush2703" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Kez-L"><img src="https://avatars.githubusercontent.com/u/161200166?v=4?s=100" width="100px;" alt="Kez-L"/><br /><sub><b>Kez-L</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Kez-L" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/amolikay"><img src="https://avatars.githubusercontent.com/u/144877516?v=4?s=100" width="100px;" alt="amolikay"/><br /><sub><b>amolikay</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=amolikay" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/kellysyli"><img src="https://avatars.githubusercontent.com/u/141807905?v=4?s=100" width="100px;" alt="kel"/><br /><sub><b>kel</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=kellysyli" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/SammyG69"><img src="https://avatars.githubusercontent.com/u/164284419?v=4?s=100" width="100px;" alt="SammyG14"/><br /><sub><b>SammyG14</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=SammyG69" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/ssethx24"><img src="https://avatars.githubusercontent.com/u/124314079?v=4?s=100" width="100px;" alt="Shaurya"/><br /><sub><b>Shaurya</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ssethx24" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->

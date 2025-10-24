@@ -4,9 +4,6 @@ import { EventCollection } from '/imports/api/collections/Events';
 Meteor.publish('events', () => EventCollection.find());
 
 Meteor.startup(async () => {
-  // drop table
-  await EventCollection.removeAsync({});
-
   const dummyEvents = [
     {
       _id: 'dribbling_basketball',
@@ -19,6 +16,7 @@ Meteor.startup(async () => {
       participants: []
     },
     {
+      _id: 'speedclimbing_contest',
       skilltreeId: 'Climbing',
       title: 'Speedclimbing contest',
       description: 'Climb the wall as fast as you can',
@@ -28,7 +26,12 @@ Meteor.startup(async () => {
     }
   ];
 
-  for (const dummyEvent of dummyEvents) {
-    await EventCollection.insertAsync(dummyEvent);
+  // Insert dummy data if collection is empty
+  const collectionCount = await EventCollection.find().countAsync();
+
+  if (collectionCount == 0) {
+    for (const dummyEvent of dummyEvents) {
+      await EventCollection.insertAsync(dummyEvent);
+    }
   }
 });

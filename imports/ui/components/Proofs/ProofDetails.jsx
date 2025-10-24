@@ -11,6 +11,7 @@ import { AddComment } from './Comments/AddComment';
 import { CommentSection } from './Comments/CommentSection';
 import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
+import { toLocale } from '/imports/utils/Locale';
 
 /**
  * Displays a modal popup with full details of a selected proof.
@@ -40,20 +41,6 @@ export const ProofDetails = ({ proofId, onClose }) => {
       }
     }
   ])[0];
-
-  /**
-   * Formats a JavaScript Date object into a human-readable string.
-   * @param {Date|string} date
-   * @returns {string}
-   */
-  const formatDate = date =>
-    new Date(date).toLocaleString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
 
   // Return nothing if data proof doesn't exist
   if (!proof) return null;
@@ -85,7 +72,7 @@ export const ProofDetails = ({ proofId, onClose }) => {
           <div className="w-1/2 overflow-y-auto pr-4">
             <h2 className="text-xl font-semibold mb-1">{proof.title}</h2>
             <p className="text-sm text-gray-500">
-              by {proof.username} | {formatDate(proof.date)}
+              by {proof.username} | {toLocale(proof.date, 'DateTimeShort')}
             </p>
             <p className="text-gray-600 mt-2">
               Subskill: <strong>{proof.subskill}</strong>

@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
+import { toLocale } from '/imports/utils/Locale.jsx';
+import { linkUsername } from '/imports/utils/User';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();
@@ -15,6 +17,8 @@ export const GeneralForum = () => {
   const [topicTitle, setTopicTitle] = useState('');
   const [topicDesc, setTopicDesc] = useState('');
   const [message, setMessage] = useState('');
+  const [sortOption, setSortOption] = useState('title_asc');
+  const [searchTerm, setSearchTerm] = useState('');
   const bottomRef = useRef(null);
 
   // Fetch topics from DB on mount or when skilltreeId changes
@@ -31,7 +35,6 @@ export const GeneralForum = () => {
         setError('Failed to load topics: ' + err.message);
         setTopics([]);
       } else {
-        // console.log('Fetched topics:', res);
         setTopics(res || []);
       }
       setLoading(false);
@@ -61,7 +64,6 @@ export const GeneralForum = () => {
         setError('Failed to create topic: ' + err.message);
         setLoading(false);
       } else {
-        // console.log('Topic created successfully:', res);
         // Refetch topics after successful insert
         Meteor.call('getSkillTreeForums', skilltreeId, (err2, res2) => {
           if (err2) {
@@ -98,8 +100,6 @@ export const GeneralForum = () => {
     setLoading(true);
     setError(null);
 
-    // console.log('Sending message with topic ID:', selectedTopicId);
-
     // Find the topic to get the correct forumId
     const topic = topics.find(t => t.forumId === selectedTopicId);
 
@@ -108,8 +108,6 @@ export const GeneralForum = () => {
       setLoading(false);
       return;
     }
-
-    // console.log('Found topic for messaging:', topic);
 
     // Backend method expects (forumId as Number, content, userId)
     Meteor.call(
@@ -143,24 +141,76 @@ export const GeneralForum = () => {
   // Find the selected topic using forumId
   const selectedTopic = topics.find(t => t.forumId === selectedTopicId);
 
-  // Debug log to see which topic is being displayed
-  // useEffect(() => {
-  //   if (selectedTopicId && selectedTopic) {
-  //     console.log('Displaying topic:', {
-  //       selectedTopicId,
-  //       foundTopic: {
-  //         title: selectedTopic.title,
-  //         forumId: selectedTopic.forumId,
-  //         messagesCount: selectedTopic.messages?.length || 0
-  //       }
-  //     });
-  //   }
-  // }, [selectedTopicId, selectedTopic]);
+  const getTopicCreationDate = topic => {
+    if (topic.createdAt) {
+      return new Date(topic.createdAt).getTime();
+    }
+
+    // Fallback for old topics without a creation date
+    return 0;
+  };
+
+  // Apply search and sort to topics
+  const filteredTopics = topics
+    .filter(topic =>
+      topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      {
+        switch (sortOption) {
+          case 'title_asc':
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+          case 'title_desc':
+            return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
+          case 'created_recent':
+            return getTopicCreationDate(b) - getTopicCreationDate(a);
+          case 'created_oldest':
+            return getTopicCreationDate(a) - getTopicCreationDate(b);
+          case 'messages_asc': {
+            const countA_asc = a.messages ? a.messages.length : 0;
+            const countB_asc = b.messages ? b.messages.length : 0;
+            return countA_asc - countB_asc;
+          }
+          case 'messages_desc': {
+            const countA_desc = a.messages ? a.messages.length : 0;
+            const countB_desc = b.messages ? b.messages.length : 0;
+            return countB_desc - countA_desc;
+          }
+          default:
+            return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+        }
+      }
+    });
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <div className="p-2">
         <NavigationMenu id={skilltreeId} />
+      </div>
+      {/* Search Bar for Topics */}
+      <div className="px-4 py-2">
+        <input
+          type="text"
+          className="w-full border rounded px-3 py-2"
+          placeholder="Search topics..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </div>
+      {/* Filter/Sort for Topics */}
+      <div className="px-4 py-2 flex flex-col sm:flex-row gap-2">
+        <select
+          className="border rounded px-3 py-2 bg-white"
+          value={sortOption}
+          onChange={e => setSortOption(e.target.value)}
+        >
+          <option value="title_asc">Title (A-Z)</option>
+          <option value="title_desc">Title (Z-A)</option>
+          <option value="created_recent">Recent Topics </option>
+          <option value="created_oldest">Older Topics</option>
+          <option value="messages_desc">Most Popular</option>
+          <option value="messages_asc">Least Popular</option>
+        </select>
       </div>
 
       {error && (
@@ -209,7 +259,7 @@ export const GeneralForum = () => {
         <div className="p-4 text-center">Loading topics...</div>
       ) : selectedTopicId === null ? (
         <TopicList
-          topics={topics}
+          topics={filteredTopics}
           onSelectTopic={id => {
             setSelectedTopicId(id);
           }}
@@ -237,11 +287,13 @@ export const GeneralForum = () => {
                     {msg.userId?.[0]?.toUpperCase() || '?'}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold">{msg.userId}</div>
+                    <div className="font-semibold">
+                      {linkUsername(msg.userId)}
+                    </div>
                     <div className="text-gray-700">{msg.content}</div>
                     {msg.timestamp && (
                       <div className="text-xs text-gray-400 mt-1">
-                        {new Date(msg.timestamp).toLocaleString()}
+                        {toLocale(msg.timestamp)}
                       </div>
                     )}
                   </div>

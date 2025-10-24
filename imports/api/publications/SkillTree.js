@@ -5,7 +5,6 @@ import '/imports/api/schemas/SkillTree';
 Meteor.publish('skilltrees', () => SkillTreeCollection.find());
 
 Meteor.startup(async () => {
-  await SkillTreeCollection.removeAsync({});
   //generated dummy inputs
   const dummySkillTrees = [
     {
@@ -24,10 +23,9 @@ Meteor.startup(async () => {
           data: {
             label: 'root',
             description: 'root',
-            netUpvotesRequired: null,
-            currentUpvotes: null,
             requirements: 'root',
-            xpPoints: null
+            xpPoints: null,
+            children: ['7', '4', '3']
           },
           position: { x: 0, y: 0 }
         },
@@ -37,10 +35,12 @@ Meteor.startup(async () => {
           data: {
             label: 'basic dribbling 🏀',
             description: 'Learn how to dribble the basketball effectively.',
-            requirements: 'Upload a video of yourself dribbling for 10 seconds',
             netUpvotesRequired: 10,
-            currentNetUpvotes: 5,
-            xpPoints: 10
+            currentNetUpvotes: 0,
+            xpPoints: 10,
+            requirements: 'Upload a video of yourself dribbling for 10 seconds',
+            proofId: 'testProofId',
+            children: []
           },
           position: { x: 200, y: 300 }
         },
@@ -50,24 +50,26 @@ Meteor.startup(async () => {
           data: {
             label: 'Layup 🏃‍♂️',
             description:
-              ' A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
+              'A close-range shot taken by driving toward the basket and laying the ball off the backboard.',
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 10
+            xpPoints: 10,
+            children: ['1']
           },
           position: { x: 200, y: 200 }
         },
         {
           id: '3',
-          type: 'view-node-locked',
+          type: 'view-node-unlocked',
           data: {
             label: 'Spin Move 😵',
             description: 'Learn how to do a spin move.',
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 15,
-            currentNetUpvotes: 3,
-            xpPoints: 15
+            currentNetUpvotes: 0,
+            xpPoints: 15,
+            children: ['2']
           },
           position: { x: 200, y: 100 }
         },
@@ -81,7 +83,8 @@ Meteor.startup(async () => {
               'Upload a video of yourself doing the illinois agility test',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 50
+            xpPoints: 10,
+            children: []
           },
           position: { x: 0, y: 100 }
         },
@@ -94,7 +97,8 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 10,
+            children: []
           },
           position: { x: -200, y: 300 }
         },
@@ -107,7 +111,8 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 10,
+            children: ['5']
           },
           position: { x: -150, y: 200 }
         },
@@ -118,9 +123,10 @@ Meteor.startup(async () => {
             label: 'Three Pointers 💧',
             description: 'Learn how to do a spin move.',
             requirements: 'Upload a video of yourself',
-            netUpvotesRequired: 1,
+            netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 10,
+            children: ['6', '8']
           },
           position: { x: -250, y: 100 }
         },
@@ -133,7 +139,8 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 10,
+            children: ['5']
           },
           position: { x: -350, y: 200 }
         }
@@ -164,7 +171,19 @@ Meteor.startup(async () => {
       tags: ['football', 'soccer', 'sports'],
       skillNodes: [
         {
-          id: 'pass',
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            requirements: 'root',
+            xpPoints: null,
+            children: ['1', '2', '3']
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: '1',
           type: 'view-node-unlocked',
           data: {
             label: 'Passing',
@@ -173,12 +192,13 @@ Meteor.startup(async () => {
               'Upload a video of yourself passing back and forth 3 times with another player',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 10
+            xpPoints: 10,
+            children: []
           },
           position: { x: 300, y: 100 }
         },
         {
-          id: 'shoot',
+          id: '2',
           type: 'view-node-locked',
           data: {
             label: 'Shooting',
@@ -186,12 +206,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself scoring a goal',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 30
+            xpPoints: 30,
+            children: []
           },
           position: { x: 100, y: 250 }
         },
         {
-          id: 'goalkeep',
+          id: '3',
           type: 'view-node-locked',
           data: {
             label: 'Goalkeeping',
@@ -199,14 +220,16 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself making a save',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 50
+            xpPoints: 50,
+            children: []
           },
           position: { x: 500, y: 350 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'pass', target: 'shoot' },
-        { id: 'e2', source: 'shoot', target: 'goalkeep' }
+        { id: 'e1', source: '0', target: '1' },
+        { id: 'e2', source: '0', target: '2' },
+        { id: 'e3', source: '0', target: '3' }
       ],
       admins: ['soccerpro'],
       subscribers: ['fanX', 'fanY']
@@ -228,14 +251,13 @@ Meteor.startup(async () => {
             label: 'root',
             description: 'root',
             requirements: 'root',
-            netUpvotesRequired: null,
-            currentNetUpvotes: null,
-            xpPoints: null
+            xpPoints: null,
+            children: ['1']
           },
-          position: { x: 0, y: 0 }
+          position: { x: 300, y: 0 }
         },
         {
-          id: 'bat',
+          id: '1',
           type: 'view-node-locked',
           data: {
             label: 'Batting',
@@ -243,12 +265,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself batting for 10 balls',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 15
+            xpPoints: 15,
+            children: ['']
           },
           position: { x: 100, y: 75 }
         },
         {
-          id: 'bowl',
+          id: '2',
           type: 'view-node-locked',
           data: {
             label: 'Bowling',
@@ -256,12 +279,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself bowling 10 balls',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 25
+            xpPoints: 25,
+            children: []
           },
           position: { x: 300, y: 175 }
         },
         {
-          id: 'field',
+          id: '3',
           type: 'view-node-locked',
           data: {
             label: 'Fielding',
@@ -269,15 +293,16 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself fielding and catching',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 35
+            xpPoints: 35,
+            children: []
           },
           position: { x: 500, y: 275 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: '0', target: 'bat' },
-        { id: 'e2', source: 'bat', target: 'bowl' },
-        { id: 'e3', source: 'bowl', target: 'field' }
+        { id: 'e1', source: '0', target: '1' },
+        { id: 'e2', source: '0', target: '2' },
+        { id: 'e3', source: '0', target: '3' }
       ],
       admins: ['cricketpro'],
       subscribers: ['user1', 'user2']
@@ -293,7 +318,19 @@ Meteor.startup(async () => {
       tags: ['tennis', 'racket', 'sports'],
       skillNodes: [
         {
-          id: 'serve',
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            requirements: 'root',
+            xpPoints: null,
+            children: ['1', '2']
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: '1',
           type: 'view-node-unlocked',
           data: {
             label: 'Serving',
@@ -301,12 +338,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself serving 5 times',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 20,
+            children: ['3']
           },
           position: { x: 300, y: 100 }
         },
         {
-          id: 'rally',
+          id: '2',
           type: 'view-node-locked',
           data: {
             label: 'Rally Techniques',
@@ -315,12 +353,13 @@ Meteor.startup(async () => {
               'Upload a video of yourself making a rally with at least 10 hits',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 30
+            xpPoints: 30,
+            children: []
           },
-          position: { x: 300, y: 200 }
+          position: { x: 100, y: 200 }
         },
         {
-          id: 'serve-and-volley',
+          id: '3',
           type: 'view-node-locked',
           data: {
             label: 'Serve and Volley',
@@ -329,14 +368,16 @@ Meteor.startup(async () => {
               'Upload a video of yourself winning a point with a serve and volley',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 75
+            xpPoints: 75,
+            children: []
           },
-          position: { x: 300, y: 300 }
+          position: { x: 300, y: 200 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'serve', target: 'rally' },
-        { id: 'e2', source: 'rally', target: 'serve-and-volley' }
+        { id: 'e1', source: '0', target: '1' },
+        { id: 'e2', source: '0', target: '2' },
+        { id: 'e3', source: '1', target: '3' }
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']
@@ -352,7 +393,19 @@ Meteor.startup(async () => {
       tags: ['climbing', 'outdoor', 'sports'],
       skillNodes: [
         {
-          id: 'bouldering',
+          id: '0',
+          type: 'root',
+          data: {
+            label: 'root',
+            description: 'root',
+            requirements: 'root',
+            xpPoints: null,
+            children: ['1', '2']
+          },
+          position: { x: 0, y: 0 }
+        },
+        {
+          id: '1',
           type: 'view-node-unlocked',
           data: {
             label: 'Bouldering',
@@ -360,12 +413,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself bouldering for 5 minutes',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 20,
+            children: []
           },
-          position: { x: 300, y: 100 }
+          position: { x: 100, y: 100 }
         },
         {
-          id: 'climbing-techniques',
+          id: '2',
           type: 'view-node-locked',
           data: {
             label: 'Climbing Techniques',
@@ -374,12 +428,13 @@ Meteor.startup(async () => {
               'Upload a video of yourself making a climb with at least 10 holds',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 30
+            xpPoints: 30,
+            children: ['3']
           },
-          position: { x: 300, y: 200 }
+          position: { x: 300, y: 100 }
         },
         {
-          id: 'turn',
+          id: '3',
           type: 'view-node-locked',
           data: {
             label: 'Turning Techniques',
@@ -387,14 +442,16 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of yourself turning while climbing',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 75
+            xpPoints: 75,
+            children: []
           },
-          position: { x: 300, y: 300 }
+          position: { x: 300, y: 200 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'bouldering', target: 'climbing-techniques' },
-        { id: 'e2', source: 'climbing-techniques', target: 'turn' }
+        { id: 'e1', source: '0', target: '1' },
+        { id: 'e2', source: '0', target: '2' },
+        { id: 'e3', source: '2', target: '3' }
       ],
       admins: ['tennispro'],
       subscribers: ['playerZ', 'coachY']
@@ -412,19 +469,18 @@ Meteor.startup(async () => {
       tags: ['star wars', 'jedi', 'force', 'fiction'],
       skillNodes: [
         {
-          id: 'root',
+          id: '0',
           type: 'root',
           data: {
             label: 'Youngling Initiation 🌟',
             description: 'Begin your Jedi journey.',
-            progressXp: null,
             requirements: 'None',
             xpPoints: null
           },
           position: { x: 0, y: 0 }
         },
         {
-          id: 'force-sense',
+          id: '1',
           type: 'view-node-unlocked',
           data: {
             label: 'Force Sensitivity ✨',
@@ -433,12 +489,13 @@ Meteor.startup(async () => {
               'Watch a video about the Force and answer 3 quiz questions.',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 10
+            xpPoints: 10,
+            children: ['4']
           },
           position: { x: 150, y: 100 }
         },
         {
-          id: 'lightsaber-basics',
+          id: '2',
           type: 'view-node-unlocked',
           data: {
             label: 'Lightsaber Basics ⚔️',
@@ -446,12 +503,13 @@ Meteor.startup(async () => {
             requirements: 'Upload a video of you mimicking Form I (Shii-Cho).',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 15
+            xpPoints: 15,
+            children: ['5']
           },
           position: { x: -150, y: 100 }
         },
         {
-          id: 'meditation',
+          id: '3',
           type: 'view-node-unlocked',
           data: {
             label: 'Jedi Meditation 🧘‍♂️',
@@ -459,12 +517,13 @@ Meteor.startup(async () => {
             requirements: 'Record a 2-minute meditation log.',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 10
+            xpPoints: 10,
+            children: []
           },
           position: { x: 0, y: 200 }
         },
         {
-          id: 'telekinesis',
+          id: '4',
           type: 'view-node-locked',
           data: {
             label: 'Force Telekinesis 🌀',
@@ -473,12 +532,13 @@ Meteor.startup(async () => {
               'Upload a short creative video simulating telekinesis.',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 20
+            xpPoints: 20,
+            children: []
           },
           position: { x: 200, y: 300 }
         },
         {
-          id: 'duel',
+          id: '5',
           type: 'view-node-locked',
           data: {
             label: 'Lightsaber Duel 🥷',
@@ -487,24 +547,30 @@ Meteor.startup(async () => {
               'Upload a video of a lightsaber duel (with a friend or animation).',
             netUpvotesRequired: 10,
             currentNetUpvotes: 0,
-            xpPoints: 10
+            xpPoints: 10,
+            children: []
           },
           position: { x: -200, y: 300 }
         }
       ],
       skillEdges: [
-        { id: 'e1', source: 'root', target: 'force-sense' },
-        { id: 'e2', source: 'root', target: 'lightsaber-basics' },
-        { id: 'e3', source: 'root', target: 'meditation' },
-        { id: 'e4', source: 'force-sense', target: 'telekinesis' },
-        { id: 'e5', source: 'lightsaber-basics', target: 'duel' }
+        { id: 'e1', source: '0', target: '1' },
+        { id: 'e2', source: '0', target: '2' },
+        { id: 'e3', source: '0', target: '3' },
+        { id: 'e4', source: '1', target: '4' },
+        { id: 'e5', source: '2', target: '5' }
       ],
       admins: ['masterYoda'],
       subscribers: ['padawan1', 'padawan2']
     }
   ];
 
-  for (const skillTree of dummySkillTrees) {
-    await SkillTreeCollection.insertAsync(skillTree);
+  // Insert dummy data if collection is empty
+  const collectionCount = await SkillTreeCollection.find().countAsync();
+
+  if (collectionCount == 0) {
+    for (const skillTree of dummySkillTrees) {
+      await SkillTreeCollection.insertAsync(skillTree);
+    }
   }
 });

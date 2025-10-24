@@ -5,8 +5,10 @@ import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useFind, useSubscribe } from 'meteor/react-meteor-data/suspense';
 
+// Utils imports
+import { toLocale } from '/imports/utils/Locale';
+
 // Collections & Components
-import { SuspenseHydrated } from '../../../utils/SuspenseHydrated';
 import { ProofDetails } from './ProofDetails';
 import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
@@ -49,6 +51,7 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
           username: 1,
           date: 1,
           evidenceLink: 1,
+          fileType: 1,
           subskill: 1,
           upvotes: 1,
           downvotes: 1,
@@ -61,22 +64,6 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
 
   // Empty state UI
   if (proofs.length === 0) return <div>No proofs found.</div>;
-
-  /**
-   * Formats a given date into a human-readable string.
-   * E.g., "28 May 2025, 03:15 PM"
-   */
-  const formatDate = date => {
-    if (!date) return '';
-    const d = new Date(date);
-    return d.toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
 
   const handleVerify = proofId => {
     Meteor.call('proof.verify', proofId, error => {
@@ -108,12 +95,9 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                     )}
                     <span>{proof.username}</span>
                   </span>
-                  {/* Opt out of SSR due to datetime mismatching on server and client hydration */}
-                  <SuspenseHydrated>
-                    <span className="text-xs italic popInEffect">
-                      {formatDate(proof.date)}
-                    </span>
-                  </SuspenseHydrated>
+                  <span className="text-xs italic popInEffect">
+                    {toLocale(proof.date, 'DateTimeShort')}
+                  </span>
                 </div>
 
                 {/* Subskill Tag */}
@@ -130,11 +114,21 @@ export const ProofsList = ({ skilltreeId, userRoles = [] }) => {
                 {/* Evidence Image Preview */}
                 <div className="w-full h-48 mb-4 bg-gray-300 flex items-center justify-center">
                   {proof.evidenceLink ? (
-                    <img
-                      src={proof.evidenceLink}
-                      alt="Evidence"
-                      className="max-h-full max-w-full"
-                    />
+                    proof.evidenceLink.includes('.mp4') ? (
+                      <video
+                        alt="ProofList Evidence"
+                        src={proof.evidenceLink}
+                        controls
+                        typeof="video/mp4"
+                        className="max-h-full max-w-full"
+                      />
+                    ) : (
+                      <img
+                        src={proof.evidenceLink}
+                        alt="Evidence"
+                        className="max-h-full max-w-full"
+                      />
+                    )
                   ) : (
                     <span>No Image</span>
                   )}

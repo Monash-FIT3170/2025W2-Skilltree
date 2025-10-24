@@ -101,7 +101,7 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
 
   const subscriberIds = targetSkillTree?.subscribers ?? [];
 
-  useSubscribe('usernames', subscriberIds);
+  useSubscribe('users', subscriberIds);
   const users = useFind(
     Meteor.users,
     [{ _id: { $in: subscriberIds } }, { fields: { username: 1, _id: 1 } }],
@@ -113,7 +113,7 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
     SubscriptionsCollection,
     [
       { skilltreeId: { $eq: skilltreeId }, userId: { $in: subscriberIds } },
-      { fields: { userId: 1, totalXp: 1, numComments: 1 } }
+      { fields: { userId: 1, totalXp: 1, numComments: 1, trophies: 1 } }
     ],
     [skilltreeId, ...subscriberIds]
   );
@@ -129,12 +129,18 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
     numCommentsMap[sub.userId] = sub.numComments ?? 0;
   });
 
+  const trophiesMap = {};
+  subscriptions.forEach(sub => {
+    trophiesMap[sub.userId] = sub.trophies ?? 0;
+  });
+
   // Combine users with their values
   const leaderboard = users.map(user => ({
     _id: user._id,
     username: user.username,
     totalXp: xpMap[user._id] ?? 0,
-    numComments: numCommentsMap[user._id] ?? 0
+    numComments: numCommentsMap[user._id] ?? 0,
+    trophies: trophiesMap[user._id] ?? 0
   }));
 
   // Sort by filtered value, descending
@@ -165,7 +171,7 @@ export const CommunityLeaderboardList = ({ skilltreeId, filter }) => {
                 {`${entry.username}`}
               </div>
               <div className="flex w-6/20 items-center justify-center-safe">
-                {filter === 'totalXp' ? entry.totalXp : entry.numComments}
+                {entry[filter]}
               </div>
             </div>
           </ListItem>

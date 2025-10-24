@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { toLocale } from '/imports/utils/Locale';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams(); // <-- Get skilltreeId from URL
@@ -69,7 +70,7 @@ export const GeneralForum = () => {
               <div className="font-semibold">{msg.username}</div>
               <div className="text-gray-700">{msg.text}</div>
               <div className="text-xs text-gray-400">
-                {msg.createdAt.toLocaleString()}
+                {toLocale(msg.createdAt)}
               </div>
             </div>
           </div>
