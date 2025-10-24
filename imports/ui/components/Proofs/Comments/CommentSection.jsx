@@ -3,7 +3,7 @@ import { CommentsCollection } from '/imports/api/collections/Comments';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 import { User } from '/imports/utils/User';
-import { toLocale } from '/imports/utils/Locale.jsx';
+import { toLocale } from '/imports/utils/Locale';
 
 /**
  * Component that displays all comments for a given proof.

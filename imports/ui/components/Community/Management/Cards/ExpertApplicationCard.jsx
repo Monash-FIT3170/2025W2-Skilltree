@@ -1,5 +1,5 @@
 import React from 'react';
-import { toLocale } from '/imports/utils/Locale.jsx';
+import { toLocale } from '/imports/utils/Locale';
 
 /*
 The fields and questions asked to the user in the moderator/expert form will be refactored later.

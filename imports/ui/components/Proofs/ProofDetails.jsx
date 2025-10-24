@@ -11,7 +11,7 @@ import { AddComment } from './Comments/AddComment';
 import { CommentSection } from './Comments/CommentSection';
 import { VoteButtons } from './Votes/VoteButtons';
 import { ProofCollection } from '/imports/api/collections/Proof';
-import { toLocale } from '/imports/utils/Locale.jsx';
+import { toLocale } from '/imports/utils/Locale';
 
 /**
  * Displays a modal popup with full details of a selected proof.

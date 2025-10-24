@@ -3,7 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import React, { useState } from 'react';
 import { Tracker } from 'meteor/tracker';
 import { Link } from 'react-router-dom';
-import { Regex } from '/imports/utils/Regex.js';
+import { Regex } from '/imports/utils/Regex';
 import { FiEye } from '@react-icons/all-files/fi/FiEye';
 import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
 import { FiMail } from '@react-icons/all-files/fi/FiMail';

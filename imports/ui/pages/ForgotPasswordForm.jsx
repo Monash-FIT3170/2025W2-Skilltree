@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Accounts } from 'meteor/accounts-base';
-import { Regex } from '/imports/utils/Regex.js';
+import { Regex } from '/imports/utils/Regex';
 import { Link } from 'react-router-dom';
 import { FiMail } from '@react-icons/all-files/fi/FiMail';
 import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';

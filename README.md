@@ -4,8 +4,50 @@
 
 # 2025W2-Skilltree
 
-> "**Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.**"
+<div align="center">
+    <kbd><strong>Skilltree</strong></kbd>
+    <kbd><strong>Skillforests</strong></kbd>
+    <kbd><strong>Communities</strong></kbd>
+    <kbd><strong>Subscribe</strong></kbd>
+    <kbd><strong>Skills</strong></kbd>
+    <kbd><strong>XP</strong></kbd>
+    <kbd><strong>Progress</strong></kbd>
+    <kbd><strong>User Content</strong></kbd>
+    <kbd><strong>Share Interests</strong></kbd>
+    <kbd><strong>Forum</strong></kbd>
+    <kbd><strong>Leaderboards</strong></kbd>
+    <kbd><strong>Ranked Events</strong></kbd>
+    <kbd><strong>Competitions</strong></kbd>
+    <kbd><strong>Uploading</strong></kbd>
+    <kbd><strong>Photos</strong></kbd>
+    <kbd><strong>Videos</strong></kbd>
+    <kbd><strong>Voting</strong></kbd>
+    <kbd><strong>Commenting</strong></kbd>
+    <kbd><strong>Proof Verified</strong></kbd>
+    <kbd><strong>Skill Completion</strong></kbd>
+    <kbd><strong>Grouping</strong></kbd>
+    <kbd><strong>Roles</strong></kbd>
+    <kbd><strong>Accounts</strong></kbd>
+    <kbd><strong>Email/Google Auth</strong></kbd>
+</div>
 
+<br />
+
+> <details>
+> <summary>"<strong>Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.</strong>"</summary>
+> <br />
+> 
+> ⧼ Account creation with email or Google login ⧽ <br />
+> ⧼ Skilltree communities based on different skills to explore and subscribe to ⧽ <br />
+> ⧼ Uploading photos and videos as proof of skill completion ⧽ <br />
+> ⧼ Progressing through each Skilltree by getting your proofs verified ⧽ <br />
+> ⧼ Voting and commenting on other people's proofs ⧽ <br />
+> ⧼ Community leaderboards to compete against other people's progress ⧽ <br />
+> ⧼ Ranked events to compete in ⧽ <br />
+> ⧼ A General Forum in each community with different topics to chat with people with similar interests ⧽ <br />
+> ⧼ Creating your own Skilltree and grouping them with Skillforests ⧽ <br />
+>
+> </details>
 </div>
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
@@ -207,6 +249,236 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
     </tr>
   </table>
 
+</div>
+
+<h1 align="center">⬥ Known Issues ⬥</h1>
+
+> [!NOTE]
+>
+> See [issues](https://github.com/Monash-FIT3170/2025W2-Skilltree/issues), some key ones known are:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Navigating to the 'Help Our Community' or 'Mod Tools' tab in a Skilltree only works from the Community Tree tab. Hitting these buttons from the Pending Proofs page does nothing, while hitting them from Events or General Forum gives an Error 404 page.
+> - The Navbar does not collapse on smaller screens.
+> - The app isn't very responsive for mobile screen sizes.
+> - The 'End Event' button appears on the Events page even if there is no currently active event.
+> 
+> </details>
+
+<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
+
+> [!IMPORTANT]
+>
+> Create or edit the `settings.json` file to configure and enable Third-Party APIs functionality:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> ```json
+> {
+>   "public": {
+>     "enableSSR": true
+>   },
+>   "private": {
+>     "AWSAccessKeyId": "",
+>     "AWSSecretAccessKey": "",
+>     "google": {
+>       "clientId": "",
+>       "secret": ""
+>     },
+>     "smtp": {
+>       "username": "your@gmail.com",
+>       "password": "app-password",
+>       "server": "smtp.gmail.com",
+>       "port": 465
+>     }
+>   }
+> }
+> ```
+> </details>
+
+### SSR
+> [!NOTE]
+> Set `enableSSR: false` to explicitly disable SSR. 
+
+### AWS
+> [!NOTE]
+>
+> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Go to the IAM dashboard.
+> 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
+> 3. Create a group (under `User groups`) and attach this permission policy.
+> 4. Create an IAM user (under `Users`) and add it to the group.
+> 5. Go to the IAM user's details and hit `Create access key`.
+> 6. Select `Local code` as your use case and confirm.
+> 7. Write a description tag for your key (optional) and hit 'Create access key'.
+> 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
+> 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### Google
+> [!NOTE]
+>
+> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
+>
+> <details>
+> <summary>⋯</summary>
+>
+> 1. On your project page, go to the `Dashboard`
+> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
+> 3. Click `Create Credentials > OAuth client ID`
+> 4. Select `Web application` as your Application type, and give the client any name you want.
+> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
+> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
+> 7. Hit `Create`
+> 8. Navigate to `OAuth consent screen` from the sidebar
+> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
+> 10. Go back to `Credentials` from the sidebar
+> 11. Click the edit button on the `Client ID` you created earlier
+> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
+> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
+> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> </details>
+
+### SMTP 
+> [!NOTE]
+>
+> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [video tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Log into a google account (this is the account that will be sending emails for you)
+> 2. Click on your google account profile and select Manage your Google Account
+> 3. On the left hand side, select Security
+> 4. Scroll down until you see 2 Step Verification and make sure it is turned on
+> 5. Click the search bar and type 'app password' -> select App Passwords in the drop down
+> 6. Create an App-name -> Click Create
+> 7. You will be given the generated app password. Make sure you save this somewhere as it will disappear.
+> 8. Head to settings.json
+> 9. For the value of `username`, enter your gmail account email (the one you signed in with in step 1)
+> 10. Copy the recently generated app-password and paste it as the value of `password`
+> 11. For the value of `server`, enter `"smtp.gmail.com"`
+> 12. For the value of `port`, enter `465`
+> 13. Save `settings.json` and restart Meteor to ensure changes take effect
+
+<h1 align="center">⬥ Deployment ⬥</h1>
+
+<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
+
+> [!NOTE]
+> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+
+<h2 align="center">⬦ Environment Variables ⬦</h2>
+
+<div align="center">
+
+|       Variable        | Description                           | Default Value                         |
+| :-------------------: | :------------------------------------ | :------------------------------------ |
+|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
+|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
+|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
+| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
+
+</div>
+
+<h3 align="center">Set Environment Variables</h3>
+
+<div align="center">
+
+Edit `~/.bash_profile`:
+
+> ```
+> export ENV_VAR="value"
+> ```
+
+To apply changes to the existing terminal session, run:
+
+> ```
+> . .bash_profile
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Setup ⬦</h2>
+
+<h3 align="center">Git Repository</h3>
+
+<div align="center">
+
+> ```shell
+> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
+> ```
+>
+> ```shell
+> cd 2025W2-Skilltree
+> ```
+
+</div>
+
+<h3 align="center">Server Setup Script</h3>
+
+<div align="center">
+
+> ```shell
+> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+>
+> ```shell
+> ./2025W2-Skilltree/.deploy/setup.sh
+> ```
+
+</div>
+
+<h2 align="center">⬦ Server Usage ⬦</h2>
+
+<div align="center">
+  <table>
+    <tr>
+      <th><b>⦗ Start Webserver ⦘</b></th>
+      <th><b>⦗ Stop Webserver ⦘</b></th>
+      <th><b>⦗ Restart Webserver ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Pull Repo Changes ⦘</b></th>
+      <th><b>⦗ Update Webserver ⦘</b></th>
+      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <th><b>⦗ Webserver Console ⦘</b></th>
+      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
+      <th><b>⦗ Build Console ⦘</b></th>
+    </tr>
+    <tr>
+      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
+      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+
+> [!CAUTION]
+> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
+> **Use Ctrl+A then D to detach** from the session instead.
+      </td>
+    </tr>
+  </table>
 </div>
 
 <h1 align="center">⬥ Architecture ⬥</h1>
@@ -1623,7 +1895,7 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-## Server Side Rendering (SSR)
+<h2 align="center">⬦ Server Side Rendering (SSR) ⬦</h2>
 
 > [!NOTE]
 >
@@ -1714,7 +1986,7 @@ tests/					<Unit Tests>
 > > `toLocale(dateObj, format, options, locales)`
 > >
 > > ```jsx
-> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > import { toLocale } from '/imports/utils/Locale';
 > > ...
 > > toLocale(
 > >   dateObj, // Date Object
@@ -1740,7 +2012,7 @@ tests/					<Unit Tests>
 > > ***Examples***:
 > >
 > > ```jsx
-> > import { toLocale } from '/imports/utils/Locale.jsx';
+> > import { toLocale } from '/imports/utils/Locale';
 > > ...
 > > const dateObj = new Date('2036-08-12');
 > > toLocale(dateObj); // 12/8/36, 12:00 am
@@ -1776,193 +2048,189 @@ tests/					<Unit Tests>
 > > ```
 > </details>
 
-<h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
+<h2 align="center">⬦ Unit Tests (Mocha) ⬦</h2>
 
-Create or edit the file `settings.json`:
-
-> ```
-> {
->   "public": {
->     "enableSSR": true
->   },
->   "private": {
->     "AWSAccessKeyId": "",
->     "AWSSecretAccessKey": "",
->     "google": {
->       "clientId": "",
->       "secret": ""
->     },
->     "smtp": {
->       "username": "your@gmail.com",
->       "password": "app-password",
->       "server": "smtp.gmail.com",
->       "port": 465
->     }
->   }
-> }
-> ```
-
-### SSR
 > [!NOTE]
-> Set `enableSSR: false` to explicitly disable SSR. 
+> SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules. All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. See 'Test definition' section below on how to set up the unit tests. 
 
-### AWS
+#### Test definition
+
+> [!TIP]
+>
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-mocha):
+> <details>
+> <summary>⋯</summary>
+>
+> > `/tests/TESTS_GROUP_NAME.js`
+> >
+> > ```jsx
+> > import { Meteor } from "meteor/meteor";
+> > import assert from 'assert';
+> > import '/imports/api/methods/...';
+> > ...
+> > describe('Array', function () {
+> >   describe('#indexOf()', function () {
+> >     it('should return -1 when the value is not present', function () {
+> >       assert.equal([1, 2, 3].indexOf(4), -1);
+> >     });
+> >   });
+> > });
+> > ```
+> > **Add test import to `main.js` to consolidate for unit test runs**
+> > 
+> >``/tests/main.js``
+> > 
+> >```js
+> > ...
+> > import '/tests/TESTS_GROUP_NAME'
+> > ```
+> </details>
+
+<h2 align="center">⬦ CI/CD (Pipeline) ⬦</h2>
+
+> [!NOTE]
+> SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and deployment through github workflows. The pipeline ensures that every code change is automatically tested and validated before being merged or deployed maintaining high code quality and reliability throughout the development process.
+
+### Continuous Integration (CI)
 > [!NOTE]
 >
-> To obtain the required AWS keys, create a root user account on the [Amazon Web Services console](https://signin.aws.amazon.com/signup?request_type=register). You can then create new IAM users and generate each of them a key with the following steps:
+> Every pull request triggers automated workflows that validate the integrity of new code before integration. The CI process includes:
 >
 > <details>
 > <summary>⋯</summary>
 >
-> 1. Go to the IAM dashboard.
-> 2. Create an IAM policy (under `Policies`) with the `s3-all` permission. (You could be more strict with permissions, but we can only verify that `s3-all` will give the necessary level of access for uploading and viewing proofs.)
-> 3. Create a group (under `User groups`) and attach this permission policy.
-> 4. Create an IAM user (under `Users`) and add it to the group.
-> 5. Go to the IAM user's details and hit `Create access key`.
-> 6. Select `Local code` as your use case and confirm.
-> 7. Write a description tag for your key (optional) and hit 'Create access key'.
-> 8. Either by downloading the .csv or copying from your browser, copy the `Access key` and paste it in `settings.json` as the value of `AWSAccessKeyId`, and copy the `Secret access key` and paste it as the value of `AWSSecretAccessKey`.
-> 9. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> - Running unit tests via Mocha:
+> - Performing lint checks to enforce code style and consistency
+> - Building the project to confirm that all dependencies and configurations are functional
+> > *This process helps guarantees that no faulty or untested code is merged into the main branch.*
 > </details>
 
-### Google
-> [!NOTE]
->
-> To obtain the required Google keys, create a new project on the [Google Cloud Console](https://console.cloud.google.com/), then follow the following steps. You can also refer to this [video tutorial](https://www.youtube.com/watch?v=GuHN_ZqHExs):
+#### GitHub Workflows
+> [!TIP]
+> SkillTree leverages GitHub Actions to automate build and test pipelines:
 >
 > <details>
 > <summary>⋯</summary>
 >
-> 1. On your project page, go to the `Dashboard`
-> 2. Navigate to `APIs & Services > Credentials` from the sidebar.
-> 3. Click `Create Credentials > OAuth client ID`
-> 4. Select `Web application` as your Application type, and give the client any name you want.
-> 5. Under `Authorized Javascript origins` add all URLs that Skilltree will be accessed from. For local development, this would include `https://localhost` and `https://localhost:3000`, and if you're hosting it externally, add that URL as well.
-> 6. Under `Authorized redirect URLs`, add `http://localhost:3000/_oauth/google` for development, and `<deployment_url>/_oauth/google` for production.
-> 7. Hit `Create`
-> 8. Navigate to `OAuth consent screen` from the sidebar
-> 9. For local development, add all of the Google email addresses that you are using for testing to the `Test users` section. If you are deploying the app, you will need to hit `Publish App` at the top to open OAuth to all Google accounts.
-> 10. Go back to `Credentials` from the sidebar
-> 11. Click the edit button on the `Client ID` you created earlier
-> 12. Copy the `Client ID` under `Additional Information` and paste it as the value of `clientId` under `google` in `settings.json`
-> 12. Copy the `Client secret` under `Client secrets`and paste it as the value of `secret` under `google` in `settings.json`
-> 13. Save the `settings.json` file and restart Meteor to ensure the changes take effect. 
+> **Automated Mocha tests**
+>
+> > All Mocha test suites are executed automatically as part of the CI pipeline. If any test fails, the workflow halts immediately, preventing merges until all issues are resolved. This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
+> 
+> **Automated Lint Check**
+>
+> > The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early. Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices. Developers can also run lint checks locally using:
+> > ```
+> > npm run lint
+> > ```
 > </details>
 
-<h1 align="center">⬥ Deployment ⬥</h1>
+#### Merging Review & Checks on Protected Branches
+> [!IMPORTANT]
+> > The main branch is protected, enforcing strict merging policies. All milestone PRs are to be merged to the current `mX-sprintX` branch which is merged to `main` branch by an SA at the end of the milestone. 
+>
+> New PRs are to be merged to the `dev` branch (or directly to `main` branch for immediate patches) under the same merging policies where the `dev` branch will be merged to `main` upon active maintainers' discretion when considered stable.
+>
+> **Ruleset**:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - All merges must go through a Pull Request (PR).
+> - At least one reviewer approval is required before merging.
+> - All CI checks (tests, linting, build) must pass successfully.
+> - Direct commits to protected branches (main, sprint branches) are blocked.
+> > *This review process ensures code integrity, collaboration, and accountability before integration into production-level branches.*
+> </details>
 
-<h3 align="center">Ubuntu 24.04 LTS (Noble)</h3>
+### Continuous Deployment (CD)
+> [!NOTE]
+> SkillTree’s Continuous Deployment pipeline process automates updates to the production server after successful integration by a cron job on the production server:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Periodically pulls the latest changes from the main branch.
+> - Rebuilds the project bundle.
+> - Restarts the web server to apply the latest updates seamlessly.
+> > *This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while maintaining uptime and reliability.*
+> </details>
+
+<h1 align="center">⬥ Contributor Guidelines ⬥</h1>
 
 > [!NOTE]
-> Bash scripts for Ubuntu Linux are provided to set up the server, manage deployment, build bundles, automate pull + rebuild + webserver restart and provide simple commands to manage the webserver. Runs in screen sessions to allow it to operate in the background with the ability to detach and reattach to the session. Caddy is utilised as a reverse proxy server to handle SSL. Set the `$ENV_HOSTNAME` environment variable to the domain name for the server.
+> This section outlines the conventions and standards all contributors should follow to maintain a clean, consistent, and scalable codebase.
 
-<h2 align="center">⬦ Environment Variables ⬦</h2>
+<h2 align="center">⬦ Versioning Strategy ⬦</h1>
 
-<div align="center">
-
-|       Variable        | Description                           | Default Value                         |
-| :-------------------: | :------------------------------------ | :------------------------------------ |
-|    `ENV_HOSTNAME`     | Server Hostname or IP Address.        | _Current IP address_                  |
-|    `ENV_MONGO_URL`    | MongoDB Database URL                  | _mongodb://localhost:27017/skilltree_ |
-|      `ENV_PORT`       | Webserver Port                        | 3000                                  |
-| `ENV_METEOR_SETTINGS` | Meteor Application Settings from JSON | Output of `settings.json`             |
-
-</div>
-
-<h3 align="center">Set Environment Variables</h3>
-
-<div align="center">
-
-Edit `~/.bash_profile`:
-
-> ```
-> export ENV_VAR="value"
-> ```
-
-To apply changes to the existing terminal session, run:
-
-> ```
-> . .bash_profile
-> ```
-
-</div>
-
-<h2 align="center">⬦ Server Setup ⬦</h2>
-
-<h3 align="center">Git Repository</h3>
-
-<div align="center">
-
-> ```shell
-> git clone https://github.com/Monash-FIT3170/2025W2-Skilltree.git
-> ```
+> [!NOTE]
 >
-> ```shell
-> cd 2025W2-Skilltree
-> ```
-
-</div>
-
-<h3 align="center">Server Setup Script</h3>
-
-<div align="center">
-
-> ```shell
-> chmod +x ./2025W2-Skilltree/.deploy/setup.sh
-> ```
+> SkillTree follows a semantic versioning strategy (`MAJOR`.`MINOR`.`PATCH`) to manage releases and ensure backward compatibility. Version increments are applied as follows:
 >
-> ```shell
-> ./2025W2-Skilltree/.deploy/setup.sh
-> ```
+> <details>
+> <summary>⋯</summary>
+>
+> - `MAJOR` — Introduces breaking changes or major feature overhauls.
+> - `MINOR` — Adds new features or improvements that are backward compatible.
+> - `PATCH` — Fixes bugs, minor updates, or small enhancements.
+> </details>
 
-</div>
+<h2 align="center">⬦ Pull Request (PR) Strategy ⬦</h1>
 
-<h2 align="center">⬦ Server Usage ⬦</h2>
+> [!NOTE]
+>
+> > Pull requests corresponding to ClickUp task in SkillTree follow a consistent naming convention `ST-###: <Short Descriptive Title>` where each PR title begins with the ClickUp ticket code, followed by a short, descriptive title of the change with the [`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md) as the description. 
+>
+> **New pull requests should instead follow the following structure**: 
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > **Add a title:** `Feat/Fix/Docs: <Short Descriptive Title>`
+> > **Add a description** ([`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md)):
+> >
+> > ```markdown
+> > NOTE: In the event of having to make quick fixes or under limited time, just provide a quick summary. Delete the rest.
+> > 
+> > # Summary
+> > 
+> > Please include a summary of the changes (dot points)
+> > 
+> > 
+> > # Related Issues:
+> > 
+> > _Fixes #(Issue Number)_
+> > 
+> > 
+> > 
+> > # Type of change
+> > 
+> > Please delete options that are not relevant.
+> > 
+> > - [ ] Bug fix (non-breaking change which fixes an issue)
+> > - [ ] New feature (non-breaking change which adds functionality)
+> > - [ ] Breaking change (fix or feature that would cause existing functionality not to work as expected)
+> > - [ ] This change involves a documentation update
+> > 
+> > # How Has This Been Tested?
+> > Please describe in detail how you tested your changes (i.e., User Testing, Unit Testing)
+> > Provide instructions so we can reproduce.
+> > 
+> > - [ ] Test A
+> > - [ ] Test B
+> > 
+> > 
+> > # Checklist:
+> > - [ ] My code follows the style guidelines of this project
+> > - [ ] I have performed a self-review of my code
+> > - [ ] I have commented my code, specifically in difficult-to-understand code areas
+> > - [ ] I have made corresponding changes to the documentation
+> > - [ ] My changes generate no new warnings
+> > - [ ] I have conducted tests that prove my fix is effective or that my feature works
+> > - [ ] Any dependent changes have been carefully merged and published in downstream modules
+> > ```
+> </details>
 
-<div align="center">
-  <table>
-    <tr>
-      <th><b>⦗ Start Webserver ⦘</b></th>
-      <th><b>⦗ Stop Webserver ⦘</b></th>
-      <th><b>⦗ Restart Webserver ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./start &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./stop &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./restart &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Pull Repo Changes ⦘</b></th>
-      <th><b>⦗ Update Webserver ⦘</b></th>
-      <th><b>⦗ Build Deployment Bundle ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./pull &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./update &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <th><b>⦗ Webserver Console ⦘</b></th>
-      <th><b>⦗ Reverse Proxy Console ⦘</b></th>
-      <th><b>⦗ Build Console ⦘</b></th>
-    </tr>
-    <tr>
-      <td><pre lang="shell">./console &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-proxy &emsp;&emsp;&emsp;&emsp;</pre></td>
-      <td><pre lang="shell">./console-build &emsp;&emsp;&emsp;&emsp;</pre></td>
-    </tr>
-    <tr>
-      <td colspan="3">
-
-> [!CAUTION]
-> DO NOT PRESS CTRL+C OR CTRL+D TO EXIT!
-> **Use Ctrl+A then D to detach** from the session instead.
-      </td>
-    </tr>
-  </table>
-</div>
-
-<h1 align="center">⬥ Original Project Team ⬥</h1>
+<h2 align="center">⬦ Original Project Team ⬦</h1>
 
 <table>
   <tr>
@@ -1990,7 +2258,7 @@ To apply changes to the existing terminal session, run:
 | Steven Kaing `33155666` &#10; skai0008@student.monash.edu | Ankush `35102845` &#10; aank0004@student.monash.edu              | Yiyou (Fred) Xu `33113963` &#10; yxuu0194@student.monash.edu |
 |                                                           | Chi Thuan (Ben) Tia `32442777` &#10; ctia0007@student.monash.edu |                                                              |
 
-<h1 align="center">⬥ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬥</h1>
+<h2 align="center">⬦ <a href="https://allcontributors.org/docs/en/emoji-key">Contributors</a> ⬦</h2>
 
 <div align="center">
 
@@ -2010,16 +2278,16 @@ To apply changes to the existing terminal session, run:
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/lithium003"><img src="https://avatars.githubusercontent.com/u/182786576?v=4?s=100" width="100px;" alt="Mitch"/><br /><sub><b>Mitch</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=lithium003" title="Documentation">📖</a> <a href="#maintenance-lithium003" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/Mcchows"><img src="https://avatars.githubusercontent.com/u/126644600?v=4?s=100" width="100px;" alt="Marcus C"/><br /><sub><b>Marcus C</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Mcchows" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/romi1432"><img src="https://avatars.githubusercontent.com/u/34182038?v=4?s=100" width="100px;" alt="Romal"/><br /><sub><b>Romal</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Code">💻</a> <a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=romi1432" title="Documentation">📖</a> <a href="#maintenance-romi1432" title="Maintenance">🚧</a></td>
-      <td align="center" valign="top" width="12.5%"><a href="https://github.com/queenofspain"><img src="https://avatars.githubusercontent.com/u/77802249?v=4?s=100" width="100px;" alt="Laetitia Teo"/><br /><sub><b>Laetitia Teo</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=queenofspain" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/jytKelly12"><img src="https://avatars.githubusercontent.com/u/105471729?v=4?s=100" width="100px;" alt="jytKelly12"/><br /><sub><b>jytKelly12</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=jytKelly12" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/queenofspain"><img src="https://avatars.githubusercontent.com/u/77802249?v=4?s=100" width="100px;" alt="Laetitia Teo"/><br /><sub><b>Laetitia Teo</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=queenofspain" title="Code">💻</a></td>
     </tr>
     <tr>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/BENTIA-1"><img src="https://avatars.githubusercontent.com/u/104052543?v=4?s=100" width="100px;" alt="Ben Tia"/><br /><sub><b>Ben Tia</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=BENTIA-1" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/rev46"><img src="https://avatars.githubusercontent.com/u/104244862?v=4?s=100" width="100px;" alt="Aaron "/><br /><sub><b>Aaron </b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=rev46" title="Code">💻</a></td>
-      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Kez-L"><img src="https://avatars.githubusercontent.com/u/161200166?v=4?s=100" width="100px;" alt="Kez-L"/><br /><sub><b>Kez-L</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Kez-L" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/ankush2703"><img src="https://avatars.githubusercontent.com/u/121238616?v=4?s=100" width="100px;" alt="Ankush"/><br /><sub><b>Ankush</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ankush2703" title="Code">💻</a></td>
-      <td align="center" valign="top" width="12.5%"><a href="https://github.com/kellysyli"><img src="https://avatars.githubusercontent.com/u/141807905?v=4?s=100" width="100px;" alt="kel"/><br /><sub><b>kel</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=kellysyli" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/Kez-L"><img src="https://avatars.githubusercontent.com/u/161200166?v=4?s=100" width="100px;" alt="Kez-L"/><br /><sub><b>Kez-L</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=Kez-L" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/amolikay"><img src="https://avatars.githubusercontent.com/u/144877516?v=4?s=100" width="100px;" alt="amolikay"/><br /><sub><b>amolikay</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=amolikay" title="Code">💻</a></td>
+      <td align="center" valign="top" width="12.5%"><a href="https://github.com/kellysyli"><img src="https://avatars.githubusercontent.com/u/141807905?v=4?s=100" width="100px;" alt="kel"/><br /><sub><b>kel</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=kellysyli" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/SammyG69"><img src="https://avatars.githubusercontent.com/u/164284419?v=4?s=100" width="100px;" alt="SammyG14"/><br /><sub><b>SammyG14</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=SammyG69" title="Code">💻</a></td>
       <td align="center" valign="top" width="12.5%"><a href="https://github.com/ssethx24"><img src="https://avatars.githubusercontent.com/u/124314079?v=4?s=100" width="100px;" alt="Shaurya"/><br /><sub><b>Shaurya</b></sub></a><br /><a href="https://github.com/Monash-FIT3170/2025W2-Skilltree/commits?author=ssethx24" title="Code">💻</a></td>
     </tr>
