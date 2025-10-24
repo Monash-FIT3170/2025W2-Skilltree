@@ -2001,15 +2001,13 @@ tests/					<Unit Tests>
 <h2 align="center">⬦ Unit Tests (Mocha) ⬦</h2>
 
 > [!NOTE]
-> SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules.
-> All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. 
-> See below on how to set up the unit tests. 
+> SkillTree utilises Mocha as its testing framework to ensure code reliability and maintainability across all core modules. All critical functionalities of SkillTree should be covered by unit tests written in Mocha assertions. See 'Test definition' section below on how to set up the unit tests. 
 
 #### Test definition
 
 > [!TIP]
 >
-> Refer to the [docs](). [TODO]
+> Refer to the [docs](https://github.com/Meteor-Community-Packages/meteor-mocha).
 > <details>
 > <summary>⋯</summary>
 >
@@ -2019,7 +2017,14 @@ tests/					<Unit Tests>
 > > import { Meteor } from "meteor/meteor";
 > > import assert from 'assert';
 > > import '/imports/api/methods/...';
-> > ... [TODO]
+> > ...
+> > describe('Array', function () {
+> >   describe('#indexOf()', function () {
+> >     it('should return -1 when the value is not present', function () {
+> >       assert.equal([1, 2, 3].indexOf(4), -1);
+> >     });
+> >   });
+> > });
 > > ```
 > > **Add test import to `main.js` to consolidate for unit test runs**
 > > 
