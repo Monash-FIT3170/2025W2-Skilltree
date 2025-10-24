@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { TopicList } from '../components/SkillTrees/GeneralForum/TopicListGeneralForum';
 import { NavigationMenu } from '../components/SkillTrees/NavigationMenu';
 import { toLocale } from '/imports/utils/Locale.jsx';
+import { linkUsername } from '/imports/utils/User';
 
 export const GeneralForum = () => {
   const { skilltreeId } = useParams();
@@ -286,7 +287,9 @@ export const GeneralForum = () => {
                     {msg.userId?.[0]?.toUpperCase() || '?'}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold">{msg.userId}</div>
+                    <div className="font-semibold">
+                      {linkUsername(msg.userId)}
+                    </div>
                     <div className="text-gray-700">{msg.content}</div>
                     {msg.timestamp && (
                       <div className="text-xs text-gray-400 mt-1">

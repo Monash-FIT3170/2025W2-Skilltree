@@ -854,6 +854,19 @@ tests/					<Unit Tests>
 > > ...
 > > ```
 > </details>
+>
+> **linkUsername Utils**
+>
+> All instances of username display can be linked to its profile using the linkUsername helper function from the `utils/User`:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> > ```jsx
+> > import { linkUsername } from '/imports/utils/User';
+> > ...
+> > <>{linkUsername(username)}</>
+> </details>
 
 ### Route Protection (RouteGuard)
 
