@@ -2090,19 +2090,24 @@ tests/					<Unit Tests>
 <h1 align="center">⬥ Contributor Guidelines ⬥</h1>
 
 > [!NOTE]
-> This section outlines the conventions and standards all contributors should follow to maintain a clean, consistent, and scalable
-> codebase.
+> This section outlines the conventions and standards all contributors should follow to maintain a clean, consistent, and scalable codebase.
 
+<h2 align="center">⬦ Versioning Strategy ⬦</h1>
 
-## Versioning Strategy
 > [!NOTE]
-> SkillTree follows a semantic versioning strategy (MAJOR.MINOR.PATCH) to manage releases and ensure backward compatibility.
-> Version increments are applied as follows:
+>
+> SkillTree follows a semantic versioning strategy (`MAJOR`.`MINOR`.`PATCH`) to manage releases and ensure backward compatibility. Version increments are applied as follows:
+>
+> <details>
+> <summary>⋯</summary>
+>
 > - MAJOR — Introduces breaking changes or major feature overhauls
 > - MINOR — Adds new features or improvements that are backward compatible
 > - PATCH — Fixes bugs, minor updates, or small enhancements
+> </details>
 
-## Pull Request (PR) Strategy
+<h2 align="center">⬦ Pull Request (PR) Strategy ⬦</h1>
+
 > [!NOTE]
 >
 > > Pull requests corresponding to ClickUp task in SkillTree follow a consistent naming convention `ST-###: <Short Descriptive Title>` where each PR title begins with the ClickUp ticket code, followed by a short, descriptive title of the change with the [`pull_request_template.md`](https://github.com/Monash-FIT3170/2025W2-Skilltree/blob/-/.github/pull_request_template.md) as the description. 
