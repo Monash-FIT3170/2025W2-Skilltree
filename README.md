@@ -252,7 +252,18 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 </div>
 
 <h1 align="center">⬥ Known Issues ⬥</h1>
-- [TODO] (LIST FORMAT) -- Change To Table Format?
+
+> [!NOTE]
+>
+> See [issues](https://github.com/Monash-FIT3170/2025W2-Skilltree/issues), some key ones known are:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Issue 1...
+> - Issue 2...
+> 
+> </details>
 
 <h1 align="center">⬥ Configuration (<code>settings.json</code>) ⬥</h1>
 
