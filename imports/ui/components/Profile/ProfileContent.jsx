@@ -32,6 +32,18 @@ export const ProfileContent = () => {
     }
   ])[0]; // Gets a specific user's data
 
+  // Return Error if user not found
+  if (usernameToDisplay && !profileUser) {
+    return (
+      <div className="p-6">
+        <h2 className="text-xl font-bold mb-4">User Not Found</h2>
+        <p className="text-gray-500">
+          The user "{usernameToDisplay}" does not exist.
+        </p>
+      </div>
+    );
+  }
+
   // Use optional chaining to safely access _id
   const profileUserId = profileUser?._id;
 
