@@ -23,7 +23,8 @@ Meteor.methods({
         forumId: newForumId,
         title: forumTitle,
         skillTreeName: skillTreeName,
-        messages: []
+        messages: [],
+        createdAt: new Date()
       });
 
       return res;

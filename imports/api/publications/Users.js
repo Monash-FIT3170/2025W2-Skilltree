@@ -221,7 +221,8 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      commentNumTEMP: 0
+      commentNumTEMP: 0,
+      isProfilePublic: false
     },
     services: {
       password: 'example123!'
@@ -254,14 +255,13 @@ Meteor.startup(async () => {
       friends: [],
       skillForests: [],
       isProfileComplete: true,
-      commentNumTEMP: 4
+      commentNumTEMP: 4,
+      isProfilePublic: false
     },
     services: {
       password: 'example123!'
     }
   });
-
-  await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
 
   await Meteor.callAsync(
     'skilltrees.subscribeUser',
@@ -271,6 +271,15 @@ Meteor.startup(async () => {
 
   // There is a hardcoded subscription object for sampleId and basketball, so we need to run this method to ensure consistency with the subscribers list.
   await Meteor.callAsync('skilltrees.subscribeUser', 'basketball', sampleId);
+
+  // Need to add it so subscribers community
+  // There is a method called "updateSubscribedCommunities", however this requires the user to be logged in. In this case, we are
+  // calling this during meteor startup so no user is logged in. We will call the update directly for the sake of the sample account
+  await Meteor.users.updateAsync(
+    { _id: sampleId },
+    { $addToSet: { 'profile.subscribedCommunities': 'basketball' } },
+    { validate: false }
+  );
 
   //Sample Dummy skilltree progress
   for (const progressTree of dummyProgressTree) {
@@ -293,16 +302,16 @@ Meteor.startup(async () => {
     await SubscriptionsCollection.insertAsync(copyProgressTree3);
   }
 
-  for (let i = 0; i < 50; i++) {
-    const memberUsername = 'member' + String(i);
+  for (let i = 0; i < 15; i++) {
+    const memberUsername = 'member ' + String(i);
 
+    // Dummy account progress for users in basketball community
+    // Delete if needed
     const memberId = await Accounts.createUserAsync({
       username: memberUsername,
       profile: {
-        xpTEMP: Math.floor(Math.random() * 100),
-        commentNumTEMP: Math.floor(Math.random() * 10),
         avatarUrl:
-          i === 42
+          i === 12
             ? 'https://i.pinimg.com/736x/c2/1e/7e/c21e7e2976743369ca7f86349aeb22a9.jpg'
             : null
       }
@@ -312,27 +321,118 @@ Meteor.startup(async () => {
 
     // Insert dummy data
     for (const progressTree of dummyProgressTree) {
-      const copyProgressTree = { ...progressTree, userId: memberId };
+      const copyProgressTree = {
+        ...progressTree,
+        userId: memberId,
+        xpPoints: (i % 4) * 50,
+        trophies: (i % 3) + 2
+      };
 
       await SubscriptionsCollection.insertAsync(copyProgressTree);
     }
 
-    if (i % 6 == 0) {
+    if (i == 3) {
       const dummyProof = {
         title: 'Dribbling',
-        description: 'chat',
         user: memberId,
         username: memberUsername,
         date: new Date(),
         evidenceLink:
-          'https://pbs.twimg.com/card_img/1975252080320520198/0VebYBGO?format=jpg&name=4096x4096',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/LeBron_James_%2851959977144%29_%28cropped2%29.jpg/1036px-LeBron_James_%2851959977144%29_%28cropped2%29.jpg',
         verification: 10,
         skilltreeId: 'basketball',
         eventId: 'dribbling_basketball',
-        upvotes: i
+        upvotes: 3
       };
 
-      await Meteor.callAsync('insertProof', dummyProof);
+      const proofId = await Meteor.callAsync('insertProof', dummyProof);
+
+      const dummyComment1 = {
+        username: 'member 2',
+        comment: 'Holy jeepers',
+        createdAt: new Date(),
+        proofId: proofId
+      };
+
+      await Meteor.callAsync('addComment', dummyComment1);
+    }
+
+    if (i == 6) {
+      const dummyProof = {
+        title: 'Dribbling',
+        user: memberId,
+        username: memberUsername,
+        date: new Date(),
+        evidenceLink:
+          'https://bloximages.chicago2.vip.townnews.com/kansan.com/content/tncms/assets/v3/editorial/7/53/7533195e-6719-4a60-9c11-32c17f814d9f/68d96d18aabdf.image.jpg?resize=1175%2C1764',
+        verification: 10,
+        skilltreeId: 'basketball',
+        eventId: 'dribbling_basketball',
+        upvotes: 1
+      };
+
+      const proofId = await Meteor.callAsync('insertProof', dummyProof);
+
+      const dummyComment1 = {
+        username: 'member 2',
+        comment: 'Holy jeepers',
+        createdAt: new Date(),
+        proofId: proofId
+      };
+
+      await Meteor.callAsync('addComment', dummyComment1);
+    }
+
+    if (i == 7) {
+      const dummyProof = {
+        title: 'Dribbling',
+        user: memberId,
+        username: memberUsername,
+        date: new Date(),
+        evidenceLink:
+          'https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png',
+        verification: 10,
+        skilltreeId: 'basketball',
+        eventId: 'dribbling_basketball',
+        upvotes: 2
+      };
+
+      const proofId = await Meteor.callAsync('insertProof', dummyProof);
+
+      const dummyComment1 = {
+        username: 'member 2',
+        comment: 'Holy jeepers',
+        createdAt: new Date(),
+        proofId: proofId
+      };
+
+      await Meteor.callAsync('addComment', dummyComment1);
+    }
+
+    if (i == 8) {
+      const dummyProof = {
+        title: 'Dribbling',
+        user: memberId,
+        username: memberUsername,
+        date: new Date(),
+        evidenceLink:
+          'https://2025w2-skilltree.s3.ap-southeast-2.amazonaws.com/5PFuiRmYMRZr2NoGb.mp4',
+        verification: 10,
+        skilltreeId: 'basketball',
+        eventId: 'dribbling_basketball',
+        upvotes: 23
+      };
+
+      const proofId = await Meteor.callAsync('insertProof', dummyProof);
+
+      const dummyComment1 = {
+        username: 'member 2',
+        comment: 'Holy jeepers',
+        createdAt: new Date(),
+        proofId: proofId
+      };
+
+      await Meteor.callAsync('addComment', dummyComment1);
     }
   }
 });

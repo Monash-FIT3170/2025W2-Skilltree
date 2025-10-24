@@ -78,72 +78,74 @@ export const SelectSkillTrees = ({ onOpenPopup }) => {
   };
 
   return (
-    <div className="relative">
-      {/* Subheading */}
-      <h2
-        className="block text-gray-700 text-xl font-bold pl-6"
-        style={{ color: '#328E6E' }}
-      >
-        Select SkillTrees
-      </h2>
-      <div
-        className="bg-white rounded-xl p-4 lg:p-6 overflow-y-auto"
-        style={{ maxHeight: 'calc(80vh - 200px)' }}
-      >
-        {sortedSkillTrees.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-[24rem]">
-            {sortedSkillTrees.map(skillTree => (
-              <div
-                key={skillTree._id}
-                className={`relative transition-all duration-300 rounded-xl ${
-                  selectedSkillTree?._id === skillTree._id
-                    ? 'ring-2 ring-green-500'
-                    : ''
-                }`}
-              >
-                <SubscribedTrees
-                  skilltreeId={skillTree._id}
-                  showSubscribers={true}
-                  currentUserId={user._id}
-                  onSelect={handleSelect}
-                  isSelected={selectedSkillTrees.includes(skillTree._id)}
-                  onToggle={toggleSelectSkillTree}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500">
-            Looks like you don't have any skilltrees. Head to the search bar to
-            join one!
-          </p>
-        )}
-      </div>
-
-      {/* SidePanel always visible, shows placeholder when no tree selected */}
-      <div className="w-80">
-        <SidePanel skillTree={selectedSkillTree} />
-      </div>
-
-      <div className="mt-6 mb-4 flex justify-end pr-128">
-        <button
-          type="button"
-          disabled={selectedSkillTrees.length === 0}
-          onClick={() =>
-            onOpenPopup?.(
-              sortedSkillTrees.filter(tree =>
-                selectedSkillTrees.includes(tree._id)
-              )
-            )
-          }
-          className={`${
-            selectedSkillTrees.length === 0
-              ? 'bg-gray-300 cursor-not-allowed'
-              : 'bg-green-500 hover:bg-green-700 cursor-pointer'
-          } text-white font-semibold py-2 px-6 rounded transition-colors`}
+    <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+      <div className="flex-1">
+        {/* Subheading */}
+        <h2
+          className="block text-gray-700 text-xl font-bold pl-6"
+          style={{ color: '#328E6E' }}
         >
-          Create SkillForest
-        </button>
+          Select SkillTrees
+        </h2>
+        <div
+          className="bg-white rounded-xl p-4 lg:p-6 overflow-y-auto"
+          style={{ maxHeight: 'calc(80vh - 200px)' }}
+        >
+          {sortedSkillTrees.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pr-[24rem]">
+              {sortedSkillTrees.map(skillTree => (
+                <div
+                  key={skillTree._id}
+                  className={`relative transition-all duration-300 rounded-xl ${
+                    selectedSkillTree?._id === skillTree._id
+                      ? 'ring-2 ring-green-500'
+                      : ''
+                  }`}
+                >
+                  <SubscribedTrees
+                    skilltreeId={skillTree._id}
+                    showSubscribers={true}
+                    currentUserId={user._id}
+                    onSelect={handleSelect}
+                    isSelected={selectedSkillTrees.includes(skillTree._id)}
+                    onToggle={toggleSelectSkillTree}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">
+              Looks like you don't have any skilltrees. Head to the search bar
+              to join one!
+            </p>
+          )}
+        </div>
+
+        {/* SidePanel always visible, shows placeholder when no tree selected */}
+        <div className="lg:w-96 w-full lg:sticky lg:top-16 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <SidePanel skillTree={selectedSkillTree} />
+        </div>
+
+        <div className="mt-6 mb-4 flex justify-end pr-128">
+          <button
+            type="button"
+            disabled={selectedSkillTrees.length === 0}
+            onClick={() =>
+              onOpenPopup?.(
+                sortedSkillTrees.filter(tree =>
+                  selectedSkillTrees.includes(tree._id)
+                )
+              )
+            }
+            className={`${
+              selectedSkillTrees.length === 0
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-green-500 hover:bg-green-700 cursor-pointer'
+            } text-white font-semibold py-2 px-6 rounded transition-colors`}
+          >
+            Create SkillForest
+          </button>
+        </div>
       </div>
     </div>
   );

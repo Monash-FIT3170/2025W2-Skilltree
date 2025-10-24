@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { User } from '/imports/utils/User';
+import { User, linkUsername } from '/imports/utils/User';
 import { FaSignOutAlt } from '@react-icons/all-files/fa/FaSignOutAlt';
 import {
   NavbarToggle,
@@ -37,10 +37,15 @@ export const UserDropdownMenu = () => {
         }
       >
         <DropdownHeader className="p-4">
-          <span className="block text-sm font-semibold">@{username}</span>
+          <span className="block text-sm font-semibold">
+            {linkUsername(username)}
+          </span>
           <span className="block truncate text-sm text-gray-500">{email}</span>
         </DropdownHeader>
         <DropdownDivider />
+        <DropdownItem as={Link} to="/profile">
+          Profile
+        </DropdownItem>
         <DropdownItem as={Link} to="/dashboard">
           Dashboard
         </DropdownItem>

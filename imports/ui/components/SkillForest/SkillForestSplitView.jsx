@@ -4,7 +4,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { SkillTreeCollection } from '/imports/api/collections/SkillTree';
 import { SkillTreeView } from '../SkillTrees/SkillTreeView';
 
-export const SkillForestSplitView = ({ skilltreeIds, isAdmin = false }) => {
+export const SkillForestSplitView = ({ skilltreeIds }) => {
   const navigate = useNavigate();
 
   // Subscribe to skill trees
@@ -40,7 +40,7 @@ export const SkillForestSplitView = ({ skilltreeIds, isAdmin = false }) => {
               {tree.title}
             </h3>
             <div className="h-[calc(100%-2rem)]">
-              <SkillTreeView id={tree._id} isAdmin={isAdmin} />
+              <SkillTreeView id={tree._id} isAdmin={false} />
             </div>
           </div>
         ))}
