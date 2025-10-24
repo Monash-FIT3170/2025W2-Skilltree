@@ -260,8 +260,10 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 > <details>
 > <summary>⋯</summary>
 >
-> - Issue 1...
-> - Issue 2...
+> - Navigating to the 'Help Our Community' or 'Mod Tools' tab in a Skilltree only works from the Community Tree tab. Hitting these buttons from the Pending Proofs page does nothing, while hitting them from Events or General Forum gives an Error 404 page.
+> - The Navbar does not collapse on smaller screens.
+> - The app isn't very responsive for mobile screen sizes.
+> - The 'End Event' button appears on the Events page even if there is no currently active event.
 > 
 > </details>
 
