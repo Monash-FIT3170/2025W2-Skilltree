@@ -5,52 +5,50 @@
 # 2025W2-Skilltree
 
 <div align="center">
-    <kbd><strong>[TODO] (KDB) FORMAT</strong></kbd>
-    <kbd><strong>KEYWORD</strong></kbd>
-    <kbd><strong>SHORT SENTENCE?</strong></kbd>
-    <kbd><strong>KEY</strong></kbd>
-    <kbd><strong>FEATURE</strong></kbd>
-    <kbd><strong>FEAT_1</strong></kbd>
-    <kbd><strong>FEAT_2</strong></kbd>
-    <kbd><strong>FEAT_3</strong></kbd>
-    <kbd><strong>FEAT_4</strong></kbd>
-    <kbd><strong>FEAT_5</strong></kbd>
-    <kbd><strong>FEAT_6</strong></kbd>
-    <kbd><strong>FEAT_7</strong></kbd>
-    <kbd><strong>FEAT_8</strong></kbd>
-    <kbd><strong>FEAT_9</strong></kbd>
-    <kbd><strong>FEAT_10</strong></kbd>
-    <kbd><strong>FEAT_11</strong></kbd>
-    <kbd><strong>FEAT_12</strong></kbd>
-    <kbd><strong>FEAT_13</strong></kbd>
-    <kbd><strong>FEAT_14</strong></kbd>
-    <kbd><strong>FEAT_15</strong></kbd>
-    <kbd><strong>FEAT_16</strong></kbd>
-    <kbd><strong>FEAT_17</strong></kbd>
-    <kbd><strong>FEAT_18</strong></kbd>
-    <kbd><strong>FEAT_19</strong></kbd>
-    <kbd><strong>FEAT_20</strong></kbd>
-
+    <kbd><strong>Skilltree</strong></kbd>
+    <kbd><strong>Skillforests</strong></kbd>
+    <kbd><strong>Communities</strong></kbd>
+    <kbd><strong>Subscribe</strong></kbd>
+    <kbd><strong>Skills</strong></kbd>
+    <kbd><strong>XP</strong></kbd>
+    <kbd><strong>Progress</strong></kbd>
+    <kbd><strong>Custom Content</strong></kbd>
+    <kbd><strong>Share Interests</strong></kbd>
+    <kbd><strong>Forum</strong></kbd>
+    <kbd><strong>Leaderboards</strong></kbd>
+    <kbd><strong>Ranked events</strong></kbd>
+    <kbd><strong>Competitions</strong></kbd>
+    <kbd><strong>Uploading</strong></kbd>
+    <kbd><strong>Photos</strong></kbd>
+    <kbd><strong>Videos</strong></kbd>
+    <kbd><strong>Voting</strong></kbd>
+    <kbd><strong>Commenting</strong></kbd>
+    <kbd><strong>Proof Verified</strong></kbd>
+    <kbd><strong>Skill Completion</strong></kbd>
+    <kbd><strong>Grouping</strong></kbd>
+    <kbd><strong>Roles</strong></kbd>
+    <kbd><strong>Accounts</strong></kbd>
+    <kbd><strong>Email/Google Auth</strong></kbd>
 </div>
 
 <br />
 
-> "**Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.**"
-
+> <details>
+> <summary>"<strong>Social media platform where users build communities around competitive and non-competitive skills, define progression systems, upskill and compete against each other.</strong>"</summary>
+> <br />
+> 
+> *Account creation with email or Google login*
+> *Skilltree communities based on different skills to explore and subscribe to*
+> *Uploading photos and videos as proof of skill completion*
+> *Progressing through each Skilltree by getting your proofs verified*
+> *Voting and commenting on other people's proofs*
+> *Community leaderboards to compete against other people's progress*
+> *Ranked events to compete in*
+> *A General Forum in each community with different topics to chat with people with similar interests*
+> *Creating your own Skilltree and grouping them with Skillforests*
+>
+> </details>
 </div>
-<h2 align="center">⬦ Key Features ⬦</h2>
-
-
-- Account creation with email or Google login
-- Skilltree communities based on different skills to explore and subscribe to
-- Uploading photos and videos as proof of skill completion
-- Progressing through each Skilltree by getting your proofs verified
-- Voting and commenting on other people's proofs
-- Community leaderboards to compete against other people's progress
-- Ranked events to compete in
-- A General Forum in each community with different topics to chat with people with similar interests
-- Creating your own Skilltree and grouping them with Skillforests
-
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
 
