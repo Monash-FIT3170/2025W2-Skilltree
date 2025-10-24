@@ -2034,58 +2034,72 @@ tests/					<Unit Tests>
 <h2 align="center">⬦ CI/CD (Pipeline) ⬦</h2>
 
 > [!NOTE]
-> SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and 
-> deployment through github workflows. 
-> The pipeline ensures that every code change is automatically tested and validated before being merged or deployed
-> maintaining high code quality and reliability throughout the development process.
+> SkillTree employs a Continuous Integration / Continuous Deployment (CI/CD) pipeline to streamline testing, validation, and deployment through github workflows. The pipeline ensures that every code change is automatically tested and validated before being merged or deployed maintaining high code quality and reliability throughout the development process.
 
 ### Continuous Integration (CI)
 > [!NOTE]
+>
 > Every pull request triggers automated workflows that validate the integrity of new code before integration.
 > The CI process includes:
+>
+> <details>
+> <summary>⋯</summary>
+>
 > - Running unit tests via Mocha:
 > - Performing lint checks to enforce code style and consistency
 > - Building the project to confirm that all dependencies and configurations are functional
-> This process guarantees that no faulty or untested code is merged into the main branch.
+> > *This process helps guarantees that no faulty or untested code is merged into the main branch.*
+> </details>
 
 #### GitHub Workflows
 > [!TIP]
-> SkillTree leverages GitHub Actions to automate build and test pipelines.
+> SkillTree leverages GitHub Actions to automate build and test pipelines:
+>
+> <details>
+> <summary>⋯</summary>
 >
 > **Automated Mocha tests**
 >
-> All Mocha test suites are executed automatically as part of the CI pipeline.
-> If any test fails, the workflow halts immediately, preventing merges until all issues are resolved.
-> This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
+> > All Mocha test suites are executed automatically as part of the CI pipeline. If any test fails, the workflow halts immediately, preventing merges until all issues are resolved. This guarantees that every commit in the main branch passes all test cases and maintains functional stability.
 > 
 > **Automated Lint Check**
 >
-> The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early.
-> Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices.
-> Developers can also run lint checks locally using:
->
-> `npm run lint`
+> > The CI pipeline includes an ESLint step to enforce consistent code style and catch potential errors early. Linting runs on each commit, verifying that the code adheres to SkillTree’s style guide and best practices. Developers can also run lint checks locally using:
+> > ```
+> > npm run lint
+> > ```
+> </details>
 
 #### Merging Review & Checks on Protected Branches
 > [!IMPORTANT]
-> The main branch is protected, enforcing strict merging policies.
-> All milestone PRs are to be merged to the current mX-sprintX branch which is merged to main branch by an SA end of milestone.
-> Key rules:
+> > The main branch is protected, enforcing strict merging policies. All milestone PRs are to be merged to the current `mX-sprintX` branch which is merged to `main` branch by an SA at the end of the milestone. 
+>
+> New PRs are to be merged to the `dev` branch (or directly to `main` branch for immediate patches) under the same merging policies where the `dev` branch will be merged to `main` upon active maintainers' discretion when considered stable.
+>
+> **Ruleset**:
+>
+> <details>
+> <summary>⋯</summary>
+>
 > - All merges must go through a Pull Request (PR).
 > - At least one reviewer approval is required before merging.
 > - All CI checks (tests, linting, build) must pass successfully.
-> - Direct commits to protected branches are blocked.
-> This review process ensures code integrity, collaboration, and accountability before integration into production-level branches. 
+> - Direct commits to protected branches (main, sprint branches) are blocked.
+> > *This review process ensures code integrity, collaboration, and accountability before integration into production-level branches.*
+> </details>
 
 ### Continuous Deployment (CD)
 > [!NOTE]
-> SkillTree’s Continuous Deployment process automates updates to the production server after successful integration.
-> A cron job on the production server:
-> - Periodically pulls the latest changes from the main branch
-> - Rebuilds the project bundle
-> - Restarts the web server to apply the latest updates seamlessly
-> This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while
-> maintaining uptime and reliability.
+> SkillTree’s Continuous Deployment pipeline process automates updates to the production server after successful integration by a cron job on the production server:
+>
+> <details>
+> <summary>⋯</summary>
+>
+> - Periodically pulls the latest changes from the main branch.
+> - Rebuilds the project bundle.
+> - Restarts the web server to apply the latest updates seamlessly.
+> > *This approach ensures that new features and fixes are automatically deployed with minimal manual intervention while maintaining uptime and reliability.*
+> </details>
 
 <h1 align="center">⬥ Contributor Guidelines ⬥</h1>
 
@@ -2101,9 +2115,9 @@ tests/					<Unit Tests>
 > <details>
 > <summary>⋯</summary>
 >
-> - MAJOR — Introduces breaking changes or major feature overhauls
-> - MINOR — Adds new features or improvements that are backward compatible
-> - PATCH — Fixes bugs, minor updates, or small enhancements
+> - `MAJOR` — Introduces breaking changes or major feature overhauls.
+> - `MINOR` — Adds new features or improvements that are backward compatible.
+> - `PATCH` — Fixes bugs, minor updates, or small enhancements.
 > </details>
 
 <h2 align="center">⬦ Pull Request (PR) Strategy ⬦</h1>
