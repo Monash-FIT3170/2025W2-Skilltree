@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
@@ -120,10 +120,12 @@ export const Profile = () => {
             {loggedInUserId && !isOwnProfile && profileUserId && (
               <>
                 {isPublic ? (
-                  <FollowingButton
-                    userId={loggedInUserId}
-                    toFollowId={profileUserId}
-                  />
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <FollowingButton
+                      userId={loggedInUserId}
+                      toFollowId={profileUserId}
+                    />
+                  </Suspense>
                 ) : myPendingRequest ? (
                   <Button
                     className="bg-gray-100 text-black rounded-lg border border-gray-300"

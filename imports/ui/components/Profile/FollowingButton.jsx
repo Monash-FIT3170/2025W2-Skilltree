@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FollowersCollection } from '/imports/api/collections/Followers';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data/suspense';
 import { Meteor } from 'meteor/meteor';
 
 const FollowingButton = ({ userId, toFollowId }) => {
-  // set initial states
-  // const [isFollowing, setIsFollowing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Subscribe to followers data
   useSubscribe('followers');
@@ -30,8 +27,6 @@ const FollowingButton = ({ userId, toFollowId }) => {
   console.log('Follower record:', followerRecord);
 
   const handleFollowToggle = async () => {
-    setIsLoading(true);
-
     try {
       if (isFollowing) {
         // Unfollow logic - use removeFollower method
@@ -49,34 +44,27 @@ const FollowingButton = ({ userId, toFollowId }) => {
     } catch (error) {
       console.error('Error toggling follow status:', error);
       console.error('Error details:', error.reason, error.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
     <button
       onClick={handleFollowToggle}
-      disabled={isLoading}
       className={`
-            px-4 py-1.5 
-            text-sm font-semibold 
-            rounded-md 
-            transition-all duration-300 
-            min-w-[100px]
-            ${
-              isFollowing
-                ? 'bg-green-800 text-white border-2 border-green-800 hover:bg-green-900 hover:border-green-900 '
-                : 'bg-gray-400 text-white border-2 border-gray-400 hover:bg-gray-600 hover:border-gray-600'
-            }
-            ${
-              isLoading
-                ? 'opacity-60 cursor-not-allowed'
-                : 'hover:shadow-md cursor-pointer'
-            }
-        `}
+        px-4 py-1.5 
+        text-sm font-semibold 
+        rounded-md 
+        transition-all duration-300 
+        min-w-[100px]
+        ${
+          isFollowing
+            ? 'bg-green-800 text-white border-2 border-green-800 hover:bg-green-900 hover:border-green-900 '
+            : 'bg-gray-400 text-white border-2 border-gray-400 hover:bg-gray-600 hover:border-gray-600'
+        }
+        hover:shadow-md cursor-pointer
+      `}
     >
-      {isLoading ? 'Loading...' : isFollowing ? 'Following' : 'Follow'}
+      {isFollowing ? 'Following' : 'Follow'}
     </button>
   );
 };
