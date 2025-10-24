@@ -7,8 +7,6 @@ import '/imports/api/schemas/Followers';
 Meteor.publish('followers', () => FollowersCollection.find());
 
 Meteor.startup(async () => {
-  await FollowersCollection.removeAsync({});
-
   //This is not real data and is not used, its just here to publish the collection on mongoDB compass
   const mockFollowerRelationship = {
     followerUserId: 'The person that is following',
@@ -16,5 +14,10 @@ Meteor.startup(async () => {
     createdAt: new Date()
   };
 
-  FollowersCollection.insertAsync(mockFollowerRelationship);
+  // Insert dummy data if collection is empty
+  const collectionCount = await FollowersCollection.find().countAsync();
+
+  if (collectionCount == 0) {
+    FollowersCollection.insertAsync(mockFollowerRelationship);
+  }
 });

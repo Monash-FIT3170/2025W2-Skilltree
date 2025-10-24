@@ -4,8 +4,6 @@ import { SkillForestCollection } from '/imports/api/collections/SkillForest';
 Meteor.publish('skillForests', () => SkillForestCollection.find());
 
 Meteor.startup(async () => {
-  await SkillForestCollection.removeAsync({});
-
   Meteor.setTimeout(async () => {
     const sampleUser = await Meteor.users.findOneAsync({ username: 'sample' });
     if (!sampleUser) {
@@ -46,18 +44,23 @@ Meteor.startup(async () => {
       // }
     ];
 
-    // Insert dummy data
-    const skillForestIds = [];
-    for (const skillforest of dummySkillForests) {
-      const id = await SkillForestCollection.insertAsync(skillforest);
-      skillForestIds.push(id);
-    }
+    // Insert dummy data if collection is empty
+    const collectionCount = await SkillForestCollection.find().countAsync();
 
-    // Update user's profile
-    await Meteor.users.updateAsync(sampleUser._id, {
-      $set: {
-        'profile.createdCommunities': skillForestIds
+    if (collectionCount == 0) {
+      // Insert dummy data
+      const skillForestIds = [];
+      for (const skillforest of dummySkillForests) {
+        const id = await SkillForestCollection.insertAsync(skillforest);
+        skillForestIds.push(id);
       }
-    });
+
+      // Update user's profile
+      await Meteor.users.updateAsync(sampleUser._id, {
+        $set: {
+          'profile.createdCommunities': skillForestIds
+        }
+      });
+    }
   }, 1000);
 });

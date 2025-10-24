@@ -8,9 +8,6 @@ import '/imports/api/schemas/Proof';
 Meteor.publish('proof', () => ProofCollection.find());
 
 Meteor.startup(async () => {
-  // Clear collection asynchronously
-  await ProofCollection.removeAsync({});
-
   const mockProofs = [
     {
       _id: 'testProof1',
@@ -188,13 +185,18 @@ Meteor.startup(async () => {
     }
   ];
 
-  // Insert regular proofs asynchronously
-  for (const proof of mockProofs) {
-    await ProofCollection.insertAsync(proof);
-  }
+  // Insert dummy data if collection is empty
+  const collectionCount = await ProofCollection.find().countAsync();
 
-  // Insert event-specific proofs asynchronously
-  for (const proof of eventProofs) {
-    await ProofCollection.insertAsync(proof);
+  if (collectionCount == 0) {
+    // Insert regular proofs asynchronously
+    for (const proof of mockProofs) {
+      await ProofCollection.insertAsync(proof);
+    }
+
+    // Insert event-specific proofs asynchronously
+    for (const proof of eventProofs) {
+      await ProofCollection.insertAsync(proof);
+    }
   }
 });

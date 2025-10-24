@@ -4,8 +4,6 @@ import { SubscriptionsCollection } from '/imports/api/collections/Subscriptions'
 Meteor.publish('subscriptions', () => SubscriptionsCollection.find());
 
 Meteor.startup(async () => {
-  await SubscriptionsCollection.removeAsync({});
-
   // const dummyProgressTree = [
   //   {
   //     userId: 123123,
@@ -146,7 +144,6 @@ Meteor.startup(async () => {
   //     active: true
   //   }
   // ];
-
   // // Insert dummy data
   // for (const progressTree of dummyProgressTree) {
   //   await SubscriptionsCollection.insertAsync(progressTree);
