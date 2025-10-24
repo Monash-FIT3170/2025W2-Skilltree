@@ -41,7 +41,16 @@
 <h2 align="center">⬦ Key Features ⬦</h2>
 
 
-- [TODO] (LIST FORMAT)
+- Account creation with email or Google login
+- Skilltree communities based on different skills to explore and subscribe to
+- Uploading photos and videos as proof of skill completion
+- Progressing through each Skilltree by getting your proofs verified
+- Voting and commenting on other people's proofs
+- Community leaderboards to compete against other people's progress
+- Ranked events to compete in
+- A General Forum in each community with different topics to chat with people with similar interests
+- Creating your own Skilltree and grouping them with Skillforests
+
 
 <h2 align="center">⬦ Tech Stack ⬦</h2>
 
@@ -329,7 +338,24 @@ If [Nix](https://docs.determinate.systems/) is not installed, prompt its install
 ### SMTP 
 > [!NOTE]
 >
-> [TODO]
+> For the reset password feature, we need to be able to send the user a reset password link. We will be using the Gmail SMTP server to do this. Refer to this quick [video tutorial](https://www.youtube.com/watch?v=ZfEK3WP73eY) on how to set up gmail SMTP:
+> 
+> <details>
+> <summary>⋯</summary>
+>
+> 1. Log into a google account (this is the account that will be sending emails for you)
+> 2. Click on your google account profile and select Manage your Google Account
+> 3. On the left hand side, select Security
+> 4. Scroll down until you see 2 Step Verification and make sure it is turned on
+> 5. Click the search bar and type 'app password' -> select App Passwords in the drop down
+> 6. Create an App-name -> Click Create
+> 7. You will be given the generated app password. Make sure you save this somewhere as it will disappear.
+> 8. Head to settings.json
+> 9. For the value of `username`, enter your gmail account email (the one you signed in with in step 1)
+> 10. Copy the recently generated app-password and paste it as the value of `password`
+> 11. For the value of `server`, enter `"smtp.gmail.com"`
+> 12. For the value of `port`, enter `465`
+> 13. Save `settings.json` and restart Meteor to ensure changes take effect
 
 <h1 align="center">⬥ Deployment ⬥</h1>
 
